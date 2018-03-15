@@ -24,20 +24,25 @@ export const processAddResponse = (
 	response: sajari.engine.store.record.AddResponse
 ): Error | Key => {
 	const keys = response.keys
-		.map((key: sajari.engine.Key) => {
-			if (key.field === "" && key.value === undefined) {
+		.map((key) => {
+			if (
+				(<sajari.engine.Key>key).field === "" &&
+				(<sajari.engine.Key>key).value === undefined
+			) {
 				return null;
 			}
 			const value = valueFromProto(<sajari.engine.Value>key.value);
 			if (!value) {
 				return null;
 			}
-			return { field: key.field, value };
+			return { field: (<sajari.engine.Key>key).field, value };
 		})
 		.filter((x) => !!x);
 
 	const key = keys[0];
-	if (!key)
-		return errorFromRecordStatus(<sajari.rpc.Status[]>response.status);
-	return key;
+	if (!key) {
+		const err = errorFromRecordStatus(<sajari.rpc.Status[]>response.status);
+		if (!!err) return <Error>err;
+	}
+	return <Key>key;
 };

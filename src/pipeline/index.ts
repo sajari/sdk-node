@@ -12,6 +12,7 @@ import {
 } from "./search";
 import { createAddRequest, processAddResponse, Record, Key } from "./add";
 
+// Pipeline is a handler for a named pipeline.
 export class Pipeline {
 	client: IClient;
 	name: string;
@@ -21,6 +22,9 @@ export class Pipeline {
 		this.name = name;
 	}
 
+	// search runs a search query defined by a pipline with the given values and
+	// tracking configuration.  Returns the query results and returned values (which could have
+	// been modified in the pipeline).
 	search(values: Values, session: ISession): Promise<SearchResponse> {
 		const tracking = session.next(values);
 
@@ -47,6 +51,8 @@ export class Pipeline {
 		});
 	}
 
+	// Add a record to a collection using a pipeline, returning the unique key which can be used
+	// to retrieve the respective record.
 	add(values: Values, record: Record): Promise<Key> {
 		return new Promise((resolve, reject) => {
 			// @ts-ignore

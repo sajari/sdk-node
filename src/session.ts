@@ -4,7 +4,15 @@ export const TrackingNone = "";
 export const TrackingClick = "CLICK";
 export const TrackingPosNeg = "POS_NEG";
 
-export type TrackingType = "" | "CLICK" | "POS_NEG";
+export const enum TrackingType {
+	NONE = "",
+	CLICK = "CLICK",
+	POS_NEG = "POS_NEG"
+}
+
+export type PosNegToken = { pos: string; neg: string };
+export type ClickToken = { click: string };
+export type TokenValues = PosNegToken | ClickToken;
 
 export type Tracking = {
 	type: TrackingType;
@@ -37,10 +45,10 @@ export class Session implements ISession {
 	field: string;
 	sessionData: Values;
 
-	constructor(trackingType: TrackingType, field: string, data: Values = {}) {
-		this.trackingType = trackingType;
+	constructor(type: TrackingType, field: string = "", data?: Values) {
+		this.trackingType = type;
 		this.field = field;
-		this.sessionData = data;
+		this.sessionData = data || {};
 	}
 
 	next(values: Values): Tracking {

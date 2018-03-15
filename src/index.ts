@@ -1,4 +1,4 @@
-export { Client } from "./client";
+export { Client, withEndpoint } from "./client";
 export {
 	Session,
 	TrackingNone,

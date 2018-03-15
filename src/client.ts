@@ -7,6 +7,7 @@ import {
 	CallCredentials
 } from "grpc";
 
+// @ts-ignore
 import proto from "../generated/proto-defs";
 import { Pipeline } from "./pipeline";
 
@@ -16,15 +17,20 @@ const API_ENDPOINT = "api.sajari.com:443";
 export const USER_AGENT = `sdk-node-${VERSION}`;
 
 export interface IClient {
-	project: string;
-	collection: string;
-	endpoint: string;
 	queryClient: GrpcClient;
 	storeClient: GrpcClient;
 	metadata: Metadata;
 
 	pipeline(name: string): Pipeline;
 }
+
+export type ClientOption = (client: Client) => void;
+
+export const withEndpoint = (endpoint: string): ClientOption => {
+	return function(client: Client): void {
+		client.endpoint = endpoint;
+	};
+};
 
 export class Client {
 	project: string;
@@ -37,7 +43,8 @@ export class Client {
 	constructor(
 		project: string,
 		collection: string,
-		credentials: { key: string; secret: string }
+		credentials: { key: string; secret: string },
+		...options: ClientOption[]
 	) {
 		this.project = project;
 		this.collection = collection;
@@ -56,6 +63,8 @@ export class Client {
 				callback(null, md);
 			}
 		);
+
+		options.forEach((option) => option(this));
 
 		this.queryClient = createClient(
 			"sajari.api.pipeline.v1.Query",

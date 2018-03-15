@@ -1,4 +1,4 @@
-# sajari-sdk-node
+# sajari-node
 
 > node sdk for the Sajari API
 
@@ -7,7 +7,7 @@ $ yarn add sajari-node
 ```
 
 ```js
-const { Client, Session, TrackingNone } = require("sajari-sdk-node");
+const { Client, Session, TrackingNone } = require("sajari-node");
 
 const client = new Client("<project>", "<collection>", {
 	key: "<key from console>",
