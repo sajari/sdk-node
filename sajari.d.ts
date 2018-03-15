@@ -14,7 +14,24 @@ declare namespace sajari {
 		add(values: Values, record: Record): Promise<Key>;
 	}
 
-	export interface ISession {}
+	export interface ISession {
+		next(values: Values): Tracking;
+		reset(): void;
+	}
+
+	export const TrackingNone = "";
+	export const TrackingClick = "CLICK";
+	export const TrackingPosNeg = "POS_NEG";
+
+	export type TrackingType = "" | "CLICK" | "POS_NEG";
+
+	export type Tracking = {
+		type: TrackingType;
+		queryId: string;
+		sequence: number;
+		field: string;
+		data: Values;
+	};
 
 	export type Values = { [k: string]: string };
 
