@@ -3,7 +3,7 @@
 > node sdk for the Sajari API
 
 ```bash
-$ yarn add sajari-sdk-node
+$ yarn add sajari-node
 ```
 
 ```js
@@ -18,7 +18,7 @@ const pipeline = client.pipeline("website");
 
 pipeline.search({ q: "hello world" }, session)
 	.then(response => {/* handle response ... */})
-	.catch(error => {/* handle error ... */} )
+	.catch(error => {/* handle error ... */})
 ```
 
 
