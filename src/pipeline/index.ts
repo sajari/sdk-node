@@ -60,13 +60,14 @@ export class Pipeline {
 					if (err) {
 						return reject(err);
 					}
-					console.log(response);
+
 					const res = processAddResponse(
 						<sajari.engine.store.record.AddResponse>response.response
 					);
 					if (res instanceof Error) {
 						return reject(res);
 					}
+
 					return resolve(<Key>res);
 				}
 			);

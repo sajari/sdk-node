@@ -8,7 +8,7 @@ import {
 	TrackingPosNeg
 } from "../session";
 
-import { Values } from "../utils";
+import { Values, valueFromProto } from "../utils";
 
 export type SearchResult = {
 	score: number;
@@ -29,21 +29,6 @@ export type SearchResponse = {
 	results: SearchResults;
 	values: Values | null;
 };
-
-// const createTrackingType = (
-// 	type: TrackingType
-// ): sajari.api.pipeline.v1.SearchRequest.Tracking.Type => {
-// 	switch (type) {
-// 		case TrackingNone:
-// 			return sajari.api.pipeline.v1.SearchRequest.Tracking.Type.NONE;
-// 		case TrackingClick:
-// 			return sajari.api.pipeline.v1.SearchRequest.Tracking.Type.CLICK;
-// 		case TrackingPosNeg:
-// 			return sajari.api.pipeline.v1.SearchRequest.Tracking.Type.POS_NEG;
-// 		default:
-// 			return sajari.api.pipeline.v1.SearchRequest.Tracking.Type.NONE;
-// 	}
-// };
 
 export const createSearchRequest = (
 	pipeline: string,
@@ -112,15 +97,4 @@ export const processSearchResponse = (
 		aggregates: null, // TODO(@benhinchley): process aggregates response
 		results
 	};
-};
-
-const valueFromProto = (v: sajari.engine.Value): any => {
-	switch (v.value) {
-		case "single":
-			return v.single;
-		case "repeated":
-			return v.repeated.values.join(",");
-		default:
-			break;
-	}
 };

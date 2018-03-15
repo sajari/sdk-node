@@ -1,5 +1,5 @@
 import { sajari } from "../../generated/proto";
-import { Values } from "../utils";
+import { Values, errorFromRecordStatus, valueFromProto } from "../utils";
 
 export type Key = {
 	field: string;
@@ -23,5 +23,21 @@ export const createAddRequest = (
 export const processAddResponse = (
 	response: sajari.engine.store.record.AddResponse
 ): Error | Key => {
-	return { field: "", value: "" };
+	const keys = response.keys
+		.map((key: sajari.engine.Key) => {
+			if (key.field === "" && key.value === undefined) {
+				return null;
+			}
+			const value = valueFromProto(<sajari.engine.Value>key.value);
+			if (!value) {
+				return null;
+			}
+			return { field: key.field, value };
+		})
+		.filter((x) => !!x);
+
+	const key = keys[0];
+	if (!key)
+		return errorFromRecordStatus(<sajari.rpc.Status[]>response.status);
+	return key;
 };
