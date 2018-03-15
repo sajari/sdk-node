@@ -12,7 +12,7 @@ import { Pipeline } from "./pipeline";
 
 declare var VERSION: string;
 
-const API_ENDPOINT = "api.sajari.com:4433";
+const API_ENDPOINT = "api.sajari.com:443";
 export const USER_AGENT = `sdk-node-${VERSION}`;
 
 export interface IClient {
