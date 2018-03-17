@@ -18,7 +18,7 @@ export const valueFromProto = (
 
 export const errorFromRecordStatus = (
 	status: sajari.rpc.Status[]
-): Error | null => {
+): MultiError | null => {
 	const errors = status
 		.map((status) => {
 			switch (status.code) {
@@ -35,5 +35,28 @@ export const errorFromRecordStatus = (
 		.filter((x) => !!x);
 
 	if (errors.length < 1) return null;
-	return errors[0];
+	return new MultiError(<Error[]>errors);
 };
+
+export class MultiError extends Error {
+	errors: Error[];
+
+	constructor(errors: Error[]) {
+		super();
+
+		this.errors = errors;
+		this.message = this._message();
+	}
+
+	private _message(): string {
+		let n = this.errors.length;
+		let msg = this.errors[0].message;
+
+		if (n === 1) {
+			return msg;
+		} else if (n === 2) {
+			return `${msg} (and 1 other error)`;
+		}
+		return `${msg} (and ${n - 1} other errors)`;
+	}
+}
