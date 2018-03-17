@@ -1,9 +1,12 @@
-const { join } = require("path");
+const { resolve, join } = require("path");
 const webpack = require("webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-const version = JSON.stringify(require("../package.json").version);
-const { LIB_SRC, LIB_DIST, LIB_ROOT } = require("./path");
+const version = JSON.stringify(require("./package.json").version);
+
+const LIB_ROOT = resolve(join(__dirname, "./"));
+const LIB_SRC = resolve(join(__dirname, "./src"));
+const LIB_DIST = resolve(join(__dirname, "./dist"));
 
 module.exports = {
 	target: "node",
