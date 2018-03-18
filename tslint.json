@@ -1,0 +1,16 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended"],
+  "linterOptions": {
+    "exclude": ["generated/**/*.js"]
+  },
+  "jsRules": {},
+  "rules": {
+    "max-line-length": {
+      "severity": "warning",
+      "options": [80]
+    },
+    "trailing-comma": [true, { "esSpecCompliant": true }]
+  },
+  "rulesDirectory": []
+}

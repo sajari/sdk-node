@@ -1,39 +1,48 @@
 {
-	"name": "sajari-node",
-	"version": "1.0.0-alpha",
-	"main": "dist/sajari.js",
-	"author": "Ben Hinchley <bhinchley@sajari.com>",
-	"license": "MIT",
-	"files": [
-		"README.md",
-		"LICENSE",
-		"dist/"
-	],
-	"scripts": {
-		"build": "webpack --config webpack.config.js --mode production",
-		"dev": "webpack --config webpack.config.js --mode development",
-		"fmt": "prettier --write --config .prettierrc.js \"{src/**/*,config/**/*,sajari.d,.prettierrc}.{js,ts}\"",
-		"gen:proto": "node scripts/genproto"
-	},
-	"dependencies": {
-		"grpc": "^1.10.0",
-		"protobufjs": "^6.8.6"
-	},
-	"devDependencies": {
-		"@babel/core": "^7.0.0-beta.40",
-		"@babel/polyfill": "^7.0.0-beta.40",
-		"@babel/preset-env": "^7.0.0-beta.40",
-		"@babel/preset-stage-3": "^7.0.0-beta.40",
-		"@types/protobufjs": "^6.0.0",
-		"babel-loader": "^8.0.0-beta",
-		"copy-webpack-plugin": "^4.5.1",
-		"globby": "^8.0.1",
-		"grpc-tools": "^1.6.6",
-		"make-dir": "^1.2.0",
-		"ts-loader": "^4.0.1",
-		"typedoc": "^0.11.1",
-		"typescript": "^2.7.2",
-		"webpack": "^4.1.0",
-		"webpack-cli": "^2.0.10"
-	}
+  "name": "sajari-node",
+  "version": "1.0.0-alpha",
+  "main": "dist/sajari.js",
+  "author": "Ben Hinchley <bhinchley@sajari.com>",
+  "license": "MIT",
+  "files": [
+    "README.md",
+    "LICENSE",
+    "dist/"
+  ],
+  "scripts": {
+    "build": "webpack --config webpack.config.js --mode production",
+    "build:dev": "webpack --config webpack.config.js --mode development",
+    "fmt": "prettier --write --config .prettierrc.js \"{src/**/*,*.config,*.d,.*,package}.{js,ts,json}\"",
+    "lint": "tslint --force -p tsconfig.json",
+    "test": "yarn run lint && jest",
+    "gen:proto": "node scripts/genproto"
+  },
+  "dependencies": {
+    "grpc": "^1.10.0",
+    "protobufjs": "^6.8.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/polyfill": "^7.0.0-beta.40",
+    "@babel/preset-env": "^7.0.0-beta.40",
+    "@babel/preset-stage-3": "^7.0.0-beta.40",
+    "@babel/preset-typescript": "^7.0.0-beta.42",
+    "@types/jest": "^22.2.0",
+    "@types/protobufjs": "^6.0.0",
+    "babel-core": "^7.0.0-0",
+    "babel-jest": "^23.0.0-alpha.0",
+    "babel-loader": "^8.0.0-beta",
+    "copy-webpack-plugin": "^4.5.1",
+    "dts-generator": "^2.1.0",
+    "fork-ts-checker-webpack-plugin": "^0.4.1",
+    "globby": "^8.0.1",
+    "grpc-tools": "^1.6.6",
+    "jest": "^22.4.2",
+    "make-dir": "^1.2.0",
+    "regenerator-runtime": "^0.11.1",
+    "tslint": "^5.9.1",
+    "typescript": "^2.7.2",
+    "webpack": "^4.1.0",
+    "webpack-cli": "^2.0.10"
+  }
 }
