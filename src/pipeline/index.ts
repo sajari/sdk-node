@@ -1,82 +1,82 @@
 import { ServiceError } from "grpc";
 import { sajari } from "../../generated/proto";
 
-import { ISession } from "../session";
 import { IClient } from "../client";
-import { Values } from "../utils";
+import { ISession } from "../session";
+import { IValues } from "../utils";
 
+import { createAddRequest, IKey, IRecord, processAddResponse } from "./add";
 import {
-	createSearchRequest,
-	processSearchResponse,
-	SearchResponse
+  createSearchRequest,
+  ISearchResponse,
+  processSearchResponse
 } from "./search";
-import { createAddRequest, processAddResponse, Record, Key } from "./add";
 
 // Pipeline is a handler for a named pipeline.
 export class Pipeline {
-	client: IClient;
-	name: string;
+  public client: IClient;
+  public name: string;
 
-	constructor(client: IClient, name: string) {
-		this.client = client;
-		this.name = name;
-	}
+  constructor(client: IClient, name: string) {
+    this.client = client;
+    this.name = name;
+  }
 
-	// search runs a search query defined by a pipline with the given values and
-	// tracking configuration.  Returns the query results and returned values (which could have
-	// been modified in the pipeline).
-	search(values: Values, session: ISession): Promise<SearchResponse> {
-		const tracking = session.next(values);
+  // search runs a search query defined by a pipline with the given values and
+  // session.  Returns the query results and returned values (which could have
+  // been modified in the pipeline).
+  public search(values: IValues, session: ISession): Promise<ISearchResponse> {
+    const tracking = session.next(values);
 
-		return new Promise((resolve, reject) => {
-			// @ts-ignore
-			this.client.queryClient.search(
-				createSearchRequest(this.name, values, tracking),
-				this.client.metadata,
-				(
-					err: ServiceError,
-					response: sajari.api.pipeline.v1.SearchResponse
-				) => {
-					if (err) {
-						return reject(err);
-					}
+    return new Promise((resolve, reject) => {
+      // @ts-ignore
+      this.clients.Query.search(
+        createSearchRequest(this.name, values, tracking),
+        this.client.metadata,
+        (
+          err: ServiceError,
+          response: sajari.api.pipeline.v1.SearchResponse
+        ) => {
+          if (err) {
+            return reject(err);
+          }
 
-					const results = processSearchResponse(
-						<sajari.api.pipeline.v1.SearchResponse.SearchResponse>response.searchResponse,
-						<sajari.api.pipeline.v1.Token[]>response.tokens
-					);
-					return resolve({ results, values: response.values });
-				}
-			);
-		});
-	}
+          const results = processSearchResponse(
+            // tslint:disable-next-line:max-line-length
+            response.searchResponse as sajari.api.pipeline.v1.SearchResponse.SearchResponse,
+            response.tokens as sajari.api.pipeline.v1.Token[]
+          );
+          return resolve({ results, values: response.values });
+        }
+      );
+    });
+  }
 
-	// Add a record to a collection using a pipeline, returning the unique key which can be used
-	// to retrieve the respective record.
-	add(values: Values, record: Record): Promise<Key> {
-		return new Promise((resolve, reject) => {
-			// @ts-ignore
-			this.client.storeClient.add(
-				createAddRequest(this.name, values, [record]),
-				this.client.metadata,
-				(
-					err: ServiceError,
-					response: sajari.api.pipeline.v1.AddResponse
-				) => {
-					if (err) {
-						return reject(err);
-					}
+  // Add a record to a collection using a pipeline, returning the unique
+  // key which can be used to retrieve the respective record.
+  public add(record: IRecord, values: IValues = {}): Promise<IKey> {
+    return new Promise((resolve, reject) => {
+      const request = createAddRequest(this.name, values, [record]);
 
-					const res = processAddResponse(
-						<sajari.engine.store.record.AddResponse>response.response
-					);
-					if (res instanceof Error) {
-						return reject(res);
-					}
+      // @ts-ignore
+      this.clients.Store.add(
+        request,
+        this.client.metadata,
+        (err: ServiceError, response: sajari.api.pipeline.v1.AddResponse) => {
+          if (err) {
+            return reject(err);
+          }
 
-					return resolve(<Key>res);
-				}
-			);
-		});
-	}
+          const res = processAddResponse(
+            response.response as sajari.engine.store.record.AddResponse
+          );
+          if (res instanceof Error) {
+            return reject(res);
+          }
+
+          return resolve(res as IKey);
+        }
+      );
+    });
+  }
 }

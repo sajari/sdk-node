@@ -1,75 +1,78 @@
-import { Values } from "./utils";
+import { IValues } from "./utils";
 
 export const TrackingNone = "";
 export const TrackingClick = "CLICK";
 export const TrackingPosNeg = "POS_NEG";
 
-export const enum TrackingType {
-	NONE = "",
-	CLICK = "CLICK",
-	POS_NEG = "POS_NEG"
+export type TrackingType = "" | "CLICK" | "POS_NEG";
+
+export interface IPosNegToken {
+  pos: string;
+  neg: string;
 }
 
-export type PosNegToken = { pos: string; neg: string };
-export type ClickToken = { click: string };
-export type TokenValues = PosNegToken | ClickToken;
+export interface IClickToken {
+  click: string;
+}
 
-export type Tracking = {
-	type: TrackingType;
-	queryId: string;
-	sequence: number;
-	field: string;
-	data: Values;
-};
+export type Token = IPosNegToken | IClickToken;
+
+export interface ITracking {
+  type: TrackingType;
+  queryId: string;
+  sequence: number;
+  field: string;
+  data: IValues;
+}
 
 export interface ISession {
-	next(values: Values): Tracking;
-	reset(): void;
+  next(values: IValues): ITracking;
+  reset(): void;
 }
 
 const randString = (): string => {
-	let queryID = "";
-	for (let i = 0; i < 16; i++) {
-		queryID += "abcdefghijklmnopqrstuvwxyz0123456789".charAt(
-			Math.floor(Math.random() * 36)
-		);
-	}
-	return queryID;
+  let queryID = "";
+  for (let i = 0; i < 16; i++) {
+    queryID += "abcdefghijklmnopqrstuvwxyz0123456789".charAt(
+      Math.floor(Math.random() * 36)
+    );
+  }
+  return queryID;
 };
 
 export class Session implements ISession {
-	queryID: string = "";
-	sequence: number = 0;
+  public queryID: string = "";
+  public sequence: number = 0;
 
-	trackingType: TrackingType;
-	field: string;
-	sessionData: Values;
+  public trackingType: TrackingType;
+  public field: string;
+  public sessionData: IValues;
 
-	constructor(type: TrackingType, field: string = "", data?: Values) {
-		this.trackingType = type;
-		this.field = field;
-		this.sessionData = data || {};
-	}
+  constructor(type: TrackingType, field: string = "", data?: IValues) {
+    this.trackingType = type;
+    this.field = field;
+    this.sessionData = data || {};
+  }
 
-	next(values: Values): Tracking {
-		if (this.queryID === "") {
-			this.queryID = randString();
-			this.sequence = 0;
-		} else {
-			this.sequence++;
-		}
+  public next(values: IValues): ITracking {
+    if (this.queryID === "") {
+      this.queryID = randString();
+      this.sequence = 0;
+    } else {
+      this.sequence++;
+    }
 
-		return {
-			type: this.trackingType,
-			queryId: this.queryID,
-			sequence: this.sequence,
-			field: this.field,
-			data: this.sessionData
-		};
-	}
+    return {
+      data: this.sessionData,
+      field: this.field,
+      queryId: this.queryID,
+      sequence: this.sequence,
+      type: this.trackingType
+    };
+  }
 
-	reset(): void {
-		this.queryID = "";
-		this.sequence = 0;
-	}
+  public reset(): void {
+    this.queryID = "";
+    this.sequence = 0;
+  }
 }

@@ -1,48 +1,76 @@
 import { sajari } from "../../generated/proto";
-import { Values, errorFromRecordStatus, valueFromProto } from "../utils";
+import { errorFromStatus, IValues, valueFromProto } from "../utils";
 
-export type Key = {
-	field: string;
-	value: any;
-};
+export interface IKey {
+  field: string;
+  value: any;
+}
 
-export type Record = { [id: string]: any };
+export interface IRecord {
+  [id: string]: string | string[];
+}
 
 export const createAddRequest = (
-	pipeline: string,
-	values: Values,
-	records: Record[]
+  pipeline: string,
+  values: IValues,
+  records: IRecord[]
 ): { [k: string]: any } => {
-	return {
-		pipeline: { name: pipeline },
-		values,
-		records
-	};
+  return {
+    pipeline: { name: pipeline },
+    records: records.map((record) => createEngineRecord(record)),
+    values
+  };
+};
+
+const createEngineRecord = (
+  record: IRecord
+): sajari.engine.store.record.IRecord => {
+  const values = Object.keys(record).reduce(
+    (obj: { [k: string]: sajari.engine.IValue }, key) => {
+      const value = record[key];
+
+      if (typeof value === "string") {
+        obj[key] = { single: value as string };
+        return obj;
+      } else if (value instanceof Array) {
+        obj[key] = { repeated: { values: value as string[] } };
+        return obj;
+      }
+
+      return obj;
+    },
+    {}
+  );
+
+  return { values };
 };
 
 export const processAddResponse = (
-	response: sajari.engine.store.record.AddResponse
-): Error | Key => {
-	const keys = response.keys
-		.map((key) => {
-			if (
-				(<sajari.engine.Key>key).field === "" &&
-				(<sajari.engine.Key>key).value === undefined
-			) {
-				return null;
-			}
-			const value = valueFromProto(<sajari.engine.Value>key.value);
-			if (!value) {
-				return null;
-			}
-			return { field: (<sajari.engine.Key>key).field, value };
-		})
-		.filter((x) => !!x);
+  response: sajari.engine.store.record.AddResponse
+): Error | IKey => {
+  const keys = response.keys
+    .map((resKey) => {
+      if (
+        (resKey as sajari.engine.Key).field === "" &&
+        ((resKey as sajari.engine.Key).value === undefined ||
+          (resKey as sajari.engine.Key).value === null)
+      ) {
+        return null;
+      }
+      const value = valueFromProto(resKey.value as sajari.engine.Value);
+      if (!value) {
+        return null;
+      }
+      return { field: (resKey as sajari.engine.Key).field, value };
+    })
+    .filter((x) => !!x);
 
-	const key = keys[0];
-	if (!key) {
-		const err = errorFromRecordStatus(<sajari.rpc.Status[]>response.status);
-		if (!!err) return <Error>err;
-	}
-	return <Key>key;
+  const key = keys[0];
+  if (!key) {
+    const err = errorFromStatus(response.status as sajari.rpc.Status[]);
+    if (!!err) {
+      return err as Error;
+    }
+  }
+  return key as IKey;
 };

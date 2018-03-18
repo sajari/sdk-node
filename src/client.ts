@@ -1,108 +1,128 @@
 import {
-	Client as GrpcClient,
-	Metadata,
-	credentials as grpcCredentials,
-	loadObject as grpcLoadObject,
-	GrpcObject,
-	CallCredentials
+  CallCredentials,
+  Client as GrpcClient,
+  credentials as grpcCredentials,
+  GrpcObject,
+  loadObject as grpcLoadObject,
+  Metadata
 } from "grpc";
 
-// @ts-ignore
 import proto from "../generated/proto-defs";
 import { Pipeline } from "./pipeline";
+import { Schema } from "./schema";
 
 declare var VERSION: string;
 
 const API_ENDPOINT = "api.sajari.com:443";
-export const USER_AGENT = `sdk-node-${VERSION}`;
+const USER_AGENT = `sdk-node-${VERSION}`;
 
 export interface IClient {
-	queryClient: GrpcClient;
-	storeClient: GrpcClient;
-	metadata: Metadata;
+  clients: { [k: string]: GrpcClient };
+  metadata: Metadata;
 
-	pipeline(name: string): Pipeline;
+  pipeline(name: string): Pipeline;
+  schema(): Schema;
 }
 
-export type ClientOption = (client: Client) => void;
+// Option is a type which defines Client options.
+export type Option = (client: Client) => void;
 
-export const withEndpoint = (endpoint: string): ClientOption => {
-	return function(client: Client): void {
-		client.endpoint = endpoint;
-	};
+// withEndpoint configures the client to use a custom endpoint.
+export const withEndpoint = (endpoint: string): Option => {
+  return (client: Client): void => {
+    client.endpoint = endpoint;
+  };
 };
 
-export class Client {
-	project: string;
-	collection: string;
-	endpoint: string = API_ENDPOINT;
-	queryClient: GrpcClient;
-	storeClient: GrpcClient;
-	metadata: Metadata;
+export class Client implements IClient {
+  public endpoint: string = API_ENDPOINT;
+  public metadata: Metadata;
+  public clients: { [k: string]: GrpcClient };
 
-	constructor(
-		project: string,
-		collection: string,
-		credentials: { key: string; secret: string },
-		...options: ClientOption[]
-	) {
-		this.project = project;
-		this.collection = collection;
+  private project: string;
+  private collection: string;
 
-		this.metadata = new Metadata();
-		this.metadata.add("project", project);
-		this.metadata.add("collection", collection);
+  constructor(
+    project: string,
+    collection: string,
+    credentials: { key: string; secret: string },
+    ...options: Option[]
+  ) {
+    this.project = project;
+    this.collection = collection;
 
-		const creds = grpcCredentials.createFromMetadataGenerator(
-			(params, callback) => {
-				const md = new Metadata();
-				md.add(
-					"authorization",
-					`keysecret ${credentials.key} ${credentials.secret}`
-				);
-				callback(null, md);
-			}
-		);
+    this.metadata = new Metadata();
+    this.metadata.add("project", project);
+    this.metadata.add("collection", collection);
 
-		options.forEach((option) => option(this));
+    options.forEach((option) => option(this));
 
-		this.queryClient = createClient(
-			"sajari.api.pipeline.v1.Query",
-			this.endpoint,
-			creds
-		);
-		this.storeClient = createClient(
-			"sajari.api.pipeline.v1.Store",
-			this.endpoint,
-			creds
-		);
-	}
+    const creds = createCallCredentials(credentials.key, credentials.secret);
 
-	pipeline(name: string): Pipeline {
-		return new Pipeline(this, name);
-	}
+    this.clients = createClients(
+      [
+        "sajari.api.pipeline.v1.Query",
+        "sajari.api.pipeline.v1.Store",
+        "sajari.engine.schema.Schema"
+      ],
+      this.endpoint,
+      creds
+    );
+  }
+
+  public pipeline(name: string): Pipeline {
+    return new Pipeline(this, name);
+  }
+
+  public schema(): Schema {
+    return new Schema(this);
+  }
 }
 
-const createClient = (
-	service: string,
-	endpoint: string,
-	creds: CallCredentials
-): GrpcClient => {
-	const ServiceProto = proto.lookup(service);
-	const ServiceClient: GrpcClient = grpcLoadObject(ServiceProto, {
-		protobufjsVersion: 6
-	});
+const createClients = (
+  services: string[],
+  endpoint: string,
+  credentials: CallCredentials
+): { [k: string]: GrpcClient } => {
+  const clients: { [k: string]: GrpcClient } = {};
+  services.forEach((service) => {
+    const name = service.split(".").pop();
+    clients[name as string] = createClient(service, endpoint, credentials);
+  });
+  return clients;
+};
 
-	// @ts-ignore
-	return new ServiceClient(
-		endpoint,
-		grpcCredentials.combineChannelCredentials(
-			grpcCredentials.createSsl(),
-			creds
-		),
-		{
-			"grpc.primary_user_agent": USER_AGENT,
-			"grpc.default_authority": "api.sajari.com"
-		}
-	);
+const createClient = (
+  service: string,
+  endpoint: string,
+  creds: CallCredentials
+): GrpcClient => {
+  const ServiceProto = proto.lookup(service);
+  const ServiceClient: GrpcClient = grpcLoadObject(ServiceProto, {
+    protobufjsVersion: 6
+  });
+
+  // @ts-ignore
+  return new ServiceClient(
+    endpoint,
+    grpcCredentials.combineChannelCredentials(
+      grpcCredentials.createSsl(),
+      creds
+    ),
+    {
+      "grpc.default_authority": "api.sajari.com",
+      "grpc.primary_user_agent": USER_AGENT
+    }
+  );
+};
+
+const createCallCredentials = (
+  key: string,
+  secret: string
+): CallCredentials => {
+  return grpcCredentials.createFromMetadataGenerator((params, callback) => {
+    const metadata = new Metadata();
+    metadata.add("authorization", `keysecret ${key} ${secret}`);
+    callback(null, metadata);
+  });
 };

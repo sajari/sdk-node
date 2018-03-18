@@ -1,189 +1,185 @@
 import { sajari } from "../../generated/proto";
 
 import {
-	Tracking,
-	TrackingType,
-	TrackingNone,
-	TrackingClick,
-	TrackingPosNeg,
-	TokenValues
+  ITracking,
+  Token,
+  TrackingClick,
+  TrackingNone,
+  TrackingPosNeg,
+  TrackingType
 } from "../session";
 
-import { Values, valueFromProto } from "../utils";
+import { IValues, valueFromProto } from "../utils";
 
-export type ResultValues = { [k: string]: string | string[] };
+export interface IResultValues {
+  [k: string]: string | string[];
+}
 
-export type SearchResult = {
-	score: number;
-	indexScore: number;
-	values: ResultValues;
-	tokens: TokenValues;
-};
+export interface IResult {
+  score: number;
+  indexScore: number;
+  values: IResultValues;
+  tokens: Token;
+}
 
-export type SearchResults = {
-	reads: number;
-	totalResults: number;
-	time: number;
-	aggregates: AggregateValues;
-	results: SearchResult[];
-};
+export interface IResults {
+  reads: number;
+  totalResults: number;
+  time: number;
+  aggregates: IAggregates;
+  results: IResult[];
+}
 
-export type SearchResponse = {
-	results: SearchResults;
-	values: ResultValues;
-};
+export interface ISearchResponse {
+  results: IResults;
+  values: IResultValues;
+}
 
 export const createSearchRequest = (
-	pipeline: string,
-	values: Values,
-	tracking: Tracking
+  pipeline: string,
+  values: IValues,
+  tracking: ITracking
 ): { [k: string]: any } => {
-	return {
-		pipeline: { name: pipeline },
-		tracking,
-		values
-	};
+  return {
+    pipeline: { name: pipeline },
+    tracking,
+    values
+  };
 };
 
+// tslint:disable-next-line:max-line-length
 type SearchResponseResult = sajari.api.pipeline.v1.SearchResponse.SearchResponse.Result;
 
 export const processSearchResponse = (
-	response: sajari.api.pipeline.v1.SearchResponse.SearchResponse,
-	tokens: sajari.api.pipeline.v1.Token[]
-): SearchResults => {
-	const results = response.results.map(
-		(
-			result: sajari.api.pipeline.v1.SearchResponse.SearchResponse.IResult,
-			index: number
-		): SearchResult => {
-			const values: ResultValues = Object.keys(
-				(<SearchResponseResult>result).values
-			).reduce((obj: ResultValues, key): Object => {
-				const value = valueFromProto(
-					<sajari.engine.Value>(<SearchResponseResult>result).values[
-						key
-					]
-				);
-				if (!value) {
-					return obj;
-				} else {
-					obj[key] = value;
-					return obj;
-				}
-			}, {});
+  response: sajari.api.pipeline.v1.SearchResponse.SearchResponse,
+  tokens: sajari.api.pipeline.v1.Token[]
+): IResults => {
+  const results = response.results.map(
+    (
+      resResult: sajari.api.pipeline.v1.SearchResponse.SearchResponse.IResult,
+      index: number
+    ): IResult => {
+      const values: IResultValues = Object.keys(
+        (resResult as SearchResponseResult).values
+      ).reduce((obj: IResultValues, key): IResultValues => {
+        const value = valueFromProto((resResult as SearchResponseResult).values[
+          key
+        ] as sajari.engine.Value);
+        if (!value) {
+          return obj;
+        } else {
+          obj[key] = value;
+          return obj;
+        }
+      }, {});
 
-			const res = {
-				score: (<SearchResponseResult>result).score,
-				indexScore: (<SearchResponseResult>result).indexScore,
-				values,
-				tokens: <TokenValues>{}
-			};
+      const res = {
+        indexScore: (resResult as SearchResponseResult).indexScore,
+        score: (resResult as SearchResponseResult).score,
+        tokens: {} as Token,
+        values
+      };
 
-			if (tokens.length > index) {
-				const token = <sajari.api.pipeline.v1.Token>tokens[index];
-				switch (token.token) {
-					case "click":
-						res.tokens = {
-							click: (<sajari.api.pipeline.v1.Token.Click>token.click)
-								.token
-						};
-						break;
+      if (tokens.length > index) {
+        const token = tokens[index] as sajari.api.pipeline.v1.Token;
+        if (token.token === "click") {
+          res.tokens = {
+            click: (token.click as sajari.api.pipeline.v1.Token.Click).token
+          };
+        } else if (token.token === "posNeg") {
+          res.tokens = {
+            neg: (token.posNeg as sajari.api.pipeline.v1.Token.PosNeg).neg,
+            pos: (token.posNeg as sajari.api.pipeline.v1.Token.PosNeg).pos
+          };
+        }
+      }
 
-					case "posNeg":
-						res.tokens = {
-							pos: (<sajari.api.pipeline.v1.Token.PosNeg>token.posNeg)
-								.pos,
-							neg: (<sajari.api.pipeline.v1.Token.PosNeg>token.posNeg)
-								.neg
-						};
-						break;
+      return res;
+    }
+  );
 
-					default:
-						break;
-				}
-			}
+  const result = {
+    aggregates: {} as IAggregates,
+    reads: response.reads as number,
+    results,
+    time: parseFloat(response.time),
+    totalResults: response.totalResults as number
+  };
 
-			return res;
-		}
-	);
+  if (Object.keys(response.aggregates).length > 0) {
+    result.aggregates = processAggregatesResponse(
+      response.aggregates as IAggregateResponse
+    );
+  }
 
-	const result = {
-		reads: <number>response.reads,
-		totalResults: <number>response.totalResults,
-		time: parseFloat(response.time),
-		aggregates: <AggregateValues>{},
-		results
-	};
-
-	if (Object.keys(response.aggregates).length > 0) {
-		result.aggregates = processAggregatesResponse(
-			<AggregateResponse>response.aggregates
-		);
-	}
-
-	return result;
+  return result;
 };
 
 // BucketsResponse is a type returned from a query performing bucket aggregate.
-export type BucketsResponse = { [k: string]: BucketResponse };
+export interface IBucketsResponse {
+  [k: string]: IBucketResponse;
+}
 
-export type BucketResponse = {
-	// Name of the bucket.
-	name: string;
+export interface IBucketResponse {
+  // Name of the bucket.
+  name: string;
 
-	// Number of records.
-	count: number;
-};
+  // Number of records.
+  count: number;
+}
 
-// CountResponse is a type returned from a query which has performed a count aggregate.
-export type CountResponse = { [k: string]: number };
+// CountResponse is a type returned from a query which has
+// performed a count aggregate.
+export interface ICountResponse {
+  [k: string]: number;
+}
 
-type AggregateResponse = {
-	[k: string]: sajari.api.pipeline.v1.SearchResponse.SearchResponse.AggregateResponse;
-};
+interface IAggregateResponse {
+  // tslint:disable-next-line:max-line-length
+  [k: string]: sajari.api.pipeline.v1.SearchResponse.SearchResponse.AggregateResponse;
+}
 
-export type AggregateValues = {
-	[k: string]: BucketsResponse | CountResponse | number;
-};
+export interface IAggregates {
+  [k: string]: IBucketsResponse | ICountResponse | number;
+}
 
+// tslint:disable:max-line-length
 type AggregateResponseMetric = sajari.api.pipeline.v1.SearchResponse.SearchResponse.AggregateResponse.Metric;
 type AggregateResponseCount = sajari.api.pipeline.v1.SearchResponse.SearchResponse.AggregateResponse.Count;
 type AggregateResponseBuckets = sajari.api.pipeline.v1.SearchResponse.SearchResponse.AggregateResponse.Buckets;
 type AggregateResponseBucketsBucket = sajari.api.pipeline.v1.SearchResponse.SearchResponse.AggregateResponse.Buckets.Bucket;
+// tslint:enable:max-line-length
 
 const processAggregatesResponse = (
-	aggregates: AggregateResponse
-): AggregateValues => {
-	return Object.keys(aggregates).reduce((result: AggregateValues, key) => {
-		const value = aggregates[key];
-		switch (value.aggregateResponse) {
-			case "metric":
-				result[key] = (<AggregateResponseMetric>value.metric).value;
-				return result;
-			case "count":
-				result[key] = (<AggregateResponseCount>value.count).counts;
-				return result;
-			case "buckets":
-				const buckets = (<AggregateResponseBuckets>value.buckets)
-					.buckets;
-				result[key] = Object.keys(buckets).reduce(
-					(resp: BucketsResponse, key) => {
-						const bucket = <AggregateResponseBucketsBucket>buckets[
-							key
-						];
+  aggregates: IAggregateResponse
+): IAggregates => {
+  return Object.keys(aggregates).reduce((result: IAggregates, key) => {
+    const value = aggregates[key];
+    switch (value.aggregateResponse) {
+      case "metric":
+        result[key] = (value.metric as AggregateResponseMetric).value;
+        return result;
+      case "count":
+        result[key] = (value.count as AggregateResponseCount).counts;
+        return result;
+      case "buckets":
+        const buckets = (value.buckets as AggregateResponseBuckets).buckets;
+        result[key] = Object.keys(buckets).reduce(
+          (resp: IBucketsResponse, bucketKey) => {
+            const bucket = buckets[bucketKey] as AggregateResponseBucketsBucket;
 
-						resp[key] = {
-							name: bucket.name,
-							count: bucket.count
-						};
-						return resp;
-					},
-					{}
-				);
-				return result;
+            resp[bucketKey] = {
+              count: bucket.count,
+              name: bucket.name
+            };
+            return resp;
+          },
+          {}
+        );
+        return result;
 
-			default:
-				return result;
-		}
-	}, {});
+      default:
+        return result;
+    }
+  }, {});
 };
