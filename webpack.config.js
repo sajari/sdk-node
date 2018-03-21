@@ -34,7 +34,7 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".js"]
   },
-  externals: ["grpc", "protobufjs/light"],
+  externals: ["debug", "grpc", "protobufjs/light"],
   plugins: [
     new webpack.DefinePlugin({
       VERSION: version

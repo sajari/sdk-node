@@ -1,3 +1,4 @@
+import Debug from "debug";
 import { ServiceError } from "grpc";
 import { sajari } from "../../generated/proto";
 
@@ -11,6 +12,8 @@ import {
   ISearchResponse,
   processSearchResponse
 } from "./search";
+
+const debug = Debug("sajari:client:pipeline");
 
 // Pipeline is a handler for a named pipeline.
 export class Pipeline {
@@ -29,9 +32,13 @@ export class Pipeline {
     const tracking = session.next(values);
 
     return new Promise((resolve, reject) => {
+      const request = createSearchRequest(this.name, values, tracking);
+      debug("search request: %o", request);
+      debug("search metadata: %o", this.client.metadata.getMap());
+
       // @ts-ignore
-      this.clients.Query.search(
-        createSearchRequest(this.name, values, tracking),
+      this.client.clients.Query.search(
+        request,
         this.client.metadata,
         (
           err: ServiceError,
@@ -57,9 +64,11 @@ export class Pipeline {
   public add(record: IRecord, values: IValues = {}): Promise<IKey> {
     return new Promise((resolve, reject) => {
       const request = createAddRequest(this.name, values, [record]);
+      debug("add request: %o", request);
+      debug("add metadata: %o", this.client.metadata.getMap());
 
       // @ts-ignore
-      this.clients.Store.add(
+      this.client.clients.Store.add(
         request,
         this.client.metadata,
         (err: ServiceError, response: sajari.api.pipeline.v1.AddResponse) => {
