@@ -64,3 +64,6 @@ export class MultiError extends Error {
     return `${msg} (and ${n - 1} other errors)`;
   }
 }
+
+export const deadline = (seconds: number) =>
+  new Date().setSeconds(new Date().getSeconds() + seconds);

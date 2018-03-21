@@ -1,10 +1,10 @@
 import Debug from "debug";
 import { ServiceError } from "grpc";
-import { sajari } from "../../generated/proto";
 
+import { sajari } from "../../generated/proto";
 import { IClient } from "../client";
 import { ISession } from "../session";
-import { IValues } from "../utils";
+import { deadline, IValues } from "../utils";
 
 import { createAddRequest, IKey, IRecord, processAddResponse } from "./add";
 import {
@@ -40,6 +40,7 @@ export class Pipeline {
       this.client.clients.Query.search(
         request,
         this.client.metadata,
+        { deadline: deadline(5) },
         (
           err: ServiceError,
           response: sajari.api.pipeline.v1.SearchResponse
@@ -71,6 +72,7 @@ export class Pipeline {
       this.client.clients.Store.add(
         request,
         this.client.metadata,
+        { deadline: deadline(5) },
         (err: ServiceError, response: sajari.api.pipeline.v1.AddResponse) => {
           if (err) {
             return reject(err);
