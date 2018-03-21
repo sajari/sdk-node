@@ -2,6 +2,9 @@
   "name": "sajari-node",
   "version": "1.0.0-alpha",
   "main": "dist/sajari.js",
+  "bin": {
+    "query": "./bin/query.js"
+  },
   "author": "Ben Hinchley <bhinchley@sajari.com>",
   "license": "MIT",
   "files": [
@@ -19,7 +22,9 @@
   },
   "dependencies": {
     "grpc": "^1.10.0",
-    "protobufjs": "^6.8.6"
+    "pretty-error": "^2.1.1",
+    "protobufjs": "^6.8.6",
+    "yargs": "^11.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.42",
