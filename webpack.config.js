@@ -1,7 +1,7 @@
 const { resolve, join } = require("path");
 const webpack = require("webpack");
+
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 const version = JSON.stringify(require("./package.json").version);
 
@@ -38,11 +38,6 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       VERSION: version
-    }),
-    new ForkTsCheckerWebpackPlugin({
-      tslint: true,
-      async: false,
-      watch: LIB_SRC
     }),
     new CopyWebpackPlugin([
       {

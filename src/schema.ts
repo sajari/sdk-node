@@ -81,7 +81,7 @@ export class Schema {
   // fields returns the fields in the collection.
   public fields(): Promise<IField[]> {
     return new Promise((resolve, reject) => {
-      // @ts-ignore
+      // @ts-ignore: generated client method
       this.client.clients.Schema.getFields(
         {},
         this.client.metadata,
@@ -135,7 +135,7 @@ export class Schema {
   // add adds Fields to the collection schema.
   public add(...fields: IField[]): Promise<null> {
     return new Promise((resolve, reject) => {
-      // @ts-ignore
+      // @ts-ignore: generated client method
       this.client.clients.Schema.addFields(
         { fields },
         this.client.metadata,
@@ -159,7 +159,7 @@ export class Schema {
   // If any fail, then the rest are ignored.
   public mutateField(name: string, ...mutations: Mutation[]): Promise<null> {
     return new Promise((resolve, reject) => {
-      // @ts-ignore
+      // @ts-ignore: generated client method
       this.client.clients.Schema.mutateField(
         { name, mutations },
         this.client.metadata,

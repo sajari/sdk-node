@@ -102,7 +102,7 @@ const createClient = (
     protobufjsVersion: 6
   });
 
-  // @ts-ignore
+  // @ts-ignore: ServiceClient represents a GrpcClient
   return new ServiceClient(
     endpoint,
     grpcCredentials.combineChannelCredentials(

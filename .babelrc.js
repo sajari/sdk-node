@@ -8,7 +8,7 @@ module.exports = {
         }
       }
     ],
-    "@babel/preset-typescript",
-    "@babel/preset-stage-3"
-  ]
+    "@babel/preset-typescript"
+  ],
+  plugins: ["@babel/plugin-proposal-class-properties"]
 };

@@ -36,7 +36,7 @@ export class Pipeline {
       debug("search request: %o", request);
       debug("search metadata: %o", this.client.metadata.getMap());
 
-      // @ts-ignore
+      // @ts-ignore: generated client method
       this.client.clients.Query.search(
         request,
         this.client.metadata,
@@ -68,7 +68,7 @@ export class Pipeline {
       debug("add request: %o", request);
       debug("add metadata: %o", this.client.metadata.getMap());
 
-      // @ts-ignore
+      // @ts-ignore: generated client method
       this.client.clients.Store.add(
         request,
         this.client.metadata,
