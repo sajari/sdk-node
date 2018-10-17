@@ -1,16 +1,19 @@
 {
   "defaultSeverity": "error",
-  "extends": ["tslint:recommended"],
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
   "linterOptions": {
     "exclude": ["generated/**/*.js"]
   },
   "jsRules": {},
   "rules": {
+    "trailing-comma": [true, { "esSpecCompliant": true }],
+    "object-literal-sort-keys": [false],
+    "interface-name": [true, "never-prefix"],
+    "triple-equals": [true, "allow-undefined-check", "allow-null-check"],
     "max-line-length": {
       "severity": "warning",
       "options": [80]
-    },
-    "trailing-comma": [true, { "esSpecCompliant": true }]
+    }
   },
   "rulesDirectory": []
 }

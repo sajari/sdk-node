@@ -1,7 +1,8 @@
 {
   "name": "sajari-node",
   "version": "1.0.0-alpha",
-  "main": "dist/sajari.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "author": "Ben Hinchley <bhinchley@sajari.com>",
   "license": "MIT",
   "files": [
@@ -10,15 +11,15 @@
     "dist/"
   ],
   "scripts": {
-    "build": "webpack --config webpack.config.js --mode production",
-    "build:dev": "webpack --config webpack.config.js --mode development",
+    "build": "tsc",
     "fmt": "prettier --write --config .prettierrc.js \"{src/**/*,*.config,*.d,.*,package}.{js,ts,json}\"",
-    "lint": "tslint --force -p tsconfig.json",
+    "lint": "tslint --fix --force -p tsconfig.json",
     "test": "yarn run lint && jest",
     "gen:proto": "node scripts/genproto"
   },
   "dependencies": {
     "debug": "^4.1.0",
+    "deepmerge": "^2.2.1",
     "grpc": "^1.15.1",
     "protobufjs": "^6.8.8"
   },
@@ -42,6 +43,7 @@
     "prettier": "^1.14.3",
     "regenerator-runtime": "^0.12.1",
     "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
     "typescript": "^3.1.3",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2"

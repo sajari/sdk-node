@@ -7,14 +7,13 @@ import {
   Metadata
 } from "grpc";
 
+// @ts-ignore
 import proto from "../generated/proto-defs";
 import { Pipeline } from "./pipeline";
 import { Schema } from "./schema";
 
-declare var VERSION: string;
-
 const API_ENDPOINT = "api.sajari.com:443";
-const USER_AGENT = `sdk-node-${VERSION}`;
+const USER_AGENT = `sdk-node-1.0.0`;
 
 export interface IClient {
   clients: { [k: string]: GrpcClient };

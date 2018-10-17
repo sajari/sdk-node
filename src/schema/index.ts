@@ -1,44 +1,23 @@
 import { ServiceError } from "grpc";
-
-import { sajari } from "../generated/proto";
-import { IClient } from "./client";
-import { errorFromStatus, IValues, valueFromProto } from "./utils";
-
-// Field represents a meta field which can be assigned in a collection record.
-interface IField {
-  // Name is the name used to identify the field.
-  name: string;
-
-  // Description is a description of the field.
-  description: string;
-
-  // Type defines the type of the field.
-  type: Type;
-
-  // Repeated indicates that this field can hold a list of values.
-  repeated: boolean;
-
-  // Required indicates that this field should always be set on all records.
-  required: boolean;
-
-  // Indexed indicates that the field should be indexed.  This is only valid for
-  // String or StringArray fields (see TypeString, TypeStringArray).
-  indexed: boolean;
-
-  // Unique indicates that the field is unique (and this will
-  // be encoforced when new records are added).  Unique fields can
-  // be used to retrieve/delete records.
-  unique: boolean;
-}
-
-// Type represents the underlying data type of the field. Default is a string.
-type Type = "STRING" | "INTEGER" | "FLOAT" | "BOOLEAN" | "TIMESTAMP";
-
-const TypeString = "STRING";
-const TypeInteger = "INTEGER";
-const TypeFloat = "FLOAT";
-const TypeBoolean = "BOOLEAN";
-const TypeTimestamp = "TIMESTAMP";
+import { sajari } from "../../generated/proto";
+import { IClient } from "../client";
+import { errorFromStatus } from "../utils";
+import {
+  boolean,
+  double,
+  Field,
+  float,
+  integer,
+  string,
+  timestamp,
+  Type,
+  TypeBoolean,
+  TypeDouble,
+  TypeFloat,
+  TypeInteger,
+  TypeString,
+  TypeTimestamp
+} from "./field";
 
 // Mutation is a mutation of a schema field.
 type Mutation =
@@ -72,14 +51,21 @@ type Mutation =
     };
 
 export class Schema {
-  public client: IClient;
+
+  public string = string;
+  public integer = integer;
+  public float = float;
+  public double = double;
+  public boolean = boolean;
+  public timestamp = timestamp;
+  private client: IClient;
 
   constructor(client: IClient) {
     this.client = client;
   }
 
   // fields returns the fields in the collection.
-  public fields(): Promise<IField[]> {
+  public fields(): Promise<Field[]> {
     return new Promise((resolve, reject) => {
       // @ts-ignore: generated client method
       this.client.clients.Schema.getFields(
@@ -91,7 +77,7 @@ export class Schema {
           }
 
           // tslint:disable-next-line:max-line-length
-          const fields: IField[] = (response.fields as sajari.engine.schema.Field[]).map(
+          const fields: Field[] = (response.fields as sajari.engine.schema.Field[]).map(
             (field) => {
               const {
                 description,
@@ -112,6 +98,8 @@ export class Schema {
                 fieldType = TypeBoolean;
               } else if (type === 4) {
                 fieldType = TypeTimestamp;
+              } else if (type === 5) {
+                fieldType = TypeDouble;
               }
 
               return {
@@ -122,7 +110,7 @@ export class Schema {
                 required,
                 type: fieldType,
                 unique
-              } as IField;
+              } as Field;
             }
           );
 
@@ -133,7 +121,7 @@ export class Schema {
   }
 
   // add adds Fields to the collection schema.
-  public add(...fields: IField[]): Promise<null> {
+  public add(...fields: Field[]): Promise<null> {
     return new Promise((resolve, reject) => {
       // @ts-ignore: generated client method
       this.client.clients.Schema.addFields(

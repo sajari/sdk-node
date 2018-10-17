@@ -49,10 +49,10 @@ export class MultiError extends Error {
     super();
 
     this.errors = errors;
-    this.message = this._message();
+    this.message = this.messageCreator();
   }
 
-  private _message(): string {
+  private messageCreator = (): string => {
     const n = this.errors.length;
     const msg = this.errors[0].message;
 

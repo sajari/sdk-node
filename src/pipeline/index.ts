@@ -50,9 +50,8 @@ export class Pipeline {
           }
 
           const results = processSearchResponse(
-            // tslint:disable-next-line:max-line-length
-            response.searchResponse as sajari.api.pipeline.v1.SearchResponse.SearchResponse,
-            response.tokens as sajari.api.pipeline.v1.Token[]
+            response.searchResponse as sajari.engine.query.v1.SearchResponse,
+            response.tokens as sajari.api.query.v1.Token[]
           );
           return resolve({ results, values: response.values });
         }

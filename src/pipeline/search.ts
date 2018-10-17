@@ -48,17 +48,14 @@ export const createSearchRequest = (
 };
 
 // tslint:disable-next-line:max-line-length
-type SearchResponseResult = sajari.api.pipeline.v1.SearchResponse.SearchResponse.Result;
+type SearchResponseResult = sajari.engine.query.v1.Result;
 
 export const processSearchResponse = (
-  response: sajari.api.pipeline.v1.SearchResponse.SearchResponse,
-  tokens: sajari.api.pipeline.v1.Token[]
+  response: sajari.engine.query.v1.SearchResponse,
+  tokens: sajari.api.query.v1.Token[]
 ): IResults => {
   const results = response.results.map(
-    (
-      resResult: sajari.api.pipeline.v1.SearchResponse.SearchResponse.IResult,
-      index: number
-    ): IResult => {
+    (resResult: sajari.engine.query.v1.IResult, index: number): IResult => {
       const values: IResultValues = Object.keys(
         (resResult as SearchResponseResult).values
       ).reduce((obj: IResultValues, key): IResultValues => {
@@ -81,15 +78,15 @@ export const processSearchResponse = (
       };
 
       if (tokens.length > index) {
-        const token = tokens[index] as sajari.api.pipeline.v1.Token;
+        const token = tokens[index] as sajari.api.query.v1.Token;
         if (token.token === "click") {
           res.tokens = {
-            click: (token.click as sajari.api.pipeline.v1.Token.Click).token
+            click: (token.click as sajari.api.query.v1.Token.Click).token
           };
         } else if (token.token === "posNeg") {
           res.tokens = {
-            neg: (token.posNeg as sajari.api.pipeline.v1.Token.PosNeg).neg,
-            pos: (token.posNeg as sajari.api.pipeline.v1.Token.PosNeg).pos
+            neg: (token.posNeg as sajari.api.query.v1.Token.PosNeg).neg,
+            pos: (token.posNeg as sajari.api.query.v1.Token.PosNeg).pos
           };
         }
       }
@@ -135,8 +132,7 @@ export interface ICountResponse {
 }
 
 interface IAggregateResponse {
-  // tslint:disable-next-line:max-line-length
-  [k: string]: sajari.api.pipeline.v1.SearchResponse.SearchResponse.AggregateResponse;
+  [k: string]: sajari.engine.query.v1.AggregateResponse;
 }
 
 export interface IAggregates {
@@ -144,10 +140,10 @@ export interface IAggregates {
 }
 
 // tslint:disable:max-line-length
-type AggregateResponseMetric = sajari.api.pipeline.v1.SearchResponse.SearchResponse.AggregateResponse.Metric;
-type AggregateResponseCount = sajari.api.pipeline.v1.SearchResponse.SearchResponse.AggregateResponse.Count;
-type AggregateResponseBuckets = sajari.api.pipeline.v1.SearchResponse.SearchResponse.AggregateResponse.Buckets;
-type AggregateResponseBucketsBucket = sajari.api.pipeline.v1.SearchResponse.SearchResponse.AggregateResponse.Buckets.Bucket;
+type AggregateResponseMetric = sajari.engine.query.v1.AggregateResponse.Metric;
+type AggregateResponseCount = sajari.engine.query.v1.AggregateResponse.Count;
+type AggregateResponseBuckets = sajari.engine.query.v1.AggregateResponse.Buckets;
+type AggregateResponseBucketsBucket = sajari.engine.query.v1.AggregateResponse.Buckets.Bucket;
 // tslint:enable:max-line-length
 
 const processAggregatesResponse = (
