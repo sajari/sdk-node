@@ -2121,6 +2121,10 @@
                         type: "bool",
                         id: 9
                       },
+                      mode: {
+                        type: "Mode",
+                        id: 12
+                      },
                       indexes: {
                         rule: "repeated",
                         type: "FieldIndex",
@@ -2136,6 +2140,13 @@
                           DOUBLE: 5,
                           BOOLEAN: 3,
                           TIMESTAMP: 4
+                        }
+                      },
+                      Mode: {
+                        values: {
+                          NULLABLE: 0,
+                          REQUIRED: 1,
+                          UNIQUE: 2
                         }
                       }
                     }

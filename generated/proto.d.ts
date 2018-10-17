@@ -12511,6 +12511,9 @@ export namespace sajari {
                 /** Field unique */
                 unique?: (boolean|null);
 
+                /** Field mode */
+                mode?: (sajari.engine.schema.Field.Mode|null);
+
                 /** Field indexes */
                 indexes?: (sajari.engine.schema.IFieldIndex[]|null);
             }
@@ -12553,6 +12556,9 @@ export namespace sajari {
 
                 /** Field unique. */
                 public unique: boolean;
+
+                /** Field mode. */
+                public mode: sajari.engine.schema.Field.Mode;
 
                 /** Field indexes. */
                 public indexes: sajari.engine.schema.IFieldIndex[];
@@ -12638,6 +12644,13 @@ export namespace sajari {
                     DOUBLE = 5,
                     BOOLEAN = 3,
                     TIMESTAMP = 4
+                }
+
+                /** Mode enum. */
+                enum Mode {
+                    NULLABLE = 0,
+                    REQUIRED = 1,
+                    UNIQUE = 2
                 }
             }
 

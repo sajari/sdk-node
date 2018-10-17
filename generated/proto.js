@@ -29534,6 +29534,7 @@ $root.sajari = (function() {
                  * @property {boolean|null} [store] Field store
                  * @property {boolean|null} [indexed] Field indexed
                  * @property {boolean|null} [unique] Field unique
+                 * @property {sajari.engine.schema.Field.Mode|null} [mode] Field mode
                  * @property {Array.<sajari.engine.schema.IFieldIndex>|null} [indexes] Field indexes
                  */
 
@@ -29634,6 +29635,14 @@ $root.sajari = (function() {
                 Field.prototype.unique = false;
 
                 /**
+                 * Field mode.
+                 * @member {sajari.engine.schema.Field.Mode} mode
+                 * @memberof sajari.engine.schema.Field
+                 * @instance
+                 */
+                Field.prototype.mode = 0;
+
+                /**
                  * Field indexes.
                  * @member {Array.<sajari.engine.schema.IFieldIndex>} indexes
                  * @memberof sajari.engine.schema.Field
@@ -29688,6 +29697,8 @@ $root.sajari = (function() {
                             $root.sajari.engine.schema.FieldIndex.encode(message.indexes[i], writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
                     if (message.repeatedLen != null && message.hasOwnProperty("repeatedLen"))
                         writer.uint32(/* id 11, wireType 0 =*/88).int32(message.repeatedLen);
+                    if (message.mode != null && message.hasOwnProperty("mode"))
+                        writer.uint32(/* id 12, wireType 0 =*/96).int32(message.mode);
                     return writer;
                 };
 
@@ -29751,6 +29762,9 @@ $root.sajari = (function() {
                             break;
                         case 9:
                             message.unique = reader.bool();
+                            break;
+                        case 12:
+                            message.mode = reader.int32();
                             break;
                         case 10:
                             if (!(message.indexes && message.indexes.length))
@@ -29831,6 +29845,15 @@ $root.sajari = (function() {
                     if (message.unique != null && message.hasOwnProperty("unique"))
                         if (typeof message.unique !== "boolean")
                             return "unique: boolean expected";
+                    if (message.mode != null && message.hasOwnProperty("mode"))
+                        switch (message.mode) {
+                        default:
+                            return "mode: enum value expected";
+                        case 0:
+                        case 1:
+                        case 2:
+                            break;
+                        }
                     if (message.indexes != null && message.hasOwnProperty("indexes")) {
                         if (!Array.isArray(message.indexes))
                             return "indexes: array expected";
@@ -29899,6 +29922,20 @@ $root.sajari = (function() {
                         message.indexed = Boolean(object.indexed);
                     if (object.unique != null)
                         message.unique = Boolean(object.unique);
+                    switch (object.mode) {
+                    case "NULLABLE":
+                    case 0:
+                        message.mode = 0;
+                        break;
+                    case "REQUIRED":
+                    case 1:
+                        message.mode = 1;
+                        break;
+                    case "UNIQUE":
+                    case 2:
+                        message.mode = 2;
+                        break;
+                    }
                     if (object.indexes) {
                         if (!Array.isArray(object.indexes))
                             throw TypeError(".sajari.engine.schema.Field.indexes: array expected");
@@ -29938,6 +29975,7 @@ $root.sajari = (function() {
                         object.indexed = false;
                         object.unique = false;
                         object.repeatedLen = 0;
+                        object.mode = options.enums === String ? "NULLABLE" : 0;
                     }
                     if (message.id != null && message.hasOwnProperty("id"))
                         object.id = message.id;
@@ -29964,6 +30002,8 @@ $root.sajari = (function() {
                     }
                     if (message.repeatedLen != null && message.hasOwnProperty("repeatedLen"))
                         object.repeatedLen = message.repeatedLen;
+                    if (message.mode != null && message.hasOwnProperty("mode"))
+                        object.mode = options.enums === String ? $root.sajari.engine.schema.Field.Mode[message.mode] : message.mode;
                     return object;
                 };
 
@@ -29997,6 +30037,22 @@ $root.sajari = (function() {
                     values[valuesById[5] = "DOUBLE"] = 5;
                     values[valuesById[3] = "BOOLEAN"] = 3;
                     values[valuesById[4] = "TIMESTAMP"] = 4;
+                    return values;
+                })();
+
+                /**
+                 * Mode enum.
+                 * @name sajari.engine.schema.Field.Mode
+                 * @enum {string}
+                 * @property {number} NULLABLE=0 NULLABLE value
+                 * @property {number} REQUIRED=1 REQUIRED value
+                 * @property {number} UNIQUE=2 UNIQUE value
+                 */
+                Field.Mode = (function() {
+                    var valuesById = {}, values = Object.create(valuesById);
+                    values[valuesById[0] = "NULLABLE"] = 0;
+                    values[valuesById[1] = "REQUIRED"] = 1;
+                    values[valuesById[2] = "UNIQUE"] = 2;
                     return values;
                 })();
 
