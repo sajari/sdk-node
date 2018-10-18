@@ -1,8 +1,4 @@
 module.exports = {
-  transform: {
-    "^.+\\.ts$": "babel-jest"
-  },
-  moduleFileExtensions: ["js", "ts"],
-  testMatch: ["**/?(*.)(spec|test).ts"],
+  preset: "ts-jest",
   testEnvironment: "node"
 };
