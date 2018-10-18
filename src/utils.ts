@@ -1,10 +1,9 @@
 import { ServiceError, status as grpcCodes } from "grpc";
 import { sajari } from "../generated/proto";
 
-export interface IValues {
-  [id: string]: string;
-}
-
+/**
+ * @hidden
+ */
 export const valueFromProto = (
   v: sajari.engine.Value
 ): string[] | string | null => {
@@ -18,6 +17,9 @@ export const valueFromProto = (
   }
 };
 
+/**
+ * @hidden
+ */
 export const errorFromStatus = (
   status: sajari.rpc.Status[]
 ): MultiError | null => {
@@ -62,8 +64,11 @@ export class MultiError extends Error {
       return `${msg} (and 1 other error)`;
     }
     return `${msg} (and ${n - 1} other errors)`;
-  }
+  };
 }
 
+/**
+ * @hidden
+ */
 export const deadline = (seconds: number) =>
   new Date().setSeconds(new Date().getSeconds() + seconds);

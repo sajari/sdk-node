@@ -1,22 +1,17 @@
 import { ServiceError } from "grpc";
 import { sajari } from "../../generated/proto";
-import { IClient } from "../client";
+import { Client } from "../client";
 import { errorFromStatus } from "../utils";
 import {
   boolean,
   double,
   Field,
+  FieldMode,
   float,
   integer,
   string,
   timestamp,
-  Type,
-  TypeBoolean,
-  TypeDouble,
-  TypeFloat,
-  TypeInteger,
-  TypeString,
-  TypeTimestamp
+  Type
 } from "./field";
 
 // Mutation is a mutation of a schema field.
@@ -51,16 +46,16 @@ type Mutation =
     };
 
 export class Schema {
-
   public string = string;
   public integer = integer;
   public float = float;
   public double = double;
   public boolean = boolean;
   public timestamp = timestamp;
-  private client: IClient;
 
-  constructor(client: IClient) {
+  private client: Client;
+
+  constructor(client: Client) {
     this.client = client;
   }
 
@@ -84,32 +79,17 @@ export class Schema {
                 indexed,
                 name,
                 repeated,
-                required,
                 type,
-                unique
+                mode
               } = field;
-
-              let fieldType = TypeString;
-              if (type === 1) {
-                fieldType = TypeInteger;
-              } else if (type === 2) {
-                fieldType = TypeFloat;
-              } else if (type === 3) {
-                fieldType = TypeBoolean;
-              } else if (type === 4) {
-                fieldType = TypeTimestamp;
-              } else if (type === 5) {
-                fieldType = TypeDouble;
-              }
 
               return {
                 description,
                 indexed,
                 name,
                 repeated,
-                required,
-                type: fieldType,
-                unique
+                type: engineTypeToFieldType(type),
+                mode: engineFieldModeToFieldMode(mode)
               } as Field;
             }
           );
@@ -164,5 +144,43 @@ export class Schema {
         }
       );
     });
+  }
+}
+
+/**
+ * @hidden
+ */
+function engineTypeToFieldType(t: sajari.engine.schema.Field.Type): Type {
+  switch (t) {
+    case sajari.engine.schema.Field.Type.INTEGER:
+      return Type.Integer;
+    case sajari.engine.schema.Field.Type.FLOAT:
+      return Type.Float;
+    case sajari.engine.schema.Field.Type.DOUBLE:
+      return Type.Double;
+    case sajari.engine.schema.Field.Type.BOOLEAN:
+      return Type.Boolean;
+    case sajari.engine.schema.Field.Type.TIMESTAMP:
+      return Type.Timestamp;
+
+    default:
+      return Type.String;
+  }
+}
+
+/**
+ * @hidden
+ */
+function engineFieldModeToFieldMode(
+  t: sajari.engine.schema.Field.Mode
+): FieldMode {
+  switch (t) {
+    case sajari.engine.schema.Field.Mode.REQUIRED:
+      return FieldMode.Required;
+    case sajari.engine.schema.Field.Mode.UNIQUE:
+      return FieldMode.Unique;
+
+    default:
+      return FieldMode.Nullable;
   }
 }

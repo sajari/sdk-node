@@ -2,25 +2,25 @@ import Debug from "debug";
 import { ServiceError } from "grpc";
 
 import { sajari } from "../../generated/proto";
-import { IClient } from "../client";
-import { ISession } from "../session";
-import { deadline, IValues } from "../utils";
+import { Client } from "../client";
+import { Session, Tracking } from "../session";
+import { deadline } from "../utils";
 
-import { createAddRequest, IKey, IRecord, processAddResponse } from "./add";
+import { createAddRequest, Key, processAddResponse, Record } from "./add";
 import {
   createSearchRequest,
-  ISearchResponse,
-  processSearchResponse
+  processSearchResponse,
+  SearchResponse
 } from "./search";
 
 const debug = Debug("sajari:client:pipeline");
 
 // Pipeline is a handler for a named pipeline.
 export class Pipeline {
-  public client: IClient;
+  public client: Client;
   public name: string;
 
-  constructor(client: IClient, name: string) {
+  constructor(client: Client, name: string) {
     this.client = client;
     this.name = name;
   }
@@ -28,11 +28,22 @@ export class Pipeline {
   // search runs a search query defined by a pipline with the given values and
   // session.  Returns the query results and returned values (which could have
   // been modified in the pipeline).
-  public search(values: IValues, session: ISession): Promise<ISearchResponse> {
-    const tracking = session.next(values);
+  public search(
+    values: { [k: string]: string },
+    session: Session
+  ): Promise<SearchResponse> {
+    const [serr, tracking] = session.next(values);
 
     return new Promise((resolve, reject) => {
-      const request = createSearchRequest(this.name, values, tracking);
+      if (serr) {
+        reject(serr);
+      }
+
+      const request = createSearchRequest(
+        this.name,
+        values,
+        tracking as Tracking
+      );
       debug("search request: %o", request);
       debug("search metadata: %o", this.client.metadata.getMap());
 
@@ -61,7 +72,10 @@ export class Pipeline {
 
   // Add a record to a collection using a pipeline, returning the unique
   // key which can be used to retrieve the respective record.
-  public add(record: IRecord, values: IValues = {}): Promise<IKey> {
+  public add(
+    record: Record,
+    values: { [k: string]: string } = {}
+  ): Promise<Key> {
     return new Promise((resolve, reject) => {
       const request = createAddRequest(this.name, values, [record]);
       debug("add request: %o", request);
@@ -84,7 +98,7 @@ export class Pipeline {
             return reject(res);
           }
 
-          return resolve(res as IKey);
+          return resolve(res as Key);
         }
       );
     });

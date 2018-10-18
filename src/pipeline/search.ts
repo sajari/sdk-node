@@ -1,44 +1,38 @@
 import { sajari } from "../../generated/proto";
+import { Token, Tracking } from "../session";
+import { valueFromProto } from "../utils";
 
-import {
-  ITracking,
-  Token,
-  TrackingClick,
-  TrackingNone,
-  TrackingPosNeg,
-  TrackingType
-} from "../session";
-
-import { IValues, valueFromProto } from "../utils";
-
-export interface IResultValues {
+export interface ResultValues {
   [k: string]: string | string[];
 }
 
-export interface IResult {
+export interface Result {
   score: number;
   indexScore: number;
-  values: IResultValues;
+  values: ResultValues;
   tokens: Token;
 }
 
-export interface IResults {
+export interface Results {
   reads: number;
   totalResults: number;
   time: number;
-  aggregates: IAggregates;
-  results: IResult[];
+  aggregates: Aggregates;
+  results: Result[];
 }
 
-export interface ISearchResponse {
-  results: IResults;
-  values: IResultValues;
+export interface SearchResponse {
+  results: Results;
+  values: ResultValues;
 }
 
+/**
+ * @hidden
+ */
 export const createSearchRequest = (
   pipeline: string,
-  values: IValues,
-  tracking: ITracking
+  values: { [k: string]: string },
+  tracking: Tracking
 ): { [k: string]: any } => {
   return {
     pipeline: { name: pipeline },
@@ -47,18 +41,23 @@ export const createSearchRequest = (
   };
 };
 
-// tslint:disable-next-line:max-line-length
+/**
+ * @hidden
+ */
 type SearchResponseResult = sajari.engine.query.v1.Result;
 
+/**
+ * @hidden
+ */
 export const processSearchResponse = (
   response: sajari.engine.query.v1.SearchResponse,
   tokens: sajari.api.query.v1.Token[]
-): IResults => {
+): Results => {
   const results = response.results.map(
-    (resResult: sajari.engine.query.v1.IResult, index: number): IResult => {
-      const values: IResultValues = Object.keys(
+    (resResult: sajari.engine.query.v1.IResult, index: number): Result => {
+      const values: ResultValues = Object.keys(
         (resResult as SearchResponseResult).values
-      ).reduce((obj: IResultValues, key): IResultValues => {
+      ).reduce((obj: ResultValues, key): ResultValues => {
         const value = valueFromProto((resResult as SearchResponseResult).values[
           key
         ] as sajari.engine.Value);
@@ -96,7 +95,7 @@ export const processSearchResponse = (
   );
 
   const result = {
-    aggregates: {} as IAggregates,
+    aggregates: {} as Aggregates,
     reads: response.reads as number,
     results,
     time: parseFloat(response.time),
@@ -105,7 +104,7 @@ export const processSearchResponse = (
 
   if (Object.keys(response.aggregates).length > 0) {
     result.aggregates = processAggregatesResponse(
-      response.aggregates as IAggregateResponse
+      response.aggregates as AggregateResponse
     );
   }
 
@@ -113,11 +112,11 @@ export const processSearchResponse = (
 };
 
 // BucketsResponse is a type returned from a query performing bucket aggregate.
-export interface IBucketsResponse {
-  [k: string]: IBucketResponse;
+export interface BucketsResponse {
+  [k: string]: BucketResponse;
 }
 
-export interface IBucketResponse {
+export interface BucketResponse {
   // Name of the bucket.
   name: string;
 
@@ -127,16 +126,16 @@ export interface IBucketResponse {
 
 // CountResponse is a type returned from a query which has
 // performed a count aggregate.
-export interface ICountResponse {
+export interface CountResponse {
   [k: string]: number;
 }
 
-interface IAggregateResponse {
+interface AggregateResponse {
   [k: string]: sajari.engine.query.v1.AggregateResponse;
 }
 
-export interface IAggregates {
-  [k: string]: IBucketsResponse | ICountResponse | number;
+export interface Aggregates {
+  [k: string]: BucketsResponse | CountResponse | number;
 }
 
 // tslint:disable:max-line-length
@@ -146,10 +145,13 @@ type AggregateResponseBuckets = sajari.engine.query.v1.AggregateResponse.Buckets
 type AggregateResponseBucketsBucket = sajari.engine.query.v1.AggregateResponse.Buckets.Bucket;
 // tslint:enable:max-line-length
 
+/**
+ * @hidden
+ */
 const processAggregatesResponse = (
-  aggregates: IAggregateResponse
-): IAggregates => {
-  return Object.keys(aggregates).reduce((result: IAggregates, key) => {
+  aggregates: AggregateResponse
+): Aggregates => {
+  return Object.keys(aggregates).reduce((result: Aggregates, key) => {
     const value = aggregates[key];
     switch (value.aggregateResponse) {
       case "metric":
@@ -161,7 +163,7 @@ const processAggregatesResponse = (
       case "buckets":
         const buckets = (value.buckets as AggregateResponseBuckets).buckets;
         result[key] = Object.keys(buckets).reduce(
-          (resp: IBucketsResponse, bucketKey) => {
+          (resp: BucketsResponse, bucketKey) => {
             const bucket = buckets[bucketKey] as AggregateResponseBucketsBucket;
 
             resp[bucketKey] = {

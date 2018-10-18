@@ -1,4 +1,5 @@
 import merge from "deepmerge";
+import { sajari } from "../../generated/proto";
 
 // Field represents a meta field which can be assigned in a collection record.
 export interface Field {
@@ -11,36 +12,34 @@ export interface Field {
   // Type defines the type of the field.
   type: Type;
 
+  mode: FieldMode;
+
   // Repeated indicates that this field can hold a list of values.
   repeated: boolean;
 
-  // Required indicates that this field should always be set on all records.
-  required: boolean;
-
   // Indexed indicates that the field should be indexed.
   indexed?: boolean;
-
-  // Unique indicates that the field is unique (and this will
-  // be encoforced when new records are added).  Unique fields can
-  // be used to retrieve/delete records.
-  unique: boolean;
 }
 
 // Type represents the underlying data type of the field. Default is a string.
-export type Type =
-  | "STRING"
-  | "INTEGER"
-  | "FLOAT"
-  | "DOUBLE"
-  | "BOOLEAN"
-  | "TIMESTAMP";
+export enum Type {
+  String = "STRING",
+  Integer = "INTEGER",
+  Float = "FLOAT",
+  Double = "DOUBLE",
+  Boolean = "BOOLEAN",
+  Timestamp = "TIMESTAMP"
+}
 
-export const TypeString = "STRING";
-export const TypeInteger = "INTEGER";
-export const TypeFloat = "FLOAT";
-export const TypeDouble = "DOUBLE";
-export const TypeBoolean = "BOOLEAN";
-export const TypeTimestamp = "TIMESTAMP";
+export enum FieldMode {
+  Nullable = sajari.engine.schema.Field.Mode.NULLABLE,
+  // Required indicates that this field should always be set on all records.
+  Required = sajari.engine.schema.Field.Mode.REQUIRED,
+  // Unique indicates that the field is unique (and this will
+  // be enforced when new records are added).  Unique fields can
+  // be used to retrieve/delete records.
+  Unique = sajari.engine.schema.Field.Mode.UNIQUE
+}
 
 interface FieldOptions {
   // Description is a description of the field.
@@ -49,96 +48,71 @@ interface FieldOptions {
   // Repeated indicates that this field can hold a list of values.
   repeated: boolean;
 
-  // Required indicates that this field should always be set on all records.
-  required: boolean;
-
-  // Unique indicates that the field is unique (and this will
-  // be encoforced when new records are added).  Unique fields can
-  // be used to retrieve/delete records.
-  unique: boolean;
+  mode: FieldMode;
 }
 
+/**
+ * @hidden
+ */
 const defaultFieldOptions: FieldOptions = {
   description: "",
   repeated: false,
-  required: false,
-  unique: false
+  mode: FieldMode.Nullable
 };
 
+/**
+ * @hidden
+ */
+function field(type: Type, name: string, options: FieldOptions): Field {
+  options = merge(defaultFieldOptions, options || {});
+
+  return {
+    type,
+    name,
+    description: options.description,
+    repeated: options.repeated,
+    mode: options.mode
+  };
+}
+
+/**
+ * @hidden
+ */
 export function string(name: string, options: FieldOptions): Field {
-  options = merge(defaultFieldOptions, options || {});
-
-  return {
-    type: TypeString,
-    name,
-    description: options.description,
-    repeated: options.repeated,
-    required: options.required,
-    unique: options.unique
-  };
+  return field(Type.String, name, options);
 }
 
+/**
+ * @hidden
+ */
 export function integer(name: string, options: FieldOptions): Field {
-  options = merge(defaultFieldOptions, options || {});
-
-  return {
-    type: TypeInteger,
-    name,
-    description: options.description,
-    repeated: options.repeated,
-    required: options.required,
-    unique: options.unique
-  };
+  return field(Type.Integer, name, options);
 }
 
+/**
+ * @hidden
+ */
 export function float(name: string, options: FieldOptions): Field {
-  options = merge(defaultFieldOptions, options || {});
-
-  return {
-    type: TypeFloat,
-    name,
-    description: options.description,
-    repeated: options.repeated,
-    required: options.required,
-    unique: options.unique
-  };
+  return field(Type.Float, name, options);
 }
 
+/**
+ * @hidden
+ */
 export function double(name: string, options: FieldOptions): Field {
-  options = merge(defaultFieldOptions, options || {});
-
-  return {
-    type: TypeDouble,
-    name,
-    description: options.description,
-    repeated: options.repeated,
-    required: options.required,
-    unique: options.unique
-  };
+  return field(Type.Double, name, options);
 }
 
+/**
+ * @hidden
+ */
 export function boolean(name: string, options: FieldOptions): Field {
-  options = merge(defaultFieldOptions, options || {});
-
-  return {
-    type: TypeBoolean,
-    name,
-    description: options.description,
-    repeated: options.repeated,
-    required: options.required,
-    unique: options.unique
-  };
+  return field(Type.Boolean, name, options);
 }
 
+/**
+ * @hidden
+ */
 export function timestamp(name: string, options: FieldOptions): Field {
-  options = merge(defaultFieldOptions, options || {});
-
-  return {
-    type: TypeTimestamp,
-    name,
-    description: options.description,
-    repeated: options.repeated,
-    required: options.required,
-    unique: options.unique
-  };
+  return field(Type.Timestamp, name, options);
 }

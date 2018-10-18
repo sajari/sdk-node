@@ -2,7 +2,6 @@ import {
   CallCredentials,
   Client as GrpcClient,
   credentials as grpcCredentials,
-  GrpcObject,
   loadObject as grpcLoadObject,
   Metadata
 } from "grpc";
@@ -15,7 +14,7 @@ import { Schema } from "./schema";
 const API_ENDPOINT = "api.sajari.com:443";
 const USER_AGENT = `sdk-node-1.0.0`;
 
-export interface IClient {
+export interface Client {
   clients: { [k: string]: GrpcClient };
   metadata: Metadata;
 
@@ -24,16 +23,16 @@ export interface IClient {
 }
 
 // Option is a type which defines Client options.
-export type Option = (client: Client) => void;
+export type Option = (client: DefaultClient) => void;
 
 // withEndpoint configures the client to use a custom endpoint.
 export const withEndpoint = (endpoint: string): Option => {
-  return (client: Client): void => {
+  return (client: DefaultClient): void => {
     client.endpoint = endpoint;
   };
 };
 
-export class Client implements IClient {
+export class DefaultClient implements Client {
   public endpoint: string = API_ENDPOINT;
   public metadata: Metadata;
   public clients: { [k: string]: GrpcClient };
@@ -51,13 +50,12 @@ export class Client implements IClient {
     this.collection = collection;
 
     this.metadata = new Metadata();
-    this.metadata.add("project", project);
-    this.metadata.add("collection", collection);
+    this.metadata.add("project", this.project);
+    this.metadata.add("collection", this.collection);
 
     options.forEach((option) => option(this));
 
     const creds = createCallCredentials(credentials.key, credentials.secret);
-
     this.clients = createClients(
       [
         "sajari.api.pipeline.v1.Query",

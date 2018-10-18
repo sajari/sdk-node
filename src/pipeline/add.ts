@@ -1,19 +1,22 @@
 import { sajari } from "../../generated/proto";
-import { errorFromStatus, IValues, valueFromProto } from "../utils";
+import { errorFromStatus, valueFromProto } from "../utils";
 
-export interface IKey {
+export interface Key {
   field: string;
   value: any;
 }
 
-export interface IRecord {
+export interface Record {
   [id: string]: string | string[];
 }
 
+/**
+ * @hidden
+ */
 export const createAddRequest = (
   pipeline: string,
-  values: IValues,
-  records: IRecord[]
+  values: { [k: string]: string },
+  records: Record[]
 ): { [k: string]: any } => {
   return {
     pipeline: { name: pipeline },
@@ -22,8 +25,11 @@ export const createAddRequest = (
   };
 };
 
+/**
+ * @hidden
+ */
 const createEngineRecord = (
-  record: IRecord
+  record: Record
 ): sajari.engine.store.record.IRecord => {
   const values = Object.keys(record).reduce(
     (obj: { [k: string]: sajari.engine.IValue }, key) => {
@@ -45,9 +51,12 @@ const createEngineRecord = (
   return { values };
 };
 
+/**
+ * @hidden
+ */
 export const processAddResponse = (
   response: sajari.engine.store.record.AddResponse
-): Error | IKey => {
+): Error | Key => {
   const keys = response.keys
     .map((resKey) => {
       if (
@@ -72,5 +81,5 @@ export const processAddResponse = (
       return err as Error;
     }
   }
-  return key as IKey;
+  return key as Key;
 };

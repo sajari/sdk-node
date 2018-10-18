@@ -22,12 +22,6 @@ npm install
 npm test
 ```
 
-### Dependencies
-
-* [debug](https://ghub.io/debug): small debugging utility
-* [grpc](https://ghub.io/grpc): gRPC Library for Node
-* [protobufjs](https://ghub.io/protobufjs): Protocol Buffers for JavaScript (&amp; TypeScript).
-
 ## Example
 ```js
 // Search Example
