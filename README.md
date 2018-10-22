@@ -22,22 +22,50 @@ npm install
 npm test
 ```
 
-## Example
+## Examples
 ```js
 // Search Example
 
-const { Client, Session, TrackingNone } = require("sajari-node");
+const { DefaultClient, DefaultSession, TrackingType } = require("@sajari/sdk-node");
 
-const client = new Client("<project>", "<collection>", {
+const client = new DefaultClient("<project>", "<collection>", {
 	key: "<key from console>",
 	secret: "<secret from console>"
 });
-const session = new Session(TrackingNone);
+
+const session = new DefaultSession(TrackingType.None);
 const pipeline = client.pipeline("website");
 
 pipeline.search({ q: "hello world" }, session)
 	.then(response => {/* handle response ... */})
 	.catch(error => {/* handle error ... */})
+```
+
+```js
+// creating schema example
+
+const { DefaultClient, FieldMode } = require("@sajari/sdk-node");
+
+// create client
+const client = new DefaultClient("<project>", "<collection>", {
+	key: "<key from console>",
+	secret: "<secret from console>"
+});
+
+// get schema client
+const schema = client.schema()
+
+const fields = [
+	schema.boolean("my-boolean-field", {
+		// Set this field to be required.
+		// FieldMode options are defined here,
+		// https://sajari-sdk-node.netlify.com/enums/fieldmode.html
+		mode: FieldMode.Required 
+	})
+]
+
+schema.add(...fields).catch(error => {/* handle error ... */})
+
 ```
 
 ## License
