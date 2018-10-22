@@ -1,7 +1,9 @@
 import merge from "deepmerge";
 import { sajari } from "../../generated/proto";
 
-// Field represents a meta field which can be assigned in a collection record.
+/**
+ * Field represents a meta field which can be assigned in a collection record.
+ */
 export interface Field {
   // Name is the name used to identify the field.
   name: string;
@@ -14,6 +16,17 @@ export interface Field {
 
   mode: FieldMode;
 
+  /**
+   * deprecated
+   * @hidden
+   */
+  required: boolean;
+  /**
+   * deprecated
+   * @hidden
+   */
+  unique: boolean;
+
   // Repeated indicates that this field can hold a list of values.
   repeated: boolean;
 
@@ -21,7 +34,10 @@ export interface Field {
   indexed?: boolean;
 }
 
-// Type represents the underlying data type of the field. Default is a string.
+/**
+ * Type represents the underlying data type of the field. Default is a string.
+ * @hidden
+ */
 export enum Type {
   String = "STRING",
   Integer = "INTEGER",
@@ -32,12 +48,18 @@ export enum Type {
 }
 
 export enum FieldMode {
+  /**
+   * Nullable fields do not need to be set.
+   */
   Nullable = sajari.engine.schema.Field.Mode.NULLABLE,
-  // Required indicates that this field should always be set on all records.
+  /**
+   * Required fields must be specified (cannot be null).
+   */
   Required = sajari.engine.schema.Field.Mode.REQUIRED,
-  // Unique indicates that the field is unique (and this will
-  // be enforced when new records are added).  Unique fields can
-  // be used to retrieve/delete records.
+  /**
+   * Unique fields must be specified, and must be unique.
+   * Unique fields can be used to retrieve/delete records.
+   */
   Unique = sajari.engine.schema.Field.Mode.UNIQUE
 }
 
@@ -49,6 +71,17 @@ interface FieldOptions {
   repeated: boolean;
 
   mode: FieldMode;
+
+  /**
+   * deprecated
+   * @hidden
+   */
+  required: boolean;
+  /**
+   * deprecated
+   * @hidden
+   */
+  unique: boolean;
 }
 
 /**
@@ -57,7 +90,9 @@ interface FieldOptions {
 const defaultFieldOptions: FieldOptions = {
   description: "",
   repeated: false,
-  mode: FieldMode.Nullable
+  mode: FieldMode.Nullable,
+  required: false,
+  unique: false
 };
 
 /**
@@ -66,12 +101,24 @@ const defaultFieldOptions: FieldOptions = {
 function field(type: Type, name: string, options: FieldOptions): Field {
   options = merge(defaultFieldOptions, options || {});
 
+  switch (options.mode) {
+    case FieldMode.Required:
+      options.required = true;
+      break;
+    case FieldMode.Unique:
+      options.unique = true;
+    default:
+      break;
+  }
+
   return {
     type,
     name,
     description: options.description,
     repeated: options.repeated,
-    mode: options.mode
+    mode: options.mode,
+    unique: options.unique,
+    required: options.required
   };
 }
 
