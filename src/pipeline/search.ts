@@ -130,6 +130,9 @@ export interface CountResponse {
   [k: string]: number;
 }
 
+/**
+ * @hidden
+ */
 interface AggregateResponse {
   [k: string]: sajari.engine.query.v1.AggregateResponse;
 }
@@ -139,9 +142,21 @@ export interface Aggregates {
 }
 
 // tslint:disable:max-line-length
+/**
+ * @hidden
+ */
 type AggregateResponseMetric = sajari.engine.query.v1.AggregateResponse.Metric;
+/**
+ * @hidden
+ */
 type AggregateResponseCount = sajari.engine.query.v1.AggregateResponse.Count;
+/**
+ * @hidden
+ */
 type AggregateResponseBuckets = sajari.engine.query.v1.AggregateResponse.Buckets;
+/**
+ * @hidden
+ */
 type AggregateResponseBucketsBucket = sajari.engine.query.v1.AggregateResponse.Buckets.Bucket;
 // tslint:enable:max-line-length
 

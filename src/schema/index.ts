@@ -1,7 +1,7 @@
 import { ServiceError } from "grpc";
 import { sajari } from "../../generated/proto";
 import { Client } from "../client";
-import { errorFromStatus } from "../utils";
+import { errorFromStatuses } from "../utils";
 import {
   boolean,
   double,
@@ -112,7 +112,9 @@ export class Schema {
             return reject(err);
           }
 
-          const error = errorFromStatus(response.status as sajari.rpc.Status[]);
+          const error = errorFromStatuses(
+            response.status as sajari.rpc.Status[]
+          );
           if (error) {
             return reject(error);
           }
@@ -136,7 +138,9 @@ export class Schema {
             return reject(err);
           }
 
-          const error = errorFromStatus(response.status as sajari.rpc.Status[]);
+          const error = errorFromStatuses(
+            response.status as sajari.rpc.Status[]
+          );
           if (error) {
             return reject(error);
           }

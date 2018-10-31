@@ -11,7 +11,13 @@ import proto from "../generated/proto-defs";
 import { Pipeline } from "./pipeline";
 import { Schema } from "./schema";
 
+/**
+ * @hidden
+ */
 const API_ENDPOINT = "api.sajari.com:443";
+/**
+ * @hidden
+ */
 const USER_AGENT = `sdk-node-1.0.0`;
 
 export interface Client {
@@ -76,6 +82,9 @@ export class DefaultClient implements Client {
   }
 }
 
+/**
+ * @hidden
+ */
 const createClients = (
   services: string[],
   endpoint: string,
@@ -89,6 +98,9 @@ const createClients = (
   return clients;
 };
 
+/**
+ * @hidden
+ */
 const createClient = (
   service: string,
   endpoint: string,
@@ -113,6 +125,9 @@ const createClient = (
   );
 };
 
+/**
+ * @hidden
+ */
 const createCallCredentials = (
   key: string,
   secret: string

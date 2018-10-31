@@ -20,25 +20,42 @@ export const valueFromProto = (
 /**
  * @hidden
  */
-export const errorFromStatus = (
+export const valueToProto = (
+  v: string[] | string
+): sajari.engine.Value | null => {
+  if (Array.isArray(v)) {
+    return new sajari.engine.Value({ repeated: { values: v } });
+  } else if (typeof v === "string") {
+    return new sajari.engine.Value({ single: v });
+  }
+  return null;
+};
+
+/**
+ * @hidden
+ */
+export const errorFromStatus = (status: sajari.rpc.Status): Error | null => {
+  switch (status.code) {
+    case grpcCodes.OK:
+      return null;
+    case grpcCodes.NOT_FOUND:
+      return new Error("sajari: no such record");
+    default:
+      const error: ServiceError = new Error(status.message);
+      error.code = status.code;
+      return error;
+  }
+};
+
+/**
+ * @hidden
+ */
+export const errorFromStatuses = (
   status: sajari.rpc.Status[]
 ): MultiError | null => {
-  const errors = status
-    .map((callStatus) => {
-      switch (callStatus.code) {
-        case grpcCodes.OK:
-          return null;
-        case grpcCodes.NOT_FOUND:
-          return new Error("sajari: no such record");
-        default:
-          const error: ServiceError = new Error(callStatus.message);
-          error.code = callStatus.code;
-          return error;
-      }
-    })
-    .filter((x) => !!x);
+  const errors = status.map(errorFromStatus).filter((x) => !!x);
 
-  if (errors.length < 1) {
+  if (errors.length === 0) {
     return null;
   }
   return new MultiError(errors as Error[]);

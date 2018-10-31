@@ -1,14 +1,6 @@
 import { sajari } from "../../generated/proto";
-import { errorFromStatus, valueFromProto } from "../utils";
-
-export interface Key {
-  field: string;
-  value: any;
-}
-
-export interface Record {
-  [id: string]: string | string[];
-}
+import { errorFromStatuses, valueFromProto } from "../utils";
+import { createEngineRecord, Key, Record } from "./utils";
 
 /**
  * @hidden
@@ -23,32 +15,6 @@ export const createAddRequest = (
     records: records.map((record) => createEngineRecord(record)),
     values
   };
-};
-
-/**
- * @hidden
- */
-const createEngineRecord = (
-  record: Record
-): sajari.engine.store.record.IRecord => {
-  const values = Object.keys(record).reduce(
-    (obj: { [k: string]: sajari.engine.IValue }, key) => {
-      const value = record[key];
-
-      if (typeof value === "string") {
-        obj[key] = { single: value as string };
-        return obj;
-      } else if (value instanceof Array) {
-        obj[key] = { repeated: { values: value as string[] } };
-        return obj;
-      }
-
-      return obj;
-    },
-    {}
-  );
-
-  return { values };
 };
 
 /**
@@ -76,7 +42,7 @@ export const processAddResponse = (
 
   const key = keys[0];
   if (!key) {
-    const err = errorFromStatus(response.status as sajari.rpc.Status[]);
+    const err = errorFromStatuses(response.status as sajari.rpc.Status[]);
     if (!!err) {
       return err as Error;
     }
