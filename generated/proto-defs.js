@@ -547,6 +547,10 @@
                             requestType: "AddRequest",
                             responseType: "AddResponse"
                           },
+                          Replace: {
+                            requestType: "ReplaceRequest",
+                            responseType: "ReplaceResponse"
+                          },
                           Usage: {
                             requestType: "UsageRequest",
                             responseType: "RecordUsageResponse"
@@ -575,6 +579,32 @@
                         fields: {
                           response: {
                             type: "sajari.engine.store.record.AddResponse",
+                            id: 1
+                          }
+                        }
+                      },
+                      ReplaceRequest: {
+                        fields: {
+                          pipeline: {
+                            type: "Pipeline",
+                            id: 1
+                          },
+                          values: {
+                            keyType: "string",
+                            type: "string",
+                            id: 2
+                          },
+                          keyRecords: {
+                            rule: "repeated",
+                            type: "sajari.engine.store.record.ReplaceRequest.KeyRecord",
+                            id: 3
+                          }
+                        }
+                      },
+                      ReplaceResponse: {
+                        fields: {
+                          response: {
+                            type: "sajari.engine.store.record.ReplaceResponse",
                             id: 1
                           }
                         }
@@ -797,6 +827,10 @@
                           minScoreThreshold: {
                             type: "double",
                             id: 10
+                          },
+                          minIndexScoreThreshold: {
+                            type: "double",
+                            id: 11
                           },
                           offset: {
                             type: "int32",
@@ -1186,7 +1220,7 @@
                             id: 3
                           },
                           isNull: {
-                            type: "IsNull",
+                            type: "string",
                             id: 4
                           }
                         },
@@ -1279,14 +1313,6 @@
                                   ONE: 2,
                                   NONE: 3
                                 }
-                              }
-                            }
-                          },
-                          IsNull: {
-                            fields: {
-                              Field: {
-                                type: "string",
-                                id: 1
                               }
                             }
                           }
@@ -1696,6 +1722,10 @@
                             requestType: "Records",
                             responseType: "AddResponse"
                           },
+                          Replace: {
+                            requestType: "ReplaceRequest",
+                            responseType: "ReplaceResponse"
+                          },
                           Get: {
                             requestType: "Keys",
                             responseType: "GetResponse"
@@ -1977,6 +2007,43 @@
                                 id: 3
                               }
                             }
+                          }
+                        }
+                      },
+                      ReplaceRequest: {
+                        fields: {
+                          keyRecords: {
+                            rule: "repeated",
+                            type: "KeyRecord",
+                            id: 1
+                          }
+                        },
+                        nested: {
+                          KeyRecord: {
+                            fields: {
+                              key: {
+                                type: "Key",
+                                id: 1
+                              },
+                              record: {
+                                type: "Record",
+                                id: 2
+                              }
+                            }
+                          }
+                        }
+                      },
+                      ReplaceResponse: {
+                        fields: {
+                          keys: {
+                            rule: "repeated",
+                            type: "Key",
+                            id: 1
+                          },
+                          status: {
+                            rule: "repeated",
+                            type: "sajari.rpc.Status",
+                            id: 2
                           }
                         }
                       }

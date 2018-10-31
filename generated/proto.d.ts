@@ -3574,6 +3574,20 @@ export namespace sajari {
                     public add(request: sajari.api.pipeline.v1.IAddRequest): Promise<sajari.api.pipeline.v1.AddResponse>;
 
                     /**
+                     * Calls Replace.
+                     * @param request ReplaceRequest message or plain object
+                     * @param callback Node-style callback called with the error, if any, and ReplaceResponse
+                     */
+                    public replace(request: sajari.api.pipeline.v1.IReplaceRequest, callback: sajari.api.pipeline.v1.Store.ReplaceCallback): void;
+
+                    /**
+                     * Calls Replace.
+                     * @param request ReplaceRequest message or plain object
+                     * @returns Promise
+                     */
+                    public replace(request: sajari.api.pipeline.v1.IReplaceRequest): Promise<sajari.api.pipeline.v1.ReplaceResponse>;
+
+                    /**
                      * Calls Usage.
                      * @param request UsageRequest message or plain object
                      * @param callback Node-style callback called with the error, if any, and RecordUsageResponse
@@ -3596,6 +3610,13 @@ export namespace sajari {
                      * @param [response] AddResponse
                      */
                     type AddCallback = (error: (Error|null), response?: sajari.api.pipeline.v1.AddResponse) => void;
+
+                    /**
+                     * Callback as used by {@link sajari.api.pipeline.v1.Store#replace}.
+                     * @param error Error, if any
+                     * @param [response] ReplaceResponse
+                     */
+                    type ReplaceCallback = (error: (Error|null), response?: sajari.api.pipeline.v1.ReplaceResponse) => void;
 
                     /**
                      * Callback as used by {@link sajari.api.pipeline.v1.Store#usage}.
@@ -3792,6 +3813,198 @@ export namespace sajari {
 
                     /**
                      * Converts this AddResponse to JSON.
+                     * @returns JSON object
+                     */
+                    public toJSON(): { [k: string]: any };
+                }
+
+                /** Properties of a ReplaceRequest. */
+                interface IReplaceRequest {
+
+                    /** ReplaceRequest pipeline */
+                    pipeline?: (sajari.api.pipeline.v1.IPipeline|null);
+
+                    /** ReplaceRequest values */
+                    values?: ({ [k: string]: string }|null);
+
+                    /** ReplaceRequest keyRecords */
+                    keyRecords?: (sajari.engine.store.record.ReplaceRequest.IKeyRecord[]|null);
+                }
+
+                /** Represents a ReplaceRequest. */
+                class ReplaceRequest implements IReplaceRequest {
+
+                    /**
+                     * Constructs a new ReplaceRequest.
+                     * @param [properties] Properties to set
+                     */
+                    constructor(properties?: sajari.api.pipeline.v1.IReplaceRequest);
+
+                    /** ReplaceRequest pipeline. */
+                    public pipeline?: (sajari.api.pipeline.v1.IPipeline|null);
+
+                    /** ReplaceRequest values. */
+                    public values: { [k: string]: string };
+
+                    /** ReplaceRequest keyRecords. */
+                    public keyRecords: sajari.engine.store.record.ReplaceRequest.IKeyRecord[];
+
+                    /**
+                     * Creates a new ReplaceRequest instance using the specified properties.
+                     * @param [properties] Properties to set
+                     * @returns ReplaceRequest instance
+                     */
+                    public static create(properties?: sajari.api.pipeline.v1.IReplaceRequest): sajari.api.pipeline.v1.ReplaceRequest;
+
+                    /**
+                     * Encodes the specified ReplaceRequest message. Does not implicitly {@link sajari.api.pipeline.v1.ReplaceRequest.verify|verify} messages.
+                     * @param message ReplaceRequest message or plain object to encode
+                     * @param [writer] Writer to encode to
+                     * @returns Writer
+                     */
+                    public static encode(message: sajari.api.pipeline.v1.IReplaceRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                    /**
+                     * Encodes the specified ReplaceRequest message, length delimited. Does not implicitly {@link sajari.api.pipeline.v1.ReplaceRequest.verify|verify} messages.
+                     * @param message ReplaceRequest message or plain object to encode
+                     * @param [writer] Writer to encode to
+                     * @returns Writer
+                     */
+                    public static encodeDelimited(message: sajari.api.pipeline.v1.IReplaceRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                    /**
+                     * Decodes a ReplaceRequest message from the specified reader or buffer.
+                     * @param reader Reader or buffer to decode from
+                     * @param [length] Message length if known beforehand
+                     * @returns ReplaceRequest
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): sajari.api.pipeline.v1.ReplaceRequest;
+
+                    /**
+                     * Decodes a ReplaceRequest message from the specified reader or buffer, length delimited.
+                     * @param reader Reader or buffer to decode from
+                     * @returns ReplaceRequest
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): sajari.api.pipeline.v1.ReplaceRequest;
+
+                    /**
+                     * Verifies a ReplaceRequest message.
+                     * @param message Plain object to verify
+                     * @returns `null` if valid, otherwise the reason why it is not
+                     */
+                    public static verify(message: { [k: string]: any }): (string|null);
+
+                    /**
+                     * Creates a ReplaceRequest message from a plain object. Also converts values to their respective internal types.
+                     * @param object Plain object
+                     * @returns ReplaceRequest
+                     */
+                    public static fromObject(object: { [k: string]: any }): sajari.api.pipeline.v1.ReplaceRequest;
+
+                    /**
+                     * Creates a plain object from a ReplaceRequest message. Also converts values to other types if specified.
+                     * @param message ReplaceRequest
+                     * @param [options] Conversion options
+                     * @returns Plain object
+                     */
+                    public static toObject(message: sajari.api.pipeline.v1.ReplaceRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                    /**
+                     * Converts this ReplaceRequest to JSON.
+                     * @returns JSON object
+                     */
+                    public toJSON(): { [k: string]: any };
+                }
+
+                /** Properties of a ReplaceResponse. */
+                interface IReplaceResponse {
+
+                    /** ReplaceResponse response */
+                    response?: (sajari.engine.store.record.IReplaceResponse|null);
+                }
+
+                /** Represents a ReplaceResponse. */
+                class ReplaceResponse implements IReplaceResponse {
+
+                    /**
+                     * Constructs a new ReplaceResponse.
+                     * @param [properties] Properties to set
+                     */
+                    constructor(properties?: sajari.api.pipeline.v1.IReplaceResponse);
+
+                    /** ReplaceResponse response. */
+                    public response?: (sajari.engine.store.record.IReplaceResponse|null);
+
+                    /**
+                     * Creates a new ReplaceResponse instance using the specified properties.
+                     * @param [properties] Properties to set
+                     * @returns ReplaceResponse instance
+                     */
+                    public static create(properties?: sajari.api.pipeline.v1.IReplaceResponse): sajari.api.pipeline.v1.ReplaceResponse;
+
+                    /**
+                     * Encodes the specified ReplaceResponse message. Does not implicitly {@link sajari.api.pipeline.v1.ReplaceResponse.verify|verify} messages.
+                     * @param message ReplaceResponse message or plain object to encode
+                     * @param [writer] Writer to encode to
+                     * @returns Writer
+                     */
+                    public static encode(message: sajari.api.pipeline.v1.IReplaceResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                    /**
+                     * Encodes the specified ReplaceResponse message, length delimited. Does not implicitly {@link sajari.api.pipeline.v1.ReplaceResponse.verify|verify} messages.
+                     * @param message ReplaceResponse message or plain object to encode
+                     * @param [writer] Writer to encode to
+                     * @returns Writer
+                     */
+                    public static encodeDelimited(message: sajari.api.pipeline.v1.IReplaceResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                    /**
+                     * Decodes a ReplaceResponse message from the specified reader or buffer.
+                     * @param reader Reader or buffer to decode from
+                     * @param [length] Message length if known beforehand
+                     * @returns ReplaceResponse
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): sajari.api.pipeline.v1.ReplaceResponse;
+
+                    /**
+                     * Decodes a ReplaceResponse message from the specified reader or buffer, length delimited.
+                     * @param reader Reader or buffer to decode from
+                     * @returns ReplaceResponse
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): sajari.api.pipeline.v1.ReplaceResponse;
+
+                    /**
+                     * Verifies a ReplaceResponse message.
+                     * @param message Plain object to verify
+                     * @returns `null` if valid, otherwise the reason why it is not
+                     */
+                    public static verify(message: { [k: string]: any }): (string|null);
+
+                    /**
+                     * Creates a ReplaceResponse message from a plain object. Also converts values to their respective internal types.
+                     * @param object Plain object
+                     * @returns ReplaceResponse
+                     */
+                    public static fromObject(object: { [k: string]: any }): sajari.api.pipeline.v1.ReplaceResponse;
+
+                    /**
+                     * Creates a plain object from a ReplaceResponse message. Also converts values to other types if specified.
+                     * @param message ReplaceResponse
+                     * @param [options] Conversion options
+                     * @returns Plain object
+                     */
+                    public static toObject(message: sajari.api.pipeline.v1.ReplaceResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                    /**
+                     * Converts this ReplaceResponse to JSON.
                      * @returns JSON object
                      */
                     public toJSON(): { [k: string]: any };
@@ -4911,6 +5124,9 @@ export namespace sajari {
                     /** SearchRequest minScoreThreshold */
                     minScoreThreshold?: (number|null);
 
+                    /** SearchRequest minIndexScoreThreshold */
+                    minIndexScoreThreshold?: (number|null);
+
                     /** SearchRequest offset */
                     offset?: (number|null);
 
@@ -4950,6 +5166,9 @@ export namespace sajari {
 
                     /** SearchRequest minScoreThreshold. */
                     public minScoreThreshold: number;
+
+                    /** SearchRequest minIndexScoreThreshold. */
+                    public minIndexScoreThreshold: number;
 
                     /** SearchRequest offset. */
                     public offset: number;
@@ -6822,7 +7041,7 @@ export namespace sajari {
                     geo?: (sajari.engine.query.v1.Filter.IGeo|null);
 
                     /** Filter isNull */
-                    isNull?: (sajari.engine.query.v1.Filter.IIsNull|null);
+                    isNull?: (string|null);
                 }
 
                 /** Represents a Filter. */
@@ -6844,7 +7063,7 @@ export namespace sajari {
                     public geo?: (sajari.engine.query.v1.Filter.IGeo|null);
 
                     /** Filter isNull. */
-                    public isNull?: (sajari.engine.query.v1.Filter.IIsNull|null);
+                    public isNull: string;
 
                     /** Filter filter. */
                     public filter?: ("combinator"|"field"|"geo"|"isNull");
@@ -7275,96 +7494,6 @@ export namespace sajari {
                             ONE = 2,
                             NONE = 3
                         }
-                    }
-
-                    /** Properties of an IsNull. */
-                    interface IIsNull {
-
-                        /** IsNull Field */
-                        Field?: (string|null);
-                    }
-
-                    /** Represents an IsNull. */
-                    class IsNull implements IIsNull {
-
-                        /**
-                         * Constructs a new IsNull.
-                         * @param [properties] Properties to set
-                         */
-                        constructor(properties?: sajari.engine.query.v1.Filter.IIsNull);
-
-                        /** IsNull Field. */
-                        public Field: string;
-
-                        /**
-                         * Creates a new IsNull instance using the specified properties.
-                         * @param [properties] Properties to set
-                         * @returns IsNull instance
-                         */
-                        public static create(properties?: sajari.engine.query.v1.Filter.IIsNull): sajari.engine.query.v1.Filter.IsNull;
-
-                        /**
-                         * Encodes the specified IsNull message. Does not implicitly {@link sajari.engine.query.v1.Filter.IsNull.verify|verify} messages.
-                         * @param message IsNull message or plain object to encode
-                         * @param [writer] Writer to encode to
-                         * @returns Writer
-                         */
-                        public static encode(message: sajari.engine.query.v1.Filter.IIsNull, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                        /**
-                         * Encodes the specified IsNull message, length delimited. Does not implicitly {@link sajari.engine.query.v1.Filter.IsNull.verify|verify} messages.
-                         * @param message IsNull message or plain object to encode
-                         * @param [writer] Writer to encode to
-                         * @returns Writer
-                         */
-                        public static encodeDelimited(message: sajari.engine.query.v1.Filter.IIsNull, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                        /**
-                         * Decodes an IsNull message from the specified reader or buffer.
-                         * @param reader Reader or buffer to decode from
-                         * @param [length] Message length if known beforehand
-                         * @returns IsNull
-                         * @throws {Error} If the payload is not a reader or valid buffer
-                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                         */
-                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): sajari.engine.query.v1.Filter.IsNull;
-
-                        /**
-                         * Decodes an IsNull message from the specified reader or buffer, length delimited.
-                         * @param reader Reader or buffer to decode from
-                         * @returns IsNull
-                         * @throws {Error} If the payload is not a reader or valid buffer
-                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                         */
-                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): sajari.engine.query.v1.Filter.IsNull;
-
-                        /**
-                         * Verifies an IsNull message.
-                         * @param message Plain object to verify
-                         * @returns `null` if valid, otherwise the reason why it is not
-                         */
-                        public static verify(message: { [k: string]: any }): (string|null);
-
-                        /**
-                         * Creates an IsNull message from a plain object. Also converts values to their respective internal types.
-                         * @param object Plain object
-                         * @returns IsNull
-                         */
-                        public static fromObject(object: { [k: string]: any }): sajari.engine.query.v1.Filter.IsNull;
-
-                        /**
-                         * Creates a plain object from an IsNull message. Also converts values to other types if specified.
-                         * @param message IsNull
-                         * @param [options] Conversion options
-                         * @returns Plain object
-                         */
-                        public static toObject(message: sajari.engine.query.v1.Filter.IsNull, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                        /**
-                         * Converts this IsNull to JSON.
-                         * @returns JSON object
-                         */
-                        public toJSON(): { [k: string]: any };
                     }
                 }
 
@@ -9798,6 +9927,20 @@ export namespace sajari {
                     public add(request: sajari.engine.store.record.IRecords): Promise<sajari.engine.store.record.AddResponse>;
 
                     /**
+                     * Calls Replace.
+                     * @param request ReplaceRequest message or plain object
+                     * @param callback Node-style callback called with the error, if any, and ReplaceResponse
+                     */
+                    public replace(request: sajari.engine.store.record.IReplaceRequest, callback: sajari.engine.store.record.Store.ReplaceCallback): void;
+
+                    /**
+                     * Calls Replace.
+                     * @param request ReplaceRequest message or plain object
+                     * @returns Promise
+                     */
+                    public replace(request: sajari.engine.store.record.IReplaceRequest): Promise<sajari.engine.store.record.ReplaceResponse>;
+
+                    /**
                      * Calls Get.
                      * @param request Keys message or plain object
                      * @param callback Node-style callback called with the error, if any, and GetResponse
@@ -9862,6 +10005,13 @@ export namespace sajari {
                      * @param [response] AddResponse
                      */
                     type AddCallback = (error: (Error|null), response?: sajari.engine.store.record.AddResponse) => void;
+
+                    /**
+                     * Callback as used by {@link sajari.engine.store.record.Store#replace}.
+                     * @param error Error, if any
+                     * @param [response] ReplaceResponse
+                     */
+                    type ReplaceCallback = (error: (Error|null), response?: sajari.engine.store.record.ReplaceResponse) => void;
 
                     /**
                      * Callback as used by {@link sajari.engine.store.record.Store#get}.
@@ -11930,6 +12080,291 @@ export namespace sajari {
                          */
                         public toJSON(): { [k: string]: any };
                     }
+                }
+
+                /** Properties of a ReplaceRequest. */
+                interface IReplaceRequest {
+
+                    /** ReplaceRequest keyRecords */
+                    keyRecords?: (sajari.engine.store.record.ReplaceRequest.IKeyRecord[]|null);
+                }
+
+                /** Represents a ReplaceRequest. */
+                class ReplaceRequest implements IReplaceRequest {
+
+                    /**
+                     * Constructs a new ReplaceRequest.
+                     * @param [properties] Properties to set
+                     */
+                    constructor(properties?: sajari.engine.store.record.IReplaceRequest);
+
+                    /** ReplaceRequest keyRecords. */
+                    public keyRecords: sajari.engine.store.record.ReplaceRequest.IKeyRecord[];
+
+                    /**
+                     * Creates a new ReplaceRequest instance using the specified properties.
+                     * @param [properties] Properties to set
+                     * @returns ReplaceRequest instance
+                     */
+                    public static create(properties?: sajari.engine.store.record.IReplaceRequest): sajari.engine.store.record.ReplaceRequest;
+
+                    /**
+                     * Encodes the specified ReplaceRequest message. Does not implicitly {@link sajari.engine.store.record.ReplaceRequest.verify|verify} messages.
+                     * @param message ReplaceRequest message or plain object to encode
+                     * @param [writer] Writer to encode to
+                     * @returns Writer
+                     */
+                    public static encode(message: sajari.engine.store.record.IReplaceRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                    /**
+                     * Encodes the specified ReplaceRequest message, length delimited. Does not implicitly {@link sajari.engine.store.record.ReplaceRequest.verify|verify} messages.
+                     * @param message ReplaceRequest message or plain object to encode
+                     * @param [writer] Writer to encode to
+                     * @returns Writer
+                     */
+                    public static encodeDelimited(message: sajari.engine.store.record.IReplaceRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                    /**
+                     * Decodes a ReplaceRequest message from the specified reader or buffer.
+                     * @param reader Reader or buffer to decode from
+                     * @param [length] Message length if known beforehand
+                     * @returns ReplaceRequest
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): sajari.engine.store.record.ReplaceRequest;
+
+                    /**
+                     * Decodes a ReplaceRequest message from the specified reader or buffer, length delimited.
+                     * @param reader Reader or buffer to decode from
+                     * @returns ReplaceRequest
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): sajari.engine.store.record.ReplaceRequest;
+
+                    /**
+                     * Verifies a ReplaceRequest message.
+                     * @param message Plain object to verify
+                     * @returns `null` if valid, otherwise the reason why it is not
+                     */
+                    public static verify(message: { [k: string]: any }): (string|null);
+
+                    /**
+                     * Creates a ReplaceRequest message from a plain object. Also converts values to their respective internal types.
+                     * @param object Plain object
+                     * @returns ReplaceRequest
+                     */
+                    public static fromObject(object: { [k: string]: any }): sajari.engine.store.record.ReplaceRequest;
+
+                    /**
+                     * Creates a plain object from a ReplaceRequest message. Also converts values to other types if specified.
+                     * @param message ReplaceRequest
+                     * @param [options] Conversion options
+                     * @returns Plain object
+                     */
+                    public static toObject(message: sajari.engine.store.record.ReplaceRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                    /**
+                     * Converts this ReplaceRequest to JSON.
+                     * @returns JSON object
+                     */
+                    public toJSON(): { [k: string]: any };
+                }
+
+                namespace ReplaceRequest {
+
+                    /** Properties of a KeyRecord. */
+                    interface IKeyRecord {
+
+                        /** KeyRecord key */
+                        key?: (sajari.engine.IKey|null);
+
+                        /** KeyRecord record */
+                        record?: (sajari.engine.store.record.IRecord|null);
+                    }
+
+                    /** Represents a KeyRecord. */
+                    class KeyRecord implements IKeyRecord {
+
+                        /**
+                         * Constructs a new KeyRecord.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: sajari.engine.store.record.ReplaceRequest.IKeyRecord);
+
+                        /** KeyRecord key. */
+                        public key?: (sajari.engine.IKey|null);
+
+                        /** KeyRecord record. */
+                        public record?: (sajari.engine.store.record.IRecord|null);
+
+                        /**
+                         * Creates a new KeyRecord instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns KeyRecord instance
+                         */
+                        public static create(properties?: sajari.engine.store.record.ReplaceRequest.IKeyRecord): sajari.engine.store.record.ReplaceRequest.KeyRecord;
+
+                        /**
+                         * Encodes the specified KeyRecord message. Does not implicitly {@link sajari.engine.store.record.ReplaceRequest.KeyRecord.verify|verify} messages.
+                         * @param message KeyRecord message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: sajari.engine.store.record.ReplaceRequest.IKeyRecord, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified KeyRecord message, length delimited. Does not implicitly {@link sajari.engine.store.record.ReplaceRequest.KeyRecord.verify|verify} messages.
+                         * @param message KeyRecord message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: sajari.engine.store.record.ReplaceRequest.IKeyRecord, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a KeyRecord message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns KeyRecord
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): sajari.engine.store.record.ReplaceRequest.KeyRecord;
+
+                        /**
+                         * Decodes a KeyRecord message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns KeyRecord
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): sajari.engine.store.record.ReplaceRequest.KeyRecord;
+
+                        /**
+                         * Verifies a KeyRecord message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a KeyRecord message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns KeyRecord
+                         */
+                        public static fromObject(object: { [k: string]: any }): sajari.engine.store.record.ReplaceRequest.KeyRecord;
+
+                        /**
+                         * Creates a plain object from a KeyRecord message. Also converts values to other types if specified.
+                         * @param message KeyRecord
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: sajari.engine.store.record.ReplaceRequest.KeyRecord, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this KeyRecord to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+                    }
+                }
+
+                /** Properties of a ReplaceResponse. */
+                interface IReplaceResponse {
+
+                    /** ReplaceResponse keys */
+                    keys?: (sajari.engine.IKey[]|null);
+
+                    /** ReplaceResponse status */
+                    status?: (sajari.rpc.IStatus[]|null);
+                }
+
+                /** Represents a ReplaceResponse. */
+                class ReplaceResponse implements IReplaceResponse {
+
+                    /**
+                     * Constructs a new ReplaceResponse.
+                     * @param [properties] Properties to set
+                     */
+                    constructor(properties?: sajari.engine.store.record.IReplaceResponse);
+
+                    /** ReplaceResponse keys. */
+                    public keys: sajari.engine.IKey[];
+
+                    /** ReplaceResponse status. */
+                    public status: sajari.rpc.IStatus[];
+
+                    /**
+                     * Creates a new ReplaceResponse instance using the specified properties.
+                     * @param [properties] Properties to set
+                     * @returns ReplaceResponse instance
+                     */
+                    public static create(properties?: sajari.engine.store.record.IReplaceResponse): sajari.engine.store.record.ReplaceResponse;
+
+                    /**
+                     * Encodes the specified ReplaceResponse message. Does not implicitly {@link sajari.engine.store.record.ReplaceResponse.verify|verify} messages.
+                     * @param message ReplaceResponse message or plain object to encode
+                     * @param [writer] Writer to encode to
+                     * @returns Writer
+                     */
+                    public static encode(message: sajari.engine.store.record.IReplaceResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                    /**
+                     * Encodes the specified ReplaceResponse message, length delimited. Does not implicitly {@link sajari.engine.store.record.ReplaceResponse.verify|verify} messages.
+                     * @param message ReplaceResponse message or plain object to encode
+                     * @param [writer] Writer to encode to
+                     * @returns Writer
+                     */
+                    public static encodeDelimited(message: sajari.engine.store.record.IReplaceResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                    /**
+                     * Decodes a ReplaceResponse message from the specified reader or buffer.
+                     * @param reader Reader or buffer to decode from
+                     * @param [length] Message length if known beforehand
+                     * @returns ReplaceResponse
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): sajari.engine.store.record.ReplaceResponse;
+
+                    /**
+                     * Decodes a ReplaceResponse message from the specified reader or buffer, length delimited.
+                     * @param reader Reader or buffer to decode from
+                     * @returns ReplaceResponse
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): sajari.engine.store.record.ReplaceResponse;
+
+                    /**
+                     * Verifies a ReplaceResponse message.
+                     * @param message Plain object to verify
+                     * @returns `null` if valid, otherwise the reason why it is not
+                     */
+                    public static verify(message: { [k: string]: any }): (string|null);
+
+                    /**
+                     * Creates a ReplaceResponse message from a plain object. Also converts values to their respective internal types.
+                     * @param object Plain object
+                     * @returns ReplaceResponse
+                     */
+                    public static fromObject(object: { [k: string]: any }): sajari.engine.store.record.ReplaceResponse;
+
+                    /**
+                     * Creates a plain object from a ReplaceResponse message. Also converts values to other types if specified.
+                     * @param message ReplaceResponse
+                     * @param [options] Conversion options
+                     * @returns Plain object
+                     */
+                    public static toObject(message: sajari.engine.store.record.ReplaceResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                    /**
+                     * Converts this ReplaceResponse to JSON.
+                     * @returns JSON object
+                     */
+                    public toJSON(): { [k: string]: any };
                 }
             }
 

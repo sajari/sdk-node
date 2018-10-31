@@ -8256,6 +8256,39 @@ $root.sajari = (function() {
                      */
 
                     /**
+                     * Callback as used by {@link sajari.api.pipeline.v1.Store#replace}.
+                     * @memberof sajari.api.pipeline.v1.Store
+                     * @typedef ReplaceCallback
+                     * @type {function}
+                     * @param {Error|null} error Error, if any
+                     * @param {sajari.api.pipeline.v1.ReplaceResponse} [response] ReplaceResponse
+                     */
+
+                    /**
+                     * Calls Replace.
+                     * @function replace
+                     * @memberof sajari.api.pipeline.v1.Store
+                     * @instance
+                     * @param {sajari.api.pipeline.v1.IReplaceRequest} request ReplaceRequest message or plain object
+                     * @param {sajari.api.pipeline.v1.Store.ReplaceCallback} callback Node-style callback called with the error, if any, and ReplaceResponse
+                     * @returns {undefined}
+                     * @variation 1
+                     */
+                    Object.defineProperty(Store.prototype.replace = function replace(request, callback) {
+                        return this.rpcCall(replace, $root.sajari.api.pipeline.v1.ReplaceRequest, $root.sajari.api.pipeline.v1.ReplaceResponse, request, callback);
+                    }, "name", { value: "Replace" });
+
+                    /**
+                     * Calls Replace.
+                     * @function replace
+                     * @memberof sajari.api.pipeline.v1.Store
+                     * @instance
+                     * @param {sajari.api.pipeline.v1.IReplaceRequest} request ReplaceRequest message or plain object
+                     * @returns {Promise<sajari.api.pipeline.v1.ReplaceResponse>} Promise
+                     * @variation 2
+                     */
+
+                    /**
                      * Callback as used by {@link sajari.api.pipeline.v1.Store#usage}.
                      * @memberof sajari.api.pipeline.v1.Store
                      * @typedef UsageCallback
@@ -8761,6 +8794,478 @@ $root.sajari = (function() {
                     };
 
                     return AddResponse;
+                })();
+
+                v1.ReplaceRequest = (function() {
+
+                    /**
+                     * Properties of a ReplaceRequest.
+                     * @memberof sajari.api.pipeline.v1
+                     * @interface IReplaceRequest
+                     * @property {sajari.api.pipeline.v1.IPipeline|null} [pipeline] ReplaceRequest pipeline
+                     * @property {Object.<string,string>|null} [values] ReplaceRequest values
+                     * @property {Array.<sajari.engine.store.record.ReplaceRequest.IKeyRecord>|null} [keyRecords] ReplaceRequest keyRecords
+                     */
+
+                    /**
+                     * Constructs a new ReplaceRequest.
+                     * @memberof sajari.api.pipeline.v1
+                     * @classdesc Represents a ReplaceRequest.
+                     * @implements IReplaceRequest
+                     * @constructor
+                     * @param {sajari.api.pipeline.v1.IReplaceRequest=} [properties] Properties to set
+                     */
+                    function ReplaceRequest(properties) {
+                        this.values = {};
+                        this.keyRecords = [];
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
+                    }
+
+                    /**
+                     * ReplaceRequest pipeline.
+                     * @member {sajari.api.pipeline.v1.IPipeline|null|undefined} pipeline
+                     * @memberof sajari.api.pipeline.v1.ReplaceRequest
+                     * @instance
+                     */
+                    ReplaceRequest.prototype.pipeline = null;
+
+                    /**
+                     * ReplaceRequest values.
+                     * @member {Object.<string,string>} values
+                     * @memberof sajari.api.pipeline.v1.ReplaceRequest
+                     * @instance
+                     */
+                    ReplaceRequest.prototype.values = $util.emptyObject;
+
+                    /**
+                     * ReplaceRequest keyRecords.
+                     * @member {Array.<sajari.engine.store.record.ReplaceRequest.IKeyRecord>} keyRecords
+                     * @memberof sajari.api.pipeline.v1.ReplaceRequest
+                     * @instance
+                     */
+                    ReplaceRequest.prototype.keyRecords = $util.emptyArray;
+
+                    /**
+                     * Creates a new ReplaceRequest instance using the specified properties.
+                     * @function create
+                     * @memberof sajari.api.pipeline.v1.ReplaceRequest
+                     * @static
+                     * @param {sajari.api.pipeline.v1.IReplaceRequest=} [properties] Properties to set
+                     * @returns {sajari.api.pipeline.v1.ReplaceRequest} ReplaceRequest instance
+                     */
+                    ReplaceRequest.create = function create(properties) {
+                        return new ReplaceRequest(properties);
+                    };
+
+                    /**
+                     * Encodes the specified ReplaceRequest message. Does not implicitly {@link sajari.api.pipeline.v1.ReplaceRequest.verify|verify} messages.
+                     * @function encode
+                     * @memberof sajari.api.pipeline.v1.ReplaceRequest
+                     * @static
+                     * @param {sajari.api.pipeline.v1.IReplaceRequest} message ReplaceRequest message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    ReplaceRequest.encode = function encode(message, writer) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (message.pipeline != null && message.hasOwnProperty("pipeline"))
+                            $root.sajari.api.pipeline.v1.Pipeline.encode(message.pipeline, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                        if (message.values != null && message.hasOwnProperty("values"))
+                            for (var keys = Object.keys(message.values), i = 0; i < keys.length; ++i)
+                                writer.uint32(/* id 2, wireType 2 =*/18).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.values[keys[i]]).ldelim();
+                        if (message.keyRecords != null && message.keyRecords.length)
+                            for (var i = 0; i < message.keyRecords.length; ++i)
+                                $root.sajari.engine.store.record.ReplaceRequest.KeyRecord.encode(message.keyRecords[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                        return writer;
+                    };
+
+                    /**
+                     * Encodes the specified ReplaceRequest message, length delimited. Does not implicitly {@link sajari.api.pipeline.v1.ReplaceRequest.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof sajari.api.pipeline.v1.ReplaceRequest
+                     * @static
+                     * @param {sajari.api.pipeline.v1.IReplaceRequest} message ReplaceRequest message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    ReplaceRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer).ldelim();
+                    };
+
+                    /**
+                     * Decodes a ReplaceRequest message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof sajari.api.pipeline.v1.ReplaceRequest
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {sajari.api.pipeline.v1.ReplaceRequest} ReplaceRequest
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    ReplaceRequest.decode = function decode(reader, length) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.sajari.api.pipeline.v1.ReplaceRequest(), key;
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            switch (tag >>> 3) {
+                            case 1:
+                                message.pipeline = $root.sajari.api.pipeline.v1.Pipeline.decode(reader, reader.uint32());
+                                break;
+                            case 2:
+                                reader.skip().pos++;
+                                if (message.values === $util.emptyObject)
+                                    message.values = {};
+                                key = reader.string();
+                                reader.pos++;
+                                message.values[key] = reader.string();
+                                break;
+                            case 3:
+                                if (!(message.keyRecords && message.keyRecords.length))
+                                    message.keyRecords = [];
+                                message.keyRecords.push($root.sajari.engine.store.record.ReplaceRequest.KeyRecord.decode(reader, reader.uint32()));
+                                break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
+                            }
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Decodes a ReplaceRequest message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof sajari.api.pipeline.v1.ReplaceRequest
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {sajari.api.pipeline.v1.ReplaceRequest} ReplaceRequest
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    ReplaceRequest.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
+
+                    /**
+                     * Verifies a ReplaceRequest message.
+                     * @function verify
+                     * @memberof sajari.api.pipeline.v1.ReplaceRequest
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    ReplaceRequest.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (message.pipeline != null && message.hasOwnProperty("pipeline")) {
+                            var error = $root.sajari.api.pipeline.v1.Pipeline.verify(message.pipeline);
+                            if (error)
+                                return "pipeline." + error;
+                        }
+                        if (message.values != null && message.hasOwnProperty("values")) {
+                            if (!$util.isObject(message.values))
+                                return "values: object expected";
+                            var key = Object.keys(message.values);
+                            for (var i = 0; i < key.length; ++i)
+                                if (!$util.isString(message.values[key[i]]))
+                                    return "values: string{k:string} expected";
+                        }
+                        if (message.keyRecords != null && message.hasOwnProperty("keyRecords")) {
+                            if (!Array.isArray(message.keyRecords))
+                                return "keyRecords: array expected";
+                            for (var i = 0; i < message.keyRecords.length; ++i) {
+                                var error = $root.sajari.engine.store.record.ReplaceRequest.KeyRecord.verify(message.keyRecords[i]);
+                                if (error)
+                                    return "keyRecords." + error;
+                            }
+                        }
+                        return null;
+                    };
+
+                    /**
+                     * Creates a ReplaceRequest message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof sajari.api.pipeline.v1.ReplaceRequest
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {sajari.api.pipeline.v1.ReplaceRequest} ReplaceRequest
+                     */
+                    ReplaceRequest.fromObject = function fromObject(object) {
+                        if (object instanceof $root.sajari.api.pipeline.v1.ReplaceRequest)
+                            return object;
+                        var message = new $root.sajari.api.pipeline.v1.ReplaceRequest();
+                        if (object.pipeline != null) {
+                            if (typeof object.pipeline !== "object")
+                                throw TypeError(".sajari.api.pipeline.v1.ReplaceRequest.pipeline: object expected");
+                            message.pipeline = $root.sajari.api.pipeline.v1.Pipeline.fromObject(object.pipeline);
+                        }
+                        if (object.values) {
+                            if (typeof object.values !== "object")
+                                throw TypeError(".sajari.api.pipeline.v1.ReplaceRequest.values: object expected");
+                            message.values = {};
+                            for (var keys = Object.keys(object.values), i = 0; i < keys.length; ++i)
+                                message.values[keys[i]] = String(object.values[keys[i]]);
+                        }
+                        if (object.keyRecords) {
+                            if (!Array.isArray(object.keyRecords))
+                                throw TypeError(".sajari.api.pipeline.v1.ReplaceRequest.keyRecords: array expected");
+                            message.keyRecords = [];
+                            for (var i = 0; i < object.keyRecords.length; ++i) {
+                                if (typeof object.keyRecords[i] !== "object")
+                                    throw TypeError(".sajari.api.pipeline.v1.ReplaceRequest.keyRecords: object expected");
+                                message.keyRecords[i] = $root.sajari.engine.store.record.ReplaceRequest.KeyRecord.fromObject(object.keyRecords[i]);
+                            }
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Creates a plain object from a ReplaceRequest message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof sajari.api.pipeline.v1.ReplaceRequest
+                     * @static
+                     * @param {sajari.api.pipeline.v1.ReplaceRequest} message ReplaceRequest
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    ReplaceRequest.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        var object = {};
+                        if (options.arrays || options.defaults)
+                            object.keyRecords = [];
+                        if (options.objects || options.defaults)
+                            object.values = {};
+                        if (options.defaults)
+                            object.pipeline = null;
+                        if (message.pipeline != null && message.hasOwnProperty("pipeline"))
+                            object.pipeline = $root.sajari.api.pipeline.v1.Pipeline.toObject(message.pipeline, options);
+                        var keys2;
+                        if (message.values && (keys2 = Object.keys(message.values)).length) {
+                            object.values = {};
+                            for (var j = 0; j < keys2.length; ++j)
+                                object.values[keys2[j]] = message.values[keys2[j]];
+                        }
+                        if (message.keyRecords && message.keyRecords.length) {
+                            object.keyRecords = [];
+                            for (var j = 0; j < message.keyRecords.length; ++j)
+                                object.keyRecords[j] = $root.sajari.engine.store.record.ReplaceRequest.KeyRecord.toObject(message.keyRecords[j], options);
+                        }
+                        return object;
+                    };
+
+                    /**
+                     * Converts this ReplaceRequest to JSON.
+                     * @function toJSON
+                     * @memberof sajari.api.pipeline.v1.ReplaceRequest
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    ReplaceRequest.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+
+                    return ReplaceRequest;
+                })();
+
+                v1.ReplaceResponse = (function() {
+
+                    /**
+                     * Properties of a ReplaceResponse.
+                     * @memberof sajari.api.pipeline.v1
+                     * @interface IReplaceResponse
+                     * @property {sajari.engine.store.record.IReplaceResponse|null} [response] ReplaceResponse response
+                     */
+
+                    /**
+                     * Constructs a new ReplaceResponse.
+                     * @memberof sajari.api.pipeline.v1
+                     * @classdesc Represents a ReplaceResponse.
+                     * @implements IReplaceResponse
+                     * @constructor
+                     * @param {sajari.api.pipeline.v1.IReplaceResponse=} [properties] Properties to set
+                     */
+                    function ReplaceResponse(properties) {
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
+                    }
+
+                    /**
+                     * ReplaceResponse response.
+                     * @member {sajari.engine.store.record.IReplaceResponse|null|undefined} response
+                     * @memberof sajari.api.pipeline.v1.ReplaceResponse
+                     * @instance
+                     */
+                    ReplaceResponse.prototype.response = null;
+
+                    /**
+                     * Creates a new ReplaceResponse instance using the specified properties.
+                     * @function create
+                     * @memberof sajari.api.pipeline.v1.ReplaceResponse
+                     * @static
+                     * @param {sajari.api.pipeline.v1.IReplaceResponse=} [properties] Properties to set
+                     * @returns {sajari.api.pipeline.v1.ReplaceResponse} ReplaceResponse instance
+                     */
+                    ReplaceResponse.create = function create(properties) {
+                        return new ReplaceResponse(properties);
+                    };
+
+                    /**
+                     * Encodes the specified ReplaceResponse message. Does not implicitly {@link sajari.api.pipeline.v1.ReplaceResponse.verify|verify} messages.
+                     * @function encode
+                     * @memberof sajari.api.pipeline.v1.ReplaceResponse
+                     * @static
+                     * @param {sajari.api.pipeline.v1.IReplaceResponse} message ReplaceResponse message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    ReplaceResponse.encode = function encode(message, writer) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (message.response != null && message.hasOwnProperty("response"))
+                            $root.sajari.engine.store.record.ReplaceResponse.encode(message.response, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                        return writer;
+                    };
+
+                    /**
+                     * Encodes the specified ReplaceResponse message, length delimited. Does not implicitly {@link sajari.api.pipeline.v1.ReplaceResponse.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof sajari.api.pipeline.v1.ReplaceResponse
+                     * @static
+                     * @param {sajari.api.pipeline.v1.IReplaceResponse} message ReplaceResponse message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    ReplaceResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer).ldelim();
+                    };
+
+                    /**
+                     * Decodes a ReplaceResponse message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof sajari.api.pipeline.v1.ReplaceResponse
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {sajari.api.pipeline.v1.ReplaceResponse} ReplaceResponse
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    ReplaceResponse.decode = function decode(reader, length) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.sajari.api.pipeline.v1.ReplaceResponse();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            switch (tag >>> 3) {
+                            case 1:
+                                message.response = $root.sajari.engine.store.record.ReplaceResponse.decode(reader, reader.uint32());
+                                break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
+                            }
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Decodes a ReplaceResponse message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof sajari.api.pipeline.v1.ReplaceResponse
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {sajari.api.pipeline.v1.ReplaceResponse} ReplaceResponse
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    ReplaceResponse.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
+
+                    /**
+                     * Verifies a ReplaceResponse message.
+                     * @function verify
+                     * @memberof sajari.api.pipeline.v1.ReplaceResponse
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    ReplaceResponse.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (message.response != null && message.hasOwnProperty("response")) {
+                            var error = $root.sajari.engine.store.record.ReplaceResponse.verify(message.response);
+                            if (error)
+                                return "response." + error;
+                        }
+                        return null;
+                    };
+
+                    /**
+                     * Creates a ReplaceResponse message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof sajari.api.pipeline.v1.ReplaceResponse
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {sajari.api.pipeline.v1.ReplaceResponse} ReplaceResponse
+                     */
+                    ReplaceResponse.fromObject = function fromObject(object) {
+                        if (object instanceof $root.sajari.api.pipeline.v1.ReplaceResponse)
+                            return object;
+                        var message = new $root.sajari.api.pipeline.v1.ReplaceResponse();
+                        if (object.response != null) {
+                            if (typeof object.response !== "object")
+                                throw TypeError(".sajari.api.pipeline.v1.ReplaceResponse.response: object expected");
+                            message.response = $root.sajari.engine.store.record.ReplaceResponse.fromObject(object.response);
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Creates a plain object from a ReplaceResponse message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof sajari.api.pipeline.v1.ReplaceResponse
+                     * @static
+                     * @param {sajari.api.pipeline.v1.ReplaceResponse} message ReplaceResponse
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    ReplaceResponse.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        var object = {};
+                        if (options.defaults)
+                            object.response = null;
+                        if (message.response != null && message.hasOwnProperty("response"))
+                            object.response = $root.sajari.engine.store.record.ReplaceResponse.toObject(message.response, options);
+                        return object;
+                    };
+
+                    /**
+                     * Converts this ReplaceResponse to JSON.
+                     * @function toJSON
+                     * @memberof sajari.api.pipeline.v1.ReplaceResponse
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    ReplaceResponse.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+
+                    return ReplaceResponse;
                 })();
 
                 return v1;
@@ -11231,6 +11736,7 @@ $root.sajari = (function() {
                      * @property {sajari.engine.query.v1.SearchRequest.IIndexQuery|null} [indexQuery] SearchRequest indexQuery
                      * @property {sajari.engine.query.v1.SearchRequest.IFeatureQuery|null} [featureQuery] SearchRequest featureQuery
                      * @property {number|null} [minScoreThreshold] SearchRequest minScoreThreshold
+                     * @property {number|null} [minIndexScoreThreshold] SearchRequest minIndexScoreThreshold
                      * @property {number|null} [offset] SearchRequest offset
                      * @property {number|null} [limit] SearchRequest limit
                      * @property {Array.<string>|null} [fields] SearchRequest fields
@@ -11289,6 +11795,14 @@ $root.sajari = (function() {
                      * @instance
                      */
                     SearchRequest.prototype.minScoreThreshold = 0;
+
+                    /**
+                     * SearchRequest minIndexScoreThreshold.
+                     * @member {number} minIndexScoreThreshold
+                     * @memberof sajari.engine.query.v1.SearchRequest
+                     * @instance
+                     */
+                    SearchRequest.prototype.minIndexScoreThreshold = 0;
 
                     /**
                      * SearchRequest offset.
@@ -11388,6 +11902,8 @@ $root.sajari = (function() {
                                 $root.sajari.engine.query.v1.Transform.encode(message.transforms[i], writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
                         if (message.minScoreThreshold != null && message.hasOwnProperty("minScoreThreshold"))
                             writer.uint32(/* id 10, wireType 1 =*/81).double(message.minScoreThreshold);
+                        if (message.minIndexScoreThreshold != null && message.hasOwnProperty("minIndexScoreThreshold"))
+                            writer.uint32(/* id 11, wireType 1 =*/89).double(message.minIndexScoreThreshold);
                         return writer;
                     };
 
@@ -11433,6 +11949,9 @@ $root.sajari = (function() {
                                 break;
                             case 10:
                                 message.minScoreThreshold = reader.double();
+                                break;
+                            case 11:
+                                message.minIndexScoreThreshold = reader.double();
                                 break;
                             case 4:
                                 message.offset = reader.int32();
@@ -11516,6 +12035,9 @@ $root.sajari = (function() {
                         if (message.minScoreThreshold != null && message.hasOwnProperty("minScoreThreshold"))
                             if (typeof message.minScoreThreshold !== "number")
                                 return "minScoreThreshold: number expected";
+                        if (message.minIndexScoreThreshold != null && message.hasOwnProperty("minIndexScoreThreshold"))
+                            if (typeof message.minIndexScoreThreshold !== "number")
+                                return "minIndexScoreThreshold: number expected";
                         if (message.offset != null && message.hasOwnProperty("offset"))
                             if (!$util.isInteger(message.offset))
                                 return "offset: integer expected";
@@ -11589,6 +12111,8 @@ $root.sajari = (function() {
                         }
                         if (object.minScoreThreshold != null)
                             message.minScoreThreshold = Number(object.minScoreThreshold);
+                        if (object.minIndexScoreThreshold != null)
+                            message.minIndexScoreThreshold = Number(object.minIndexScoreThreshold);
                         if (object.offset != null)
                             message.offset = object.offset | 0;
                         if (object.limit != null)
@@ -11660,6 +12184,7 @@ $root.sajari = (function() {
                             object.offset = 0;
                             object.limit = 0;
                             object.minScoreThreshold = 0;
+                            object.minIndexScoreThreshold = 0;
                         }
                         if (message.filter != null && message.hasOwnProperty("filter"))
                             object.filter = $root.sajari.engine.query.v1.Filter.toObject(message.filter, options);
@@ -11694,6 +12219,8 @@ $root.sajari = (function() {
                         }
                         if (message.minScoreThreshold != null && message.hasOwnProperty("minScoreThreshold"))
                             object.minScoreThreshold = options.json && !isFinite(message.minScoreThreshold) ? String(message.minScoreThreshold) : message.minScoreThreshold;
+                        if (message.minIndexScoreThreshold != null && message.hasOwnProperty("minIndexScoreThreshold"))
+                            object.minIndexScoreThreshold = options.json && !isFinite(message.minIndexScoreThreshold) ? String(message.minIndexScoreThreshold) : message.minIndexScoreThreshold;
                         return object;
                     };
 
@@ -16071,7 +16598,7 @@ $root.sajari = (function() {
                      * @property {sajari.engine.query.v1.Filter.ICombinator|null} [combinator] Filter combinator
                      * @property {sajari.engine.query.v1.Filter.IField|null} [field] Filter field
                      * @property {sajari.engine.query.v1.Filter.IGeo|null} [geo] Filter geo
-                     * @property {sajari.engine.query.v1.Filter.IIsNull|null} [isNull] Filter isNull
+                     * @property {string|null} [isNull] Filter isNull
                      */
 
                     /**
@@ -16115,11 +16642,11 @@ $root.sajari = (function() {
 
                     /**
                      * Filter isNull.
-                     * @member {sajari.engine.query.v1.Filter.IIsNull|null|undefined} isNull
+                     * @member {string} isNull
                      * @memberof sajari.engine.query.v1.Filter
                      * @instance
                      */
-                    Filter.prototype.isNull = null;
+                    Filter.prototype.isNull = "";
 
                     // OneOf field names bound to virtual getters and setters
                     var $oneOfFields;
@@ -16166,7 +16693,7 @@ $root.sajari = (function() {
                         if (message.geo != null && message.hasOwnProperty("geo"))
                             $root.sajari.engine.query.v1.Filter.Geo.encode(message.geo, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                         if (message.isNull != null && message.hasOwnProperty("isNull"))
-                            $root.sajari.engine.query.v1.Filter.IsNull.encode(message.isNull, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                            writer.uint32(/* id 4, wireType 2 =*/34).string(message.isNull);
                         return writer;
                     };
 
@@ -16211,7 +16738,7 @@ $root.sajari = (function() {
                                 message.geo = $root.sajari.engine.query.v1.Filter.Geo.decode(reader, reader.uint32());
                                 break;
                             case 4:
-                                message.isNull = $root.sajari.engine.query.v1.Filter.IsNull.decode(reader, reader.uint32());
+                                message.isNull = reader.string();
                                 break;
                             default:
                                 reader.skipType(tag & 7);
@@ -16281,11 +16808,8 @@ $root.sajari = (function() {
                             if (properties.filter === 1)
                                 return "filter: multiple values";
                             properties.filter = 1;
-                            {
-                                var error = $root.sajari.engine.query.v1.Filter.IsNull.verify(message.isNull);
-                                if (error)
-                                    return "isNull." + error;
-                            }
+                            if (!$util.isString(message.isNull))
+                                return "isNull: string expected";
                         }
                         return null;
                     };
@@ -16317,11 +16841,8 @@ $root.sajari = (function() {
                                 throw TypeError(".sajari.engine.query.v1.Filter.geo: object expected");
                             message.geo = $root.sajari.engine.query.v1.Filter.Geo.fromObject(object.geo);
                         }
-                        if (object.isNull != null) {
-                            if (typeof object.isNull !== "object")
-                                throw TypeError(".sajari.engine.query.v1.Filter.isNull: object expected");
-                            message.isNull = $root.sajari.engine.query.v1.Filter.IsNull.fromObject(object.isNull);
-                        }
+                        if (object.isNull != null)
+                            message.isNull = String(object.isNull);
                         return message;
                     };
 
@@ -16354,7 +16875,7 @@ $root.sajari = (function() {
                                 object.filter = "geo";
                         }
                         if (message.isNull != null && message.hasOwnProperty("isNull")) {
-                            object.isNull = $root.sajari.engine.query.v1.Filter.IsNull.toObject(message.isNull, options);
+                            object.isNull = message.isNull;
                             if (options.oneofs)
                                 object.filter = "isNull";
                         }
@@ -17287,193 +17808,6 @@ $root.sajari = (function() {
                         })();
 
                         return Combinator;
-                    })();
-
-                    Filter.IsNull = (function() {
-
-                        /**
-                         * Properties of an IsNull.
-                         * @memberof sajari.engine.query.v1.Filter
-                         * @interface IIsNull
-                         * @property {string|null} [Field] IsNull Field
-                         */
-
-                        /**
-                         * Constructs a new IsNull.
-                         * @memberof sajari.engine.query.v1.Filter
-                         * @classdesc Represents an IsNull.
-                         * @implements IIsNull
-                         * @constructor
-                         * @param {sajari.engine.query.v1.Filter.IIsNull=} [properties] Properties to set
-                         */
-                        function IsNull(properties) {
-                            if (properties)
-                                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                                    if (properties[keys[i]] != null)
-                                        this[keys[i]] = properties[keys[i]];
-                        }
-
-                        /**
-                         * IsNull Field.
-                         * @member {string} Field
-                         * @memberof sajari.engine.query.v1.Filter.IsNull
-                         * @instance
-                         */
-                        IsNull.prototype.Field = "";
-
-                        /**
-                         * Creates a new IsNull instance using the specified properties.
-                         * @function create
-                         * @memberof sajari.engine.query.v1.Filter.IsNull
-                         * @static
-                         * @param {sajari.engine.query.v1.Filter.IIsNull=} [properties] Properties to set
-                         * @returns {sajari.engine.query.v1.Filter.IsNull} IsNull instance
-                         */
-                        IsNull.create = function create(properties) {
-                            return new IsNull(properties);
-                        };
-
-                        /**
-                         * Encodes the specified IsNull message. Does not implicitly {@link sajari.engine.query.v1.Filter.IsNull.verify|verify} messages.
-                         * @function encode
-                         * @memberof sajari.engine.query.v1.Filter.IsNull
-                         * @static
-                         * @param {sajari.engine.query.v1.Filter.IIsNull} message IsNull message or plain object to encode
-                         * @param {$protobuf.Writer} [writer] Writer to encode to
-                         * @returns {$protobuf.Writer} Writer
-                         */
-                        IsNull.encode = function encode(message, writer) {
-                            if (!writer)
-                                writer = $Writer.create();
-                            if (message.Field != null && message.hasOwnProperty("Field"))
-                                writer.uint32(/* id 1, wireType 2 =*/10).string(message.Field);
-                            return writer;
-                        };
-
-                        /**
-                         * Encodes the specified IsNull message, length delimited. Does not implicitly {@link sajari.engine.query.v1.Filter.IsNull.verify|verify} messages.
-                         * @function encodeDelimited
-                         * @memberof sajari.engine.query.v1.Filter.IsNull
-                         * @static
-                         * @param {sajari.engine.query.v1.Filter.IIsNull} message IsNull message or plain object to encode
-                         * @param {$protobuf.Writer} [writer] Writer to encode to
-                         * @returns {$protobuf.Writer} Writer
-                         */
-                        IsNull.encodeDelimited = function encodeDelimited(message, writer) {
-                            return this.encode(message, writer).ldelim();
-                        };
-
-                        /**
-                         * Decodes an IsNull message from the specified reader or buffer.
-                         * @function decode
-                         * @memberof sajari.engine.query.v1.Filter.IsNull
-                         * @static
-                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                         * @param {number} [length] Message length if known beforehand
-                         * @returns {sajari.engine.query.v1.Filter.IsNull} IsNull
-                         * @throws {Error} If the payload is not a reader or valid buffer
-                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                         */
-                        IsNull.decode = function decode(reader, length) {
-                            if (!(reader instanceof $Reader))
-                                reader = $Reader.create(reader);
-                            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.sajari.engine.query.v1.Filter.IsNull();
-                            while (reader.pos < end) {
-                                var tag = reader.uint32();
-                                switch (tag >>> 3) {
-                                case 1:
-                                    message.Field = reader.string();
-                                    break;
-                                default:
-                                    reader.skipType(tag & 7);
-                                    break;
-                                }
-                            }
-                            return message;
-                        };
-
-                        /**
-                         * Decodes an IsNull message from the specified reader or buffer, length delimited.
-                         * @function decodeDelimited
-                         * @memberof sajari.engine.query.v1.Filter.IsNull
-                         * @static
-                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                         * @returns {sajari.engine.query.v1.Filter.IsNull} IsNull
-                         * @throws {Error} If the payload is not a reader or valid buffer
-                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                         */
-                        IsNull.decodeDelimited = function decodeDelimited(reader) {
-                            if (!(reader instanceof $Reader))
-                                reader = new $Reader(reader);
-                            return this.decode(reader, reader.uint32());
-                        };
-
-                        /**
-                         * Verifies an IsNull message.
-                         * @function verify
-                         * @memberof sajari.engine.query.v1.Filter.IsNull
-                         * @static
-                         * @param {Object.<string,*>} message Plain object to verify
-                         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                         */
-                        IsNull.verify = function verify(message) {
-                            if (typeof message !== "object" || message === null)
-                                return "object expected";
-                            if (message.Field != null && message.hasOwnProperty("Field"))
-                                if (!$util.isString(message.Field))
-                                    return "Field: string expected";
-                            return null;
-                        };
-
-                        /**
-                         * Creates an IsNull message from a plain object. Also converts values to their respective internal types.
-                         * @function fromObject
-                         * @memberof sajari.engine.query.v1.Filter.IsNull
-                         * @static
-                         * @param {Object.<string,*>} object Plain object
-                         * @returns {sajari.engine.query.v1.Filter.IsNull} IsNull
-                         */
-                        IsNull.fromObject = function fromObject(object) {
-                            if (object instanceof $root.sajari.engine.query.v1.Filter.IsNull)
-                                return object;
-                            var message = new $root.sajari.engine.query.v1.Filter.IsNull();
-                            if (object.Field != null)
-                                message.Field = String(object.Field);
-                            return message;
-                        };
-
-                        /**
-                         * Creates a plain object from an IsNull message. Also converts values to other types if specified.
-                         * @function toObject
-                         * @memberof sajari.engine.query.v1.Filter.IsNull
-                         * @static
-                         * @param {sajari.engine.query.v1.Filter.IsNull} message IsNull
-                         * @param {$protobuf.IConversionOptions} [options] Conversion options
-                         * @returns {Object.<string,*>} Plain object
-                         */
-                        IsNull.toObject = function toObject(message, options) {
-                            if (!options)
-                                options = {};
-                            var object = {};
-                            if (options.defaults)
-                                object.Field = "";
-                            if (message.Field != null && message.hasOwnProperty("Field"))
-                                object.Field = message.Field;
-                            return object;
-                        };
-
-                        /**
-                         * Converts this IsNull to JSON.
-                         * @function toJSON
-                         * @memberof sajari.engine.query.v1.Filter.IsNull
-                         * @instance
-                         * @returns {Object.<string,*>} JSON object
-                         */
-                        IsNull.prototype.toJSON = function toJSON() {
-                            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                        };
-
-                        return IsNull;
                     })();
 
                     return Filter;
@@ -23348,6 +23682,39 @@ $root.sajari = (function() {
                      */
 
                     /**
+                     * Callback as used by {@link sajari.engine.store.record.Store#replace}.
+                     * @memberof sajari.engine.store.record.Store
+                     * @typedef ReplaceCallback
+                     * @type {function}
+                     * @param {Error|null} error Error, if any
+                     * @param {sajari.engine.store.record.ReplaceResponse} [response] ReplaceResponse
+                     */
+
+                    /**
+                     * Calls Replace.
+                     * @function replace
+                     * @memberof sajari.engine.store.record.Store
+                     * @instance
+                     * @param {sajari.engine.store.record.IReplaceRequest} request ReplaceRequest message or plain object
+                     * @param {sajari.engine.store.record.Store.ReplaceCallback} callback Node-style callback called with the error, if any, and ReplaceResponse
+                     * @returns {undefined}
+                     * @variation 1
+                     */
+                    Object.defineProperty(Store.prototype.replace = function replace(request, callback) {
+                        return this.rpcCall(replace, $root.sajari.engine.store.record.ReplaceRequest, $root.sajari.engine.store.record.ReplaceResponse, request, callback);
+                    }, "name", { value: "Replace" });
+
+                    /**
+                     * Calls Replace.
+                     * @function replace
+                     * @memberof sajari.engine.store.record.Store
+                     * @instance
+                     * @param {sajari.engine.store.record.IReplaceRequest} request ReplaceRequest message or plain object
+                     * @returns {Promise<sajari.engine.store.record.ReplaceResponse>} Promise
+                     * @variation 2
+                     */
+
+                    /**
                      * Callback as used by {@link sajari.engine.store.record.Store#get}.
                      * @memberof sajari.engine.store.record.Store
                      * @typedef GetCallback
@@ -28326,6 +28693,686 @@ $root.sajari = (function() {
                     })();
 
                     return KeyScores;
+                })();
+
+                record.ReplaceRequest = (function() {
+
+                    /**
+                     * Properties of a ReplaceRequest.
+                     * @memberof sajari.engine.store.record
+                     * @interface IReplaceRequest
+                     * @property {Array.<sajari.engine.store.record.ReplaceRequest.IKeyRecord>|null} [keyRecords] ReplaceRequest keyRecords
+                     */
+
+                    /**
+                     * Constructs a new ReplaceRequest.
+                     * @memberof sajari.engine.store.record
+                     * @classdesc Represents a ReplaceRequest.
+                     * @implements IReplaceRequest
+                     * @constructor
+                     * @param {sajari.engine.store.record.IReplaceRequest=} [properties] Properties to set
+                     */
+                    function ReplaceRequest(properties) {
+                        this.keyRecords = [];
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
+                    }
+
+                    /**
+                     * ReplaceRequest keyRecords.
+                     * @member {Array.<sajari.engine.store.record.ReplaceRequest.IKeyRecord>} keyRecords
+                     * @memberof sajari.engine.store.record.ReplaceRequest
+                     * @instance
+                     */
+                    ReplaceRequest.prototype.keyRecords = $util.emptyArray;
+
+                    /**
+                     * Creates a new ReplaceRequest instance using the specified properties.
+                     * @function create
+                     * @memberof sajari.engine.store.record.ReplaceRequest
+                     * @static
+                     * @param {sajari.engine.store.record.IReplaceRequest=} [properties] Properties to set
+                     * @returns {sajari.engine.store.record.ReplaceRequest} ReplaceRequest instance
+                     */
+                    ReplaceRequest.create = function create(properties) {
+                        return new ReplaceRequest(properties);
+                    };
+
+                    /**
+                     * Encodes the specified ReplaceRequest message. Does not implicitly {@link sajari.engine.store.record.ReplaceRequest.verify|verify} messages.
+                     * @function encode
+                     * @memberof sajari.engine.store.record.ReplaceRequest
+                     * @static
+                     * @param {sajari.engine.store.record.IReplaceRequest} message ReplaceRequest message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    ReplaceRequest.encode = function encode(message, writer) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (message.keyRecords != null && message.keyRecords.length)
+                            for (var i = 0; i < message.keyRecords.length; ++i)
+                                $root.sajari.engine.store.record.ReplaceRequest.KeyRecord.encode(message.keyRecords[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                        return writer;
+                    };
+
+                    /**
+                     * Encodes the specified ReplaceRequest message, length delimited. Does not implicitly {@link sajari.engine.store.record.ReplaceRequest.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof sajari.engine.store.record.ReplaceRequest
+                     * @static
+                     * @param {sajari.engine.store.record.IReplaceRequest} message ReplaceRequest message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    ReplaceRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer).ldelim();
+                    };
+
+                    /**
+                     * Decodes a ReplaceRequest message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof sajari.engine.store.record.ReplaceRequest
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {sajari.engine.store.record.ReplaceRequest} ReplaceRequest
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    ReplaceRequest.decode = function decode(reader, length) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.sajari.engine.store.record.ReplaceRequest();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            switch (tag >>> 3) {
+                            case 1:
+                                if (!(message.keyRecords && message.keyRecords.length))
+                                    message.keyRecords = [];
+                                message.keyRecords.push($root.sajari.engine.store.record.ReplaceRequest.KeyRecord.decode(reader, reader.uint32()));
+                                break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
+                            }
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Decodes a ReplaceRequest message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof sajari.engine.store.record.ReplaceRequest
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {sajari.engine.store.record.ReplaceRequest} ReplaceRequest
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    ReplaceRequest.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
+
+                    /**
+                     * Verifies a ReplaceRequest message.
+                     * @function verify
+                     * @memberof sajari.engine.store.record.ReplaceRequest
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    ReplaceRequest.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (message.keyRecords != null && message.hasOwnProperty("keyRecords")) {
+                            if (!Array.isArray(message.keyRecords))
+                                return "keyRecords: array expected";
+                            for (var i = 0; i < message.keyRecords.length; ++i) {
+                                var error = $root.sajari.engine.store.record.ReplaceRequest.KeyRecord.verify(message.keyRecords[i]);
+                                if (error)
+                                    return "keyRecords." + error;
+                            }
+                        }
+                        return null;
+                    };
+
+                    /**
+                     * Creates a ReplaceRequest message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof sajari.engine.store.record.ReplaceRequest
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {sajari.engine.store.record.ReplaceRequest} ReplaceRequest
+                     */
+                    ReplaceRequest.fromObject = function fromObject(object) {
+                        if (object instanceof $root.sajari.engine.store.record.ReplaceRequest)
+                            return object;
+                        var message = new $root.sajari.engine.store.record.ReplaceRequest();
+                        if (object.keyRecords) {
+                            if (!Array.isArray(object.keyRecords))
+                                throw TypeError(".sajari.engine.store.record.ReplaceRequest.keyRecords: array expected");
+                            message.keyRecords = [];
+                            for (var i = 0; i < object.keyRecords.length; ++i) {
+                                if (typeof object.keyRecords[i] !== "object")
+                                    throw TypeError(".sajari.engine.store.record.ReplaceRequest.keyRecords: object expected");
+                                message.keyRecords[i] = $root.sajari.engine.store.record.ReplaceRequest.KeyRecord.fromObject(object.keyRecords[i]);
+                            }
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Creates a plain object from a ReplaceRequest message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof sajari.engine.store.record.ReplaceRequest
+                     * @static
+                     * @param {sajari.engine.store.record.ReplaceRequest} message ReplaceRequest
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    ReplaceRequest.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        var object = {};
+                        if (options.arrays || options.defaults)
+                            object.keyRecords = [];
+                        if (message.keyRecords && message.keyRecords.length) {
+                            object.keyRecords = [];
+                            for (var j = 0; j < message.keyRecords.length; ++j)
+                                object.keyRecords[j] = $root.sajari.engine.store.record.ReplaceRequest.KeyRecord.toObject(message.keyRecords[j], options);
+                        }
+                        return object;
+                    };
+
+                    /**
+                     * Converts this ReplaceRequest to JSON.
+                     * @function toJSON
+                     * @memberof sajari.engine.store.record.ReplaceRequest
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    ReplaceRequest.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+
+                    ReplaceRequest.KeyRecord = (function() {
+
+                        /**
+                         * Properties of a KeyRecord.
+                         * @memberof sajari.engine.store.record.ReplaceRequest
+                         * @interface IKeyRecord
+                         * @property {sajari.engine.IKey|null} [key] KeyRecord key
+                         * @property {sajari.engine.store.record.IRecord|null} [record] KeyRecord record
+                         */
+
+                        /**
+                         * Constructs a new KeyRecord.
+                         * @memberof sajari.engine.store.record.ReplaceRequest
+                         * @classdesc Represents a KeyRecord.
+                         * @implements IKeyRecord
+                         * @constructor
+                         * @param {sajari.engine.store.record.ReplaceRequest.IKeyRecord=} [properties] Properties to set
+                         */
+                        function KeyRecord(properties) {
+                            if (properties)
+                                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                    if (properties[keys[i]] != null)
+                                        this[keys[i]] = properties[keys[i]];
+                        }
+
+                        /**
+                         * KeyRecord key.
+                         * @member {sajari.engine.IKey|null|undefined} key
+                         * @memberof sajari.engine.store.record.ReplaceRequest.KeyRecord
+                         * @instance
+                         */
+                        KeyRecord.prototype.key = null;
+
+                        /**
+                         * KeyRecord record.
+                         * @member {sajari.engine.store.record.IRecord|null|undefined} record
+                         * @memberof sajari.engine.store.record.ReplaceRequest.KeyRecord
+                         * @instance
+                         */
+                        KeyRecord.prototype.record = null;
+
+                        /**
+                         * Creates a new KeyRecord instance using the specified properties.
+                         * @function create
+                         * @memberof sajari.engine.store.record.ReplaceRequest.KeyRecord
+                         * @static
+                         * @param {sajari.engine.store.record.ReplaceRequest.IKeyRecord=} [properties] Properties to set
+                         * @returns {sajari.engine.store.record.ReplaceRequest.KeyRecord} KeyRecord instance
+                         */
+                        KeyRecord.create = function create(properties) {
+                            return new KeyRecord(properties);
+                        };
+
+                        /**
+                         * Encodes the specified KeyRecord message. Does not implicitly {@link sajari.engine.store.record.ReplaceRequest.KeyRecord.verify|verify} messages.
+                         * @function encode
+                         * @memberof sajari.engine.store.record.ReplaceRequest.KeyRecord
+                         * @static
+                         * @param {sajari.engine.store.record.ReplaceRequest.IKeyRecord} message KeyRecord message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        KeyRecord.encode = function encode(message, writer) {
+                            if (!writer)
+                                writer = $Writer.create();
+                            if (message.key != null && message.hasOwnProperty("key"))
+                                $root.sajari.engine.Key.encode(message.key, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                            if (message.record != null && message.hasOwnProperty("record"))
+                                $root.sajari.engine.store.record.Record.encode(message.record, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                            return writer;
+                        };
+
+                        /**
+                         * Encodes the specified KeyRecord message, length delimited. Does not implicitly {@link sajari.engine.store.record.ReplaceRequest.KeyRecord.verify|verify} messages.
+                         * @function encodeDelimited
+                         * @memberof sajari.engine.store.record.ReplaceRequest.KeyRecord
+                         * @static
+                         * @param {sajari.engine.store.record.ReplaceRequest.IKeyRecord} message KeyRecord message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        KeyRecord.encodeDelimited = function encodeDelimited(message, writer) {
+                            return this.encode(message, writer).ldelim();
+                        };
+
+                        /**
+                         * Decodes a KeyRecord message from the specified reader or buffer.
+                         * @function decode
+                         * @memberof sajari.engine.store.record.ReplaceRequest.KeyRecord
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @param {number} [length] Message length if known beforehand
+                         * @returns {sajari.engine.store.record.ReplaceRequest.KeyRecord} KeyRecord
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        KeyRecord.decode = function decode(reader, length) {
+                            if (!(reader instanceof $Reader))
+                                reader = $Reader.create(reader);
+                            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.sajari.engine.store.record.ReplaceRequest.KeyRecord();
+                            while (reader.pos < end) {
+                                var tag = reader.uint32();
+                                switch (tag >>> 3) {
+                                case 1:
+                                    message.key = $root.sajari.engine.Key.decode(reader, reader.uint32());
+                                    break;
+                                case 2:
+                                    message.record = $root.sajari.engine.store.record.Record.decode(reader, reader.uint32());
+                                    break;
+                                default:
+                                    reader.skipType(tag & 7);
+                                    break;
+                                }
+                            }
+                            return message;
+                        };
+
+                        /**
+                         * Decodes a KeyRecord message from the specified reader or buffer, length delimited.
+                         * @function decodeDelimited
+                         * @memberof sajari.engine.store.record.ReplaceRequest.KeyRecord
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @returns {sajari.engine.store.record.ReplaceRequest.KeyRecord} KeyRecord
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        KeyRecord.decodeDelimited = function decodeDelimited(reader) {
+                            if (!(reader instanceof $Reader))
+                                reader = new $Reader(reader);
+                            return this.decode(reader, reader.uint32());
+                        };
+
+                        /**
+                         * Verifies a KeyRecord message.
+                         * @function verify
+                         * @memberof sajari.engine.store.record.ReplaceRequest.KeyRecord
+                         * @static
+                         * @param {Object.<string,*>} message Plain object to verify
+                         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                         */
+                        KeyRecord.verify = function verify(message) {
+                            if (typeof message !== "object" || message === null)
+                                return "object expected";
+                            if (message.key != null && message.hasOwnProperty("key")) {
+                                var error = $root.sajari.engine.Key.verify(message.key);
+                                if (error)
+                                    return "key." + error;
+                            }
+                            if (message.record != null && message.hasOwnProperty("record")) {
+                                var error = $root.sajari.engine.store.record.Record.verify(message.record);
+                                if (error)
+                                    return "record." + error;
+                            }
+                            return null;
+                        };
+
+                        /**
+                         * Creates a KeyRecord message from a plain object. Also converts values to their respective internal types.
+                         * @function fromObject
+                         * @memberof sajari.engine.store.record.ReplaceRequest.KeyRecord
+                         * @static
+                         * @param {Object.<string,*>} object Plain object
+                         * @returns {sajari.engine.store.record.ReplaceRequest.KeyRecord} KeyRecord
+                         */
+                        KeyRecord.fromObject = function fromObject(object) {
+                            if (object instanceof $root.sajari.engine.store.record.ReplaceRequest.KeyRecord)
+                                return object;
+                            var message = new $root.sajari.engine.store.record.ReplaceRequest.KeyRecord();
+                            if (object.key != null) {
+                                if (typeof object.key !== "object")
+                                    throw TypeError(".sajari.engine.store.record.ReplaceRequest.KeyRecord.key: object expected");
+                                message.key = $root.sajari.engine.Key.fromObject(object.key);
+                            }
+                            if (object.record != null) {
+                                if (typeof object.record !== "object")
+                                    throw TypeError(".sajari.engine.store.record.ReplaceRequest.KeyRecord.record: object expected");
+                                message.record = $root.sajari.engine.store.record.Record.fromObject(object.record);
+                            }
+                            return message;
+                        };
+
+                        /**
+                         * Creates a plain object from a KeyRecord message. Also converts values to other types if specified.
+                         * @function toObject
+                         * @memberof sajari.engine.store.record.ReplaceRequest.KeyRecord
+                         * @static
+                         * @param {sajari.engine.store.record.ReplaceRequest.KeyRecord} message KeyRecord
+                         * @param {$protobuf.IConversionOptions} [options] Conversion options
+                         * @returns {Object.<string,*>} Plain object
+                         */
+                        KeyRecord.toObject = function toObject(message, options) {
+                            if (!options)
+                                options = {};
+                            var object = {};
+                            if (options.defaults) {
+                                object.key = null;
+                                object.record = null;
+                            }
+                            if (message.key != null && message.hasOwnProperty("key"))
+                                object.key = $root.sajari.engine.Key.toObject(message.key, options);
+                            if (message.record != null && message.hasOwnProperty("record"))
+                                object.record = $root.sajari.engine.store.record.Record.toObject(message.record, options);
+                            return object;
+                        };
+
+                        /**
+                         * Converts this KeyRecord to JSON.
+                         * @function toJSON
+                         * @memberof sajari.engine.store.record.ReplaceRequest.KeyRecord
+                         * @instance
+                         * @returns {Object.<string,*>} JSON object
+                         */
+                        KeyRecord.prototype.toJSON = function toJSON() {
+                            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                        };
+
+                        return KeyRecord;
+                    })();
+
+                    return ReplaceRequest;
+                })();
+
+                record.ReplaceResponse = (function() {
+
+                    /**
+                     * Properties of a ReplaceResponse.
+                     * @memberof sajari.engine.store.record
+                     * @interface IReplaceResponse
+                     * @property {Array.<sajari.engine.IKey>|null} [keys] ReplaceResponse keys
+                     * @property {Array.<sajari.rpc.IStatus>|null} [status] ReplaceResponse status
+                     */
+
+                    /**
+                     * Constructs a new ReplaceResponse.
+                     * @memberof sajari.engine.store.record
+                     * @classdesc Represents a ReplaceResponse.
+                     * @implements IReplaceResponse
+                     * @constructor
+                     * @param {sajari.engine.store.record.IReplaceResponse=} [properties] Properties to set
+                     */
+                    function ReplaceResponse(properties) {
+                        this.keys = [];
+                        this.status = [];
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
+                    }
+
+                    /**
+                     * ReplaceResponse keys.
+                     * @member {Array.<sajari.engine.IKey>} keys
+                     * @memberof sajari.engine.store.record.ReplaceResponse
+                     * @instance
+                     */
+                    ReplaceResponse.prototype.keys = $util.emptyArray;
+
+                    /**
+                     * ReplaceResponse status.
+                     * @member {Array.<sajari.rpc.IStatus>} status
+                     * @memberof sajari.engine.store.record.ReplaceResponse
+                     * @instance
+                     */
+                    ReplaceResponse.prototype.status = $util.emptyArray;
+
+                    /**
+                     * Creates a new ReplaceResponse instance using the specified properties.
+                     * @function create
+                     * @memberof sajari.engine.store.record.ReplaceResponse
+                     * @static
+                     * @param {sajari.engine.store.record.IReplaceResponse=} [properties] Properties to set
+                     * @returns {sajari.engine.store.record.ReplaceResponse} ReplaceResponse instance
+                     */
+                    ReplaceResponse.create = function create(properties) {
+                        return new ReplaceResponse(properties);
+                    };
+
+                    /**
+                     * Encodes the specified ReplaceResponse message. Does not implicitly {@link sajari.engine.store.record.ReplaceResponse.verify|verify} messages.
+                     * @function encode
+                     * @memberof sajari.engine.store.record.ReplaceResponse
+                     * @static
+                     * @param {sajari.engine.store.record.IReplaceResponse} message ReplaceResponse message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    ReplaceResponse.encode = function encode(message, writer) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (message.keys != null && message.keys.length)
+                            for (var i = 0; i < message.keys.length; ++i)
+                                $root.sajari.engine.Key.encode(message.keys[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                        if (message.status != null && message.status.length)
+                            for (var i = 0; i < message.status.length; ++i)
+                                $root.sajari.rpc.Status.encode(message.status[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                        return writer;
+                    };
+
+                    /**
+                     * Encodes the specified ReplaceResponse message, length delimited. Does not implicitly {@link sajari.engine.store.record.ReplaceResponse.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof sajari.engine.store.record.ReplaceResponse
+                     * @static
+                     * @param {sajari.engine.store.record.IReplaceResponse} message ReplaceResponse message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    ReplaceResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer).ldelim();
+                    };
+
+                    /**
+                     * Decodes a ReplaceResponse message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof sajari.engine.store.record.ReplaceResponse
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {sajari.engine.store.record.ReplaceResponse} ReplaceResponse
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    ReplaceResponse.decode = function decode(reader, length) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.sajari.engine.store.record.ReplaceResponse();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            switch (tag >>> 3) {
+                            case 1:
+                                if (!(message.keys && message.keys.length))
+                                    message.keys = [];
+                                message.keys.push($root.sajari.engine.Key.decode(reader, reader.uint32()));
+                                break;
+                            case 2:
+                                if (!(message.status && message.status.length))
+                                    message.status = [];
+                                message.status.push($root.sajari.rpc.Status.decode(reader, reader.uint32()));
+                                break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
+                            }
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Decodes a ReplaceResponse message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof sajari.engine.store.record.ReplaceResponse
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {sajari.engine.store.record.ReplaceResponse} ReplaceResponse
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    ReplaceResponse.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
+
+                    /**
+                     * Verifies a ReplaceResponse message.
+                     * @function verify
+                     * @memberof sajari.engine.store.record.ReplaceResponse
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    ReplaceResponse.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (message.keys != null && message.hasOwnProperty("keys")) {
+                            if (!Array.isArray(message.keys))
+                                return "keys: array expected";
+                            for (var i = 0; i < message.keys.length; ++i) {
+                                var error = $root.sajari.engine.Key.verify(message.keys[i]);
+                                if (error)
+                                    return "keys." + error;
+                            }
+                        }
+                        if (message.status != null && message.hasOwnProperty("status")) {
+                            if (!Array.isArray(message.status))
+                                return "status: array expected";
+                            for (var i = 0; i < message.status.length; ++i) {
+                                var error = $root.sajari.rpc.Status.verify(message.status[i]);
+                                if (error)
+                                    return "status." + error;
+                            }
+                        }
+                        return null;
+                    };
+
+                    /**
+                     * Creates a ReplaceResponse message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof sajari.engine.store.record.ReplaceResponse
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {sajari.engine.store.record.ReplaceResponse} ReplaceResponse
+                     */
+                    ReplaceResponse.fromObject = function fromObject(object) {
+                        if (object instanceof $root.sajari.engine.store.record.ReplaceResponse)
+                            return object;
+                        var message = new $root.sajari.engine.store.record.ReplaceResponse();
+                        if (object.keys) {
+                            if (!Array.isArray(object.keys))
+                                throw TypeError(".sajari.engine.store.record.ReplaceResponse.keys: array expected");
+                            message.keys = [];
+                            for (var i = 0; i < object.keys.length; ++i) {
+                                if (typeof object.keys[i] !== "object")
+                                    throw TypeError(".sajari.engine.store.record.ReplaceResponse.keys: object expected");
+                                message.keys[i] = $root.sajari.engine.Key.fromObject(object.keys[i]);
+                            }
+                        }
+                        if (object.status) {
+                            if (!Array.isArray(object.status))
+                                throw TypeError(".sajari.engine.store.record.ReplaceResponse.status: array expected");
+                            message.status = [];
+                            for (var i = 0; i < object.status.length; ++i) {
+                                if (typeof object.status[i] !== "object")
+                                    throw TypeError(".sajari.engine.store.record.ReplaceResponse.status: object expected");
+                                message.status[i] = $root.sajari.rpc.Status.fromObject(object.status[i]);
+                            }
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Creates a plain object from a ReplaceResponse message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof sajari.engine.store.record.ReplaceResponse
+                     * @static
+                     * @param {sajari.engine.store.record.ReplaceResponse} message ReplaceResponse
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    ReplaceResponse.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        var object = {};
+                        if (options.arrays || options.defaults) {
+                            object.keys = [];
+                            object.status = [];
+                        }
+                        if (message.keys && message.keys.length) {
+                            object.keys = [];
+                            for (var j = 0; j < message.keys.length; ++j)
+                                object.keys[j] = $root.sajari.engine.Key.toObject(message.keys[j], options);
+                        }
+                        if (message.status && message.status.length) {
+                            object.status = [];
+                            for (var j = 0; j < message.status.length; ++j)
+                                object.status[j] = $root.sajari.rpc.Status.toObject(message.status[j], options);
+                        }
+                        return object;
+                    };
+
+                    /**
+                     * Converts this ReplaceResponse to JSON.
+                     * @function toJSON
+                     * @memberof sajari.engine.store.record.ReplaceResponse
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    ReplaceResponse.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+
+                    return ReplaceResponse;
                 })();
 
                 return record;
