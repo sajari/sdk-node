@@ -5,44 +5,65 @@ import { sajari } from "../generated/proto";
  * @hidden
  */
 export const valueFromProto = (
-  v: sajari.engine.Value
+  v: sajari.engine.IValue
 ): string[] | string | null => {
-  switch (v.value) {
+  // We are casting to sajari.engine.Value straight away here
+  // as it appears that the node implementation of grpc or protobufjs
+  // is translating the protobuf messages to simplified objects
+  // automatically.
+  const value = v as sajari.engine.Value;
+  if (value === null) {
+    return null;
+  }
+  switch (value.value) {
     case "single":
-      return v.single;
+      return value.single;
     case "repeated":
-      return (v.repeated as sajari.engine.Value.Repeated).values;
-    default:
+      return (value.repeated as sajari.engine.Value.Repeated).values;
+    case "null":
       return null;
   }
+
+  throw new Error(
+    `argument passed to "valueFromProto" must being either null, single or repeated`
+  );
 };
 
 /**
  * @hidden
  */
 export const valueToProto = (
-  v: string[] | string
-): sajari.engine.Value | null => {
+  v: string[] | string | null
+): sajari.engine.Value => {
   if (Array.isArray(v)) {
     return new sajari.engine.Value({ repeated: { values: v } });
   } else if (typeof v === "string") {
     return new sajari.engine.Value({ single: v });
+  } else if (v === null) {
+    return sajari.engine.Value.create({ null: true });
   }
-  return null;
+
+  throw new Error(
+    `argument passed to "valueToProto" must be a string, Array<string>, or null`
+  );
 };
 
 /**
  * @hidden
  */
-export const errorFromStatus = (status: sajari.rpc.Status): Error | null => {
-  switch (status.code) {
+export const errorFromStatus = (status: sajari.rpc.IStatus): Error | null => {
+  const err = sajari.rpc.Status.verify(status);
+  if (err) {
+    throw new Error(`sajari: failed to verify Status message: ${err}`);
+  }
+
+  const s = status as sajari.rpc.Status;
+  switch (s.code) {
     case grpcCodes.OK:
       return null;
-    case grpcCodes.NOT_FOUND:
-      return new Error("sajari: no such record");
     default:
-      const error: ServiceError = new Error(status.message);
-      error.code = status.code;
+      const error: ServiceError = new Error(s.message);
+      error.code = s.code;
       return error;
   }
 };
@@ -51,7 +72,7 @@ export const errorFromStatus = (status: sajari.rpc.Status): Error | null => {
  * @hidden
  */
 export const errorFromStatuses = (
-  status: sajari.rpc.Status[]
+  status: sajari.rpc.IStatus[]
 ): MultiError | null => {
   const errors = status.map(errorFromStatus).filter((x) => !!x);
 
@@ -71,6 +92,9 @@ export class MultiError extends Error {
     this.message = this.messageCreator();
   }
 
+  /**
+   * @hidden
+   */
   private messageCreator = (): string => {
     const n = this.errors.length;
     const msg = this.errors[0].message;

@@ -1,6 +1,7 @@
 import { sajari } from "../../generated/proto";
-import { errorFromStatuses, valueFromProto } from "../utils";
-import { createEngineRecord, Key, Record } from "./utils";
+import { Key, parseEngineKey } from "../key";
+import { createEngineRecord, Record } from "../record";
+import { errorFromStatus } from "../utils";
 
 /**
  * @hidden
@@ -9,43 +10,38 @@ export const createAddRequest = (
   pipeline: string,
   values: { [k: string]: string },
   records: Record[]
-): { [k: string]: any } => {
-  return {
+): sajari.api.pipeline.v1.AddRequest => {
+  const req = {
     pipeline: { name: pipeline },
     records: records.map((record) => createEngineRecord(record)),
     values
   };
+  const err = sajari.api.pipeline.v1.AddRequest.verify(req);
+  if (err) {
+    throw new Error(`sajari: failed to verify AddRequest message: ${err}`);
+  }
+  return sajari.api.pipeline.v1.AddRequest.create(req);
 };
+
+export interface AddResponse {
+  key: Key;
+  error: Error | null;
+}
 
 /**
  * @hidden
  */
-export const processAddResponse = (
-  response: sajari.engine.store.record.AddResponse
-): Error | Key => {
-  const keys = response.keys
-    .map((resKey) => {
-      if (
-        (resKey as sajari.engine.Key).field === "" &&
-        ((resKey as sajari.engine.Key).value === undefined ||
-          (resKey as sajari.engine.Key).value === null)
-      ) {
-        return null;
-      }
-      const value = valueFromProto(resKey.value as sajari.engine.Value);
-      if (!value) {
-        return null;
-      }
-      return { field: (resKey as sajari.engine.Key).field, value };
-    })
-    .filter((x) => !!x);
+export async function parseAddResponse(
+  response: sajari.engine.store.record.IAddResponse
+): Promise<AddResponse[]> {
+  const res = response as sajari.engine.store.record.AddResponse;
+  const keys = res.keys.map(parseEngineKey);
+  const errors = res.status.map(errorFromStatus);
 
-  const key = keys[0];
-  if (!key) {
-    const err = errorFromStatuses(response.status as sajari.rpc.Status[]);
-    if (!!err) {
-      return err as Error;
-    }
-  }
-  return key as Key;
-};
+  return keys.map((key, idx) => {
+    return {
+      key,
+      error: errors[idx]
+    };
+  });
+}

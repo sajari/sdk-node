@@ -1,6 +1,6 @@
 import { sajari } from "../../generated/proto";
-import { Token, Tracking } from "../session";
 import { valueFromProto } from "../utils";
+import { Token, Tracking } from "./session";
 
 export interface ResultValues {
   [k: string]: string | string[];

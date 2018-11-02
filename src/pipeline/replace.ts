@@ -1,12 +1,7 @@
 import { sajari } from "../../generated/proto";
+import { createEngineKey, Key, parseEngineKey } from "../key";
+import { createEngineRecord, Record } from "../record";
 import { errorFromStatus } from "../utils";
-import {
-  createEngineKey,
-  createEngineRecord,
-  Key,
-  parseEngineKey,
-  Record
-} from "./utils";
 
 export interface KeyRecord {
   key: Key;
@@ -16,23 +11,11 @@ export interface KeyRecord {
 /**
  * @hidden
  */
-interface ReplaceRequest {
-  pipeline: { name: string };
-  keyRecords: Array<{
-    key: sajari.engine.IKey;
-    record: sajari.engine.store.record.IRecord;
-  }>;
-  values: { [k: string]: string };
-}
-
-/**
- * @hidden
- */
 export function createReplaceRequest(
   pipeline: string,
-  keyRecords: KeyRecord[],
-  values: { [k: string]: string } = {}
-): ReplaceRequest {
+  values: { [k: string]: string },
+  keyRecords: KeyRecord[]
+): sajari.api.pipeline.v1.ReplaceRequest {
   const engineKeyRecords = keyRecords.map(({ key, record }) => {
     return {
       key: createEngineKey(key),
@@ -40,11 +23,17 @@ export function createReplaceRequest(
     };
   });
 
-  return {
+  const req = {
     pipeline: { name: pipeline },
     keyRecords: engineKeyRecords,
     values
   };
+
+  const err = sajari.api.pipeline.v1.ReplaceRequest.verify(req);
+  if (err) {
+    throw new Error(`sajari: failed to verify ReplaceRequest message: ${err}`);
+  }
+  return sajari.api.pipeline.v1.ReplaceRequest.create(req);
 }
 
 export interface ReplaceResponse {
@@ -55,18 +44,17 @@ export interface ReplaceResponse {
 /**
  * @hidden
  */
-export function parseReplaceResponse(
-  response: sajari.engine.store.record.ReplaceResponse
-): ReplaceResponse[] {
-  const keys = response.keys.map(parseEngineKey);
-  const status = response.status.map((status) =>
-    errorFromStatus(status as sajari.rpc.Status)
-  );
+export async function parseReplaceResponse(
+  response: sajari.engine.store.record.IReplaceResponse
+): Promise<ReplaceResponse[]> {
+  const res = response as sajari.engine.store.record.ReplaceResponse;
+  const keys = res.keys.map(parseEngineKey);
+  const errors = res.status.map(errorFromStatus);
 
   return keys.map((key, idx) => {
     return {
       key,
-      error: status[idx]
+      error: errors[idx]
     };
   });
 }
