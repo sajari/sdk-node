@@ -12,7 +12,7 @@ export interface KeyRecord {
  * @hidden
  */
 export function createReplaceRequest(
-  pipeline: string,
+  pipeline: { name: string },
   values: { [k: string]: string },
   keyRecords: KeyRecord[]
 ): sajari.api.pipeline.v1.ReplaceRequest {
@@ -24,7 +24,7 @@ export function createReplaceRequest(
   });
 
   const req = {
-    pipeline: { name: pipeline },
+    pipeline: pipeline,
     keyRecords: engineKeyRecords,
     values
   };
