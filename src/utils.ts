@@ -74,18 +74,26 @@ export const errorFromStatus = (status: sajari.rpc.IStatus): Error | null => {
 export const errorFromStatuses = (
   status: sajari.rpc.IStatus[]
 ): MultiError | null => {
-  const errors = status.map(errorFromStatus).filter((x) => !!x);
+  const errors = status.map(errorFromStatus).reduce(
+    (obj, error, idx) => {
+      if (error) {
+        obj[idx] = error;
+      }
+      return obj;
+    },
+    {} as { [k: number]: Error }
+  );
 
-  if (errors.length === 0) {
+  if (Object.keys(errors).length === 0) {
     return null;
   }
-  return new MultiError(errors as Error[]);
+  return new MultiError(errors);
 };
 
 export class MultiError extends Error {
-  public errors: Error[];
+  public errors: { [k: number]: Error };
 
-  constructor(errors: Error[]) {
+  constructor(errors: { [k: number]: Error }) {
     super();
 
     this.errors = errors;
@@ -96,8 +104,9 @@ export class MultiError extends Error {
    * @hidden
    */
   private messageCreator = (): string => {
-    const n = this.errors.length;
-    const msg = this.errors[0].message;
+    const n = Object.keys(this.errors).length;
+    const firstErrorKey = parseInt(Object.keys(this.errors)[0], 10);
+    const msg = this.errors[firstErrorKey].message;
 
     if (n === 1) {
       return msg;

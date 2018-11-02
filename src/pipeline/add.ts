@@ -7,12 +7,12 @@ import { errorFromStatus } from "../utils";
  * @hidden
  */
 export const createAddRequest = (
-  pipeline: string,
+  pipeline: { name: string },
   values: { [k: string]: string },
   records: Record[]
 ): sajari.api.pipeline.v1.AddRequest => {
   const req = {
-    pipeline: { name: pipeline },
+    pipeline: pipeline,
     records: records.map((record) => createEngineRecord(record)),
     values
   };
@@ -31,9 +31,9 @@ export interface AddResponse {
 /**
  * @hidden
  */
-export async function parseAddResponse(
+export function parseAddResponse(
   response: sajari.engine.store.record.IAddResponse
-): Promise<AddResponse[]> {
+): AddResponse[] {
   const res = response as sajari.engine.store.record.AddResponse;
   const keys = res.keys.map(parseEngineKey);
   const errors = res.status.map(errorFromStatus);
