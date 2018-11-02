@@ -37,9 +37,9 @@ try {
 
 try {
   execSync(
-    `${pbjs} -t json-module -o ${join(
+    `${pbjs} -t json -o ${join(
       protoPath,
-      "proto-defs.js"
+      "proto-defs.json"
     )} -p ${PROTO_SRC} ${globby
       .sync(protoDirs.map((dir) => join(PROTO_SRC, dir, "/**/*.proto")))
       .join(" ")}`
