@@ -3,10 +3,12 @@ import { ServiceError } from "grpc";
 
 import { sajari } from "../../generated/proto";
 import { Client } from "../client";
-import { Session, Tracking } from "../session";
 import { deadline } from "../utils";
+import { Session, Tracking } from "./session";
 
-import { createAddRequest, processAddResponse } from "./add";
+import { Key } from "../key";
+import { Record } from "../record";
+import { AddResponse, createAddRequest, parseAddResponse } from "./add";
 import {
   createReplaceRequest,
   KeyRecord,
@@ -18,7 +20,6 @@ import {
   processSearchResponse,
   SearchResponse
 } from "./search";
-import { Key, Record } from "./utils";
 
 /**
  * @hidden
@@ -29,8 +30,14 @@ const debug = Debug("sajari:client:pipeline");
  * Pipeline is a handler for a named pipeline.
  */
 export class Pipeline {
-  public client: Client;
-  public name: string;
+  /**
+   * @hidden
+   */
+  private client: Client;
+  /**
+   * @hidden
+   */
+  private name: string;
 
   constructor(client: Client, name: string) {
     this.client = client;
@@ -46,9 +53,8 @@ export class Pipeline {
     values: { [k: string]: string },
     session: Session
   ): Promise<SearchResponse> {
-    const [serr, tracking] = session.next(values);
-
     return new Promise((resolve, reject) => {
+      const [serr, tracking] = session.next(values);
       if (serr) {
         reject(serr);
       }
@@ -65,7 +71,7 @@ export class Pipeline {
       this.client.clients.Query.search(
         request,
         this.client.metadata,
-        { deadline: deadline(5) },
+        { deadline: deadline(this.client.dialOptions.deadline) },
         (
           err: ServiceError,
           response: sajari.api.pipeline.v1.SearchResponse
@@ -84,60 +90,76 @@ export class Pipeline {
     });
   }
 
-  /**
-   * Add a record to a collection using a pipeline, returning the unique
-   * key which can be used to retrieve the respective record.
-   */
-  public add(
-    record: Record,
-    values: { [k: string]: string } = {}
-  ): Promise<Key> {
+  public addMulti(
+    values: { [k: string]: string },
+    records: Record[]
+  ): Promise<AddResponse[]> {
     return new Promise((resolve, reject) => {
-      const request = createAddRequest(this.name, values, [record]);
-      debug("add request: %o", request);
-      debug("add metadata: %o", this.client.metadata.getMap());
+      let req = {};
+      try {
+        req = createAddRequest(this.name, values, records);
+      } catch (error) {
+        return reject(error);
+      }
+      debug("addMulti request: %o", req);
+      debug("addMulti metadata: %o", this.client.metadata.getMap());
 
       // @ts-ignore: generated client method
       this.client.clients.Store.add(
-        request,
+        req,
         this.client.metadata,
-        { deadline: deadline(5) },
+        { deadline: deadline(this.client.dialOptions.deadline) },
         (err: ServiceError, response: sajari.api.pipeline.v1.AddResponse) => {
           if (err) {
             return reject(err);
           }
-
           if (response.response == null) {
             return reject(new Error("sajari: empty response"));
           }
 
-          const res = processAddResponse(
-            response.response as sajari.engine.store.record.AddResponse
-          );
-          if (res instanceof Error) {
-            return reject(res);
-          }
-
-          return resolve(res as Key);
+          parseAddResponse(response.response)
+            .then(resolve)
+            .catch(reject);
         }
       );
     });
   }
 
+  /**
+   * Add a record to a collection using a pipeline, returning the unique
+   * key which can be used to retrieve the respective record.
+   */
+  public async add(
+    values: { [k: string]: string },
+    record: Record
+  ): Promise<Key> {
+    const response = await this.addMulti(values, [record]);
+    const res = response[0];
+    if (res.error) {
+      throw res.error;
+    }
+    return res.key;
+  }
+
   public replaceMulti(
-    keyRecords: KeyRecord[],
-    values: { [k: string]: string } = {}
+    values: { [k: string]: string },
+    keyRecords: KeyRecord[]
   ): Promise<ReplaceResponse[]> {
     return new Promise((resolve, reject) => {
-      const request = createReplaceRequest(this.name, keyRecords, values);
-      debug("replace request: %o", request);
+      let req = {};
+      try {
+        req = createReplaceRequest(this.name, values, keyRecords);
+      } catch (error) {
+        return reject(error);
+      }
+      debug("replace request: %o", req);
       debug("replace metadata: %o", this.client.metadata.getMap());
 
       // @ts-ignore: generated client method
       this.client.clients.Store.replace(
-        request,
+        req,
         this.client.metadata,
-        { deadline: deadline(5) },
+        { deadline: deadline(this.client.dialOptions.deadline) },
         (
           err: ServiceError,
           response: sajari.api.pipeline.v1.ReplaceResponse
@@ -159,20 +181,15 @@ export class Pipeline {
     });
   }
 
-  public replace(
-    keyRecord: KeyRecord,
-    values: { [k: string]: string } = {}
+  public async replace(
+    values: { [k: string]: string },
+    keyRecord: KeyRecord
   ): Promise<Key> {
-    return new Promise((resolve, reject) => {
-      this.replaceMulti([keyRecord], values)
-        .then((response) => {
-          const res = response[0];
-          if (res.error) {
-            return reject(res.error);
-          }
-          return resolve(res.key);
-        })
-        .catch(reject);
-    });
+    const response = await this.replaceMulti(values, [keyRecord]);
+    const res = response[0];
+    if (res.error) {
+      throw res.error;
+    }
+    return res.key;
   }
 }

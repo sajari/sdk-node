@@ -63,11 +63,25 @@ export type Token = ClickToken | PosNegToken;
 
 /** DefaultSession holds state of a sequence of searches. */
 export class DefaultSession implements Session {
+  /**
+   * @hidden
+   */
   private queryID: string = "";
+  /**
+   * @hidden
+   */
   private sequence: number = 0;
-
+  /**
+   * @hidden
+   */
   private trackingType: TrackingType;
+  /**
+   * @hidden
+   */
   private field: string;
+  /**
+   * @hidden
+   */
   private sessionData: { [k: string]: string };
 
   /** Constructs an instance of DefaultSession. */

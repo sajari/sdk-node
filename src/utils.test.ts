@@ -1,5 +1,4 @@
 import { sajari } from "../generated/proto";
-
 import { valueFromProto } from "./utils";
 
 describe("valueFromProto", () => {
