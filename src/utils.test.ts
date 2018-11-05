@@ -1,16 +1,16 @@
 import { sajari } from "../generated/proto";
-import { valueFromProto } from "./utils";
+import { Value } from "./utils";
 
-describe("valueFromProto", () => {
+describe("Value.fromProto", () => {
   test("single value", () => {
     expect(
-      valueFromProto(sajari.engine.Value.create({ single: "hello" }))
+      Value.fromProto(sajari.engine.Value.create({ single: "hello" }))
     ).toBe("hello");
   });
 
   test("repeated value", () => {
     expect(
-      valueFromProto(
+      Value.fromProto(
         sajari.engine.Value.create({ repeated: { values: ["hello", "world"] } })
       )
     ).toEqual(["hello", "world"]);
@@ -18,7 +18,7 @@ describe("valueFromProto", () => {
 
   test("null value", () => {
     expect(
-      valueFromProto(sajari.engine.Value.create({ null: true }))
+      Value.fromProto(sajari.engine.Value.create({ null: true }))
     ).toBeNull();
   });
 });

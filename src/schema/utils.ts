@@ -1,12 +1,12 @@
 import { sajari } from "../../generated/proto";
-import { Field, fieldToEngineField, Mutation, typeToProtoType } from "./field";
+import { Field, Type } from "./field";
+import { Mutation } from "./mutation";
 
 /**
  * @hidden
  */
 export function createAddRequest(fields: Field[]): sajari.engine.schema.Fields {
-  const engineFields = fields.map(fieldToEngineField);
-  const req = { fields: engineFields };
+  const req = { fields: fields.map(Field.toProto) };
   const err = sajari.engine.schema.Fields.verify(req);
   if (err) {
     throw new Error(`sajari: failed to verify Fields message: ${err}`);
@@ -26,7 +26,7 @@ export function createMutateFieldRequest(
     // need to convert to the correct proto message type
     if (mutation.type !== undefined) {
       // @ts-ignore
-      return { type: typeToProtoType(mutation) };
+      return { type: Type.toProto(mutation.type as Type) };
     }
     return mutation;
   });
@@ -37,5 +37,7 @@ export function createMutateFieldRequest(
       `sajari: failed to verify MutateFieldRequest message: ${err}`
     );
   }
+  // FIXME(@benhinchley): type error due to merge above.
+  // @ts-ignore
   return sajari.engine.schema.MutateFieldRequest.create(req);
 }

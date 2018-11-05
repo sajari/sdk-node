@@ -1,7 +1,7 @@
-import { sajari } from "../generated/proto";
+import { sajari } from "../../generated/proto";
+import { Value } from "../utils";
 import { RecordMutation } from "./interfaces";
-import { createEngineKey } from "./key";
-import { valueToProto } from "./utils";
+import { Key } from "./key";
 
 export interface FieldMutation {
   field: string;
@@ -28,6 +28,34 @@ export function setField(
 }
 
 /**
+ * appendField is a FieldMutation which appends value to field.
+ */
+export function appendField(
+  field: string,
+  value: string | string[] | null
+): FieldMutation {
+  return {
+    field,
+    mutation: "append",
+    set: value
+  };
+}
+
+/**
+ * incrementField is a FieldMutation which increments field by value.
+ */
+export function incrementField(
+  field: string,
+  value: string | string[] | null
+): FieldMutation {
+  return {
+    field,
+    mutation: "increment",
+    set: value
+  };
+}
+
+/**
  * createFieldMutation turns a FieldMutation into a
  * sajari.engine.store.record.MutateRequest.RecordMutation.FieldMutation
  * @hidden
@@ -47,23 +75,23 @@ export function createFieldMutation(
           "sajari: set mutation created, but there is no value for set"
         );
       }
-      proto.set = valueToProto(fm.set);
+      proto.set = Value.toProto(fm.set);
       break;
     case "increment":
-      if (fm.set === undefined) {
+      if (fm.increment === undefined) {
         throw new Error(
           "sajari: increment mutation created, but there is no value for increment"
         );
       }
-      proto.increment = valueToProto(fm.set);
+      proto.increment = Value.toProto(fm.increment);
       break;
     case "append":
-      if (fm.set === undefined) {
+      if (fm.append === undefined) {
         throw new Error(
           "sajari: append mutation created, but there is no value for append"
         );
       }
-      proto.append = valueToProto(fm.set);
+      proto.append = Value.toProto(fm.append);
       break;
 
     default:
@@ -82,7 +110,7 @@ export function createMutationRequest(recordMutations: RecordMutation[]) {
   return sajari.engine.store.record.MutateRequest.create({
     recordMutations: recordMutations.map((recordMutation) => {
       return {
-        key: createEngineKey(recordMutation.key),
+        key: Key.toProto(recordMutation.key),
         mutations: recordMutation.mutations.map(createFieldMutation)
       };
     })
