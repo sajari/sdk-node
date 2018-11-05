@@ -1,52 +1,42 @@
 import { ServiceError, status as grpcCodes } from "grpc";
 import { sajari } from "../generated/proto";
 
-/**
- * @hidden
- */
-export const valueFromProto = (
-  v: sajari.engine.IValue
-): string[] | string | null => {
-  // We are casting to sajari.engine.Value straight away here
-  // as it appears that the node implementation of grpc or protobufjs
-  // is translating the protobuf messages to simplified objects
-  // automatically.
-  const value = v as sajari.engine.Value;
-  if (value === null) {
-    return null;
+export type Value = string | string[] | null;
+
+export namespace Value {
+  export function toProto(v: Value): sajari.engine.Value {
+    if (Array.isArray(v)) {
+      return new sajari.engine.Value({ repeated: { values: v } });
+    } else if (typeof v === "string") {
+      return new sajari.engine.Value({ single: v });
+    } else if (v === null) {
+      return sajari.engine.Value.create({ null: true });
+    }
+
+    throw new Error(
+      `argument passed to "Value.toProto" must be a string, Array<string>, or null`
+    );
   }
-  switch (value.value) {
-    case "single":
-      return value.single;
-    case "repeated":
-      return (value.repeated as sajari.engine.Value.Repeated).values;
-    case "null":
+
+  export function fromProto(v: sajari.engine.IValue): Value {
+    const value = v as sajari.engine.Value;
+    if (value === null || value.value === undefined) {
       return null;
+    }
+    switch (value.value) {
+      case "single":
+        return value.single;
+      case "repeated":
+        return (value.repeated as sajari.engine.Value.Repeated).values;
+      case "null":
+        return null;
+    }
+
+    throw new Error(
+      `argument passed to "Value.fromProto" must being either null, single or repeated`
+    );
   }
-
-  throw new Error(
-    `argument passed to "valueFromProto" must being either null, single or repeated`
-  );
-};
-
-/**
- * @hidden
- */
-export const valueToProto = (
-  v: string[] | string | null
-): sajari.engine.Value => {
-  if (Array.isArray(v)) {
-    return new sajari.engine.Value({ repeated: { values: v } });
-  } else if (typeof v === "string") {
-    return new sajari.engine.Value({ single: v });
-  } else if (v === null) {
-    return sajari.engine.Value.create({ null: true });
-  }
-
-  throw new Error(
-    `argument passed to "valueToProto" must be a string, Array<string>, or null`
-  );
-};
+}
 
 /**
  * @hidden
@@ -74,6 +64,8 @@ export const errorFromStatus = (status: sajari.rpc.IStatus): Error | null => {
 export const errorFromStatuses = (
   status: sajari.rpc.IStatus[]
 ): MultiError | null => {
+  // reducing errors to an object with their index as the key,
+  // so that the end user can map the error index to a record index
   const errors = status.map(errorFromStatus).reduce(
     (obj, error, idx) => {
       if (error) {

@@ -1,8 +1,11 @@
 import { sajari } from "../../generated/proto";
-import { createEngineKey, Key, parseEngineKey } from "../key";
-import { createEngineRecord, Record } from "../record";
+import { Key } from "../engine/key";
+import { Record } from "../engine/record";
 import { errorFromStatus } from "../utils";
 
+/**
+ * KeyRecord is a key-record pair.
+ */
 export interface KeyRecord {
   key: Key;
   record: Record;
@@ -18,13 +21,13 @@ export function createReplaceRequest(
 ): sajari.api.pipeline.v1.ReplaceRequest {
   const engineKeyRecords = keyRecords.map(({ key, record }) => {
     return {
-      key: createEngineKey(key),
-      record: createEngineRecord(record)
+      key: Key.toProto(key),
+      record: Record.toProto(record)
     };
   });
 
   const req = {
-    pipeline: pipeline,
+    pipeline,
     keyRecords: engineKeyRecords,
     values
   };
@@ -48,7 +51,7 @@ export async function parseReplaceResponse(
   response: sajari.engine.store.record.IReplaceResponse
 ): Promise<ReplaceResponse[]> {
   const res = response as sajari.engine.store.record.ReplaceResponse;
-  const keys = res.keys.map(parseEngineKey);
+  const keys = res.keys.map(Key.fromProto);
   const errors = res.status.map(errorFromStatus);
 
   return keys.map((key, idx) => {

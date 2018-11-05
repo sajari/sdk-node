@@ -1,6 +1,6 @@
 import { sajari } from "../../generated/proto";
-import { Key, parseEngineKey } from "../key";
-import { createEngineRecord, Record } from "../record";
+import { Key } from "../engine/key";
+import { Record } from "../engine/record";
 import { errorFromStatus } from "../utils";
 
 /**
@@ -12,8 +12,8 @@ export const createAddRequest = (
   records: Record[]
 ): sajari.api.pipeline.v1.AddRequest => {
   const req = {
-    pipeline: pipeline,
-    records: records.map((record) => createEngineRecord(record)),
+    pipeline,
+    records: records.map((record) => Record.toProto(record)),
     values
   };
   const err = sajari.api.pipeline.v1.AddRequest.verify(req);
@@ -35,7 +35,7 @@ export function parseAddResponse(
   response: sajari.engine.store.record.IAddResponse
 ): AddResponse[] {
   const res = response as sajari.engine.store.record.AddResponse;
-  const keys = res.keys.map(parseEngineKey);
+  const keys = res.keys.map(Key.fromProto);
   const errors = res.status.map(errorFromStatus);
 
   return keys.map((key, idx) => {

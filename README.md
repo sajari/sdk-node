@@ -53,7 +53,7 @@ schema.add(...fields).catch(error => {/* handle error ... */})
 
 **Adding a record**
 ```js
-const { DefaultClient, FieldMode } = require("@sajari/sdk-node");
+const { DefaultClient } = require("@sajari/sdk-node");
 
 // create client
 const client = new DefaultClient("<project>", "<collection>", {
@@ -74,7 +74,7 @@ pipeline.add({}, record)
 	.catch(error => {/* handle error ... */})
 ```
 
-**Perform a search**
+**Performing a search**
 ```js
 const { DefaultClient, DefaultSession, TrackingType } = require("@sajari/sdk-node");
 
@@ -85,8 +85,9 @@ const client = new DefaultClient("<project>", "<collection>", {
 
 const session = new DefaultSession(TrackingType.None);
 const pipeline = client.pipeline("<your pipeline name>");
+const values = { q: "hello" };
 
-pipeline.search({ q: "hello" }, session)
+pipeline.search(values, session.next(values))
 	.then(response => {/* handle response ... */})
 	.catch(error => {/* handle error ... */})
 ```

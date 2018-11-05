@@ -1,16 +1,12 @@
 import { sajari } from "../../generated/proto";
-import { valueFromProto } from "../utils";
+import { Value } from "../utils";
 import { Token, Tracking } from "./session";
-
-export interface ResultValues {
-  [k: string]: string | string[];
-}
 
 export interface Result {
   score: number;
   indexScore: number;
-  values: ResultValues;
-  tokens: Token;
+  values: { [k: string]: string | string[] };
+  tokens?: Token;
 }
 
 export interface Results {
@@ -23,93 +19,88 @@ export interface Results {
 
 export interface SearchResponse {
   results: Results;
-  values: ResultValues;
+  values: { [k: string]: string | string[] };
 }
 
 /**
  * @hidden
  */
 export const createSearchRequest = (
-  pipeline: string,
+  pipeline: { name: string },
   values: { [k: string]: string },
   tracking: Tracking
-): { [k: string]: any } => {
-  return {
-    pipeline: { name: pipeline },
-    tracking,
+): sajari.api.pipeline.v1.SearchRequest => {
+  const req = {
+    pipeline,
+    tracking: Tracking.toProto(tracking),
     values
   };
+  const err = sajari.api.pipeline.v1.AddRequest.verify(req);
+  if (err) {
+    throw new Error(`sajari: failed to verify AddRequest message: ${err}`);
+  }
+  return sajari.api.pipeline.v1.SearchRequest.create(req);
 };
 
 /**
  * @hidden
  */
-type SearchResponseResult = sajari.engine.query.v1.Result;
+export function parseSearchResponse(
+  response: sajari.api.pipeline.v1.SearchResponse
+): Results {
+  const searchResponse = response.searchResponse as sajari.engine.query.v1.SearchResponse;
+  const results = processResults(searchResponse.results, response.tokens);
 
-/**
- * @hidden
- */
-export const processSearchResponse = (
-  response: sajari.engine.query.v1.SearchResponse,
-  tokens: sajari.api.query.v1.Token[]
-): Results => {
-  const results = response.results.map(
-    (resResult: sajari.engine.query.v1.IResult, index: number): Result => {
-      const values: ResultValues = Object.keys(
-        (resResult as SearchResponseResult).values
-      ).reduce((obj: ResultValues, key): ResultValues => {
-        const value = valueFromProto((resResult as SearchResponseResult).values[
-          key
-        ] as sajari.engine.Value);
-        if (!value) {
-          return obj;
-        } else {
-          obj[key] = value;
-          return obj;
-        }
-      }, {});
-
-      const res = {
-        indexScore: (resResult as SearchResponseResult).indexScore,
-        score: (resResult as SearchResponseResult).score,
-        tokens: {} as Token,
-        values
-      };
-
-      if (tokens.length > index) {
-        const token = tokens[index] as sajari.api.query.v1.Token;
-        if (token.token === "click") {
-          res.tokens = {
-            click: (token.click as sajari.api.query.v1.Token.Click).token
-          };
-        } else if (token.token === "posNeg") {
-          res.tokens = {
-            neg: (token.posNeg as sajari.api.query.v1.Token.PosNeg).neg,
-            pos: (token.posNeg as sajari.api.query.v1.Token.PosNeg).pos
-          };
-        }
-      }
-
-      return res;
-    }
-  );
-
-  const result = {
-    aggregates: {} as Aggregates,
-    reads: response.reads as number,
-    results,
-    time: parseFloat(response.time),
-    totalResults: response.totalResults as number
-  };
-
-  if (Object.keys(response.aggregates).length > 0) {
-    result.aggregates = processAggregatesResponse(
-      response.aggregates as AggregateResponse
+  let aggregates = {} as Aggregates;
+  if (Object.keys(searchResponse.aggregates).length > 0) {
+    aggregates = processAggregatesResponse(
+      searchResponse.aggregates as AggregateResponse
     );
   }
 
-  return result;
-};
+  return {
+    reads: searchResponse.reads as number,
+    time: parseFloat(searchResponse.time),
+    totalResults: searchResponse.totalResults as number,
+    results,
+    aggregates
+  };
+}
+
+/**
+ * @hidden
+ */
+function processResults(
+  results: sajari.engine.query.v1.IResult[],
+  tokens: sajari.api.query.v1.IToken[]
+): Result[] {
+  return results.map((res: sajari.engine.query.v1.IResult, idx: number) => {
+    const err = sajari.engine.query.v1.Result.verify(res);
+    if (err) {
+      throw new Error(`sajari: unable to verify Result message: ${err}`);
+    }
+    const result = res as sajari.engine.query.v1.Result;
+    const values = Object.keys(result.values).reduce(
+      (vals, key: string) => {
+        vals[key] = Value.fromProto(result.values[key]);
+        return vals;
+      },
+      {} as { [k: string]: Value }
+    );
+
+    let token;
+    if (tokens.length > idx) {
+      token = Token.fromProto(tokens[idx]);
+    }
+
+    return {
+      indexScore: result.indexScore,
+      score: result.score,
+      values,
+      tokens: token
+    } as Result;
+  });
+}
 
 // BucketsResponse is a type returned from a query performing bucket aggregate.
 export interface BucketsResponse {

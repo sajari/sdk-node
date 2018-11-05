@@ -1,12 +1,24 @@
 import { sajari } from "../generated/proto";
 import { APIClient } from "./api";
-import { createMutationRequest, FieldMutation } from "./fieldMutation";
-import { GetResponse, RecordMutation } from "./interfaces";
-import { createEngineKey, Key } from "./key";
-import { parseRecordResponse } from "./parse";
-import { Record } from "./record";
-import { errorFromStatuses } from "./utils";
+import { createMutationRequest, FieldMutation } from "./engine/fieldMutation";
+import { GetResponse, RecordMutation } from "./engine/interfaces";
+import { Key } from "./engine/key";
+import { parseRecordResponse } from "./engine/parse";
+import { Record } from "./engine/record";
 import { Pipeline, PipelineImpl } from "./pipeline";
+import { Schema } from "./schema";
+import { errorFromStatuses } from "./utils";
+
+/**
+ * grpc method endpoint for record mutation
+ * @hidden
+ */
+const MutateRecordMethod = "sajari.engine.store.record.Store/Mutate";
+/**
+ * grpc method endpoint for record retrieval
+ * @hidden
+ */
+const GetRecordMethod = "sajari.engine.store.record.Store/Get";
 
 export class Client {
   private client: APIClient;
@@ -24,6 +36,10 @@ export class Client {
     this.client.close();
   }
 
+  public wait(seconds: number): Promise<void> {
+    return this.client.wait(seconds);
+  }
+
   public async get(key: Key): Promise<Record> {
     const response = await this.getMulti([key]);
     const res = response[0];
@@ -34,16 +50,13 @@ export class Client {
   }
 
   public async getMulti(keys: Key[]): Promise<GetResponse[]> {
-    const req = new sajari.engine.store.record.Keys({
-      keys: keys.map(createEngineKey)
+    const request = new sajari.engine.store.record.Keys({
+      keys: keys.map(Key.toProto)
     });
 
-    const response = await this.client.call<
-      sajari.engine.store.record.Keys,
-      sajari.engine.store.record.GetResponse
-    >(
-      "sajari.engine.store.record.Store/Get",
-      req,
+    const response = await this.client.call(
+      GetRecordMethod,
+      request,
       sajari.engine.store.record.Keys.encode,
       sajari.engine.store.record.GetResponse.decode
     );
@@ -51,19 +64,16 @@ export class Client {
     return parseRecordResponse(response);
   }
 
-  public async mutate(key: Key, fieldMutation: FieldMutation): Promise<null> {
+  public async mutate(key: Key, fieldMutation: FieldMutation): Promise<void> {
     return this.mutateMulti([{ key, mutations: [fieldMutation] }]);
   }
 
-  public async mutateMulti(recordMutations: RecordMutation[]): Promise<null> {
-    const req = createMutationRequest(recordMutations);
+  public async mutateMulti(recordMutations: RecordMutation[]): Promise<void> {
+    const request = createMutationRequest(recordMutations);
 
-    const response = await this.client.call<
-      sajari.engine.store.record.MutateRequest,
-      sajari.engine.store.record.MutateResponse
-    >(
-      "sajari.engine.store.record.Store/Mutate",
-      req,
+    const response = await this.client.call(
+      MutateRecordMethod,
+      request,
       sajari.engine.store.record.MutateRequest.encode,
       sajari.engine.store.record.MutateResponse.decode
     );
@@ -73,10 +83,14 @@ export class Client {
       throw err;
     }
 
-    return null;
+    return;
   }
 
   public pipeline(pipeline: { name: string }): Pipeline {
     return new PipelineImpl(pipeline, this.client);
+  }
+
+  public schema(): Schema {
+    return new Schema(this.client);
   }
 }

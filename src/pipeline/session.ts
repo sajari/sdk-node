@@ -1,3 +1,7 @@
+import merge from "deepmerge";
+import { sajari } from "../../generated/proto";
+import { APIClient } from "../api";
+
 /* tslint:disable:max-classes-per-file */
 
 /**
@@ -31,23 +35,51 @@ export interface Tracking {
   data: { [k: string]: string };
 }
 
+export namespace Tracking {
+  /**
+   * @hidden
+   */
+  export function toProto(
+    t: Tracking
+  ): sajari.api.query.v1.SearchRequest.Tracking {
+    const tracking = merge(t, { type: TrackingType.toProto(t.type) });
+    return sajari.api.query.v1.SearchRequest.Tracking.create(tracking);
+  }
+}
+
 /**
  * Session takes query values, maintains session state, and returns tracking data
  * to be sent with search requests.
  */
 export interface Session {
-  next(values: { [k: string]: string }): [Error | null, Tracking?];
+  next(values: { [k: string]: string }): Tracking;
   reset(): void;
 }
 
 /** TrackingType defines the possible result-interaction tracking types used by [[DefaultSession]] */
 export enum TrackingType {
   /** None disables tracking. */
-  None = "NONE",
+  None = sajari.api.query.v1.SearchRequest.Tracking.Type.NONE,
   /** Click generates click tracking tokens. */
-  Click = "CLICK",
+  Click = sajari.api.query.v1.SearchRequest.Tracking.Type.CLICK,
   /** PosNeg creates pos/neg tracking tokens. */
-  PosNeg = "POS_NEG"
+  PosNeg = sajari.api.query.v1.SearchRequest.Tracking.Type.POS_NEG
+}
+
+export namespace TrackingType {
+  export function toProto(
+    t: TrackingType
+  ): sajari.api.query.v1.SearchRequest.Tracking.Type {
+    switch (t) {
+      case TrackingType.Click:
+        return sajari.api.query.v1.SearchRequest.Tracking.Type.CLICK;
+      case TrackingType.PosNeg:
+        return sajari.api.query.v1.SearchRequest.Tracking.Type.POS_NEG;
+      case TrackingType.None:
+      default:
+        return sajari.api.query.v1.SearchRequest.Tracking.Type.NONE;
+    }
+  }
 }
 
 export interface ClickToken {
@@ -60,6 +92,32 @@ export interface PosNegToken {
 }
 
 export type Token = ClickToken | PosNegToken;
+
+export namespace Token {
+  export function fromProto(t: sajari.api.query.v1.IToken): Token {
+    switch (t) {
+      case sajari.api.query.v1.Token.Click:
+        if (t.click == null || t.click.token == null) {
+          throw new Error("sajari: invalid click token");
+        }
+        return {
+          click: t.click.token
+        };
+
+      case sajari.api.query.v1.Token.PosNeg:
+        if (t.posNeg == null || t.posNeg.pos == null || t.posNeg.neg == null) {
+          throw new Error("sajari: invalid posNeg token");
+        }
+        return {
+          pos: t.posNeg.pos,
+          neg: t.posNeg.neg
+        };
+
+      default:
+        throw new Error("sajari: invalid token type");
+    }
+  }
+}
 
 /** DefaultSession holds state of a sequence of searches. */
 export class DefaultSession implements Session {
@@ -96,7 +154,7 @@ export class DefaultSession implements Session {
   }
 
   /** next merges new values into the session and returns tracking data to be sent with search requests. */
-  public next(values: { [k: string]: string }): [Error | null, Tracking?] {
+  public next(values: { [k: string]: string }): Tracking {
     if (this.queryID === "") {
       this.queryID = newQueryID();
       this.sequence = 0;
@@ -104,16 +162,13 @@ export class DefaultSession implements Session {
       this.sequence++;
     }
 
-    return [
-      null,
-      {
-        type: this.trackingType,
-        query_id: this.queryID,
-        sequence: this.sequence,
-        field: this.field,
-        data: this.sessionData
-      } as Tracking
-    ];
+    return {
+      type: this.trackingType,
+      query_id: this.queryID,
+      sequence: this.sequence,
+      field: this.field,
+      data: this.sessionData
+    } as Tracking;
   }
 
   /** reset resets the session instance to its empty state. */
