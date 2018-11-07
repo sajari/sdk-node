@@ -37,7 +37,7 @@ export function appendField(
   return {
     field,
     mutation: "append",
-    set: value
+    append: value
   };
 }
 
@@ -51,7 +51,7 @@ export function incrementField(
   return {
     field,
     mutation: "increment",
-    set: value
+    increment: value
   };
 }
 

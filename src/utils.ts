@@ -4,20 +4,22 @@ import { sajari } from "../generated/proto";
 export type Value = string | string[] | null;
 
 export namespace Value {
-  export function toProto(v: Value): sajari.engine.Value {
-    if (Array.isArray(v)) {
-      return new sajari.engine.Value({ repeated: { values: v } });
-    } else if (typeof v === "string") {
-      return new sajari.engine.Value({ single: v });
-    } else if (v === null) {
-      return sajari.engine.Value.create({ null: true });
+  /**
+   * @hidden
+   */
+  export function toProto(v: Value): sajari.engine.Value | undefined {
+    const value = convertTypes(v);
+    if (Array.isArray(value)) {
+      return new sajari.engine.Value({ repeated: { values: value } });
+    } else if (typeof value === "string") {
+      return new sajari.engine.Value({ single: value });
     }
-
-    throw new Error(
-      `argument passed to "Value.toProto" must be a string, Array<string>, or null`
-    );
+    return undefined;
   }
 
+  /**
+   * @hidden
+   */
   export function fromProto(v: sajari.engine.IValue): Value {
     const value = v as sajari.engine.Value;
     if (value === null || value.value === undefined) {
@@ -31,10 +33,23 @@ export namespace Value {
       case "null":
         return null;
     }
+  }
 
-    throw new Error(
-      `argument passed to "Value.fromProto" must being either null, single or repeated`
-    );
+  /**
+   * convertTypes takes in any value and converts the underlaying value
+   * into its string representation
+   * @hidden
+   */
+  function convertTypes(v: any): Value {
+    if (Array.isArray(v)) {
+      return v.map((x) => String(x));
+    } else if (v instanceof Date) {
+      return String(Math.floor(v.valueOf() / 1000));
+    } else if (v === null || v === undefined) {
+      return null;
+    } else {
+      return String(v);
+    }
   }
 }
 
