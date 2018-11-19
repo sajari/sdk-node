@@ -26,36 +26,33 @@ npm test
 
 **Creating a schema**
 ```js
-const { DefaultClient, FieldMode } = require("@sajari/sdk-node");
+const { Client, FieldMode, schema } = require("@sajari/sdk-node");
 
 // create client
-const client = new DefaultClient("<project>", "<collection>", {
+const client = new Client("<project>", "<collection>", {
 	key: "<key from console>",
 	secret: "<secret from console>"
 });
 
-// get schema client
-const schema = client.schema()
-
 const fields = [
-	schema.boolean("my-boolean-field", {
+	schema.field.boolean("my-boolean-field", {
 		// Set this field to be required.
 		// FieldMode options are defined here,
 		// https://sajari-sdk-node.netlify.com/enums/fieldmode.html
 		mode: FieldMode.Required 
 	}),
-	schema.string("text")
+	schema.field.string("text")
 ]
 
-schema.add(...fields).catch(error => {/* handle error ... */})
+client.schema().add(...fields).catch(error => {/* handle error ... */})
 ```
 
 **Adding a record**
 ```js
-const { DefaultClient } = require("@sajari/sdk-node");
+const { Client } = require("@sajari/sdk-node");
 
 // create client
-const client = new DefaultClient("<project>", "<collection>", {
+const client = new Client("<project>", "<collection>", {
 	key: "<key from console>",
 	secret: "<secret from console>"
 });
@@ -75,9 +72,9 @@ pipeline.add({}, record)
 
 **Performing a search**
 ```js
-const { DefaultClient, DefaultSession, TrackingType } = require("@sajari/sdk-node");
+const { Client, DefaultSession, TrackingType } = require("@sajari/sdk-node");
 
-const client = new DefaultClient("<project>", "<collection>", {
+const client = new Client("<project>", "<collection>", {
 	key: "<key from console>",
 	secret: "<secret from console>"
 });
