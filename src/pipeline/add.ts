@@ -31,9 +31,9 @@ export interface AddResponse {
 /**
  * @hidden
  */
-export function parseAddResponse(
+export async function parseAddResponse(
   response: sajari.engine.store.record.IAddResponse
-): AddResponse[] {
+): Promise<AddResponse[]> {
   const res = response as sajari.engine.store.record.AddResponse;
   const keys = res.keys.map(Key.fromProto);
   const errors = res.status.map(errorFromStatus);

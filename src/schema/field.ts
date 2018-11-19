@@ -35,6 +35,9 @@ export interface Field {
 }
 
 export namespace Field {
+  /**
+   * @hidden
+   */
   export function toProto(f: Field): sajari.engine.schema.Field {
     return new sajari.engine.schema.Field(
       merge(f, {
@@ -44,6 +47,9 @@ export namespace Field {
     );
   }
 
+  /**
+   * @hidden
+   */
   export function fromProto(f: sajari.engine.schema.IField): Field {
     const err = sajari.engine.schema.Field.verify(f);
     if (err) {
@@ -78,6 +84,9 @@ export enum Type {
 }
 
 export namespace Type {
+  /**
+   * @hidden
+   */
   export function toProto(t: Type): sajari.engine.schema.Field.Type {
     switch (t) {
       case Type.Integer:
@@ -96,6 +105,9 @@ export namespace Type {
     }
   }
 
+  /**
+   * @hidden
+   */
   export function fromProto(t: sajari.engine.schema.Field.Type): Type {
     switch (t) {
       case sajari.engine.schema.Field.Type.INTEGER:
@@ -132,6 +144,9 @@ export enum FieldMode {
 }
 
 export namespace FieldMode {
+  /**
+   * @hidden
+   */
   export function toProto(m: FieldMode): sajari.engine.schema.Field.Mode {
     switch (m) {
       case FieldMode.Required:
@@ -144,6 +159,9 @@ export namespace FieldMode {
     }
   }
 
+  /**
+   * @hidden
+   */
   export function fromProto(m: sajari.engine.schema.Field.Mode): FieldMode {
     switch (m) {
       case sajari.engine.schema.Field.Mode.REQUIRED:
@@ -192,7 +210,7 @@ const defaultFieldOptions: FieldOptions = {
 /**
  * @hidden
  */
-export function field(type: Type, name: string, options: FieldOptions): Field {
+export function field(type: Type, name: string, options?: FieldOptions): Field {
   options = merge(defaultFieldOptions, options || {});
 
   switch (options.mode) {

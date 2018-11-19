@@ -1,12 +1,27 @@
 import { FieldMode, Type } from "./field";
+import { sajari } from "../../generated/proto";
 
 // Mutation is a mutation of a schema field.
 export type Mutation =
   | NameMutation
   | DescriptionMutation
   | TypeMutation
-  | RepeatedMutation
-  | ModeMutation;
+  | RepeatedMutation;
+
+export namespace Mutation {
+  /**
+   * @hidden
+   */
+  export function toProto(
+    m: Mutation
+  ): sajari.engine.schema.MutateFieldRequest.Mutation {
+    let mutation: { [k: string]: any } = m;
+    if ("type" in mutation) {
+      mutation.type = Type.toProto(mutation.type);
+    }
+    return sajari.engine.schema.MutateFieldRequest.Mutation.create(mutation);
+  }
+}
 
 export interface NameMutation {
   // Name is a new name for the field.
@@ -26,11 +41,6 @@ export interface TypeMutation {
 export interface RepeatedMutation {
   // Repeated sets whether the field values are repeated.
   repeated: boolean;
-}
-
-export interface ModeMutation {
-  // mode sets the field mode.
-  mode: FieldMode;
 }
 
 function name(n: string): NameMutation {
@@ -57,16 +67,9 @@ function repeated(b: boolean): RepeatedMutation {
   };
 }
 
-function mode(m: FieldMode): ModeMutation {
-  return {
-    mode: m
-  };
-}
-
 export const mutation = {
   name,
   description,
   type,
-  repeated,
-  mode
+  repeated
 };

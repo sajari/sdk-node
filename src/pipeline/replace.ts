@@ -19,12 +19,10 @@ export function createReplaceRequest(
   values: { [k: string]: string },
   keyRecords: KeyRecord[]
 ): sajari.api.pipeline.v1.ReplaceRequest {
-  const engineKeyRecords = keyRecords.map(({ key, record }) => {
-    return {
-      key: Key.toProto(key),
-      record: Record.toProto(record)
-    };
-  });
+  const engineKeyRecords = keyRecords.map(({ key, record }) => ({
+    key: Key.toProto(key),
+    record: Record.toProto(record)
+  }));
 
   const req = {
     pipeline,
@@ -54,10 +52,8 @@ export async function parseReplaceResponse(
   const keys = res.keys.map(Key.fromProto);
   const errors = res.status.map(errorFromStatus);
 
-  return keys.map((key, idx) => {
-    return {
-      key,
-      error: errors[idx]
-    };
-  });
+  return keys.map((key, idx) => ({
+    key,
+    error: errors[idx]
+  }));
 }
