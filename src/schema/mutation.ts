@@ -1,5 +1,5 @@
-import { FieldMode, Type } from "./field";
 import { sajari } from "../../generated/proto";
+import { Type } from "./field";
 
 // Mutation is a mutation of a schema field.
 export type Mutation =
@@ -15,11 +15,11 @@ export namespace Mutation {
   export function toProto(
     m: Mutation
   ): sajari.engine.schema.MutateFieldRequest.Mutation {
-    let mutation: { [k: string]: any } = m;
-    if ("type" in mutation) {
-      mutation.type = Type.toProto(mutation.type);
+    const mut: { [k: string]: any } = m;
+    if ("type" in mut) {
+      mut.type = Type.toProto(mut.type);
     }
-    return sajari.engine.schema.MutateFieldRequest.Mutation.create(mutation);
+    return sajari.engine.schema.MutateFieldRequest.Mutation.create(mut);
   }
 }
 

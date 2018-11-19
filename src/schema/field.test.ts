@@ -1,4 +1,3 @@
-import merge from "deepmerge";
 import { sajari } from "../../generated/proto";
 import { Type, FieldMode, field, Field } from "./field";
 
