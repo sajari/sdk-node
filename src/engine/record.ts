@@ -12,9 +12,6 @@ export namespace Record {
   export function toProto(r: Record): sajari.engine.store.record.Record {
     const values = Object.keys(r).reduce(
       (obj, key) => {
-        if (r[key] == null) {
-          return obj;
-        }
         const value = Value.toProto(r[key]);
         if (value === undefined) {
           return obj;

@@ -6,7 +6,6 @@ export {
   NameMutation,
   DescriptionMutation,
   TypeMutation,
-  ModeMutation,
   RepeatedMutation
 } from "./mutation";
 export { FieldMode } from "./field";

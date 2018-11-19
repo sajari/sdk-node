@@ -146,7 +146,7 @@ export class APIClient {
 
 /**
  * createCallCredentials creates the grpc.CallCredientials from the
- * pass credentials
+ * passed sajari credentials
  * @hidden
  */
 function createCallCredentials(

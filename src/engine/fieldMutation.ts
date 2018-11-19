@@ -109,10 +109,10 @@ export function createFieldMutation(
 export function createMutationRequest(recordMutations: RecordMutation[]) {
   return sajari.engine.store.record.MutateRequest.create({
     recordMutations: recordMutations.map((recordMutation) => {
-      return {
+      return sajari.engine.store.record.MutateRequest.RecordMutation.create({
         key: Key.toProto(recordMutation.key),
-        mutations: recordMutation.mutations.map(createFieldMutation)
-      };
+        fieldMutations: recordMutation.mutations.map(createFieldMutation)
+      });
     })
   });
 }

@@ -1,3 +1,5 @@
+// tslint:disable:max-classes-per-file
+
 import { ServiceError, status as grpcCodes } from "grpc";
 import { sajari } from "../generated/proto";
 
@@ -98,12 +100,12 @@ export const errorFromStatuses = (
 };
 
 export class MultiError extends Error {
-  public errors: { [k: number]: Error };
+  public errors: Errors;
 
   constructor(errors: { [k: number]: Error }) {
     super();
 
-    this.errors = errors;
+    this.errors = new Errors(errors);
     this.message = this.messageCreator();
   }
 
@@ -122,6 +124,21 @@ export class MultiError extends Error {
     }
     return `${msg} (and ${n - 1} other errors)`;
   };
+}
+
+/**
+ * @hidden
+ */
+export class Errors extends Array<Error> {
+  constructor(errors: { [k: number]: Error }) {
+    const lastIdx = Object.keys(errors).pop();
+    super(parseInt(lastIdx || "", 10));
+
+    Object.keys(errors).forEach((key) => {
+      const idx = parseInt(key, 10);
+      this[idx] = errors[idx];
+    });
+  }
 }
 
 /**

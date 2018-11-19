@@ -20,19 +20,19 @@ export interface Tracking {
    * individual queries (i.e. as a user types the query is re-run).
    * To identify the individual queries use the [[Tracking.sequence]] number.
    */
-  query_id: string;
+  query_id?: string;
 
   /* 
    * sequence (i.e. sequential identifier) in the context of a sequence of queries with
    * the same query_id.
    */
-  sequence: number;
+  sequence?: number;
 
   /** field is a unique field on each result used to associate tracking information to the result. */
-  field: string;
+  field?: string;
 
   /** data values which will be recorded along with query requests. */
-  data: { [k: string]: string };
+  data?: { [k: string]: string };
 }
 
 export namespace Tracking {
@@ -95,27 +95,28 @@ export type Token = ClickToken | PosNegToken;
 
 export namespace Token {
   export function fromProto(t: sajari.api.query.v1.IToken): Token {
-    switch (t) {
-      case sajari.api.query.v1.Token.Click:
-        if (t.click == null || t.click.token == null) {
-          throw new Error("sajari: invalid click token");
-        }
-        return {
-          click: t.click.token
-        };
-
-      case sajari.api.query.v1.Token.PosNeg:
-        if (t.posNeg == null || t.posNeg.pos == null || t.posNeg.neg == null) {
-          throw new Error("sajari: invalid posNeg token");
-        }
-        return {
-          pos: t.posNeg.pos,
-          neg: t.posNeg.neg
-        };
-
-      default:
-        throw new Error("sajari: invalid token type");
+    if (t.click != null) {
+      if (t.click.token === "" || t.click.token == null) {
+        throw new Error("sajari: invalid click token");
+      }
+      return {
+        click: t.click.token
+      };
+    } else if (t.posNeg != null) {
+      if (
+        t.posNeg.pos === "" ||
+        t.posNeg.pos === "" ||
+        (t.posNeg.pos == null || t.posNeg.neg == null)
+      ) {
+        throw new Error("sajari: invalid posNeg token");
+      }
+      return {
+        pos: t.posNeg.pos,
+        neg: t.posNeg.neg
+      };
     }
+
+    throw new Error("sajari: invalid token type");
   }
 }
 
