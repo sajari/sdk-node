@@ -11,9 +11,7 @@ test("createAddRequest", () => {
         mode: sajari.engine.schema.Field.Mode.NULLABLE,
         name: "foo",
         description: "",
-        repeated: false,
-        required: false,
-        unique: false
+        repeated: false
       })
     ]
   });

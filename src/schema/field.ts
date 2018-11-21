@@ -14,18 +14,8 @@ export interface Field {
   // Type defines the type of the field.
   type: Type;
 
+  // Mode defines the mode of the field.
   mode: FieldMode;
-
-  /**
-   * deprecated
-   * @hidden
-   */
-  required: boolean;
-  /**
-   * deprecated
-   * @hidden
-   */
-  unique: boolean;
 
   // Repeated indicates that this field can hold a list of values.
   repeated: boolean;
@@ -62,8 +52,6 @@ export namespace Field {
       description: engineField.description,
       type: Type.fromProto(engineField.type),
       mode: FieldMode.fromProto(engineField.mode),
-      required: engineField.required,
-      unique: engineField.unique,
       repeated: engineField.repeated,
       indexed: engineField.indexed
     };
@@ -183,17 +171,6 @@ export interface FieldOptions {
   repeated?: boolean;
 
   mode?: FieldMode;
-
-  /**
-   * deprecated
-   * @hidden
-   */
-  required?: boolean;
-  /**
-   * deprecated
-   * @hidden
-   */
-  unique?: boolean;
 }
 
 /**
@@ -202,9 +179,7 @@ export interface FieldOptions {
 const defaultFieldOptions: FieldOptions = {
   description: "",
   repeated: false,
-  mode: FieldMode.Nullable,
-  required: false,
-  unique: false
+  mode: FieldMode.Nullable
 };
 
 /**
@@ -213,16 +188,6 @@ const defaultFieldOptions: FieldOptions = {
 export function field(type: Type, name: string, options?: FieldOptions): Field {
   options = merge(defaultFieldOptions, options || {});
 
-  switch (options.mode) {
-    case FieldMode.Required:
-      options.required = true;
-      break;
-    case FieldMode.Unique:
-      options.unique = true;
-    default:
-      break;
-  }
-
   // XXX: We are type casting bellow due to a limitation in the types
   // produced by the merge function above.
   return {
@@ -230,8 +195,6 @@ export function field(type: Type, name: string, options?: FieldOptions): Field {
     name,
     description: options.description as string,
     repeated: options.repeated as boolean,
-    mode: options.mode as FieldMode,
-    unique: options.unique as boolean,
-    required: options.required as boolean
+    mode: options.mode as FieldMode
   };
 }

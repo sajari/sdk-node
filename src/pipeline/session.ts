@@ -105,7 +105,7 @@ export namespace Token {
     } else if (t.posNeg != null) {
       if (
         t.posNeg.pos === "" ||
-        t.posNeg.pos === "" ||
+        t.posNeg.neg === "" ||
         (t.posNeg.pos == null || t.posNeg.neg == null)
       ) {
         throw new Error("sajari: invalid posNeg token");

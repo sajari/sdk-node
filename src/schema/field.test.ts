@@ -52,9 +52,7 @@ describe("field function", () => {
         name: "string_field",
         description: "",
         repeated: false,
-        mode: FieldMode.Nullable,
-        unique: false,
-        required: false
+        mode: FieldMode.Nullable
       }
     ],
     [
@@ -70,9 +68,7 @@ describe("field function", () => {
         name: "bool_field",
         description: "",
         repeated: false,
-        mode: FieldMode.Unique,
-        unique: true,
-        required: false
+        mode: FieldMode.Unique
       }
     ],
     [
@@ -88,9 +84,7 @@ describe("field function", () => {
         name: "bool_field",
         description: "",
         repeated: false,
-        mode: FieldMode.Required,
-        unique: false,
-        required: true
+        mode: FieldMode.Required
       }
     ],
     [
@@ -104,9 +98,7 @@ describe("field function", () => {
         name: "bool_field",
         description: "",
         repeated: false,
-        mode: FieldMode.Nullable,
-        unique: false,
-        required: false
+        mode: FieldMode.Nullable
       }
     ]
   ])("field fn", (args, expected) => {
@@ -123,9 +115,7 @@ describe("Field", () => {
         mode: sajari.engine.schema.Field.Mode.NULLABLE,
         name: "foo",
         description: "",
-        repeated: false,
-        required: false,
-        unique: false
+        repeated: false
       })
     ],
     [
@@ -137,9 +127,7 @@ describe("Field", () => {
         mode: sajari.engine.schema.Field.Mode.REQUIRED,
         name: "bar",
         description: "",
-        repeated: false,
-        required: true,
-        unique: false
+        repeated: false
       })
     ]
   ])("Field.toProto", (arg, proto) => {
@@ -153,9 +141,7 @@ describe("Field", () => {
         mode: sajari.engine.schema.Field.Mode.NULLABLE,
         name: "foo",
         description: "",
-        repeated: false,
-        required: false,
-        unique: false
+        repeated: false
       }),
       {
         type: Type.String,
@@ -163,8 +149,6 @@ describe("Field", () => {
         name: "foo",
         description: "",
         repeated: false,
-        required: false,
-        unique: false,
         indexed: false
       }
     ],
@@ -174,8 +158,6 @@ describe("Field", () => {
         mode: sajari.engine.schema.Field.Mode.REQUIRED,
         name: "bar",
         description: "",
-        repeated: false,
-        required: true,
         unique: false
       }),
       {
@@ -184,8 +166,6 @@ describe("Field", () => {
         name: "bar",
         description: "",
         repeated: false,
-        required: true,
-        unique: false,
         indexed: false
       }
     ]

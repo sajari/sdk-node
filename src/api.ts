@@ -5,6 +5,18 @@ import protobuf from "protobufjs/light";
 import { deadline } from "./utils";
 
 /**
+ * Custom formatter for call options.
+ * By default we hide the credentials from being logged to the console.
+ * @hidden
+ */
+debuglog.formatters.C = (options: CallOptions) => {
+  if (process.env.DEBUG_SHOW_CREDS) {
+    return JSON.stringify(options);
+  }
+  return JSON.stringify({ deadline: options.deadline, credentials: "hidden" });
+};
+
+/**
  * debug message logger
  * @hidden
  */
@@ -20,6 +32,12 @@ const API_ENDPOINT = "api.sajari.com:443";
  * @hidden
  */
 const USER_AGENT = "sdk-node-1.0.0";
+
+/**
+ * The deault grpc authority
+ * @hidden
+ */
+const AUTHORITY = "api.sajari.com";
 
 /**
  * @hidden
@@ -67,7 +85,7 @@ export class APIClient {
         createCallCredentials(this.credentials.key, this.credentials.secret)
       ),
       {
-        "grpc.default_authority": "api.sajari.com",
+        "grpc.default_authority": AUTHORITY,
         "grpc.primary_user_agent": USER_AGENT
       }
     );
@@ -95,7 +113,7 @@ export class APIClient {
 
       debug("endpoint: %j", this.endpoint);
       debug("grpc method: %j", path);
-      debug("call options: %j", callOptions);
+      debug("call options: %C", callOptions);
       debug("request: %j", request);
 
       this.client.makeUnaryRequest(
@@ -156,7 +174,6 @@ function createCallCredentials(
   return grpc.credentials.createFromMetadataGenerator((_, callback) => {
     const metadata = new grpc.Metadata();
     metadata.add("authorization", `keysecret ${key} ${secret}`);
-    debug("call credentials: %j", metadata);
     callback(null, metadata);
   });
 }

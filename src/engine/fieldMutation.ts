@@ -55,52 +55,54 @@ export function incrementField(
   };
 }
 
-/**
- * createFieldMutation turns a FieldMutation into a
- * sajari.engine.store.record.MutateRequest.RecordMutation.FieldMutation
- * @hidden
- */
-export function createFieldMutation(
-  fm: FieldMutation
-): sajari.engine.store.record.MutateRequest.RecordMutation.FieldMutation {
-  const proto = {
-    field: fm.field,
-    mutation: fm.mutation
-  } as sajari.engine.store.record.MutateRequest.RecordMutation.FieldMutation;
+export namespace FieldMutation {
+  /**
+   * toProto turns a FieldMutation into a
+   * sajari.engine.store.record.MutateRequest.RecordMutation.FieldMutation
+   * @hidden
+   */
+  export function toProto(
+    fm: FieldMutation
+  ): sajari.engine.store.record.MutateRequest.RecordMutation.FieldMutation {
+    const proto = {
+      field: fm.field,
+      mutation: fm.mutation
+    } as sajari.engine.store.record.MutateRequest.RecordMutation.FieldMutation;
 
-  switch (fm.mutation) {
-    case "set":
-      if (fm.set === undefined) {
-        throw new Error(
-          "sajari: set mutation created, but there is no value for set"
-        );
-      }
-      proto.set = Value.toProto(fm.set);
-      break;
-    case "increment":
-      if (fm.increment === undefined) {
-        throw new Error(
-          "sajari: increment mutation created, but there is no value for increment"
-        );
-      }
-      proto.increment = Value.toProto(fm.increment);
-      break;
-    case "append":
-      if (fm.append === undefined) {
-        throw new Error(
-          "sajari: append mutation created, but there is no value for append"
-        );
-      }
-      proto.append = Value.toProto(fm.append);
-      break;
+    switch (fm.mutation) {
+      case "set":
+        if (fm.set === undefined) {
+          throw new Error(
+            "sajari: set mutation created, but there is no value for set"
+          );
+        }
+        proto.set = Value.toProto(fm.set);
+        break;
+      case "increment":
+        if (fm.increment === undefined) {
+          throw new Error(
+            "sajari: increment mutation created, but there is no value for increment"
+          );
+        }
+        proto.increment = Value.toProto(fm.increment);
+        break;
+      case "append":
+        if (fm.append === undefined) {
+          throw new Error(
+            "sajari: append mutation created, but there is no value for append"
+          );
+        }
+        proto.append = Value.toProto(fm.append);
+        break;
 
-    default:
-      throw new Error(`sajari: invalid mutation type: ${fm.mutation}`);
+      default:
+        throw new Error(`sajari: invalid mutation type: ${fm.mutation}`);
+    }
+
+    return sajari.engine.store.record.MutateRequest.RecordMutation.FieldMutation.create(
+      proto
+    );
   }
-
-  return sajari.engine.store.record.MutateRequest.RecordMutation.FieldMutation.create(
-    proto
-  );
 }
 
 /**
@@ -111,7 +113,7 @@ export function createMutationRequest(recordMutations: RecordMutation[]) {
     recordMutations: recordMutations.map((recordMutation) => {
       return sajari.engine.store.record.MutateRequest.RecordMutation.create({
         key: Key.toProto(recordMutation.key),
-        fieldMutations: recordMutation.mutations.map(createFieldMutation)
+        fieldMutations: recordMutation.mutations.map(FieldMutation.toProto)
       });
     })
   });

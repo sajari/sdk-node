@@ -5,6 +5,24 @@ import { Field } from "./field";
 import { Mutation } from "./mutation";
 import { createAddRequest, createMutateFieldRequest } from "./utils";
 
+/**
+ * grpc method endpoint for getting the current schema fields
+ * @hidden
+ */
+const GetFieldsMethod = "sajari.engine.schema.Schema/GetFields";
+
+/**
+ * grpc method endpoint for adding fields to the schema
+ * @hidden
+ */
+const AddFieldsMethod = "sajari.engine.schema.Schema/AddFields";
+
+/**
+ * grpc method endpoint for mutating a schema field
+ * @hidden
+ */
+const MutateFieldMethod = "sajari.engine.schema.Schema/MutateField";
+
 export class Schema {
   /**
    * @hidden
@@ -20,7 +38,7 @@ export class Schema {
     const request = new sajari.rpc.Empty();
 
     const response = await this.client.call(
-      "sajari.engine.schema.Schema/GetFields",
+      GetFieldsMethod,
       request,
       sajari.rpc.Empty.encode,
       sajari.engine.schema.Fields.decode,
@@ -35,7 +53,7 @@ export class Schema {
     const request = createAddRequest(fields);
 
     const response = await this.client.call(
-      "sajari.engine.schema.Schema/AddFields",
+      AddFieldsMethod,
       request,
       sajari.engine.schema.Fields.encode,
       sajari.engine.schema.Response.decode,
@@ -59,7 +77,7 @@ export class Schema {
     const request = createMutateFieldRequest(name, mutations);
 
     const response = await this.client.call(
-      "sajari.engine.schema.Schema/MutateField",
+      MutateFieldMethod,
       request,
       sajari.engine.schema.MutateFieldRequest.encode,
       sajari.engine.schema.Response.decode,
