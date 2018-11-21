@@ -2,12 +2,13 @@ import { sajari } from "../../generated/proto";
 import { Key } from "../engine/key";
 import { Record } from "../engine/record";
 import { errorFromStatus } from "../utils";
+import { PipelineDefinition } from "./pipeline";
 
 /**
  * @hidden
  */
 export const createAddRequest = (
-  pipeline: { name: string },
+  pipeline: PipelineDefinition,
   values: { [k: string]: string },
   records: Record[]
 ): sajari.api.pipeline.v1.AddRequest => {
@@ -38,10 +39,8 @@ export async function parseAddResponse(
   const keys = res.keys.map(Key.fromProto);
   const errors = res.status.map(errorFromStatus);
 
-  return keys.map((key, idx) => {
-    return {
-      key,
-      error: errors[idx]
-    };
-  });
+  return keys.map((key, idx) => ({
+    key,
+    error: errors[idx]
+  }));
 }

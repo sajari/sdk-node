@@ -126,9 +126,6 @@ export class MultiError extends Error {
   };
 }
 
-/**
- * @hidden
- */
 export class Errors extends Array<Error> {
   constructor(errors: { [k: number]: Error }) {
     const lastIdx = Object.keys(errors).pop();

@@ -2,6 +2,7 @@ import { sajari } from "../../generated/proto";
 import { Key } from "../engine/key";
 import { Record } from "../engine/record";
 import { errorFromStatus } from "../utils";
+import { PipelineDefinition } from "./pipeline";
 
 /**
  * KeyRecord is a key-record pair.
@@ -15,7 +16,7 @@ export interface KeyRecord {
  * @hidden
  */
 export function createReplaceRequest(
-  pipeline: { name: string },
+  pipeline: PipelineDefinition,
   values: { [k: string]: string },
   keyRecords: KeyRecord[]
 ): sajari.api.pipeline.v1.ReplaceRequest {

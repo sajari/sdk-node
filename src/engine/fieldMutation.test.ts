@@ -1,10 +1,10 @@
 import { sajari } from "../../generated/proto";
 import {
   createMutationRequest,
-  createFieldMutation,
   setField,
   appendField,
-  incrementField
+  incrementField,
+  FieldMutation
 } from "./fieldMutation";
 import { Key } from "./key";
 import { Value } from "../utils";
@@ -59,8 +59,8 @@ describe("FieldMutation", () => {
         increment: sajari.engine.Value.create({ single: "123456789" })
       }
     ]
-  ])("createFieldMutation", (fn, args, expected) => {
-    expect(createFieldMutation(fn(args.field, args.value))).toEqual(
+  ])("FieldMutation.toProto", (fn, args, expected) => {
+    expect(FieldMutation.toProto(fn(args.field, args.value))).toEqual(
       sajari.engine.store.record.MutateRequest.RecordMutation.FieldMutation.create(
         expected
       )
@@ -78,9 +78,9 @@ describe("FieldMutation", () => {
       }),
       { field: "id", value: undefined }
     ]
-  ])("createFieldMutation", (fn, args) => {
+  ])("FieldMutation.toProto", (fn, args) => {
     expect(() =>
-      createFieldMutation(fn(args.field, args.value))
+      FieldMutation.toProto(fn(args.field, args.value))
     ).toThrowError();
   });
 });

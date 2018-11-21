@@ -13,12 +13,10 @@ export function parseRecordResponse(response: {
   const records = response.records.map(Record.fromProto);
   const errors = response.status.map(errorFromStatus);
 
-  return records.map((record, idx) => {
-    return {
-      record,
-      error: errors[idx]
-    };
-  });
+  return records.map((record, idx) => ({
+    record,
+    error: errors[idx]
+  }));
 }
 
 /**
@@ -31,10 +29,8 @@ export function parseKeyResponse(response: {
   const keys = response.keys.map(Key.fromProto);
   const errors = response.status.map(errorFromStatus);
 
-  return keys.map((key, idx) => {
-    return {
-      key,
-      error: errors[idx]
-    };
-  });
+  return keys.map((key, idx) => ({
+    key,
+    error: errors[idx]
+  }));
 }

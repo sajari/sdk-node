@@ -1,6 +1,7 @@
 import { sajari } from "../../generated/proto";
 import { Value } from "../utils";
 import { Token, Tracking } from "./session";
+import { PipelineDefinition } from "./pipeline";
 
 export interface Result {
   score: number;
@@ -26,7 +27,7 @@ export interface SearchResponse {
  * @hidden
  */
 export const createSearchRequest = (
-  pipeline: { name: string },
+  pipeline: PipelineDefinition,
   values: { [k: string]: string },
   tracking: Tracking
 ): sajari.api.pipeline.v1.SearchRequest => {
