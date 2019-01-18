@@ -9,7 +9,9 @@ import { deadline } from "./utils";
  * By default we hide the credentials from being logged to the console.
  * @hidden
  */
-debuglog.formatters.C = (options: CallOptions) => {
+debuglog.formatters.C = function callOptionsFormatter(
+  options: CallOptions
+): string {
   if (process.env.DEBUG_SHOW_CREDS) {
     return JSON.stringify(options);
   }
@@ -23,6 +25,7 @@ debuglog.formatters.C = (options: CallOptions) => {
 const debug = debuglog("sajari:api");
 
 /**
+ * The default API endpoint
  * @hidden
  */
 const API_ENDPOINT = "api.sajari.com:443";
