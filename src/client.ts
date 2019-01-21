@@ -8,6 +8,7 @@ import { Record } from "./engine/record";
 import { Pipeline, PipelineImpl } from "./pipeline";
 import { Schema } from "./schema";
 import { errorFromStatuses } from "./utils";
+import { Interaction } from "./interaction";
 
 /**
  * grpc method endpoint for record mutation
@@ -92,5 +93,9 @@ export class Client {
 
   public schema(): Schema {
     return new Schema(this.client);
+  }
+
+  public interaction(): Interaction {
+    return new Interaction(this.client);
   }
 }

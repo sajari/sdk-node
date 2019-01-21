@@ -11529,6 +11529,362 @@ $root.sajari = (function() {
             return query;
         })();
 
+        api.interaction = (function() {
+
+            /**
+             * Namespace interaction.
+             * @memberof sajari.api
+             * @namespace
+             */
+            var interaction = {};
+
+            interaction.Interaction = (function() {
+
+                /**
+                 * Constructs a new Interaction service.
+                 * @memberof sajari.api.interaction
+                 * @classdesc Represents an Interaction
+                 * @extends $protobuf.rpc.Service
+                 * @constructor
+                 * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
+                 * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
+                 * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
+                 */
+                function Interaction(rpcImpl, requestDelimited, responseDelimited) {
+                    $protobuf.rpc.Service.call(this, rpcImpl, requestDelimited, responseDelimited);
+                }
+
+                (Interaction.prototype = Object.create($protobuf.rpc.Service.prototype)).constructor = Interaction;
+
+                /**
+                 * Creates new Interaction service using the specified rpc implementation.
+                 * @function create
+                 * @memberof sajari.api.interaction.Interaction
+                 * @static
+                 * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
+                 * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
+                 * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
+                 * @returns {Interaction} RPC service. Useful where requests and/or responses are streamed.
+                 */
+                Interaction.create = function create(rpcImpl, requestDelimited, responseDelimited) {
+                    return new this(rpcImpl, requestDelimited, responseDelimited);
+                };
+
+                /**
+                 * Callback as used by {@link sajari.api.interaction.Interaction#consume}.
+                 * @memberof sajari.api.interaction.Interaction
+                 * @typedef ConsumeCallback
+                 * @type {function}
+                 * @param {Error|null} error Error, if any
+                 * @param {sajari.rpc.Empty} [response] Empty
+                 */
+
+                /**
+                 * Calls Consume.
+                 * @function consume
+                 * @memberof sajari.api.interaction.Interaction
+                 * @instance
+                 * @param {sajari.api.interaction.IConsumeRequest} request ConsumeRequest message or plain object
+                 * @param {sajari.api.interaction.Interaction.ConsumeCallback} callback Node-style callback called with the error, if any, and Empty
+                 * @returns {undefined}
+                 * @variation 1
+                 */
+                Object.defineProperty(Interaction.prototype.consume = function consume(request, callback) {
+                    return this.rpcCall(consume, $root.sajari.api.interaction.ConsumeRequest, $root.sajari.rpc.Empty, request, callback);
+                }, "name", { value: "Consume" });
+
+                /**
+                 * Calls Consume.
+                 * @function consume
+                 * @memberof sajari.api.interaction.Interaction
+                 * @instance
+                 * @param {sajari.api.interaction.IConsumeRequest} request ConsumeRequest message or plain object
+                 * @returns {Promise<sajari.rpc.Empty>} Promise
+                 * @variation 2
+                 */
+
+                return Interaction;
+            })();
+
+            interaction.ConsumeRequest = (function() {
+
+                /**
+                 * Properties of a ConsumeRequest.
+                 * @memberof sajari.api.interaction
+                 * @interface IConsumeRequest
+                 * @property {string|null} [token] ConsumeRequest token
+                 * @property {string|null} [identifier] ConsumeRequest identifier
+                 * @property {number|null} [weight] ConsumeRequest weight
+                 * @property {Object.<string,string>|null} [data] ConsumeRequest data
+                 */
+
+                /**
+                 * Constructs a new ConsumeRequest.
+                 * @memberof sajari.api.interaction
+                 * @classdesc Represents a ConsumeRequest.
+                 * @implements IConsumeRequest
+                 * @constructor
+                 * @param {sajari.api.interaction.IConsumeRequest=} [properties] Properties to set
+                 */
+                function ConsumeRequest(properties) {
+                    this.data = {};
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * ConsumeRequest token.
+                 * @member {string} token
+                 * @memberof sajari.api.interaction.ConsumeRequest
+                 * @instance
+                 */
+                ConsumeRequest.prototype.token = "";
+
+                /**
+                 * ConsumeRequest identifier.
+                 * @member {string} identifier
+                 * @memberof sajari.api.interaction.ConsumeRequest
+                 * @instance
+                 */
+                ConsumeRequest.prototype.identifier = "";
+
+                /**
+                 * ConsumeRequest weight.
+                 * @member {number} weight
+                 * @memberof sajari.api.interaction.ConsumeRequest
+                 * @instance
+                 */
+                ConsumeRequest.prototype.weight = 0;
+
+                /**
+                 * ConsumeRequest data.
+                 * @member {Object.<string,string>} data
+                 * @memberof sajari.api.interaction.ConsumeRequest
+                 * @instance
+                 */
+                ConsumeRequest.prototype.data = $util.emptyObject;
+
+                /**
+                 * Creates a new ConsumeRequest instance using the specified properties.
+                 * @function create
+                 * @memberof sajari.api.interaction.ConsumeRequest
+                 * @static
+                 * @param {sajari.api.interaction.IConsumeRequest=} [properties] Properties to set
+                 * @returns {sajari.api.interaction.ConsumeRequest} ConsumeRequest instance
+                 */
+                ConsumeRequest.create = function create(properties) {
+                    return new ConsumeRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified ConsumeRequest message. Does not implicitly {@link sajari.api.interaction.ConsumeRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof sajari.api.interaction.ConsumeRequest
+                 * @static
+                 * @param {sajari.api.interaction.IConsumeRequest} message ConsumeRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                ConsumeRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.token != null && message.hasOwnProperty("token"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.token);
+                    if (message.identifier != null && message.hasOwnProperty("identifier"))
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.identifier);
+                    if (message.weight != null && message.hasOwnProperty("weight"))
+                        writer.uint32(/* id 3, wireType 0 =*/24).int32(message.weight);
+                    if (message.data != null && message.hasOwnProperty("data"))
+                        for (var keys = Object.keys(message.data), i = 0; i < keys.length; ++i)
+                            writer.uint32(/* id 4, wireType 2 =*/34).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.data[keys[i]]).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified ConsumeRequest message, length delimited. Does not implicitly {@link sajari.api.interaction.ConsumeRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof sajari.api.interaction.ConsumeRequest
+                 * @static
+                 * @param {sajari.api.interaction.IConsumeRequest} message ConsumeRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                ConsumeRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a ConsumeRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof sajari.api.interaction.ConsumeRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {sajari.api.interaction.ConsumeRequest} ConsumeRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                ConsumeRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.sajari.api.interaction.ConsumeRequest(), key;
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1:
+                            message.token = reader.string();
+                            break;
+                        case 2:
+                            message.identifier = reader.string();
+                            break;
+                        case 3:
+                            message.weight = reader.int32();
+                            break;
+                        case 4:
+                            reader.skip().pos++;
+                            if (message.data === $util.emptyObject)
+                                message.data = {};
+                            key = reader.string();
+                            reader.pos++;
+                            message.data[key] = reader.string();
+                            break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a ConsumeRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof sajari.api.interaction.ConsumeRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {sajari.api.interaction.ConsumeRequest} ConsumeRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                ConsumeRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a ConsumeRequest message.
+                 * @function verify
+                 * @memberof sajari.api.interaction.ConsumeRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                ConsumeRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.token != null && message.hasOwnProperty("token"))
+                        if (!$util.isString(message.token))
+                            return "token: string expected";
+                    if (message.identifier != null && message.hasOwnProperty("identifier"))
+                        if (!$util.isString(message.identifier))
+                            return "identifier: string expected";
+                    if (message.weight != null && message.hasOwnProperty("weight"))
+                        if (!$util.isInteger(message.weight))
+                            return "weight: integer expected";
+                    if (message.data != null && message.hasOwnProperty("data")) {
+                        if (!$util.isObject(message.data))
+                            return "data: object expected";
+                        var key = Object.keys(message.data);
+                        for (var i = 0; i < key.length; ++i)
+                            if (!$util.isString(message.data[key[i]]))
+                                return "data: string{k:string} expected";
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a ConsumeRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof sajari.api.interaction.ConsumeRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {sajari.api.interaction.ConsumeRequest} ConsumeRequest
+                 */
+                ConsumeRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.sajari.api.interaction.ConsumeRequest)
+                        return object;
+                    var message = new $root.sajari.api.interaction.ConsumeRequest();
+                    if (object.token != null)
+                        message.token = String(object.token);
+                    if (object.identifier != null)
+                        message.identifier = String(object.identifier);
+                    if (object.weight != null)
+                        message.weight = object.weight | 0;
+                    if (object.data) {
+                        if (typeof object.data !== "object")
+                            throw TypeError(".sajari.api.interaction.ConsumeRequest.data: object expected");
+                        message.data = {};
+                        for (var keys = Object.keys(object.data), i = 0; i < keys.length; ++i)
+                            message.data[keys[i]] = String(object.data[keys[i]]);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a ConsumeRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof sajari.api.interaction.ConsumeRequest
+                 * @static
+                 * @param {sajari.api.interaction.ConsumeRequest} message ConsumeRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                ConsumeRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.objects || options.defaults)
+                        object.data = {};
+                    if (options.defaults) {
+                        object.token = "";
+                        object.identifier = "";
+                        object.weight = 0;
+                    }
+                    if (message.token != null && message.hasOwnProperty("token"))
+                        object.token = message.token;
+                    if (message.identifier != null && message.hasOwnProperty("identifier"))
+                        object.identifier = message.identifier;
+                    if (message.weight != null && message.hasOwnProperty("weight"))
+                        object.weight = message.weight;
+                    var keys2;
+                    if (message.data && (keys2 = Object.keys(message.data)).length) {
+                        object.data = {};
+                        for (var j = 0; j < keys2.length; ++j)
+                            object.data[keys2[j]] = message.data[keys2[j]];
+                    }
+                    return object;
+                };
+
+                /**
+                 * Converts this ConsumeRequest to JSON.
+                 * @function toJSON
+                 * @memberof sajari.api.interaction.ConsumeRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                ConsumeRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                return ConsumeRequest;
+            })();
+
+            return interaction;
+        })();
+
         return api;
     })();
 
@@ -14740,6 +15096,7 @@ $root.sajari = (function() {
                      * @property {sajari.engine.query.v1.Aggregate.ICount|null} [count] Aggregate count
                      * @property {sajari.engine.query.v1.Aggregate.IBucket|null} [bucket] Aggregate bucket
                      * @property {sajari.engine.query.v1.Aggregate.IDate|null} [date] Aggregate date
+                     * @property {sajari.engine.query.v1.Aggregate.IAnalysis|null} [analysis] Aggregate analysis
                      */
 
                     /**
@@ -14789,17 +15146,25 @@ $root.sajari = (function() {
                      */
                     Aggregate.prototype.date = null;
 
+                    /**
+                     * Aggregate analysis.
+                     * @member {sajari.engine.query.v1.Aggregate.IAnalysis|null|undefined} analysis
+                     * @memberof sajari.engine.query.v1.Aggregate
+                     * @instance
+                     */
+                    Aggregate.prototype.analysis = null;
+
                     // OneOf field names bound to virtual getters and setters
                     var $oneOfFields;
 
                     /**
                      * Aggregate aggregate.
-                     * @member {"metric"|"count"|"bucket"|"date"|undefined} aggregate
+                     * @member {"metric"|"count"|"bucket"|"date"|"analysis"|undefined} aggregate
                      * @memberof sajari.engine.query.v1.Aggregate
                      * @instance
                      */
                     Object.defineProperty(Aggregate.prototype, "aggregate", {
-                        get: $util.oneOfGetter($oneOfFields = ["metric", "count", "bucket", "date"]),
+                        get: $util.oneOfGetter($oneOfFields = ["metric", "count", "bucket", "date", "analysis"]),
                         set: $util.oneOfSetter($oneOfFields)
                     });
 
@@ -14835,6 +15200,8 @@ $root.sajari = (function() {
                             $root.sajari.engine.query.v1.Aggregate.Bucket.encode(message.bucket, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                         if (message.date != null && message.hasOwnProperty("date"))
                             $root.sajari.engine.query.v1.Aggregate.Date.encode(message.date, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                        if (message.analysis != null && message.hasOwnProperty("analysis"))
+                            $root.sajari.engine.query.v1.Aggregate.Analysis.encode(message.analysis, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
                         return writer;
                     };
 
@@ -14880,6 +15247,9 @@ $root.sajari = (function() {
                                 break;
                             case 4:
                                 message.date = $root.sajari.engine.query.v1.Aggregate.Date.decode(reader, reader.uint32());
+                                break;
+                            case 5:
+                                message.analysis = $root.sajari.engine.query.v1.Aggregate.Analysis.decode(reader, reader.uint32());
                                 break;
                             default:
                                 reader.skipType(tag & 7);
@@ -14955,6 +15325,16 @@ $root.sajari = (function() {
                                     return "date." + error;
                             }
                         }
+                        if (message.analysis != null && message.hasOwnProperty("analysis")) {
+                            if (properties.aggregate === 1)
+                                return "aggregate: multiple values";
+                            properties.aggregate = 1;
+                            {
+                                var error = $root.sajari.engine.query.v1.Aggregate.Analysis.verify(message.analysis);
+                                if (error)
+                                    return "analysis." + error;
+                            }
+                        }
                         return null;
                     };
 
@@ -14989,6 +15369,11 @@ $root.sajari = (function() {
                             if (typeof object.date !== "object")
                                 throw TypeError(".sajari.engine.query.v1.Aggregate.date: object expected");
                             message.date = $root.sajari.engine.query.v1.Aggregate.Date.fromObject(object.date);
+                        }
+                        if (object.analysis != null) {
+                            if (typeof object.analysis !== "object")
+                                throw TypeError(".sajari.engine.query.v1.Aggregate.analysis: object expected");
+                            message.analysis = $root.sajari.engine.query.v1.Aggregate.Analysis.fromObject(object.analysis);
                         }
                         return message;
                     };
@@ -15025,6 +15410,11 @@ $root.sajari = (function() {
                             object.date = $root.sajari.engine.query.v1.Aggregate.Date.toObject(message.date, options);
                             if (options.oneofs)
                                 object.aggregate = "date";
+                        }
+                        if (message.analysis != null && message.hasOwnProperty("analysis")) {
+                            object.analysis = $root.sajari.engine.query.v1.Aggregate.Analysis.toObject(message.analysis, options);
+                            if (options.oneofs)
+                                object.aggregate = "analysis";
                         }
                         return object;
                     };
@@ -16245,6 +16635,285 @@ $root.sajari = (function() {
                         })();
 
                         return Date;
+                    })();
+
+                    Aggregate.Analysis = (function() {
+
+                        /**
+                         * Properties of an Analysis.
+                         * @memberof sajari.engine.query.v1.Aggregate
+                         * @interface IAnalysis
+                         * @property {string|null} [field] Analysis field
+                         * @property {sajari.engine.query.v1.Aggregate.Analysis.Type|null} [type] Analysis type
+                         */
+
+                        /**
+                         * Constructs a new Analysis.
+                         * @memberof sajari.engine.query.v1.Aggregate
+                         * @classdesc Represents an Analysis.
+                         * @implements IAnalysis
+                         * @constructor
+                         * @param {sajari.engine.query.v1.Aggregate.IAnalysis=} [properties] Properties to set
+                         */
+                        function Analysis(properties) {
+                            if (properties)
+                                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                    if (properties[keys[i]] != null)
+                                        this[keys[i]] = properties[keys[i]];
+                        }
+
+                        /**
+                         * Analysis field.
+                         * @member {string} field
+                         * @memberof sajari.engine.query.v1.Aggregate.Analysis
+                         * @instance
+                         */
+                        Analysis.prototype.field = "";
+
+                        /**
+                         * Analysis type.
+                         * @member {sajari.engine.query.v1.Aggregate.Analysis.Type} type
+                         * @memberof sajari.engine.query.v1.Aggregate.Analysis
+                         * @instance
+                         */
+                        Analysis.prototype.type = 0;
+
+                        /**
+                         * Creates a new Analysis instance using the specified properties.
+                         * @function create
+                         * @memberof sajari.engine.query.v1.Aggregate.Analysis
+                         * @static
+                         * @param {sajari.engine.query.v1.Aggregate.IAnalysis=} [properties] Properties to set
+                         * @returns {sajari.engine.query.v1.Aggregate.Analysis} Analysis instance
+                         */
+                        Analysis.create = function create(properties) {
+                            return new Analysis(properties);
+                        };
+
+                        /**
+                         * Encodes the specified Analysis message. Does not implicitly {@link sajari.engine.query.v1.Aggregate.Analysis.verify|verify} messages.
+                         * @function encode
+                         * @memberof sajari.engine.query.v1.Aggregate.Analysis
+                         * @static
+                         * @param {sajari.engine.query.v1.Aggregate.IAnalysis} message Analysis message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        Analysis.encode = function encode(message, writer) {
+                            if (!writer)
+                                writer = $Writer.create();
+                            if (message.field != null && message.hasOwnProperty("field"))
+                                writer.uint32(/* id 1, wireType 2 =*/10).string(message.field);
+                            if (message.type != null && message.hasOwnProperty("type"))
+                                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.type);
+                            return writer;
+                        };
+
+                        /**
+                         * Encodes the specified Analysis message, length delimited. Does not implicitly {@link sajari.engine.query.v1.Aggregate.Analysis.verify|verify} messages.
+                         * @function encodeDelimited
+                         * @memberof sajari.engine.query.v1.Aggregate.Analysis
+                         * @static
+                         * @param {sajari.engine.query.v1.Aggregate.IAnalysis} message Analysis message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        Analysis.encodeDelimited = function encodeDelimited(message, writer) {
+                            return this.encode(message, writer).ldelim();
+                        };
+
+                        /**
+                         * Decodes an Analysis message from the specified reader or buffer.
+                         * @function decode
+                         * @memberof sajari.engine.query.v1.Aggregate.Analysis
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @param {number} [length] Message length if known beforehand
+                         * @returns {sajari.engine.query.v1.Aggregate.Analysis} Analysis
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        Analysis.decode = function decode(reader, length) {
+                            if (!(reader instanceof $Reader))
+                                reader = $Reader.create(reader);
+                            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.sajari.engine.query.v1.Aggregate.Analysis();
+                            while (reader.pos < end) {
+                                var tag = reader.uint32();
+                                switch (tag >>> 3) {
+                                case 1:
+                                    message.field = reader.string();
+                                    break;
+                                case 2:
+                                    message.type = reader.int32();
+                                    break;
+                                default:
+                                    reader.skipType(tag & 7);
+                                    break;
+                                }
+                            }
+                            return message;
+                        };
+
+                        /**
+                         * Decodes an Analysis message from the specified reader or buffer, length delimited.
+                         * @function decodeDelimited
+                         * @memberof sajari.engine.query.v1.Aggregate.Analysis
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @returns {sajari.engine.query.v1.Aggregate.Analysis} Analysis
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        Analysis.decodeDelimited = function decodeDelimited(reader) {
+                            if (!(reader instanceof $Reader))
+                                reader = new $Reader(reader);
+                            return this.decode(reader, reader.uint32());
+                        };
+
+                        /**
+                         * Verifies an Analysis message.
+                         * @function verify
+                         * @memberof sajari.engine.query.v1.Aggregate.Analysis
+                         * @static
+                         * @param {Object.<string,*>} message Plain object to verify
+                         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                         */
+                        Analysis.verify = function verify(message) {
+                            if (typeof message !== "object" || message === null)
+                                return "object expected";
+                            if (message.field != null && message.hasOwnProperty("field"))
+                                if (!$util.isString(message.field))
+                                    return "field: string expected";
+                            if (message.type != null && message.hasOwnProperty("type"))
+                                switch (message.type) {
+                                default:
+                                    return "type: enum value expected";
+                                case 0:
+                                case 1:
+                                case 2:
+                                case 3:
+                                case 4:
+                                case 5:
+                                case 6:
+                                case 7:
+                                    break;
+                                }
+                            return null;
+                        };
+
+                        /**
+                         * Creates an Analysis message from a plain object. Also converts values to their respective internal types.
+                         * @function fromObject
+                         * @memberof sajari.engine.query.v1.Aggregate.Analysis
+                         * @static
+                         * @param {Object.<string,*>} object Plain object
+                         * @returns {sajari.engine.query.v1.Aggregate.Analysis} Analysis
+                         */
+                        Analysis.fromObject = function fromObject(object) {
+                            if (object instanceof $root.sajari.engine.query.v1.Aggregate.Analysis)
+                                return object;
+                            var message = new $root.sajari.engine.query.v1.Aggregate.Analysis();
+                            if (object.field != null)
+                                message.field = String(object.field);
+                            switch (object.type) {
+                            case "COVERAGE":
+                            case 0:
+                                message.type = 0;
+                                break;
+                            case "CARDINALITY":
+                            case 1:
+                                message.type = 1;
+                                break;
+                            case "AVG_LEN":
+                            case 2:
+                                message.type = 2;
+                                break;
+                            case "MIN_LEN":
+                            case 3:
+                                message.type = 3;
+                                break;
+                            case "MAX_LEN":
+                            case 4:
+                                message.type = 4;
+                                break;
+                            case "AVG_REPEATED_LEN":
+                            case 5:
+                                message.type = 5;
+                                break;
+                            case "MIN_REPEATED_LEN":
+                            case 6:
+                                message.type = 6;
+                                break;
+                            case "MAX_REPEATED_LEN":
+                            case 7:
+                                message.type = 7;
+                                break;
+                            }
+                            return message;
+                        };
+
+                        /**
+                         * Creates a plain object from an Analysis message. Also converts values to other types if specified.
+                         * @function toObject
+                         * @memberof sajari.engine.query.v1.Aggregate.Analysis
+                         * @static
+                         * @param {sajari.engine.query.v1.Aggregate.Analysis} message Analysis
+                         * @param {$protobuf.IConversionOptions} [options] Conversion options
+                         * @returns {Object.<string,*>} Plain object
+                         */
+                        Analysis.toObject = function toObject(message, options) {
+                            if (!options)
+                                options = {};
+                            var object = {};
+                            if (options.defaults) {
+                                object.field = "";
+                                object.type = options.enums === String ? "COVERAGE" : 0;
+                            }
+                            if (message.field != null && message.hasOwnProperty("field"))
+                                object.field = message.field;
+                            if (message.type != null && message.hasOwnProperty("type"))
+                                object.type = options.enums === String ? $root.sajari.engine.query.v1.Aggregate.Analysis.Type[message.type] : message.type;
+                            return object;
+                        };
+
+                        /**
+                         * Converts this Analysis to JSON.
+                         * @function toJSON
+                         * @memberof sajari.engine.query.v1.Aggregate.Analysis
+                         * @instance
+                         * @returns {Object.<string,*>} JSON object
+                         */
+                        Analysis.prototype.toJSON = function toJSON() {
+                            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                        };
+
+                        /**
+                         * Type enum.
+                         * @name sajari.engine.query.v1.Aggregate.Analysis.Type
+                         * @enum {string}
+                         * @property {number} COVERAGE=0 COVERAGE value
+                         * @property {number} CARDINALITY=1 CARDINALITY value
+                         * @property {number} AVG_LEN=2 AVG_LEN value
+                         * @property {number} MIN_LEN=3 MIN_LEN value
+                         * @property {number} MAX_LEN=4 MAX_LEN value
+                         * @property {number} AVG_REPEATED_LEN=5 AVG_REPEATED_LEN value
+                         * @property {number} MIN_REPEATED_LEN=6 MIN_REPEATED_LEN value
+                         * @property {number} MAX_REPEATED_LEN=7 MAX_REPEATED_LEN value
+                         */
+                        Analysis.Type = (function() {
+                            var valuesById = {}, values = Object.create(valuesById);
+                            values[valuesById[0] = "COVERAGE"] = 0;
+                            values[valuesById[1] = "CARDINALITY"] = 1;
+                            values[valuesById[2] = "AVG_LEN"] = 2;
+                            values[valuesById[3] = "MIN_LEN"] = 3;
+                            values[valuesById[4] = "MAX_LEN"] = 4;
+                            values[valuesById[5] = "AVG_REPEATED_LEN"] = 5;
+                            values[valuesById[6] = "MIN_REPEATED_LEN"] = 6;
+                            values[valuesById[7] = "MAX_REPEATED_LEN"] = 7;
+                            return values;
+                        })();
+
+                        return Analysis;
                     })();
 
                     return Aggregate;
@@ -20269,6 +20938,7 @@ $root.sajari = (function() {
                      * @property {sajari.engine.query.v1.AggregateResponse.ICount|null} [count] AggregateResponse count
                      * @property {sajari.engine.query.v1.AggregateResponse.IBuckets|null} [buckets] AggregateResponse buckets
                      * @property {sajari.engine.query.v1.AggregateResponse.IDate|null} [date] AggregateResponse date
+                     * @property {sajari.engine.query.v1.AggregateResponse.IAnalysis|null} [analysis] AggregateResponse analysis
                      */
 
                     /**
@@ -20318,17 +20988,25 @@ $root.sajari = (function() {
                      */
                     AggregateResponse.prototype.date = null;
 
+                    /**
+                     * AggregateResponse analysis.
+                     * @member {sajari.engine.query.v1.AggregateResponse.IAnalysis|null|undefined} analysis
+                     * @memberof sajari.engine.query.v1.AggregateResponse
+                     * @instance
+                     */
+                    AggregateResponse.prototype.analysis = null;
+
                     // OneOf field names bound to virtual getters and setters
                     var $oneOfFields;
 
                     /**
                      * AggregateResponse aggregateResponse.
-                     * @member {"metric"|"count"|"buckets"|"date"|undefined} aggregateResponse
+                     * @member {"metric"|"count"|"buckets"|"date"|"analysis"|undefined} aggregateResponse
                      * @memberof sajari.engine.query.v1.AggregateResponse
                      * @instance
                      */
                     Object.defineProperty(AggregateResponse.prototype, "aggregateResponse", {
-                        get: $util.oneOfGetter($oneOfFields = ["metric", "count", "buckets", "date"]),
+                        get: $util.oneOfGetter($oneOfFields = ["metric", "count", "buckets", "date", "analysis"]),
                         set: $util.oneOfSetter($oneOfFields)
                     });
 
@@ -20364,6 +21042,8 @@ $root.sajari = (function() {
                             $root.sajari.engine.query.v1.AggregateResponse.Buckets.encode(message.buckets, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                         if (message.date != null && message.hasOwnProperty("date"))
                             $root.sajari.engine.query.v1.AggregateResponse.Date.encode(message.date, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                        if (message.analysis != null && message.hasOwnProperty("analysis"))
+                            $root.sajari.engine.query.v1.AggregateResponse.Analysis.encode(message.analysis, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
                         return writer;
                     };
 
@@ -20409,6 +21089,9 @@ $root.sajari = (function() {
                                 break;
                             case 4:
                                 message.date = $root.sajari.engine.query.v1.AggregateResponse.Date.decode(reader, reader.uint32());
+                                break;
+                            case 5:
+                                message.analysis = $root.sajari.engine.query.v1.AggregateResponse.Analysis.decode(reader, reader.uint32());
                                 break;
                             default:
                                 reader.skipType(tag & 7);
@@ -20484,6 +21167,16 @@ $root.sajari = (function() {
                                     return "date." + error;
                             }
                         }
+                        if (message.analysis != null && message.hasOwnProperty("analysis")) {
+                            if (properties.aggregateResponse === 1)
+                                return "aggregateResponse: multiple values";
+                            properties.aggregateResponse = 1;
+                            {
+                                var error = $root.sajari.engine.query.v1.AggregateResponse.Analysis.verify(message.analysis);
+                                if (error)
+                                    return "analysis." + error;
+                            }
+                        }
                         return null;
                     };
 
@@ -20518,6 +21211,11 @@ $root.sajari = (function() {
                             if (typeof object.date !== "object")
                                 throw TypeError(".sajari.engine.query.v1.AggregateResponse.date: object expected");
                             message.date = $root.sajari.engine.query.v1.AggregateResponse.Date.fromObject(object.date);
+                        }
+                        if (object.analysis != null) {
+                            if (typeof object.analysis !== "object")
+                                throw TypeError(".sajari.engine.query.v1.AggregateResponse.analysis: object expected");
+                            message.analysis = $root.sajari.engine.query.v1.AggregateResponse.Analysis.fromObject(object.analysis);
                         }
                         return message;
                     };
@@ -20554,6 +21252,11 @@ $root.sajari = (function() {
                             object.date = $root.sajari.engine.query.v1.AggregateResponse.Date.toObject(message.date, options);
                             if (options.oneofs)
                                 object.aggregateResponse = "date";
+                        }
+                        if (message.analysis != null && message.hasOwnProperty("analysis")) {
+                            object.analysis = $root.sajari.engine.query.v1.AggregateResponse.Analysis.toObject(message.analysis, options);
+                            if (options.oneofs)
+                                object.aggregateResponse = "analysis";
                         }
                         return object;
                     };
@@ -21595,6 +22298,323 @@ $root.sajari = (function() {
                         };
 
                         return Date;
+                    })();
+
+                    AggregateResponse.Analysis = (function() {
+
+                        /**
+                         * Properties of an Analysis.
+                         * @memberof sajari.engine.query.v1.AggregateResponse
+                         * @interface IAnalysis
+                         * @property {number|null} [Coverage] Analysis Coverage
+                         * @property {number|null} [Cardinality] Analysis Cardinality
+                         * @property {number|null} [MinLen] Analysis MinLen
+                         * @property {number|null} [MaxLen] Analysis MaxLen
+                         * @property {number|null} [AvgLen] Analysis AvgLen
+                         */
+
+                        /**
+                         * Constructs a new Analysis.
+                         * @memberof sajari.engine.query.v1.AggregateResponse
+                         * @classdesc Represents an Analysis.
+                         * @implements IAnalysis
+                         * @constructor
+                         * @param {sajari.engine.query.v1.AggregateResponse.IAnalysis=} [properties] Properties to set
+                         */
+                        function Analysis(properties) {
+                            if (properties)
+                                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                    if (properties[keys[i]] != null)
+                                        this[keys[i]] = properties[keys[i]];
+                        }
+
+                        /**
+                         * Analysis Coverage.
+                         * @member {number} Coverage
+                         * @memberof sajari.engine.query.v1.AggregateResponse.Analysis
+                         * @instance
+                         */
+                        Analysis.prototype.Coverage = 0;
+
+                        /**
+                         * Analysis Cardinality.
+                         * @member {number} Cardinality
+                         * @memberof sajari.engine.query.v1.AggregateResponse.Analysis
+                         * @instance
+                         */
+                        Analysis.prototype.Cardinality = 0;
+
+                        /**
+                         * Analysis MinLen.
+                         * @member {number} MinLen
+                         * @memberof sajari.engine.query.v1.AggregateResponse.Analysis
+                         * @instance
+                         */
+                        Analysis.prototype.MinLen = 0;
+
+                        /**
+                         * Analysis MaxLen.
+                         * @member {number} MaxLen
+                         * @memberof sajari.engine.query.v1.AggregateResponse.Analysis
+                         * @instance
+                         */
+                        Analysis.prototype.MaxLen = 0;
+
+                        /**
+                         * Analysis AvgLen.
+                         * @member {number} AvgLen
+                         * @memberof sajari.engine.query.v1.AggregateResponse.Analysis
+                         * @instance
+                         */
+                        Analysis.prototype.AvgLen = 0;
+
+                        // OneOf field names bound to virtual getters and setters
+                        var $oneOfFields;
+
+                        /**
+                         * Analysis value.
+                         * @member {"Coverage"|"Cardinality"|"MinLen"|"MaxLen"|"AvgLen"|undefined} value
+                         * @memberof sajari.engine.query.v1.AggregateResponse.Analysis
+                         * @instance
+                         */
+                        Object.defineProperty(Analysis.prototype, "value", {
+                            get: $util.oneOfGetter($oneOfFields = ["Coverage", "Cardinality", "MinLen", "MaxLen", "AvgLen"]),
+                            set: $util.oneOfSetter($oneOfFields)
+                        });
+
+                        /**
+                         * Creates a new Analysis instance using the specified properties.
+                         * @function create
+                         * @memberof sajari.engine.query.v1.AggregateResponse.Analysis
+                         * @static
+                         * @param {sajari.engine.query.v1.AggregateResponse.IAnalysis=} [properties] Properties to set
+                         * @returns {sajari.engine.query.v1.AggregateResponse.Analysis} Analysis instance
+                         */
+                        Analysis.create = function create(properties) {
+                            return new Analysis(properties);
+                        };
+
+                        /**
+                         * Encodes the specified Analysis message. Does not implicitly {@link sajari.engine.query.v1.AggregateResponse.Analysis.verify|verify} messages.
+                         * @function encode
+                         * @memberof sajari.engine.query.v1.AggregateResponse.Analysis
+                         * @static
+                         * @param {sajari.engine.query.v1.AggregateResponse.IAnalysis} message Analysis message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        Analysis.encode = function encode(message, writer) {
+                            if (!writer)
+                                writer = $Writer.create();
+                            if (message.Coverage != null && message.hasOwnProperty("Coverage"))
+                                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.Coverage);
+                            if (message.Cardinality != null && message.hasOwnProperty("Cardinality"))
+                                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.Cardinality);
+                            if (message.MinLen != null && message.hasOwnProperty("MinLen"))
+                                writer.uint32(/* id 3, wireType 0 =*/24).int32(message.MinLen);
+                            if (message.MaxLen != null && message.hasOwnProperty("MaxLen"))
+                                writer.uint32(/* id 4, wireType 0 =*/32).int32(message.MaxLen);
+                            if (message.AvgLen != null && message.hasOwnProperty("AvgLen"))
+                                writer.uint32(/* id 5, wireType 5 =*/45).float(message.AvgLen);
+                            return writer;
+                        };
+
+                        /**
+                         * Encodes the specified Analysis message, length delimited. Does not implicitly {@link sajari.engine.query.v1.AggregateResponse.Analysis.verify|verify} messages.
+                         * @function encodeDelimited
+                         * @memberof sajari.engine.query.v1.AggregateResponse.Analysis
+                         * @static
+                         * @param {sajari.engine.query.v1.AggregateResponse.IAnalysis} message Analysis message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        Analysis.encodeDelimited = function encodeDelimited(message, writer) {
+                            return this.encode(message, writer).ldelim();
+                        };
+
+                        /**
+                         * Decodes an Analysis message from the specified reader or buffer.
+                         * @function decode
+                         * @memberof sajari.engine.query.v1.AggregateResponse.Analysis
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @param {number} [length] Message length if known beforehand
+                         * @returns {sajari.engine.query.v1.AggregateResponse.Analysis} Analysis
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        Analysis.decode = function decode(reader, length) {
+                            if (!(reader instanceof $Reader))
+                                reader = $Reader.create(reader);
+                            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.sajari.engine.query.v1.AggregateResponse.Analysis();
+                            while (reader.pos < end) {
+                                var tag = reader.uint32();
+                                switch (tag >>> 3) {
+                                case 1:
+                                    message.Coverage = reader.int32();
+                                    break;
+                                case 2:
+                                    message.Cardinality = reader.int32();
+                                    break;
+                                case 3:
+                                    message.MinLen = reader.int32();
+                                    break;
+                                case 4:
+                                    message.MaxLen = reader.int32();
+                                    break;
+                                case 5:
+                                    message.AvgLen = reader.float();
+                                    break;
+                                default:
+                                    reader.skipType(tag & 7);
+                                    break;
+                                }
+                            }
+                            return message;
+                        };
+
+                        /**
+                         * Decodes an Analysis message from the specified reader or buffer, length delimited.
+                         * @function decodeDelimited
+                         * @memberof sajari.engine.query.v1.AggregateResponse.Analysis
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @returns {sajari.engine.query.v1.AggregateResponse.Analysis} Analysis
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        Analysis.decodeDelimited = function decodeDelimited(reader) {
+                            if (!(reader instanceof $Reader))
+                                reader = new $Reader(reader);
+                            return this.decode(reader, reader.uint32());
+                        };
+
+                        /**
+                         * Verifies an Analysis message.
+                         * @function verify
+                         * @memberof sajari.engine.query.v1.AggregateResponse.Analysis
+                         * @static
+                         * @param {Object.<string,*>} message Plain object to verify
+                         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                         */
+                        Analysis.verify = function verify(message) {
+                            if (typeof message !== "object" || message === null)
+                                return "object expected";
+                            var properties = {};
+                            if (message.Coverage != null && message.hasOwnProperty("Coverage")) {
+                                properties.value = 1;
+                                if (!$util.isInteger(message.Coverage))
+                                    return "Coverage: integer expected";
+                            }
+                            if (message.Cardinality != null && message.hasOwnProperty("Cardinality")) {
+                                if (properties.value === 1)
+                                    return "value: multiple values";
+                                properties.value = 1;
+                                if (!$util.isInteger(message.Cardinality))
+                                    return "Cardinality: integer expected";
+                            }
+                            if (message.MinLen != null && message.hasOwnProperty("MinLen")) {
+                                if (properties.value === 1)
+                                    return "value: multiple values";
+                                properties.value = 1;
+                                if (!$util.isInteger(message.MinLen))
+                                    return "MinLen: integer expected";
+                            }
+                            if (message.MaxLen != null && message.hasOwnProperty("MaxLen")) {
+                                if (properties.value === 1)
+                                    return "value: multiple values";
+                                properties.value = 1;
+                                if (!$util.isInteger(message.MaxLen))
+                                    return "MaxLen: integer expected";
+                            }
+                            if (message.AvgLen != null && message.hasOwnProperty("AvgLen")) {
+                                if (properties.value === 1)
+                                    return "value: multiple values";
+                                properties.value = 1;
+                                if (typeof message.AvgLen !== "number")
+                                    return "AvgLen: number expected";
+                            }
+                            return null;
+                        };
+
+                        /**
+                         * Creates an Analysis message from a plain object. Also converts values to their respective internal types.
+                         * @function fromObject
+                         * @memberof sajari.engine.query.v1.AggregateResponse.Analysis
+                         * @static
+                         * @param {Object.<string,*>} object Plain object
+                         * @returns {sajari.engine.query.v1.AggregateResponse.Analysis} Analysis
+                         */
+                        Analysis.fromObject = function fromObject(object) {
+                            if (object instanceof $root.sajari.engine.query.v1.AggregateResponse.Analysis)
+                                return object;
+                            var message = new $root.sajari.engine.query.v1.AggregateResponse.Analysis();
+                            if (object.Coverage != null)
+                                message.Coverage = object.Coverage | 0;
+                            if (object.Cardinality != null)
+                                message.Cardinality = object.Cardinality | 0;
+                            if (object.MinLen != null)
+                                message.MinLen = object.MinLen | 0;
+                            if (object.MaxLen != null)
+                                message.MaxLen = object.MaxLen | 0;
+                            if (object.AvgLen != null)
+                                message.AvgLen = Number(object.AvgLen);
+                            return message;
+                        };
+
+                        /**
+                         * Creates a plain object from an Analysis message. Also converts values to other types if specified.
+                         * @function toObject
+                         * @memberof sajari.engine.query.v1.AggregateResponse.Analysis
+                         * @static
+                         * @param {sajari.engine.query.v1.AggregateResponse.Analysis} message Analysis
+                         * @param {$protobuf.IConversionOptions} [options] Conversion options
+                         * @returns {Object.<string,*>} Plain object
+                         */
+                        Analysis.toObject = function toObject(message, options) {
+                            if (!options)
+                                options = {};
+                            var object = {};
+                            if (message.Coverage != null && message.hasOwnProperty("Coverage")) {
+                                object.Coverage = message.Coverage;
+                                if (options.oneofs)
+                                    object.value = "Coverage";
+                            }
+                            if (message.Cardinality != null && message.hasOwnProperty("Cardinality")) {
+                                object.Cardinality = message.Cardinality;
+                                if (options.oneofs)
+                                    object.value = "Cardinality";
+                            }
+                            if (message.MinLen != null && message.hasOwnProperty("MinLen")) {
+                                object.MinLen = message.MinLen;
+                                if (options.oneofs)
+                                    object.value = "MinLen";
+                            }
+                            if (message.MaxLen != null && message.hasOwnProperty("MaxLen")) {
+                                object.MaxLen = message.MaxLen;
+                                if (options.oneofs)
+                                    object.value = "MaxLen";
+                            }
+                            if (message.AvgLen != null && message.hasOwnProperty("AvgLen")) {
+                                object.AvgLen = options.json && !isFinite(message.AvgLen) ? String(message.AvgLen) : message.AvgLen;
+                                if (options.oneofs)
+                                    object.value = "AvgLen";
+                            }
+                            return object;
+                        };
+
+                        /**
+                         * Converts this Analysis to JSON.
+                         * @function toJSON
+                         * @memberof sajari.engine.query.v1.AggregateResponse.Analysis
+                         * @instance
+                         * @returns {Object.<string,*>} JSON object
+                         */
+                        Analysis.prototype.toJSON = function toJSON() {
+                            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                        };
+
+                        return Analysis;
                     })();
 
                     return AggregateResponse;

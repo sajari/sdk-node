@@ -19,6 +19,7 @@ if (PROTO_SRC === undefined) {
 
 const protoDirs = [
   "sajari/api/pipeline/v1",
+  "sajari/api/interaction",
   "sajari/rpc",
   "sajari/engine",
   "sajari/engine/store/record"

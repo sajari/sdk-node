@@ -769,6 +769,39 @@
                   }
                 }
               }
+            },
+            "interaction": {
+              "nested": {
+                "Interaction": {
+                  "methods": {
+                    "Consume": {
+                      "requestType": "ConsumeRequest",
+                      "responseType": "sajari.rpc.Empty"
+                    }
+                  }
+                },
+                "ConsumeRequest": {
+                  "fields": {
+                    "token": {
+                      "type": "string",
+                      "id": 1
+                    },
+                    "identifier": {
+                      "type": "string",
+                      "id": 2
+                    },
+                    "weight": {
+                      "type": "int32",
+                      "id": 3
+                    },
+                    "data": {
+                      "keyType": "string",
+                      "type": "string",
+                      "id": 4
+                    }
+                  }
+                }
+              }
             }
           }
         },
@@ -1025,7 +1058,8 @@
                             "metric",
                             "count",
                             "bucket",
-                            "date"
+                            "date",
+                            "analysis"
                           ]
                         }
                       },
@@ -1045,6 +1079,10 @@
                         "date": {
                           "type": "Date",
                           "id": 4
+                        },
+                        "analysis": {
+                          "type": "Analysis",
+                          "id": 5
                         }
                       },
                       "nested": {
@@ -1135,6 +1173,32 @@
                                 "HOUR": 5,
                                 "MINUTE": 6,
                                 "SECOND": 7
+                              }
+                            }
+                          }
+                        },
+                        "Analysis": {
+                          "fields": {
+                            "field": {
+                              "type": "string",
+                              "id": 1
+                            },
+                            "type": {
+                              "type": "Type",
+                              "id": 2
+                            }
+                          },
+                          "nested": {
+                            "Type": {
+                              "values": {
+                                "COVERAGE": 0,
+                                "CARDINALITY": 1,
+                                "AVG_LEN": 2,
+                                "MIN_LEN": 3,
+                                "MAX_LEN": 4,
+                                "AVG_REPEATED_LEN": 5,
+                                "MIN_REPEATED_LEN": 6,
+                                "MAX_REPEATED_LEN": 7
                               }
                             }
                           }
@@ -1493,7 +1557,8 @@
                             "metric",
                             "count",
                             "buckets",
-                            "date"
+                            "date",
+                            "analysis"
                           ]
                         }
                       },
@@ -1513,6 +1578,10 @@
                         "date": {
                           "type": "Date",
                           "id": 4
+                        },
+                        "analysis": {
+                          "type": "Analysis",
+                          "id": 5
                         }
                       },
                       "nested": {
@@ -1562,6 +1631,41 @@
                               "keyType": "string",
                               "type": "int32",
                               "id": 1
+                            }
+                          }
+                        },
+                        "Analysis": {
+                          "oneofs": {
+                            "value": {
+                              "oneof": [
+                                "Coverage",
+                                "Cardinality",
+                                "MinLen",
+                                "MaxLen",
+                                "AvgLen"
+                              ]
+                            }
+                          },
+                          "fields": {
+                            "Coverage": {
+                              "type": "int32",
+                              "id": 1
+                            },
+                            "Cardinality": {
+                              "type": "int32",
+                              "id": 2
+                            },
+                            "MinLen": {
+                              "type": "int32",
+                              "id": 3
+                            },
+                            "MaxLen": {
+                              "type": "int32",
+                              "id": 4
+                            },
+                            "AvgLen": {
+                              "type": "float",
+                              "id": 5
                             }
                           }
                         }
