@@ -23,7 +23,7 @@ export class Interaction {
       token: string;
       identifier: string;
       weight: number;
-      data: { [k: string]: string };
+      data?: { [k: string]: string };
     },
     opts: CallOptions = {}
   ) {
