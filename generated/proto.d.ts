@@ -4990,6 +4990,163 @@ export namespace sajari {
                 }
             }
         }
+
+        /** Namespace interaction. */
+        namespace interaction {
+
+            /** Represents an Interaction */
+            class Interaction extends $protobuf.rpc.Service {
+
+                /**
+                 * Constructs a new Interaction service.
+                 * @param rpcImpl RPC implementation
+                 * @param [requestDelimited=false] Whether requests are length-delimited
+                 * @param [responseDelimited=false] Whether responses are length-delimited
+                 */
+                constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
+
+                /**
+                 * Creates new Interaction service using the specified rpc implementation.
+                 * @param rpcImpl RPC implementation
+                 * @param [requestDelimited=false] Whether requests are length-delimited
+                 * @param [responseDelimited=false] Whether responses are length-delimited
+                 * @returns RPC service. Useful where requests and/or responses are streamed.
+                 */
+                public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): Interaction;
+
+                /**
+                 * Calls Consume.
+                 * @param request ConsumeRequest message or plain object
+                 * @param callback Node-style callback called with the error, if any, and Empty
+                 */
+                public consume(request: sajari.api.interaction.IConsumeRequest, callback: sajari.api.interaction.Interaction.ConsumeCallback): void;
+
+                /**
+                 * Calls Consume.
+                 * @param request ConsumeRequest message or plain object
+                 * @returns Promise
+                 */
+                public consume(request: sajari.api.interaction.IConsumeRequest): Promise<sajari.rpc.Empty>;
+            }
+
+            namespace Interaction {
+
+                /**
+                 * Callback as used by {@link sajari.api.interaction.Interaction#consume}.
+                 * @param error Error, if any
+                 * @param [response] Empty
+                 */
+                type ConsumeCallback = (error: (Error|null), response?: sajari.rpc.Empty) => void;
+            }
+
+            /** Properties of a ConsumeRequest. */
+            interface IConsumeRequest {
+
+                /** ConsumeRequest token */
+                token?: (string|null);
+
+                /** ConsumeRequest identifier */
+                identifier?: (string|null);
+
+                /** ConsumeRequest weight */
+                weight?: (number|null);
+
+                /** ConsumeRequest data */
+                data?: ({ [k: string]: string }|null);
+            }
+
+            /** Represents a ConsumeRequest. */
+            class ConsumeRequest implements IConsumeRequest {
+
+                /**
+                 * Constructs a new ConsumeRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: sajari.api.interaction.IConsumeRequest);
+
+                /** ConsumeRequest token. */
+                public token: string;
+
+                /** ConsumeRequest identifier. */
+                public identifier: string;
+
+                /** ConsumeRequest weight. */
+                public weight: number;
+
+                /** ConsumeRequest data. */
+                public data: { [k: string]: string };
+
+                /**
+                 * Creates a new ConsumeRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns ConsumeRequest instance
+                 */
+                public static create(properties?: sajari.api.interaction.IConsumeRequest): sajari.api.interaction.ConsumeRequest;
+
+                /**
+                 * Encodes the specified ConsumeRequest message. Does not implicitly {@link sajari.api.interaction.ConsumeRequest.verify|verify} messages.
+                 * @param message ConsumeRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: sajari.api.interaction.IConsumeRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified ConsumeRequest message, length delimited. Does not implicitly {@link sajari.api.interaction.ConsumeRequest.verify|verify} messages.
+                 * @param message ConsumeRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: sajari.api.interaction.IConsumeRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a ConsumeRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns ConsumeRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): sajari.api.interaction.ConsumeRequest;
+
+                /**
+                 * Decodes a ConsumeRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns ConsumeRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): sajari.api.interaction.ConsumeRequest;
+
+                /**
+                 * Verifies a ConsumeRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a ConsumeRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns ConsumeRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): sajari.api.interaction.ConsumeRequest;
+
+                /**
+                 * Creates a plain object from a ConsumeRequest message. Also converts values to other types if specified.
+                 * @param message ConsumeRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: sajari.api.interaction.ConsumeRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this ConsumeRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+            }
+        }
     }
 
     /** Namespace engine. */
@@ -6287,6 +6444,9 @@ export namespace sajari {
 
                     /** Aggregate date */
                     date?: (sajari.engine.query.v1.Aggregate.IDate|null);
+
+                    /** Aggregate analysis */
+                    analysis?: (sajari.engine.query.v1.Aggregate.IAnalysis|null);
                 }
 
                 /** Represents an Aggregate. */
@@ -6310,8 +6470,11 @@ export namespace sajari {
                     /** Aggregate date. */
                     public date?: (sajari.engine.query.v1.Aggregate.IDate|null);
 
+                    /** Aggregate analysis. */
+                    public analysis?: (sajari.engine.query.v1.Aggregate.IAnalysis|null);
+
                     /** Aggregate aggregate. */
-                    public aggregate?: ("metric"|"count"|"bucket"|"date");
+                    public aggregate?: ("metric"|"count"|"bucket"|"date"|"analysis");
 
                     /**
                      * Creates a new Aggregate instance using the specified properties.
@@ -6898,6 +7061,117 @@ export namespace sajari {
                             HOUR = 5,
                             MINUTE = 6,
                             SECOND = 7
+                        }
+                    }
+
+                    /** Properties of an Analysis. */
+                    interface IAnalysis {
+
+                        /** Analysis field */
+                        field?: (string|null);
+
+                        /** Analysis type */
+                        type?: (sajari.engine.query.v1.Aggregate.Analysis.Type|null);
+                    }
+
+                    /** Represents an Analysis. */
+                    class Analysis implements IAnalysis {
+
+                        /**
+                         * Constructs a new Analysis.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: sajari.engine.query.v1.Aggregate.IAnalysis);
+
+                        /** Analysis field. */
+                        public field: string;
+
+                        /** Analysis type. */
+                        public type: sajari.engine.query.v1.Aggregate.Analysis.Type;
+
+                        /**
+                         * Creates a new Analysis instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns Analysis instance
+                         */
+                        public static create(properties?: sajari.engine.query.v1.Aggregate.IAnalysis): sajari.engine.query.v1.Aggregate.Analysis;
+
+                        /**
+                         * Encodes the specified Analysis message. Does not implicitly {@link sajari.engine.query.v1.Aggregate.Analysis.verify|verify} messages.
+                         * @param message Analysis message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: sajari.engine.query.v1.Aggregate.IAnalysis, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified Analysis message, length delimited. Does not implicitly {@link sajari.engine.query.v1.Aggregate.Analysis.verify|verify} messages.
+                         * @param message Analysis message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: sajari.engine.query.v1.Aggregate.IAnalysis, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes an Analysis message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns Analysis
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): sajari.engine.query.v1.Aggregate.Analysis;
+
+                        /**
+                         * Decodes an Analysis message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns Analysis
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): sajari.engine.query.v1.Aggregate.Analysis;
+
+                        /**
+                         * Verifies an Analysis message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates an Analysis message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns Analysis
+                         */
+                        public static fromObject(object: { [k: string]: any }): sajari.engine.query.v1.Aggregate.Analysis;
+
+                        /**
+                         * Creates a plain object from an Analysis message. Also converts values to other types if specified.
+                         * @param message Analysis
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: sajari.engine.query.v1.Aggregate.Analysis, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this Analysis to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+                    }
+
+                    namespace Analysis {
+
+                        /** Type enum. */
+                        enum Type {
+                            COVERAGE = 0,
+                            CARDINALITY = 1,
+                            AVG_LEN = 2,
+                            MIN_LEN = 3,
+                            MAX_LEN = 4,
+                            AVG_REPEATED_LEN = 5,
+                            MIN_REPEATED_LEN = 6,
+                            MAX_REPEATED_LEN = 7
                         }
                     }
                 }
@@ -8530,6 +8804,9 @@ export namespace sajari {
 
                     /** AggregateResponse date */
                     date?: (sajari.engine.query.v1.AggregateResponse.IDate|null);
+
+                    /** AggregateResponse analysis */
+                    analysis?: (sajari.engine.query.v1.AggregateResponse.IAnalysis|null);
                 }
 
                 /** Represents an AggregateResponse. */
@@ -8553,8 +8830,11 @@ export namespace sajari {
                     /** AggregateResponse date. */
                     public date?: (sajari.engine.query.v1.AggregateResponse.IDate|null);
 
+                    /** AggregateResponse analysis. */
+                    public analysis?: (sajari.engine.query.v1.AggregateResponse.IAnalysis|null);
+
                     /** AggregateResponse aggregateResponse. */
-                    public aggregateResponse?: ("metric"|"count"|"buckets"|"date");
+                    public aggregateResponse?: ("metric"|"count"|"buckets"|"date"|"analysis");
 
                     /**
                      * Creates a new AggregateResponse instance using the specified properties.
@@ -9083,6 +9363,123 @@ export namespace sajari {
 
                         /**
                          * Converts this Date to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+                    }
+
+                    /** Properties of an Analysis. */
+                    interface IAnalysis {
+
+                        /** Analysis Coverage */
+                        Coverage?: (number|null);
+
+                        /** Analysis Cardinality */
+                        Cardinality?: (number|null);
+
+                        /** Analysis MinLen */
+                        MinLen?: (number|null);
+
+                        /** Analysis MaxLen */
+                        MaxLen?: (number|null);
+
+                        /** Analysis AvgLen */
+                        AvgLen?: (number|null);
+                    }
+
+                    /** Represents an Analysis. */
+                    class Analysis implements IAnalysis {
+
+                        /**
+                         * Constructs a new Analysis.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: sajari.engine.query.v1.AggregateResponse.IAnalysis);
+
+                        /** Analysis Coverage. */
+                        public Coverage: number;
+
+                        /** Analysis Cardinality. */
+                        public Cardinality: number;
+
+                        /** Analysis MinLen. */
+                        public MinLen: number;
+
+                        /** Analysis MaxLen. */
+                        public MaxLen: number;
+
+                        /** Analysis AvgLen. */
+                        public AvgLen: number;
+
+                        /** Analysis value. */
+                        public value?: ("Coverage"|"Cardinality"|"MinLen"|"MaxLen"|"AvgLen");
+
+                        /**
+                         * Creates a new Analysis instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns Analysis instance
+                         */
+                        public static create(properties?: sajari.engine.query.v1.AggregateResponse.IAnalysis): sajari.engine.query.v1.AggregateResponse.Analysis;
+
+                        /**
+                         * Encodes the specified Analysis message. Does not implicitly {@link sajari.engine.query.v1.AggregateResponse.Analysis.verify|verify} messages.
+                         * @param message Analysis message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: sajari.engine.query.v1.AggregateResponse.IAnalysis, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified Analysis message, length delimited. Does not implicitly {@link sajari.engine.query.v1.AggregateResponse.Analysis.verify|verify} messages.
+                         * @param message Analysis message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: sajari.engine.query.v1.AggregateResponse.IAnalysis, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes an Analysis message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns Analysis
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): sajari.engine.query.v1.AggregateResponse.Analysis;
+
+                        /**
+                         * Decodes an Analysis message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns Analysis
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): sajari.engine.query.v1.AggregateResponse.Analysis;
+
+                        /**
+                         * Verifies an Analysis message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates an Analysis message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns Analysis
+                         */
+                        public static fromObject(object: { [k: string]: any }): sajari.engine.query.v1.AggregateResponse.Analysis;
+
+                        /**
+                         * Creates a plain object from an Analysis message. Also converts values to other types if specified.
+                         * @param message Analysis
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: sajari.engine.query.v1.AggregateResponse.Analysis, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this Analysis to JSON.
                          * @returns JSON object
                          */
                         public toJSON(): { [k: string]: any };

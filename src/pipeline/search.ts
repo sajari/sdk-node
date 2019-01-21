@@ -1,7 +1,7 @@
 import { sajari } from "../../generated/proto";
 import { Value } from "../utils";
-import { Token, Tracking } from "./session";
 import { PipelineDefinition } from "./pipeline";
+import { Token, Tracking } from "./session";
 
 export interface Result {
   score: number;
