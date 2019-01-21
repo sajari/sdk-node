@@ -1,5 +1,5 @@
-import { APIClient, CallOptions } from "./api";
 import { sajari } from "../generated/proto";
+import { APIClient, CallOptions } from "./api";
 
 /**
  * grpc method endpoint for consuming an interaction token
@@ -18,7 +18,7 @@ export class Interaction {
     this.client = client;
   }
 
-  async consume(
+  public async consume(
     req: {
       token: string;
       identifier: string;
