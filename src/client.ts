@@ -5,10 +5,10 @@ import { GetResponse, RecordMutation } from "./engine/interfaces";
 import { Key } from "./engine/key";
 import { parseRecordResponse } from "./engine/parse";
 import { Record } from "./engine/record";
+import { Interaction } from "./interaction";
 import { Pipeline, PipelineImpl } from "./pipeline";
 import { Schema } from "./schema";
 import { errorFromStatuses } from "./utils";
-import { Interaction } from "./interaction";
 
 /**
  * grpc method endpoint for record mutation
