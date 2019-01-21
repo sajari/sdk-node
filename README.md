@@ -1,6 +1,7 @@
 # @sajari/sdk-node
 
-> Node.js SDK for Sajari APIs
+> Node.js SDK for Sajari APIs <br/>
+> NOTE: THIS IS STILL IN ALPHA
 
 ## Getting Started
 
