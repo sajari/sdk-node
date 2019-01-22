@@ -12099,6 +12099,7 @@ $root.sajari = (function() {
                      * @property {Array.<sajari.engine.query.v1.ISort>|null} [sort] SearchRequest sort
                      * @property {Object.<string,sajari.engine.query.v1.IAggregate>|null} [aggregates] SearchRequest aggregates
                      * @property {Array.<sajari.engine.query.v1.ITransform>|null} [transforms] SearchRequest transforms
+                     * @property {Array.<sajari.engine.query.v1.IAggregateFilter>|null} [aggregateFilters] SearchRequest aggregateFilters
                      */
 
                     /**
@@ -12114,6 +12115,7 @@ $root.sajari = (function() {
                         this.sort = [];
                         this.aggregates = {};
                         this.transforms = [];
+                        this.aggregateFilters = [];
                         if (properties)
                             for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                                 if (properties[keys[i]] != null)
@@ -12209,6 +12211,14 @@ $root.sajari = (function() {
                     SearchRequest.prototype.transforms = $util.emptyArray;
 
                     /**
+                     * SearchRequest aggregateFilters.
+                     * @member {Array.<sajari.engine.query.v1.IAggregateFilter>} aggregateFilters
+                     * @memberof sajari.engine.query.v1.SearchRequest
+                     * @instance
+                     */
+                    SearchRequest.prototype.aggregateFilters = $util.emptyArray;
+
+                    /**
                      * Creates a new SearchRequest instance using the specified properties.
                      * @function create
                      * @memberof sajari.engine.query.v1.SearchRequest
@@ -12260,6 +12270,9 @@ $root.sajari = (function() {
                             writer.uint32(/* id 10, wireType 1 =*/81).double(message.minScoreThreshold);
                         if (message.minIndexScoreThreshold != null && message.hasOwnProperty("minIndexScoreThreshold"))
                             writer.uint32(/* id 11, wireType 1 =*/89).double(message.minIndexScoreThreshold);
+                        if (message.aggregateFilters != null && message.aggregateFilters.length)
+                            for (var i = 0; i < message.aggregateFilters.length; ++i)
+                                $root.sajari.engine.query.v1.AggregateFilter.encode(message.aggregateFilters[i], writer.uint32(/* id 12, wireType 2 =*/98).fork()).ldelim();
                         return writer;
                     };
 
@@ -12337,6 +12350,11 @@ $root.sajari = (function() {
                                 if (!(message.transforms && message.transforms.length))
                                     message.transforms = [];
                                 message.transforms.push($root.sajari.engine.query.v1.Transform.decode(reader, reader.uint32()));
+                                break;
+                            case 12:
+                                if (!(message.aggregateFilters && message.aggregateFilters.length))
+                                    message.aggregateFilters = [];
+                                message.aggregateFilters.push($root.sajari.engine.query.v1.AggregateFilter.decode(reader, reader.uint32()));
                                 break;
                             default:
                                 reader.skipType(tag & 7);
@@ -12435,6 +12453,15 @@ $root.sajari = (function() {
                                     return "transforms." + error;
                             }
                         }
+                        if (message.aggregateFilters != null && message.hasOwnProperty("aggregateFilters")) {
+                            if (!Array.isArray(message.aggregateFilters))
+                                return "aggregateFilters: array expected";
+                            for (var i = 0; i < message.aggregateFilters.length; ++i) {
+                                var error = $root.sajari.engine.query.v1.AggregateFilter.verify(message.aggregateFilters[i]);
+                                if (error)
+                                    return "aggregateFilters." + error;
+                            }
+                        }
                         return null;
                     };
 
@@ -12510,6 +12537,16 @@ $root.sajari = (function() {
                                 message.transforms[i] = $root.sajari.engine.query.v1.Transform.fromObject(object.transforms[i]);
                             }
                         }
+                        if (object.aggregateFilters) {
+                            if (!Array.isArray(object.aggregateFilters))
+                                throw TypeError(".sajari.engine.query.v1.SearchRequest.aggregateFilters: array expected");
+                            message.aggregateFilters = [];
+                            for (var i = 0; i < object.aggregateFilters.length; ++i) {
+                                if (typeof object.aggregateFilters[i] !== "object")
+                                    throw TypeError(".sajari.engine.query.v1.SearchRequest.aggregateFilters: object expected");
+                                message.aggregateFilters[i] = $root.sajari.engine.query.v1.AggregateFilter.fromObject(object.aggregateFilters[i]);
+                            }
+                        }
                         return message;
                     };
 
@@ -12530,6 +12567,7 @@ $root.sajari = (function() {
                             object.fields = [];
                             object.sort = [];
                             object.transforms = [];
+                            object.aggregateFilters = [];
                         }
                         if (options.objects || options.defaults)
                             object.aggregates = {};
@@ -12577,6 +12615,11 @@ $root.sajari = (function() {
                             object.minScoreThreshold = options.json && !isFinite(message.minScoreThreshold) ? String(message.minScoreThreshold) : message.minScoreThreshold;
                         if (message.minIndexScoreThreshold != null && message.hasOwnProperty("minIndexScoreThreshold"))
                             object.minIndexScoreThreshold = options.json && !isFinite(message.minIndexScoreThreshold) ? String(message.minIndexScoreThreshold) : message.minIndexScoreThreshold;
+                        if (message.aggregateFilters && message.aggregateFilters.length) {
+                            object.aggregateFilters = [];
+                            for (var j = 0; j < message.aggregateFilters.length; ++j)
+                                object.aggregateFilters[j] = $root.sajari.engine.query.v1.AggregateFilter.toObject(message.aggregateFilters[j], options);
+                        }
                         return object;
                     };
 
@@ -13403,6 +13446,226 @@ $root.sajari = (function() {
                     })();
 
                     return SearchRequest;
+                })();
+
+                v1.AggregateFilter = (function() {
+
+                    /**
+                     * Properties of an AggregateFilter.
+                     * @memberof sajari.engine.query.v1
+                     * @interface IAggregateFilter
+                     * @property {sajari.engine.query.v1.IAggregate|null} [aggregate] AggregateFilter aggregate
+                     * @property {sajari.engine.query.v1.IFilter|null} [filter] AggregateFilter filter
+                     */
+
+                    /**
+                     * Constructs a new AggregateFilter.
+                     * @memberof sajari.engine.query.v1
+                     * @classdesc Represents an AggregateFilter.
+                     * @implements IAggregateFilter
+                     * @constructor
+                     * @param {sajari.engine.query.v1.IAggregateFilter=} [properties] Properties to set
+                     */
+                    function AggregateFilter(properties) {
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
+                    }
+
+                    /**
+                     * AggregateFilter aggregate.
+                     * @member {sajari.engine.query.v1.IAggregate|null|undefined} aggregate
+                     * @memberof sajari.engine.query.v1.AggregateFilter
+                     * @instance
+                     */
+                    AggregateFilter.prototype.aggregate = null;
+
+                    /**
+                     * AggregateFilter filter.
+                     * @member {sajari.engine.query.v1.IFilter|null|undefined} filter
+                     * @memberof sajari.engine.query.v1.AggregateFilter
+                     * @instance
+                     */
+                    AggregateFilter.prototype.filter = null;
+
+                    /**
+                     * Creates a new AggregateFilter instance using the specified properties.
+                     * @function create
+                     * @memberof sajari.engine.query.v1.AggregateFilter
+                     * @static
+                     * @param {sajari.engine.query.v1.IAggregateFilter=} [properties] Properties to set
+                     * @returns {sajari.engine.query.v1.AggregateFilter} AggregateFilter instance
+                     */
+                    AggregateFilter.create = function create(properties) {
+                        return new AggregateFilter(properties);
+                    };
+
+                    /**
+                     * Encodes the specified AggregateFilter message. Does not implicitly {@link sajari.engine.query.v1.AggregateFilter.verify|verify} messages.
+                     * @function encode
+                     * @memberof sajari.engine.query.v1.AggregateFilter
+                     * @static
+                     * @param {sajari.engine.query.v1.IAggregateFilter} message AggregateFilter message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    AggregateFilter.encode = function encode(message, writer) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (message.aggregate != null && message.hasOwnProperty("aggregate"))
+                            $root.sajari.engine.query.v1.Aggregate.encode(message.aggregate, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                        if (message.filter != null && message.hasOwnProperty("filter"))
+                            $root.sajari.engine.query.v1.Filter.encode(message.filter, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                        return writer;
+                    };
+
+                    /**
+                     * Encodes the specified AggregateFilter message, length delimited. Does not implicitly {@link sajari.engine.query.v1.AggregateFilter.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof sajari.engine.query.v1.AggregateFilter
+                     * @static
+                     * @param {sajari.engine.query.v1.IAggregateFilter} message AggregateFilter message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    AggregateFilter.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer).ldelim();
+                    };
+
+                    /**
+                     * Decodes an AggregateFilter message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof sajari.engine.query.v1.AggregateFilter
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {sajari.engine.query.v1.AggregateFilter} AggregateFilter
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    AggregateFilter.decode = function decode(reader, length) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.sajari.engine.query.v1.AggregateFilter();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            switch (tag >>> 3) {
+                            case 1:
+                                message.aggregate = $root.sajari.engine.query.v1.Aggregate.decode(reader, reader.uint32());
+                                break;
+                            case 2:
+                                message.filter = $root.sajari.engine.query.v1.Filter.decode(reader, reader.uint32());
+                                break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
+                            }
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Decodes an AggregateFilter message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof sajari.engine.query.v1.AggregateFilter
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {sajari.engine.query.v1.AggregateFilter} AggregateFilter
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    AggregateFilter.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
+
+                    /**
+                     * Verifies an AggregateFilter message.
+                     * @function verify
+                     * @memberof sajari.engine.query.v1.AggregateFilter
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    AggregateFilter.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (message.aggregate != null && message.hasOwnProperty("aggregate")) {
+                            var error = $root.sajari.engine.query.v1.Aggregate.verify(message.aggregate);
+                            if (error)
+                                return "aggregate." + error;
+                        }
+                        if (message.filter != null && message.hasOwnProperty("filter")) {
+                            var error = $root.sajari.engine.query.v1.Filter.verify(message.filter);
+                            if (error)
+                                return "filter." + error;
+                        }
+                        return null;
+                    };
+
+                    /**
+                     * Creates an AggregateFilter message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof sajari.engine.query.v1.AggregateFilter
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {sajari.engine.query.v1.AggregateFilter} AggregateFilter
+                     */
+                    AggregateFilter.fromObject = function fromObject(object) {
+                        if (object instanceof $root.sajari.engine.query.v1.AggregateFilter)
+                            return object;
+                        var message = new $root.sajari.engine.query.v1.AggregateFilter();
+                        if (object.aggregate != null) {
+                            if (typeof object.aggregate !== "object")
+                                throw TypeError(".sajari.engine.query.v1.AggregateFilter.aggregate: object expected");
+                            message.aggregate = $root.sajari.engine.query.v1.Aggregate.fromObject(object.aggregate);
+                        }
+                        if (object.filter != null) {
+                            if (typeof object.filter !== "object")
+                                throw TypeError(".sajari.engine.query.v1.AggregateFilter.filter: object expected");
+                            message.filter = $root.sajari.engine.query.v1.Filter.fromObject(object.filter);
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Creates a plain object from an AggregateFilter message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof sajari.engine.query.v1.AggregateFilter
+                     * @static
+                     * @param {sajari.engine.query.v1.AggregateFilter} message AggregateFilter
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    AggregateFilter.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        var object = {};
+                        if (options.defaults) {
+                            object.aggregate = null;
+                            object.filter = null;
+                        }
+                        if (message.aggregate != null && message.hasOwnProperty("aggregate"))
+                            object.aggregate = $root.sajari.engine.query.v1.Aggregate.toObject(message.aggregate, options);
+                        if (message.filter != null && message.hasOwnProperty("filter"))
+                            object.filter = $root.sajari.engine.query.v1.Filter.toObject(message.filter, options);
+                        return object;
+                    };
+
+                    /**
+                     * Converts this AggregateFilter to JSON.
+                     * @function toJSON
+                     * @memberof sajari.engine.query.v1.AggregateFilter
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    AggregateFilter.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+
+                    return AggregateFilter;
                 })();
 
                 v1.Transform = (function() {
@@ -22630,6 +22893,7 @@ $root.sajari = (function() {
                      * @property {number|Long|null} [totalResults] SearchResponse totalResults
                      * @property {string|null} [time] SearchResponse time
                      * @property {Object.<string,sajari.engine.query.v1.IAggregateResponse>|null} [aggregates] SearchResponse aggregates
+                     * @property {Array.<sajari.engine.query.v1.IAggregateResponse>|null} [aggregateFilters] SearchResponse aggregateFilters
                      * @property {Array.<sajari.engine.query.v1.IResult>|null} [results] SearchResponse results
                      */
 
@@ -22643,6 +22907,7 @@ $root.sajari = (function() {
                      */
                     function SearchResponse(properties) {
                         this.aggregates = {};
+                        this.aggregateFilters = [];
                         this.results = [];
                         if (properties)
                             for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
@@ -22681,6 +22946,14 @@ $root.sajari = (function() {
                      * @instance
                      */
                     SearchResponse.prototype.aggregates = $util.emptyObject;
+
+                    /**
+                     * SearchResponse aggregateFilters.
+                     * @member {Array.<sajari.engine.query.v1.IAggregateResponse>} aggregateFilters
+                     * @memberof sajari.engine.query.v1.SearchResponse
+                     * @instance
+                     */
+                    SearchResponse.prototype.aggregateFilters = $util.emptyArray;
 
                     /**
                      * SearchResponse results.
@@ -22728,6 +23001,9 @@ $root.sajari = (function() {
                         if (message.results != null && message.results.length)
                             for (var i = 0; i < message.results.length; ++i)
                                 $root.sajari.engine.query.v1.Result.encode(message.results[i], writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                        if (message.aggregateFilters != null && message.aggregateFilters.length)
+                            for (var i = 0; i < message.aggregateFilters.length; ++i)
+                                $root.sajari.engine.query.v1.AggregateResponse.encode(message.aggregateFilters[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
                         return writer;
                     };
 
@@ -22778,6 +23054,11 @@ $root.sajari = (function() {
                                 key = reader.string();
                                 reader.pos++;
                                 message.aggregates[key] = $root.sajari.engine.query.v1.AggregateResponse.decode(reader, reader.uint32());
+                                break;
+                            case 6:
+                                if (!(message.aggregateFilters && message.aggregateFilters.length))
+                                    message.aggregateFilters = [];
+                                message.aggregateFilters.push($root.sajari.engine.query.v1.AggregateResponse.decode(reader, reader.uint32()));
                                 break;
                             case 5:
                                 if (!(message.results && message.results.length))
@@ -22838,6 +23119,15 @@ $root.sajari = (function() {
                                     return "aggregates." + error;
                             }
                         }
+                        if (message.aggregateFilters != null && message.hasOwnProperty("aggregateFilters")) {
+                            if (!Array.isArray(message.aggregateFilters))
+                                return "aggregateFilters: array expected";
+                            for (var i = 0; i < message.aggregateFilters.length; ++i) {
+                                var error = $root.sajari.engine.query.v1.AggregateResponse.verify(message.aggregateFilters[i]);
+                                if (error)
+                                    return "aggregateFilters." + error;
+                            }
+                        }
                         if (message.results != null && message.hasOwnProperty("results")) {
                             if (!Array.isArray(message.results))
                                 return "results: array expected";
@@ -22892,6 +23182,16 @@ $root.sajari = (function() {
                                 message.aggregates[keys[i]] = $root.sajari.engine.query.v1.AggregateResponse.fromObject(object.aggregates[keys[i]]);
                             }
                         }
+                        if (object.aggregateFilters) {
+                            if (!Array.isArray(object.aggregateFilters))
+                                throw TypeError(".sajari.engine.query.v1.SearchResponse.aggregateFilters: array expected");
+                            message.aggregateFilters = [];
+                            for (var i = 0; i < object.aggregateFilters.length; ++i) {
+                                if (typeof object.aggregateFilters[i] !== "object")
+                                    throw TypeError(".sajari.engine.query.v1.SearchResponse.aggregateFilters: object expected");
+                                message.aggregateFilters[i] = $root.sajari.engine.query.v1.AggregateResponse.fromObject(object.aggregateFilters[i]);
+                            }
+                        }
                         if (object.results) {
                             if (!Array.isArray(object.results))
                                 throw TypeError(".sajari.engine.query.v1.SearchResponse.results: array expected");
@@ -22918,8 +23218,10 @@ $root.sajari = (function() {
                         if (!options)
                             options = {};
                         var object = {};
-                        if (options.arrays || options.defaults)
+                        if (options.arrays || options.defaults) {
                             object.results = [];
+                            object.aggregateFilters = [];
+                        }
                         if (options.objects || options.defaults)
                             object.aggregates = {};
                         if (options.defaults) {
@@ -22957,6 +23259,11 @@ $root.sajari = (function() {
                             object.results = [];
                             for (var j = 0; j < message.results.length; ++j)
                                 object.results[j] = $root.sajari.engine.query.v1.Result.toObject(message.results[j], options);
+                        }
+                        if (message.aggregateFilters && message.aggregateFilters.length) {
+                            object.aggregateFilters = [];
+                            for (var j = 0; j < message.aggregateFilters.length; ++j)
+                                object.aggregateFilters[j] = $root.sajari.engine.query.v1.AggregateResponse.toObject(message.aggregateFilters[j], options);
                         }
                         return object;
                     };

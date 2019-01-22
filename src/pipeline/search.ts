@@ -15,6 +15,7 @@ export interface Results {
   totalResults: number;
   time: number;
   aggregates: Aggregates;
+  aggregateFilters: Array<CountResponse>;
   results: Result[];
 }
 
@@ -52,10 +53,17 @@ export function parseSearchResponse(
   const searchResponse = response.searchResponse as sajari.engine.query.v1.SearchResponse;
   const results = processResults(searchResponse.results, response.tokens);
 
-  let aggregates = {} as Aggregates;
+  let aggregates: Aggregates = {};
   if (Object.keys(searchResponse.aggregates).length > 0) {
     aggregates = processAggregatesResponse(
       searchResponse.aggregates as AggregateResponse
+    );
+  }
+
+  let aggregateFilters: Array<CountResponse> = [];
+  if (searchResponse.aggregateFilters.length > 0) {
+    aggregateFilters = parseAggregateFilterResponse(
+      searchResponse.aggregateFilters
     );
   }
 
@@ -64,7 +72,8 @@ export function parseSearchResponse(
     time: parseFloat(searchResponse.time),
     totalResults: searchResponse.totalResults as number,
     results,
-    aggregates
+    aggregates,
+    aggregateFilters
   };
 }
 
@@ -188,3 +197,22 @@ const processAggregatesResponse = (
     }
   }, {});
 };
+
+/**
+ * @hidden
+ */
+function parseAggregateFilterResponse(
+  resp: sajari.engine.query.v1.IAggregateResponse[]
+): Array<CountResponse> {
+  let aggResp = resp as sajari.engine.query.v1.AggregateResponse[];
+  return aggResp
+    .map((aggregate) => {
+      switch (aggregate.aggregateResponse) {
+        case "count":
+          return (aggregate.count as AggregateResponseCount).counts;
+        default:
+          return null;
+      }
+    })
+    .filter((x) => x !== null) as Array<CountResponse>;
+}
