@@ -880,6 +880,11 @@
                           "rule": "repeated",
                           "type": "Transform",
                           "id": 9
+                        },
+                        "aggregateFilters": {
+                          "rule": "repeated",
+                          "type": "AggregateFilter",
+                          "id": 12
                         }
                       },
                       "nested": {
@@ -941,6 +946,18 @@
                               }
                             }
                           }
+                        }
+                      }
+                    },
+                    "AggregateFilter": {
+                      "fields": {
+                        "aggregate": {
+                          "type": "Aggregate",
+                          "id": 1
+                        },
+                        "filter": {
+                          "type": "Filter",
+                          "id": 2
                         }
                       }
                     },
@@ -1689,6 +1706,11 @@
                           "keyType": "string",
                           "type": "AggregateResponse",
                           "id": 4
+                        },
+                        "aggregateFilters": {
+                          "rule": "repeated",
+                          "type": "AggregateResponse",
+                          "id": 6
                         },
                         "results": {
                           "rule": "repeated",

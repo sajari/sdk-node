@@ -5301,6 +5301,9 @@ export namespace sajari {
 
                     /** SearchRequest transforms */
                     transforms?: (sajari.engine.query.v1.ITransform[]|null);
+
+                    /** SearchRequest aggregateFilters */
+                    aggregateFilters?: (sajari.engine.query.v1.IAggregateFilter[]|null);
                 }
 
                 /** Represents a SearchRequest. */
@@ -5344,6 +5347,9 @@ export namespace sajari {
 
                     /** SearchRequest transforms. */
                     public transforms: sajari.engine.query.v1.ITransform[];
+
+                    /** SearchRequest aggregateFilters. */
+                    public aggregateFilters: sajari.engine.query.v1.IAggregateFilter[];
 
                     /**
                      * Creates a new SearchRequest instance using the specified properties.
@@ -5729,6 +5735,102 @@ export namespace sajari {
                             public toJSON(): { [k: string]: any };
                         }
                     }
+                }
+
+                /** Properties of an AggregateFilter. */
+                interface IAggregateFilter {
+
+                    /** AggregateFilter aggregate */
+                    aggregate?: (sajari.engine.query.v1.IAggregate|null);
+
+                    /** AggregateFilter filter */
+                    filter?: (sajari.engine.query.v1.IFilter|null);
+                }
+
+                /** Represents an AggregateFilter. */
+                class AggregateFilter implements IAggregateFilter {
+
+                    /**
+                     * Constructs a new AggregateFilter.
+                     * @param [properties] Properties to set
+                     */
+                    constructor(properties?: sajari.engine.query.v1.IAggregateFilter);
+
+                    /** AggregateFilter aggregate. */
+                    public aggregate?: (sajari.engine.query.v1.IAggregate|null);
+
+                    /** AggregateFilter filter. */
+                    public filter?: (sajari.engine.query.v1.IFilter|null);
+
+                    /**
+                     * Creates a new AggregateFilter instance using the specified properties.
+                     * @param [properties] Properties to set
+                     * @returns AggregateFilter instance
+                     */
+                    public static create(properties?: sajari.engine.query.v1.IAggregateFilter): sajari.engine.query.v1.AggregateFilter;
+
+                    /**
+                     * Encodes the specified AggregateFilter message. Does not implicitly {@link sajari.engine.query.v1.AggregateFilter.verify|verify} messages.
+                     * @param message AggregateFilter message or plain object to encode
+                     * @param [writer] Writer to encode to
+                     * @returns Writer
+                     */
+                    public static encode(message: sajari.engine.query.v1.IAggregateFilter, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                    /**
+                     * Encodes the specified AggregateFilter message, length delimited. Does not implicitly {@link sajari.engine.query.v1.AggregateFilter.verify|verify} messages.
+                     * @param message AggregateFilter message or plain object to encode
+                     * @param [writer] Writer to encode to
+                     * @returns Writer
+                     */
+                    public static encodeDelimited(message: sajari.engine.query.v1.IAggregateFilter, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                    /**
+                     * Decodes an AggregateFilter message from the specified reader or buffer.
+                     * @param reader Reader or buffer to decode from
+                     * @param [length] Message length if known beforehand
+                     * @returns AggregateFilter
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): sajari.engine.query.v1.AggregateFilter;
+
+                    /**
+                     * Decodes an AggregateFilter message from the specified reader or buffer, length delimited.
+                     * @param reader Reader or buffer to decode from
+                     * @returns AggregateFilter
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): sajari.engine.query.v1.AggregateFilter;
+
+                    /**
+                     * Verifies an AggregateFilter message.
+                     * @param message Plain object to verify
+                     * @returns `null` if valid, otherwise the reason why it is not
+                     */
+                    public static verify(message: { [k: string]: any }): (string|null);
+
+                    /**
+                     * Creates an AggregateFilter message from a plain object. Also converts values to their respective internal types.
+                     * @param object Plain object
+                     * @returns AggregateFilter
+                     */
+                    public static fromObject(object: { [k: string]: any }): sajari.engine.query.v1.AggregateFilter;
+
+                    /**
+                     * Creates a plain object from an AggregateFilter message. Also converts values to other types if specified.
+                     * @param message AggregateFilter
+                     * @param [options] Conversion options
+                     * @returns Plain object
+                     */
+                    public static toObject(message: sajari.engine.query.v1.AggregateFilter, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                    /**
+                     * Converts this AggregateFilter to JSON.
+                     * @returns JSON object
+                     */
+                    public toJSON(): { [k: string]: any };
                 }
 
                 /** Properties of a Transform. */
@@ -9501,6 +9603,9 @@ export namespace sajari {
                     /** SearchResponse aggregates */
                     aggregates?: ({ [k: string]: sajari.engine.query.v1.IAggregateResponse }|null);
 
+                    /** SearchResponse aggregateFilters */
+                    aggregateFilters?: (sajari.engine.query.v1.IAggregateResponse[]|null);
+
                     /** SearchResponse results */
                     results?: (sajari.engine.query.v1.IResult[]|null);
                 }
@@ -9525,6 +9630,9 @@ export namespace sajari {
 
                     /** SearchResponse aggregates. */
                     public aggregates: { [k: string]: sajari.engine.query.v1.IAggregateResponse };
+
+                    /** SearchResponse aggregateFilters. */
+                    public aggregateFilters: sajari.engine.query.v1.IAggregateResponse[];
 
                     /** SearchResponse results. */
                     public results: sajari.engine.query.v1.IResult[];

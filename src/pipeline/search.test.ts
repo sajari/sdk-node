@@ -42,9 +42,10 @@ test("parseSearchResponse", () => {
     time: 0.1,
     totalResults: 1,
     results: [
-      { score: 0.8, indexScore: 1, values: { foo: "bar" }, token: undefined }
+      { score: 0.8, indexScore: 1, values: { foo: "bar" }, tokens: undefined }
     ],
-    aggregates: {}
+    aggregates: {},
+    aggregateFilters: []
   };
 
   let res = parseSearchResponse(proto);
