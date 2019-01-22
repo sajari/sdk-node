@@ -15,7 +15,7 @@ export interface Results {
   totalResults: number;
   time: number;
   aggregates: Aggregates;
-  aggregateFilters: Array<CountResponse>;
+  aggregateFilters: CountResponse[];
   results: Result[];
 }
 
@@ -60,7 +60,7 @@ export function parseSearchResponse(
     );
   }
 
-  let aggregateFilters: Array<CountResponse> = [];
+  let aggregateFilters: CountResponse[] = [];
   if (searchResponse.aggregateFilters.length > 0) {
     aggregateFilters = parseAggregateFilterResponse(
       searchResponse.aggregateFilters
@@ -203,8 +203,8 @@ const processAggregatesResponse = (
  */
 function parseAggregateFilterResponse(
   resp: sajari.engine.query.v1.IAggregateResponse[]
-): Array<CountResponse> {
-  let aggResp = resp as sajari.engine.query.v1.AggregateResponse[];
+): CountResponse[] {
+  const aggResp = resp as sajari.engine.query.v1.AggregateResponse[];
   return aggResp
     .map((aggregate) => {
       switch (aggregate.aggregateResponse) {
@@ -214,5 +214,5 @@ function parseAggregateFilterResponse(
           return null;
       }
     })
-    .filter((x) => x !== null) as Array<CountResponse>;
+    .filter((x) => x !== null) as CountResponse[];
 }
