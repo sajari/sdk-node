@@ -48,29 +48,45 @@ export const createSearchRequest = (
  * @hidden
  */
 export function parseSearchResponse(
-  response: sajari.api.pipeline.v1.SearchResponse
+  raw: sajari.api.pipeline.v1.SearchResponse
 ): Results {
-  const searchResponse = response.searchResponse as sajari.engine.query.v1.SearchResponse;
-  const results = processResults(searchResponse.results, response.tokens);
-
-  let aggregates: Aggregates = {};
-  if (Object.keys(searchResponse.aggregates).length > 0) {
-    aggregates = processAggregatesResponse(
-      searchResponse.aggregates as AggregateResponse
-    );
+  const msg = sajari.api.pipeline.v1.SearchResponse.verify(raw);
+  if (msg !== null) {
+    throw new Error(msg);
   }
 
+  const response = sajari.api.pipeline.v1.SearchResponse.create(raw);
+  const searchResponse = response.searchResponse as sajari.engine.query.v1.SearchResponse;
+
+  let results: Result[] = [];
+  let aggregates: Aggregates = {};
   let aggregateFilters: CountResponse[] = [];
-  if (searchResponse.aggregateFilters.length > 0) {
-    aggregateFilters = parseAggregateFilterResponse(
-      searchResponse.aggregateFilters
-    );
+  let reads = 0;
+  let totalResults = 0;
+  let time = 0;
+  if (searchResponse !== null) {
+    results = processResults(searchResponse.results, response.tokens);
+    reads = searchResponse.reads as number;
+    totalResults = searchResponse.totalResults as number;
+    time = parseFloat(searchResponse.time);
+
+    if (Object.keys(searchResponse.aggregates).length > 0) {
+      aggregates = processAggregatesResponse(
+        searchResponse.aggregates as AggregateResponse
+      );
+    }
+
+    if (searchResponse.aggregateFilters.length > 0) {
+      aggregateFilters = parseAggregateFilterResponse(
+        searchResponse.aggregateFilters
+      );
+    }
   }
 
   return {
-    reads: searchResponse.reads as number,
-    time: parseFloat(searchResponse.time),
-    totalResults: searchResponse.totalResults as number,
+    reads,
+    totalResults,
+    time,
     results,
     aggregates,
     aggregateFilters
