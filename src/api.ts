@@ -2,6 +2,7 @@ import debuglog from "debug";
 import merge from "deepmerge";
 import grpc from "grpc";
 import protobuf from "protobufjs/light";
+import retryInterceptor from "./retryInterceptor";
 import { deadline } from "./utils";
 
 /**
@@ -132,7 +133,8 @@ export class APIClient {
           credentials: createCallCredentials(
             callOptions.credentials.key,
             callOptions.credentials.secret
-          )
+          ),
+          interceptors: [retryInterceptor(3)]
         },
         (err: grpc.ServiceError | null, value?: Response) => {
           if (err) {
