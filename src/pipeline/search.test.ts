@@ -45,7 +45,7 @@ test("parseSearchResponse", () => {
       { score: 0.8, indexScore: 1, values: { foo: "bar" }, tokens: undefined }
     ],
     aggregates: {},
-    aggregateFilters: []
+    aggregateFilters: {}
   };
 
   let res = parseSearchResponse(proto);
