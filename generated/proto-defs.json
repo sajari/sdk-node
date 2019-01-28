@@ -882,7 +882,7 @@
                           "id": 9
                         },
                         "aggregateFilters": {
-                          "rule": "repeated",
+                          "keyType": "string",
                           "type": "AggregateFilter",
                           "id": 12
                         }
@@ -1708,7 +1708,7 @@
                           "id": 4
                         },
                         "aggregateFilters": {
-                          "rule": "repeated",
+                          "keyType": "string",
                           "type": "AggregateResponse",
                           "id": 6
                         },

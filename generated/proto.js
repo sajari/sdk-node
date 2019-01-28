@@ -12099,7 +12099,7 @@ $root.sajari = (function() {
                      * @property {Array.<sajari.engine.query.v1.ISort>|null} [sort] SearchRequest sort
                      * @property {Object.<string,sajari.engine.query.v1.IAggregate>|null} [aggregates] SearchRequest aggregates
                      * @property {Array.<sajari.engine.query.v1.ITransform>|null} [transforms] SearchRequest transforms
-                     * @property {Array.<sajari.engine.query.v1.IAggregateFilter>|null} [aggregateFilters] SearchRequest aggregateFilters
+                     * @property {Object.<string,sajari.engine.query.v1.IAggregateFilter>|null} [aggregateFilters] SearchRequest aggregateFilters
                      */
 
                     /**
@@ -12115,7 +12115,7 @@ $root.sajari = (function() {
                         this.sort = [];
                         this.aggregates = {};
                         this.transforms = [];
-                        this.aggregateFilters = [];
+                        this.aggregateFilters = {};
                         if (properties)
                             for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                                 if (properties[keys[i]] != null)
@@ -12212,11 +12212,11 @@ $root.sajari = (function() {
 
                     /**
                      * SearchRequest aggregateFilters.
-                     * @member {Array.<sajari.engine.query.v1.IAggregateFilter>} aggregateFilters
+                     * @member {Object.<string,sajari.engine.query.v1.IAggregateFilter>} aggregateFilters
                      * @memberof sajari.engine.query.v1.SearchRequest
                      * @instance
                      */
-                    SearchRequest.prototype.aggregateFilters = $util.emptyArray;
+                    SearchRequest.prototype.aggregateFilters = $util.emptyObject;
 
                     /**
                      * Creates a new SearchRequest instance using the specified properties.
@@ -12270,9 +12270,11 @@ $root.sajari = (function() {
                             writer.uint32(/* id 10, wireType 1 =*/81).double(message.minScoreThreshold);
                         if (message.minIndexScoreThreshold != null && message.hasOwnProperty("minIndexScoreThreshold"))
                             writer.uint32(/* id 11, wireType 1 =*/89).double(message.minIndexScoreThreshold);
-                        if (message.aggregateFilters != null && message.aggregateFilters.length)
-                            for (var i = 0; i < message.aggregateFilters.length; ++i)
-                                $root.sajari.engine.query.v1.AggregateFilter.encode(message.aggregateFilters[i], writer.uint32(/* id 12, wireType 2 =*/98).fork()).ldelim();
+                        if (message.aggregateFilters != null && message.hasOwnProperty("aggregateFilters"))
+                            for (var keys = Object.keys(message.aggregateFilters), i = 0; i < keys.length; ++i) {
+                                writer.uint32(/* id 12, wireType 2 =*/98).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
+                                $root.sajari.engine.query.v1.AggregateFilter.encode(message.aggregateFilters[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                            }
                         return writer;
                     };
 
@@ -12352,9 +12354,12 @@ $root.sajari = (function() {
                                 message.transforms.push($root.sajari.engine.query.v1.Transform.decode(reader, reader.uint32()));
                                 break;
                             case 12:
-                                if (!(message.aggregateFilters && message.aggregateFilters.length))
-                                    message.aggregateFilters = [];
-                                message.aggregateFilters.push($root.sajari.engine.query.v1.AggregateFilter.decode(reader, reader.uint32()));
+                                reader.skip().pos++;
+                                if (message.aggregateFilters === $util.emptyObject)
+                                    message.aggregateFilters = {};
+                                key = reader.string();
+                                reader.pos++;
+                                message.aggregateFilters[key] = $root.sajari.engine.query.v1.AggregateFilter.decode(reader, reader.uint32());
                                 break;
                             default:
                                 reader.skipType(tag & 7);
@@ -12454,10 +12459,11 @@ $root.sajari = (function() {
                             }
                         }
                         if (message.aggregateFilters != null && message.hasOwnProperty("aggregateFilters")) {
-                            if (!Array.isArray(message.aggregateFilters))
-                                return "aggregateFilters: array expected";
-                            for (var i = 0; i < message.aggregateFilters.length; ++i) {
-                                var error = $root.sajari.engine.query.v1.AggregateFilter.verify(message.aggregateFilters[i]);
+                            if (!$util.isObject(message.aggregateFilters))
+                                return "aggregateFilters: object expected";
+                            var key = Object.keys(message.aggregateFilters);
+                            for (var i = 0; i < key.length; ++i) {
+                                var error = $root.sajari.engine.query.v1.AggregateFilter.verify(message.aggregateFilters[key[i]]);
                                 if (error)
                                     return "aggregateFilters." + error;
                             }
@@ -12538,13 +12544,13 @@ $root.sajari = (function() {
                             }
                         }
                         if (object.aggregateFilters) {
-                            if (!Array.isArray(object.aggregateFilters))
-                                throw TypeError(".sajari.engine.query.v1.SearchRequest.aggregateFilters: array expected");
-                            message.aggregateFilters = [];
-                            for (var i = 0; i < object.aggregateFilters.length; ++i) {
-                                if (typeof object.aggregateFilters[i] !== "object")
+                            if (typeof object.aggregateFilters !== "object")
+                                throw TypeError(".sajari.engine.query.v1.SearchRequest.aggregateFilters: object expected");
+                            message.aggregateFilters = {};
+                            for (var keys = Object.keys(object.aggregateFilters), i = 0; i < keys.length; ++i) {
+                                if (typeof object.aggregateFilters[keys[i]] !== "object")
                                     throw TypeError(".sajari.engine.query.v1.SearchRequest.aggregateFilters: object expected");
-                                message.aggregateFilters[i] = $root.sajari.engine.query.v1.AggregateFilter.fromObject(object.aggregateFilters[i]);
+                                message.aggregateFilters[keys[i]] = $root.sajari.engine.query.v1.AggregateFilter.fromObject(object.aggregateFilters[keys[i]]);
                             }
                         }
                         return message;
@@ -12567,10 +12573,11 @@ $root.sajari = (function() {
                             object.fields = [];
                             object.sort = [];
                             object.transforms = [];
-                            object.aggregateFilters = [];
                         }
-                        if (options.objects || options.defaults)
+                        if (options.objects || options.defaults) {
                             object.aggregates = {};
+                            object.aggregateFilters = {};
+                        }
                         if (options.defaults) {
                             object.filter = null;
                             object.indexQuery = null;
@@ -12615,10 +12622,10 @@ $root.sajari = (function() {
                             object.minScoreThreshold = options.json && !isFinite(message.minScoreThreshold) ? String(message.minScoreThreshold) : message.minScoreThreshold;
                         if (message.minIndexScoreThreshold != null && message.hasOwnProperty("minIndexScoreThreshold"))
                             object.minIndexScoreThreshold = options.json && !isFinite(message.minIndexScoreThreshold) ? String(message.minIndexScoreThreshold) : message.minIndexScoreThreshold;
-                        if (message.aggregateFilters && message.aggregateFilters.length) {
-                            object.aggregateFilters = [];
-                            for (var j = 0; j < message.aggregateFilters.length; ++j)
-                                object.aggregateFilters[j] = $root.sajari.engine.query.v1.AggregateFilter.toObject(message.aggregateFilters[j], options);
+                        if (message.aggregateFilters && (keys2 = Object.keys(message.aggregateFilters)).length) {
+                            object.aggregateFilters = {};
+                            for (var j = 0; j < keys2.length; ++j)
+                                object.aggregateFilters[keys2[j]] = $root.sajari.engine.query.v1.AggregateFilter.toObject(message.aggregateFilters[keys2[j]], options);
                         }
                         return object;
                     };
@@ -22893,7 +22900,7 @@ $root.sajari = (function() {
                      * @property {number|Long|null} [totalResults] SearchResponse totalResults
                      * @property {string|null} [time] SearchResponse time
                      * @property {Object.<string,sajari.engine.query.v1.IAggregateResponse>|null} [aggregates] SearchResponse aggregates
-                     * @property {Array.<sajari.engine.query.v1.IAggregateResponse>|null} [aggregateFilters] SearchResponse aggregateFilters
+                     * @property {Object.<string,sajari.engine.query.v1.IAggregateResponse>|null} [aggregateFilters] SearchResponse aggregateFilters
                      * @property {Array.<sajari.engine.query.v1.IResult>|null} [results] SearchResponse results
                      */
 
@@ -22907,7 +22914,7 @@ $root.sajari = (function() {
                      */
                     function SearchResponse(properties) {
                         this.aggregates = {};
-                        this.aggregateFilters = [];
+                        this.aggregateFilters = {};
                         this.results = [];
                         if (properties)
                             for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
@@ -22949,11 +22956,11 @@ $root.sajari = (function() {
 
                     /**
                      * SearchResponse aggregateFilters.
-                     * @member {Array.<sajari.engine.query.v1.IAggregateResponse>} aggregateFilters
+                     * @member {Object.<string,sajari.engine.query.v1.IAggregateResponse>} aggregateFilters
                      * @memberof sajari.engine.query.v1.SearchResponse
                      * @instance
                      */
-                    SearchResponse.prototype.aggregateFilters = $util.emptyArray;
+                    SearchResponse.prototype.aggregateFilters = $util.emptyObject;
 
                     /**
                      * SearchResponse results.
@@ -23001,9 +23008,11 @@ $root.sajari = (function() {
                         if (message.results != null && message.results.length)
                             for (var i = 0; i < message.results.length; ++i)
                                 $root.sajari.engine.query.v1.Result.encode(message.results[i], writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
-                        if (message.aggregateFilters != null && message.aggregateFilters.length)
-                            for (var i = 0; i < message.aggregateFilters.length; ++i)
-                                $root.sajari.engine.query.v1.AggregateResponse.encode(message.aggregateFilters[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+                        if (message.aggregateFilters != null && message.hasOwnProperty("aggregateFilters"))
+                            for (var keys = Object.keys(message.aggregateFilters), i = 0; i < keys.length; ++i) {
+                                writer.uint32(/* id 6, wireType 2 =*/50).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
+                                $root.sajari.engine.query.v1.AggregateResponse.encode(message.aggregateFilters[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                            }
                         return writer;
                     };
 
@@ -23056,9 +23065,12 @@ $root.sajari = (function() {
                                 message.aggregates[key] = $root.sajari.engine.query.v1.AggregateResponse.decode(reader, reader.uint32());
                                 break;
                             case 6:
-                                if (!(message.aggregateFilters && message.aggregateFilters.length))
-                                    message.aggregateFilters = [];
-                                message.aggregateFilters.push($root.sajari.engine.query.v1.AggregateResponse.decode(reader, reader.uint32()));
+                                reader.skip().pos++;
+                                if (message.aggregateFilters === $util.emptyObject)
+                                    message.aggregateFilters = {};
+                                key = reader.string();
+                                reader.pos++;
+                                message.aggregateFilters[key] = $root.sajari.engine.query.v1.AggregateResponse.decode(reader, reader.uint32());
                                 break;
                             case 5:
                                 if (!(message.results && message.results.length))
@@ -23120,10 +23132,11 @@ $root.sajari = (function() {
                             }
                         }
                         if (message.aggregateFilters != null && message.hasOwnProperty("aggregateFilters")) {
-                            if (!Array.isArray(message.aggregateFilters))
-                                return "aggregateFilters: array expected";
-                            for (var i = 0; i < message.aggregateFilters.length; ++i) {
-                                var error = $root.sajari.engine.query.v1.AggregateResponse.verify(message.aggregateFilters[i]);
+                            if (!$util.isObject(message.aggregateFilters))
+                                return "aggregateFilters: object expected";
+                            var key = Object.keys(message.aggregateFilters);
+                            for (var i = 0; i < key.length; ++i) {
+                                var error = $root.sajari.engine.query.v1.AggregateResponse.verify(message.aggregateFilters[key[i]]);
                                 if (error)
                                     return "aggregateFilters." + error;
                             }
@@ -23183,13 +23196,13 @@ $root.sajari = (function() {
                             }
                         }
                         if (object.aggregateFilters) {
-                            if (!Array.isArray(object.aggregateFilters))
-                                throw TypeError(".sajari.engine.query.v1.SearchResponse.aggregateFilters: array expected");
-                            message.aggregateFilters = [];
-                            for (var i = 0; i < object.aggregateFilters.length; ++i) {
-                                if (typeof object.aggregateFilters[i] !== "object")
+                            if (typeof object.aggregateFilters !== "object")
+                                throw TypeError(".sajari.engine.query.v1.SearchResponse.aggregateFilters: object expected");
+                            message.aggregateFilters = {};
+                            for (var keys = Object.keys(object.aggregateFilters), i = 0; i < keys.length; ++i) {
+                                if (typeof object.aggregateFilters[keys[i]] !== "object")
                                     throw TypeError(".sajari.engine.query.v1.SearchResponse.aggregateFilters: object expected");
-                                message.aggregateFilters[i] = $root.sajari.engine.query.v1.AggregateResponse.fromObject(object.aggregateFilters[i]);
+                                message.aggregateFilters[keys[i]] = $root.sajari.engine.query.v1.AggregateResponse.fromObject(object.aggregateFilters[keys[i]]);
                             }
                         }
                         if (object.results) {
@@ -23218,12 +23231,12 @@ $root.sajari = (function() {
                         if (!options)
                             options = {};
                         var object = {};
-                        if (options.arrays || options.defaults) {
+                        if (options.arrays || options.defaults)
                             object.results = [];
-                            object.aggregateFilters = [];
-                        }
-                        if (options.objects || options.defaults)
+                        if (options.objects || options.defaults) {
                             object.aggregates = {};
+                            object.aggregateFilters = {};
+                        }
                         if (options.defaults) {
                             if ($util.Long) {
                                 var long = new $util.Long(0, 0, false);
@@ -23260,10 +23273,10 @@ $root.sajari = (function() {
                             for (var j = 0; j < message.results.length; ++j)
                                 object.results[j] = $root.sajari.engine.query.v1.Result.toObject(message.results[j], options);
                         }
-                        if (message.aggregateFilters && message.aggregateFilters.length) {
-                            object.aggregateFilters = [];
-                            for (var j = 0; j < message.aggregateFilters.length; ++j)
-                                object.aggregateFilters[j] = $root.sajari.engine.query.v1.AggregateResponse.toObject(message.aggregateFilters[j], options);
+                        if (message.aggregateFilters && (keys2 = Object.keys(message.aggregateFilters)).length) {
+                            object.aggregateFilters = {};
+                            for (var j = 0; j < keys2.length; ++j)
+                                object.aggregateFilters[keys2[j]] = $root.sajari.engine.query.v1.AggregateResponse.toObject(message.aggregateFilters[keys2[j]], options);
                         }
                         return object;
                     };
