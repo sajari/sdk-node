@@ -15,7 +15,7 @@ export interface Results {
   totalResults: number;
   time: number;
   aggregates: Aggregates;
-  aggregateFilters: CountResponse[];
+  aggregateFilters: Aggregates;
   results: Result[];
 }
 
@@ -60,7 +60,7 @@ export function parseSearchResponse(
 
   let results: Result[] = [];
   let aggregates: Aggregates = {};
-  let aggregateFilters: CountResponse[] = [];
+  let aggregateFilters: Aggregates = {};
   let reads = 0;
   let totalResults = 0;
   let time = 0;
@@ -76,9 +76,9 @@ export function parseSearchResponse(
       );
     }
 
-    if (searchResponse.aggregateFilters.length > 0) {
-      aggregateFilters = parseAggregateFilterResponse(
-        searchResponse.aggregateFilters
+    if (Object.keys(searchResponse.aggregateFilters).length > 0) {
+      aggregateFilters = processAggregatesResponse(
+        searchResponse.aggregateFilters as AggregateResponse
       );
     }
   }
@@ -213,22 +213,3 @@ const processAggregatesResponse = (
     }
   }, {});
 };
-
-/**
- * @hidden
- */
-function parseAggregateFilterResponse(
-  resp: sajari.engine.query.v1.IAggregateResponse[]
-): CountResponse[] {
-  const aggResp = resp as sajari.engine.query.v1.AggregateResponse[];
-  return aggResp
-    .map((aggregate) => {
-      switch (aggregate.aggregateResponse) {
-        case "count":
-          return (aggregate.count as AggregateResponseCount).counts;
-        default:
-          return null;
-      }
-    })
-    .filter((x) => x !== null) as CountResponse[];
-}

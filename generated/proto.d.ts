@@ -5303,7 +5303,7 @@ export namespace sajari {
                     transforms?: (sajari.engine.query.v1.ITransform[]|null);
 
                     /** SearchRequest aggregateFilters */
-                    aggregateFilters?: (sajari.engine.query.v1.IAggregateFilter[]|null);
+                    aggregateFilters?: ({ [k: string]: sajari.engine.query.v1.IAggregateFilter }|null);
                 }
 
                 /** Represents a SearchRequest. */
@@ -5349,7 +5349,7 @@ export namespace sajari {
                     public transforms: sajari.engine.query.v1.ITransform[];
 
                     /** SearchRequest aggregateFilters. */
-                    public aggregateFilters: sajari.engine.query.v1.IAggregateFilter[];
+                    public aggregateFilters: { [k: string]: sajari.engine.query.v1.IAggregateFilter };
 
                     /**
                      * Creates a new SearchRequest instance using the specified properties.
@@ -9604,7 +9604,7 @@ export namespace sajari {
                     aggregates?: ({ [k: string]: sajari.engine.query.v1.IAggregateResponse }|null);
 
                     /** SearchResponse aggregateFilters */
-                    aggregateFilters?: (sajari.engine.query.v1.IAggregateResponse[]|null);
+                    aggregateFilters?: ({ [k: string]: sajari.engine.query.v1.IAggregateResponse }|null);
 
                     /** SearchResponse results */
                     results?: (sajari.engine.query.v1.IResult[]|null);
@@ -9632,7 +9632,7 @@ export namespace sajari {
                     public aggregates: { [k: string]: sajari.engine.query.v1.IAggregateResponse };
 
                     /** SearchResponse aggregateFilters. */
-                    public aggregateFilters: sajari.engine.query.v1.IAggregateResponse[];
+                    public aggregateFilters: { [k: string]: sajari.engine.query.v1.IAggregateResponse };
 
                     /** SearchResponse results. */
                     public results: sajari.engine.query.v1.IResult[];
