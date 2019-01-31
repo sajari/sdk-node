@@ -15,16 +15,16 @@ export interface Tracking {
   type: TrackingType;
 
   /*
-   * query_id is a unique identifier for a single search query.  In the
+   * queryId is a unique identifier for a single search query.  In the
    * case of search-as-you-type style interactions, this is defined to be multiple
    * individual queries (i.e. as a user types the query is re-run).
    * To identify the individual queries use the [[Tracking.sequence]] number.
    */
-  query_id?: string;
+  queryId?: string;
 
-  /* 
+  /*
    * sequence (i.e. sequential identifier) in the context of a sequence of queries with
-   * the same query_id.
+   * the same queryId.
    */
   sequence?: number;
 
@@ -165,11 +165,11 @@ export class DefaultSession implements Session {
 
     return {
       type: this.trackingType,
-      query_id: this.queryID,
+      queryId: this.queryID,
       sequence: this.sequence,
       field: this.field,
       data: this.sessionData
-    } as Tracking;
+    };
   }
 
   /** reset resets the session instance to its empty state. */
