@@ -1,5 +1,5 @@
 import { sajari } from "../generated/proto";
-import { APIClient } from "./api";
+import { APIClient, CallOptions } from "./api";
 import { createMutationRequest, FieldMutation } from "./engine/fieldMutation";
 import { GetResponse, RecordMutation } from "./engine/interfaces";
 import { Key } from "./engine/key";
@@ -20,6 +20,11 @@ const MutateRecordMethod = "sajari.engine.store.record.Store/Mutate";
  * @hidden
  */
 const GetRecordMethod = "sajari.engine.store.record.Store/Get";
+/**
+ * grpc method endpoint for record deletion
+ * @hidden
+ */
+const DeleteRecordMethod = "sajari.engine.store.record.Store/Delete";
 
 export class Client {
   private client: APIClient;
@@ -41,8 +46,8 @@ export class Client {
     return this.client.wait(seconds);
   }
 
-  public async get(key: Key): Promise<Record> {
-    const response = await this.getMulti([key]);
+  public async get(key: Key, callOptions?: CallOptions): Promise<Record> {
+    const response = await this.getMulti([key], callOptions);
     const res = response[0];
     if (res.error) {
       throw res.error;
@@ -50,7 +55,10 @@ export class Client {
     return res.record;
   }
 
-  public async getMulti(keys: Key[]): Promise<GetResponse[]> {
+  public async getMulti(
+    keys: Key[],
+    callOptions?: CallOptions
+  ): Promise<GetResponse[]> {
     const request = new sajari.engine.store.record.Keys({
       keys: keys.map(Key.toProto)
     });
@@ -59,24 +67,58 @@ export class Client {
       GetRecordMethod,
       request,
       sajari.engine.store.record.Keys.encode,
-      sajari.engine.store.record.GetResponse.decode
+      sajari.engine.store.record.GetResponse.decode,
+      callOptions
     );
 
     return parseRecordResponse(response);
   }
 
-  public async mutate(key: Key, fieldMutation: FieldMutation): Promise<void> {
-    return this.mutateMulti([{ key, mutations: [fieldMutation] }]);
+  public async mutate(
+    key: Key,
+    fieldMutation: FieldMutation,
+    callOptions?: CallOptions
+  ): Promise<void> {
+    return this.mutateMulti([{ key, mutations: [fieldMutation] }], callOptions);
   }
 
-  public async mutateMulti(recordMutations: RecordMutation[]): Promise<void> {
+  public async mutateMulti(
+    recordMutations: RecordMutation[],
+    callOptions?: CallOptions
+  ): Promise<void> {
     const request = createMutationRequest(recordMutations);
 
     const response = await this.client.call(
       MutateRecordMethod,
       request,
       sajari.engine.store.record.MutateRequest.encode,
-      sajari.engine.store.record.MutateResponse.decode
+      sajari.engine.store.record.MutateResponse.decode,
+      callOptions
+    );
+
+    const err = errorFromStatuses(response.status);
+    if (err) {
+      throw err;
+    }
+
+    return;
+  }
+
+  public async delete(key: Key, callOptions?: CallOptions) {
+    return this.deleteMulti([key], callOptions);
+  }
+
+  public async deleteMulti(keys: Key[], callOptions?: CallOptions) {
+    const request = sajari.engine.store.record.Keys.create({
+      keys: keys.map(Key.toProto)
+    });
+
+    const response = await this.client.call(
+      DeleteRecordMethod,
+      request,
+      sajari.engine.store.record.Keys.encode,
+      sajari.engine.store.record.DeleteResponse.decode,
+      callOptions
     );
 
     const err = errorFromStatuses(response.status);
