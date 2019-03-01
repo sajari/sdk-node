@@ -3,7 +3,6 @@ import merge from "deepmerge";
 import grpc from "grpc";
 import protobuf from "protobufjs/light";
 import retryInterceptor from "./retryInterceptor";
-import { deadline } from "./utils";
 
 /**
  * Custom formatter for call options.
@@ -194,4 +193,11 @@ function wrapEncoder<T>(
     const msg = encode(message).finish();
     return Buffer.from(msg);
   };
+}
+
+/**
+ * @hidden
+ */
+function deadline(seconds: number): number {
+  return new Date().setSeconds(new Date().getSeconds() + seconds);
 }

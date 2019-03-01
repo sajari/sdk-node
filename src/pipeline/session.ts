@@ -1,6 +1,5 @@
 import merge from "deepmerge";
 import { sajari } from "../../generated/proto";
-import { APIClient } from "../api";
 
 /* tslint:disable:max-classes-per-file */
 
@@ -35,16 +34,12 @@ export interface Tracking {
   data?: { [k: string]: string };
 }
 
-export namespace Tracking {
-  /**
-   * @hidden
-   */
-  export function toProto(
-    t: Tracking
-  ): sajari.api.query.v1.SearchRequest.Tracking {
-    const tracking = merge(t, { type: TrackingType.toProto(t.type) });
-    return sajari.api.query.v1.SearchRequest.Tracking.create(tracking);
-  }
+/**
+ * @hidden
+ */
+export function TrackingToProto(t: Tracking): sajari.pipeline.v2.Tracking {
+  const tracking = merge(t, { type: TrackingTypeToProto(t.type) });
+  return sajari.pipeline.v2.Tracking.create(tracking);
 }
 
 /**
@@ -59,26 +54,27 @@ export interface Session {
 /** TrackingType defines the possible result-interaction tracking types used by [[DefaultSession]] */
 export enum TrackingType {
   /** None disables tracking. */
-  None = sajari.api.query.v1.SearchRequest.Tracking.Type.NONE,
+  None = sajari.pipeline.v2.Tracking.Type.NONE,
   /** Click generates click tracking tokens. */
-  Click = sajari.api.query.v1.SearchRequest.Tracking.Type.CLICK,
+  Click = sajari.pipeline.v2.Tracking.Type.CLICK,
   /** PosNeg creates pos/neg tracking tokens. */
-  PosNeg = sajari.api.query.v1.SearchRequest.Tracking.Type.POS_NEG
+  PosNeg = sajari.pipeline.v2.Tracking.Type.POS_NEG
 }
 
-export namespace TrackingType {
-  export function toProto(
-    t: TrackingType
-  ): sajari.api.query.v1.SearchRequest.Tracking.Type {
-    switch (t) {
-      case TrackingType.Click:
-        return sajari.api.query.v1.SearchRequest.Tracking.Type.CLICK;
-      case TrackingType.PosNeg:
-        return sajari.api.query.v1.SearchRequest.Tracking.Type.POS_NEG;
-      case TrackingType.None:
-      default:
-        return sajari.api.query.v1.SearchRequest.Tracking.Type.NONE;
-    }
+/**
+ * @hidden
+ */
+export function TrackingTypeToProto(
+  t: TrackingType
+): sajari.pipeline.v2.Tracking.Type {
+  switch (t) {
+    case TrackingType.Click:
+      return sajari.pipeline.v2.Tracking.Type.CLICK;
+    case TrackingType.PosNeg:
+      return sajari.pipeline.v2.Tracking.Type.POS_NEG;
+    case TrackingType.None:
+    default:
+      return sajari.pipeline.v2.Tracking.Type.NONE;
   }
 }
 
@@ -93,31 +89,32 @@ export interface PosNegToken {
 
 export type Token = ClickToken | PosNegToken;
 
-export namespace Token {
-  export function fromProto(t: sajari.api.query.v1.IToken): Token {
-    if (t.click != null) {
-      if (t.click.token === "" || t.click.token == null) {
-        throw new Error("sajari: invalid click token");
-      }
-      return {
-        click: t.click.token
-      };
-    } else if (t.posNeg != null) {
-      if (
-        t.posNeg.pos === "" ||
-        t.posNeg.neg === "" ||
-        (t.posNeg.pos == null || t.posNeg.neg == null)
-      ) {
-        throw new Error("sajari: invalid posNeg token");
-      }
-      return {
-        pos: t.posNeg.pos,
-        neg: t.posNeg.neg
-      };
+/**
+ * @hidden
+ */
+export function TokenFromProto(t: sajari.pipeline.v2.IToken): Token {
+  if (t.click != null) {
+    if (t.click.token === "" || t.click.token == null) {
+      throw new Error("sajari: invalid click token");
     }
-
-    throw new Error("sajari: invalid token type");
+    return {
+      click: t.click.token
+    };
+  } else if (t.posNeg != null) {
+    if (
+      t.posNeg.pos === "" ||
+      t.posNeg.neg === "" ||
+      (t.posNeg.pos == null || t.posNeg.neg == null)
+    ) {
+      throw new Error("sajari: invalid posNeg token");
+    }
+    return {
+      pos: t.posNeg.pos,
+      neg: t.posNeg.neg
+    };
   }
+
+  throw new Error("sajari: invalid token type");
 }
 
 /** DefaultSession holds state of a sequence of searches. */

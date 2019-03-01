@@ -18,11 +18,10 @@ if (PROTO_SRC === undefined) {
 }
 
 const protoDirs = [
-  "sajari/api/pipeline/v1",
-  "sajari/api/interaction",
-  "sajari/rpc",
-  "sajari/engine",
-  "sajari/engine/store/record"
+  "sajari/pipeline/v2",
+  "sajari/engine/v2",
+  "sajari/interaction/v2",
+  "sajari/types/v2"
 ];
 
 try {
