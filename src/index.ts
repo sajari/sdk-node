@@ -1,20 +1,12 @@
-// reexport the grpc status code enum
-export { status as errorCode } from "grpc";
+// re-export the grpc status code enum
+export { status as statusCode } from "grpc";
+
 export { Client } from "./client";
+export { Key, Value } from "./types";
+
 export {
   Session,
   DefaultSession,
   Tracking,
   TrackingType
 } from "./pipeline/session";
-export { SearchResponse } from "./pipeline/search";
-export {
-  default as schema,
-  FieldMode,
-  Mutation,
-  NameMutation,
-  DescriptionMutation,
-  TypeMutation,
-  RepeatedMutation
-} from "./schema";
-export { default as records, FieldMutation, Record, Key } from "./engine";

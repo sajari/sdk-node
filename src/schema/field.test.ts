@@ -1,50 +1,61 @@
 import { sajari } from "../../generated/proto";
-import { Type, FieldMode, field, Field } from "./field";
+import {
+  Type,
+  FieldMode,
+  Field,
+  field,
+  FieldFromProto,
+  FieldToProto,
+  TypeToProto,
+  TypeFromProto,
+  FieldModeToProto,
+  FieldModeFromProto
+} from "./field";
 
 describe("Type", () => {
-  test.each([
-    [Type.Boolean, sajari.engine.schema.Field.Type.BOOLEAN],
-    [Type.String, sajari.engine.schema.Field.Type.STRING],
-    [Type.Timestamp, sajari.engine.schema.Field.Type.TIMESTAMP],
-    [Type.Float, sajari.engine.schema.Field.Type.FLOAT],
-    [Type.Double, sajari.engine.schema.Field.Type.DOUBLE],
-    [Type.Integer, sajari.engine.schema.Field.Type.INTEGER]
-  ])("Type.toProto(%o) => %o", (type, proto) => {
-    expect(Type.toProto(type)).toEqual(proto);
+  test.each<[Type, sajari.engine.v2.Field.Type]>([
+    [Type.Boolean, sajari.engine.v2.Field.Type.BOOLEAN],
+    [Type.String, sajari.engine.v2.Field.Type.STRING],
+    [Type.Timestamp, sajari.engine.v2.Field.Type.TIMESTAMP],
+    [Type.Float, sajari.engine.v2.Field.Type.FLOAT],
+    [Type.Double, sajari.engine.v2.Field.Type.DOUBLE],
+    [Type.Integer, sajari.engine.v2.Field.Type.INTEGER]
+  ])("TypeToProto(%o) => %o", (type, proto) => {
+    expect(TypeToProto(type)).toEqual(proto);
   });
 
-  test.each([
-    [sajari.engine.schema.Field.Type.BOOLEAN, Type.Boolean],
-    [sajari.engine.schema.Field.Type.STRING, Type.String],
-    [sajari.engine.schema.Field.Type.TIMESTAMP, Type.Timestamp],
-    [sajari.engine.schema.Field.Type.FLOAT, Type.Float],
-    [sajari.engine.schema.Field.Type.DOUBLE, Type.Double],
-    [sajari.engine.schema.Field.Type.INTEGER, Type.Integer]
-  ])("Type.fromProto(%o) => %o", (proto, type) => {
-    expect(Type.fromProto(proto)).toEqual(type);
+  test.each<[sajari.engine.v2.Field.Type, Type]>([
+    [sajari.engine.v2.Field.Type.BOOLEAN, Type.Boolean],
+    [sajari.engine.v2.Field.Type.STRING, Type.String],
+    [sajari.engine.v2.Field.Type.TIMESTAMP, Type.Timestamp],
+    [sajari.engine.v2.Field.Type.FLOAT, Type.Float],
+    [sajari.engine.v2.Field.Type.DOUBLE, Type.Double],
+    [sajari.engine.v2.Field.Type.INTEGER, Type.Integer]
+  ])("TypeFromProto(%o) => %o", (proto, type) => {
+    expect(TypeFromProto(proto)).toEqual(type);
   });
 });
 
 describe("FieldMode", () => {
-  test.each([
-    [FieldMode.Nullable, sajari.engine.schema.Field.Mode.NULLABLE],
-    [FieldMode.Required, sajari.engine.schema.Field.Mode.REQUIRED],
-    [FieldMode.Unique, sajari.engine.schema.Field.Mode.UNIQUE]
-  ])("FieldMode.toProto(%o) => %o", (type, proto) => {
-    expect(FieldMode.toProto(type)).toEqual(proto);
+  test.each<[FieldMode, sajari.engine.v2.Field.Mode]>([
+    [FieldMode.Nullable, sajari.engine.v2.Field.Mode.NULLABLE],
+    [FieldMode.Required, sajari.engine.v2.Field.Mode.REQUIRED],
+    [FieldMode.Unique, sajari.engine.v2.Field.Mode.UNIQUE]
+  ])("FieldModeToProto(%o) => %o", (type, proto) => {
+    expect(FieldModeToProto(type)).toEqual(proto);
   });
 
-  test.each([
-    [sajari.engine.schema.Field.Mode.NULLABLE, FieldMode.Nullable],
-    [sajari.engine.schema.Field.Mode.REQUIRED, FieldMode.Required],
-    [sajari.engine.schema.Field.Mode.UNIQUE, FieldMode.Unique]
-  ])("FieldMode.fromProto(%o) => %o", (proto, type) => {
-    expect(FieldMode.fromProto(proto)).toEqual(type);
+  test.each<[sajari.engine.v2.Field.Mode, FieldMode]>([
+    [sajari.engine.v2.Field.Mode.NULLABLE, FieldMode.Nullable],
+    [sajari.engine.v2.Field.Mode.REQUIRED, FieldMode.Required],
+    [sajari.engine.v2.Field.Mode.UNIQUE, FieldMode.Unique]
+  ])("FieldModeFromProto(%o) => %o", (proto, type) => {
+    expect(FieldModeFromProto(proto)).toEqual(type);
   });
 });
 
 describe("field function", () => {
-  test.each([
+  test.each<[{ type: Type; name: string; options: any }, Field]>([
     [
       { type: Type.String, name: "string_field", options: {} },
       {
@@ -107,12 +118,12 @@ describe("field function", () => {
 });
 
 describe("Field", () => {
-  test.each([
+  test.each<[Field, sajari.engine.v2.Field]>([
     [
       field(Type.String, "foo"),
-      sajari.engine.schema.Field.create({
-        type: sajari.engine.schema.Field.Type.STRING,
-        mode: sajari.engine.schema.Field.Mode.NULLABLE,
+      sajari.engine.v2.Field.create({
+        type: sajari.engine.v2.Field.Type.STRING,
+        mode: sajari.engine.v2.Field.Mode.NULLABLE,
         name: "foo",
         description: "",
         repeated: false
@@ -122,23 +133,23 @@ describe("Field", () => {
       field(Type.Boolean, "bar", {
         mode: FieldMode.Required
       }),
-      sajari.engine.schema.Field.create({
-        type: sajari.engine.schema.Field.Type.BOOLEAN,
-        mode: sajari.engine.schema.Field.Mode.REQUIRED,
+      sajari.engine.v2.Field.create({
+        type: sajari.engine.v2.Field.Type.BOOLEAN,
+        mode: sajari.engine.v2.Field.Mode.REQUIRED,
         name: "bar",
         description: "",
         repeated: false
       })
     ]
-  ])("Field.toProto", (arg, proto) => {
-    expect(Field.toProto(arg)).toEqual(proto);
+  ])("FieldToProto", (arg, proto) => {
+    expect(FieldToProto(arg)).toEqual(proto);
   });
 
-  test.each([
+  test.each<[sajari.engine.v2.Field, Field]>([
     [
-      sajari.engine.schema.Field.create({
-        type: sajari.engine.schema.Field.Type.STRING,
-        mode: sajari.engine.schema.Field.Mode.NULLABLE,
+      sajari.engine.v2.Field.create({
+        type: sajari.engine.v2.Field.Type.STRING,
+        mode: sajari.engine.v2.Field.Mode.NULLABLE,
         name: "foo",
         description: "",
         repeated: false
@@ -148,28 +159,25 @@ describe("Field", () => {
         mode: FieldMode.Nullable,
         name: "foo",
         description: "",
-        repeated: false,
-        indexed: false
+        repeated: false
       }
     ],
     [
-      sajari.engine.schema.Field.create({
-        type: sajari.engine.schema.Field.Type.BOOLEAN,
-        mode: sajari.engine.schema.Field.Mode.REQUIRED,
+      sajari.engine.v2.Field.create({
+        type: sajari.engine.v2.Field.Type.BOOLEAN,
+        mode: sajari.engine.v2.Field.Mode.REQUIRED,
         name: "bar",
-        description: "",
-        unique: false
+        description: ""
       }),
       {
         type: Type.Boolean,
         mode: FieldMode.Required,
         name: "bar",
         description: "",
-        repeated: false,
-        indexed: false
+        repeated: false
       }
     ]
   ])("Field.fromProto", (proto, arg) => {
-    expect(Field.fromProto(proto)).toEqual(arg);
+    expect(FieldFromProto(proto)).toEqual(arg);
   });
 });

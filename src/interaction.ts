@@ -6,7 +6,7 @@ import { APIClient, CallOptions } from "./api";
  * @hidden
  */
 export const ConsumeInteractionEndpoint =
-  "sajari.api.interaction.Interaction/Consume";
+  "sajari.interaction.v2.Interaction/Consume";
 
 export class Interaction {
   /**
@@ -19,21 +19,24 @@ export class Interaction {
   }
 
   public async consume(
-    req: {
-      token: string;
+    token: string,
+    info: {
       identifier: string;
       weight: number;
       data?: { [k: string]: string };
     },
     opts: CallOptions = {}
   ) {
-    const request = sajari.api.interaction.ConsumeRequest.create(req);
+    const request = sajari.interaction.v2.ConsumeTokenRequest.create({
+      token,
+      ...info
+    });
 
     await this.client.call(
       ConsumeInteractionEndpoint,
       request,
-      sajari.api.interaction.ConsumeRequest.encode,
-      sajari.rpc.Empty.decode,
+      sajari.interaction.v2.ConsumeTokenRequest.encode,
+      sajari.interaction.v2.ConsumeTokenResponse.decode,
       opts
     );
   }

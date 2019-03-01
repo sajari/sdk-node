@@ -1,26 +1,33 @@
 import { sajari } from "../../generated/proto";
 import { APIClient, CallOptions } from "../api";
-import { Key } from "../engine/key";
-import { Record } from "../engine/record";
-import { AddResponse, createAddRequest, parseAddResponse } from "./add";
-import {
-  createReplaceRequest,
-  KeyRecord,
-  parseReplaceResponse,
-  ReplaceResponse
-} from "./replace";
-import {
-  createSearchRequest,
-  parseSearchResponse,
-  SearchResponse
-} from "./search";
-import { Tracking } from "./session";
+import { objectToStruct, structToObject } from "../protoUtils";
+import { Record, RecordToProto } from "../store/record";
+import { Key, KeyFromProto, KeyToProto } from "../types";
+import { parseSearchResponse, SearchResponse } from "./search";
+import { Tracking, TrackingToProto } from "./session";
 
 /**
  * PipelineDefinition
  */
-export interface PipelineDefinition {
+export interface PipelineIdentifier {
   name: string;
+  version: string;
+}
+
+/**
+ * @hidden
+ */
+function PipelineIdentifierFromProto(
+  v: sajari.pipeline.v2.IIdentifier | null | undefined
+): PipelineIdentifier {
+  if (v == null) {
+    throw new Error("sajari: invalid proto");
+  }
+  const x = sajari.pipeline.v2.Identifier.create(v);
+  return {
+    name: x.name,
+    version: x.version
+  };
 }
 
 /**
@@ -42,22 +49,15 @@ export interface Pipeline {
    * Add a record to a collection using a pipeline, returning the unique key
    * which can be used to retrieve the respective record.
    */
-  add(
+  create(
     values: { [k: string]: string },
     record: Record,
     options?: CallOptions
-  ): Promise<Key>;
-
-  /**
-   * AddMulti adds multiple records to a collection using a pipeline, returning
-   * a list of AddResponse objects which either contain the Key for the
-   * respective record, or an Error if the add fails.
-   */
-  addMulti(
-    values: { [k: string]: string },
-    records: Record[],
-    options?: CallOptions
-  ): Promise<AddResponse[]>;
+  ): Promise<{
+    pipeline: PipelineIdentifier;
+    values: { [k: string]: any };
+    key: Key;
+  }>;
 
   /**
    * Replace a record to a collection using a pipeline, returning the unique
@@ -65,48 +65,41 @@ export interface Pipeline {
    */
   replace(
     values: { [k: string]: string },
-    keyRecord: KeyRecord,
+    key: Key,
+    record: Record,
     options?: CallOptions
-  ): Promise<Key>;
-
-  /**
-   * ReplaceMulti replaces multiple records in a collection using a pipeline,
-   * returning a list of ReplaceResponse objects which either contain the Key
-   * for the new record created, and empty Key if the record already exists
-   * and was replaced, or an Error if the replace fails.
-   */
-  replaceMulti(
-    values: { [k: string]: string },
-    keyRecords: KeyRecord[],
-    options?: CallOptions
-  ): Promise<ReplaceResponse[]>;
+  ): Promise<{
+    pipeline: PipelineIdentifier;
+    values: { [k: string]: any };
+    key: Key;
+  }>;
 }
 
 /**
  * grpc method path for record ingestetion via a pipeline
  * @hidden
  */
-const PipelineAddMethod = "sajari.api.pipeline.v1.Store/Add";
+const PipelineCreateRecordMethod = "sajari.pipeline.v2.Store/CreateRecord";
 /**
  * grpc method path for replace
  * @hidden
  */
-const PipelineReplaceMethod = "sajari.api.pipeline.v1.Store/Replace";
+const PipelineReplaceRecordMethod = "sajari.pipeline.v2.Store/ReplaceRecord";
 /**
  * grpc method path for querying records
  * @hidden
  */
-const PipelineSearchMethod = "sajari.api.pipeline.v1.Query/Search";
+const PipelineSearchMethod = "sajari.pipeline.v2.Query/Search";
 
 /**
  * PipelineImpl is the implementation of a Pipeline
  * @hidden
  */
 export class PipelineImpl implements Pipeline {
-  private pipeline: PipelineDefinition;
+  private pipeline: PipelineIdentifier;
   private client: APIClient;
 
-  constructor(pipeline: PipelineDefinition, client: APIClient) {
+  constructor(pipeline: PipelineIdentifier, client: APIClient) {
     this.pipeline = pipeline;
     this.client = client;
   }
@@ -116,87 +109,87 @@ export class PipelineImpl implements Pipeline {
     tracking: Tracking,
     options?: CallOptions
   ): Promise<SearchResponse> {
-    const request = createSearchRequest(this.pipeline, values, tracking);
+    const request = sajari.pipeline.v2.SearchRequest.create({
+      pipeline: this.pipeline,
+      values: objectToStruct(values),
+      tracking: TrackingToProto(tracking)
+    });
 
     const response = await this.client.call(
       PipelineSearchMethod,
       request,
-      sajari.api.pipeline.v1.SearchRequest.encode,
-      sajari.api.pipeline.v1.SearchResponse.decode,
+      sajari.pipeline.v2.SearchRequest.encode,
+      sajari.pipeline.v2.SearchResponse.decode,
       options
     );
 
     const results = parseSearchResponse(response);
-    return { results, values: response.values };
+    return {
+      results,
+      values: structToObject(response.values),
+      pipeline: PipelineIdentifierFromProto(response.pipeline)
+    };
   }
 
-  public async add(
-    values: { [k: string]: string },
+  public async create(
+    values: { [k: string]: any },
     record: Record,
     options?: CallOptions
-  ): Promise<Key> {
-    const response = await this.addMulti(values, [record], options);
-    const res = response[0];
-    if (res.error) {
-      throw res.error;
-    }
-    return res.key;
-  }
-
-  public async addMulti(
-    values: { [k: string]: string },
-    records: Record[],
-    options?: CallOptions
-  ): Promise<AddResponse[]> {
-    const request = createAddRequest(this.pipeline, values, records);
+  ): Promise<{
+    pipeline: PipelineIdentifier;
+    values: { [k: string]: any };
+    key: Key;
+  }> {
+    const request = sajari.pipeline.v2.CreateRecordRequest.create({
+      pipeline: this.pipeline,
+      values: objectToStruct(values),
+      record: RecordToProto(record)
+    });
 
     const response = await this.client.call(
-      PipelineAddMethod,
+      PipelineCreateRecordMethod,
       request,
-      sajari.api.pipeline.v1.AddRequest.encode,
-      sajari.api.pipeline.v1.AddResponse.decode,
+      sajari.pipeline.v2.CreateRecordRequest.encode,
+      sajari.pipeline.v2.CreateRecordResponse.decode,
       options
     );
 
-    if (response.response == null) {
-      throw new Error("sajari: empty response");
-    }
-
-    return parseAddResponse(response.response);
+    return {
+      key: KeyFromProto(response.key),
+      values: structToObject(response.values),
+      pipeline: PipelineIdentifierFromProto(response.pipeline)
+    };
   }
 
   public async replace(
     values: { [k: string]: string },
-    keyRecord: KeyRecord,
+    key: Key,
+    record: Record,
     options?: CallOptions
-  ): Promise<Key> {
-    const response = await this.replaceMulti(values, [keyRecord], options);
-    const res = response[0];
-    if (res.error) {
-      throw res.error;
-    }
-    return res.key;
-  }
-
-  public async replaceMulti(
-    values: { [k: string]: string },
-    keyRecords: KeyRecord[],
-    options?: CallOptions
-  ): Promise<ReplaceResponse[]> {
-    const request = createReplaceRequest(this.pipeline, values, keyRecords);
+  ): Promise<{
+    pipeline: PipelineIdentifier;
+    values: { [k: string]: any };
+    key: Key;
+  }> {
+    const request = sajari.pipeline.v2.ReplaceRecordRequest.create({
+      pipeline: this.pipeline,
+      values: objectToStruct(values),
+      key: KeyToProto(key),
+      record: RecordToProto(record)
+    });
 
     const response = await this.client.call(
-      PipelineReplaceMethod,
+      PipelineReplaceRecordMethod,
       request,
-      sajari.api.pipeline.v1.ReplaceRequest.encode,
-      sajari.api.pipeline.v1.ReplaceResponse.decode,
+      sajari.pipeline.v2.ReplaceRecordRequest.encode,
+      sajari.pipeline.v2.ReplaceRecordResponse.decode,
       options
     );
 
-    if (response.response == null) {
-      throw new Error("sajari: empty response");
-    }
-
-    return parseReplaceResponse(response.response);
+    return {
+      key: KeyFromProto(response.key),
+      values: structToObject(response.values),
+      pipeline: PipelineIdentifierFromProto(response.pipeline)
+    };
   }
 }

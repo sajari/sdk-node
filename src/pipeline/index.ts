@@ -1,1 +1,1 @@
-export { Pipeline, PipelineDefinition, PipelineImpl } from "./pipeline";
+export { Pipeline, PipelineIdentifier, PipelineImpl } from "./pipeline";

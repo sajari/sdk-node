@@ -1,45 +1,43 @@
 import { sajari } from "../../generated/proto";
-import { Type } from "./field";
+import { Type, TypeToProto } from "./field";
 
-// Mutation is a mutation of a schema field.
+/** Mutation is a mutation of a schema field. */
 export type Mutation =
   | NameMutation
   | DescriptionMutation
   | TypeMutation
   | RepeatedMutation;
 
-export namespace Mutation {
-  /**
-   * @hidden
-   */
-  export function toProto(
-    m: Mutation
-  ): sajari.engine.schema.MutateFieldRequest.Mutation {
-    const mut: { [k: string]: any } = m;
-    if ("type" in mut) {
-      mut.type = Type.toProto(mut.type);
-    }
-    return sajari.engine.schema.MutateFieldRequest.Mutation.create(mut);
+/**
+ * @hidden
+ */
+export function MutationToProto(
+  m: Mutation
+): sajari.engine.v2.MutateFieldRequest.Mutation {
+  const mut: { [k: string]: any } = m;
+  if ("type" in mut) {
+    mut.type = TypeToProto(mut.type);
   }
+  return sajari.engine.v2.MutateFieldRequest.Mutation.create(mut);
 }
 
 export interface NameMutation {
-  // Name is a new name for the field.
+  /** Name is a new name for the field. */
   name: string;
 }
 
 export interface DescriptionMutation {
-  // Description is the new description for the field.
+  /** Description is the new description for the field. */
   description: string;
 }
 
 export interface TypeMutation {
-  // Type changes the underlying type of the field.
+  /** Type changes the underlying type of the field. */
   type: Type;
 }
 
 export interface RepeatedMutation {
-  // Repeated sets whether the field values are repeated.
+  /** Repeated sets whether the field values are repeated. */
   repeated: boolean;
 }
 

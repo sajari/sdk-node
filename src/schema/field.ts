@@ -2,60 +2,54 @@ import merge from "deepmerge";
 import { sajari } from "../../generated/proto";
 
 /**
- * Field represents a meta field which can be assigned in a collection record.
+ * Field defines the properties of a field in the schema.
  */
 export interface Field {
-  // Name is the name used to identify the field.
+  /** Name is the name used to identify the field. */
   name: string;
 
-  // Description is a description of the field.
+  /** Description is a description of the field. */
   description: string;
 
-  // Type defines the type of the field.
+  /** Type represents the underlying data type of the field. Default is a string. */
   type: Type;
 
-  // Mode defines the mode of the field.
+  /** Mode defines the mode of the field. */
   mode: FieldMode;
 
-  // Repeated indicates that this field can hold a list of values.
+  /** Repeated indicates that this field can hold a list of values. */
   repeated: boolean;
-
-  // Indexed indicates that the field should be indexed.
-  indexed?: boolean;
 }
 
-export namespace Field {
-  /**
-   * @hidden
-   */
-  export function toProto(f: Field): sajari.engine.schema.Field {
-    return new sajari.engine.schema.Field(
-      merge(f, {
-        mode: FieldMode.toProto(f.mode),
-        type: Type.toProto(f.type)
-      })
-    );
+/**
+ * @hidden
+ */
+export function FieldToProto(f: Field): sajari.engine.v2.Field {
+  return sajari.engine.v2.Field.create(
+    merge(f, {
+      mode: FieldModeToProto(f.mode),
+      type: TypeToProto(f.type)
+    })
+  );
+}
+
+/**
+ * @hidden
+ */
+export function FieldFromProto(f: sajari.engine.v2.IField): Field {
+  const err = sajari.engine.v2.Field.verify(f);
+  if (err) {
+    throw new Error(`sajari: failed to verify Field message: ${err}`);
   }
 
-  /**
-   * @hidden
-   */
-  export function fromProto(f: sajari.engine.schema.IField): Field {
-    const err = sajari.engine.schema.Field.verify(f);
-    if (err) {
-      throw new Error(`sajari: failed to verify Field message: ${err}`);
-    }
-
-    const engineField = f as sajari.engine.schema.Field;
-    return {
-      name: engineField.name,
-      description: engineField.description,
-      type: Type.fromProto(engineField.type),
-      mode: FieldMode.fromProto(engineField.mode),
-      repeated: engineField.repeated,
-      indexed: engineField.indexed
-    };
-  }
+  const engineField = f as sajari.engine.v2.Field;
+  return {
+    name: engineField.name,
+    description: engineField.description,
+    type: TypeFromProto(engineField.type),
+    mode: FieldModeFromProto(engineField.mode),
+    repeated: engineField.repeated
+  };
 }
 
 /**
@@ -63,55 +57,53 @@ export namespace Field {
  * @hidden
  */
 export enum Type {
-  String = sajari.engine.schema.Field.Type.STRING,
-  Integer = sajari.engine.schema.Field.Type.INTEGER,
-  Float = sajari.engine.schema.Field.Type.FLOAT,
-  Double = sajari.engine.schema.Field.Type.DOUBLE,
-  Boolean = sajari.engine.schema.Field.Type.BOOLEAN,
-  Timestamp = sajari.engine.schema.Field.Type.TIMESTAMP
+  String = sajari.engine.v2.Field.Type.STRING,
+  Integer = sajari.engine.v2.Field.Type.INTEGER,
+  Float = sajari.engine.v2.Field.Type.FLOAT,
+  Double = sajari.engine.v2.Field.Type.DOUBLE,
+  Boolean = sajari.engine.v2.Field.Type.BOOLEAN,
+  Timestamp = sajari.engine.v2.Field.Type.TIMESTAMP
 }
 
-export namespace Type {
-  /**
-   * @hidden
-   */
-  export function toProto(t: Type): sajari.engine.schema.Field.Type {
-    switch (t) {
-      case Type.Integer:
-        return sajari.engine.schema.Field.Type.INTEGER;
-      case Type.Float:
-        return sajari.engine.schema.Field.Type.FLOAT;
-      case Type.Double:
-        return sajari.engine.schema.Field.Type.DOUBLE;
-      case Type.Boolean:
-        return sajari.engine.schema.Field.Type.BOOLEAN;
-      case Type.Timestamp:
-        return sajari.engine.schema.Field.Type.TIMESTAMP;
+/**
+ * @hidden
+ */
+export function TypeToProto(t: Type): sajari.engine.v2.Field.Type {
+  switch (t) {
+    case Type.Integer:
+      return sajari.engine.v2.Field.Type.INTEGER;
+    case Type.Float:
+      return sajari.engine.v2.Field.Type.FLOAT;
+    case Type.Double:
+      return sajari.engine.v2.Field.Type.DOUBLE;
+    case Type.Boolean:
+      return sajari.engine.v2.Field.Type.BOOLEAN;
+    case Type.Timestamp:
+      return sajari.engine.v2.Field.Type.TIMESTAMP;
 
-      default:
-        return sajari.engine.schema.Field.Type.STRING;
-    }
+    default:
+      return sajari.engine.v2.Field.Type.STRING;
   }
+}
 
-  /**
-   * @hidden
-   */
-  export function fromProto(t: sajari.engine.schema.Field.Type): Type {
-    switch (t) {
-      case sajari.engine.schema.Field.Type.INTEGER:
-        return Type.Integer;
-      case sajari.engine.schema.Field.Type.FLOAT:
-        return Type.Float;
-      case sajari.engine.schema.Field.Type.DOUBLE:
-        return Type.Double;
-      case sajari.engine.schema.Field.Type.BOOLEAN:
-        return Type.Boolean;
-      case sajari.engine.schema.Field.Type.TIMESTAMP:
-        return Type.Timestamp;
+/**
+ * @hidden
+ */
+export function TypeFromProto(t: sajari.engine.v2.Field.Type): Type {
+  switch (t) {
+    case sajari.engine.v2.Field.Type.INTEGER:
+      return Type.Integer;
+    case sajari.engine.v2.Field.Type.FLOAT:
+      return Type.Float;
+    case sajari.engine.v2.Field.Type.DOUBLE:
+      return Type.Double;
+    case sajari.engine.v2.Field.Type.BOOLEAN:
+      return Type.Boolean;
+    case sajari.engine.v2.Field.Type.TIMESTAMP:
+      return Type.Timestamp;
 
-      default:
-        return Type.String;
-    }
+    default:
+      return Type.String;
   }
 }
 
@@ -119,55 +111,53 @@ export enum FieldMode {
   /**
    * Nullable fields do not need to be set.
    */
-  Nullable = sajari.engine.schema.Field.Mode.NULLABLE,
+  Nullable = sajari.engine.v2.Field.Mode.NULLABLE,
   /**
    * Required fields must be specified (cannot be null).
    */
-  Required = sajari.engine.schema.Field.Mode.REQUIRED,
+  Required = sajari.engine.v2.Field.Mode.REQUIRED,
   /**
    * Unique fields must be specified, and must be unique.
    * Unique fields can be used to retrieve/delete records.
    */
-  Unique = sajari.engine.schema.Field.Mode.UNIQUE
+  Unique = sajari.engine.v2.Field.Mode.UNIQUE
 }
 
-export namespace FieldMode {
-  /**
-   * @hidden
-   */
-  export function toProto(m: FieldMode): sajari.engine.schema.Field.Mode {
-    switch (m) {
-      case FieldMode.Required:
-        return sajari.engine.schema.Field.Mode.REQUIRED;
-      case FieldMode.Unique:
-        return sajari.engine.schema.Field.Mode.UNIQUE;
+/**
+ * @hidden
+ */
+export function FieldModeToProto(m: FieldMode): sajari.engine.v2.Field.Mode {
+  switch (m) {
+    case FieldMode.Required:
+      return sajari.engine.v2.Field.Mode.REQUIRED;
+    case FieldMode.Unique:
+      return sajari.engine.v2.Field.Mode.UNIQUE;
 
-      default:
-        return sajari.engine.schema.Field.Mode.NULLABLE;
-    }
+    default:
+      return sajari.engine.v2.Field.Mode.NULLABLE;
   }
+}
 
-  /**
-   * @hidden
-   */
-  export function fromProto(m: sajari.engine.schema.Field.Mode): FieldMode {
-    switch (m) {
-      case sajari.engine.schema.Field.Mode.REQUIRED:
-        return FieldMode.Required;
-      case sajari.engine.schema.Field.Mode.UNIQUE:
-        return FieldMode.Unique;
+/**
+ * @hidden
+ */
+export function FieldModeFromProto(m: sajari.engine.v2.Field.Mode): FieldMode {
+  switch (m) {
+    case sajari.engine.v2.Field.Mode.REQUIRED:
+      return FieldMode.Required;
+    case sajari.engine.v2.Field.Mode.UNIQUE:
+      return FieldMode.Unique;
 
-      default:
-        return FieldMode.Nullable;
-    }
+    default:
+      return FieldMode.Nullable;
   }
 }
 
 export interface FieldOptions {
-  // Description is a description of the field.
+  /** Description is a description of the field. */
   description?: string;
 
-  // Repeated indicates that this field can hold a list of values.
+  /** Repeated indicates that this field can hold a list of values. */
   repeated?: boolean;
 
   mode?: FieldMode;
@@ -218,4 +208,4 @@ export const fields = {
   timestamp(name: string, options: FieldOptions): Field {
     return field(Type.Timestamp, name, options);
   }
-}
+};

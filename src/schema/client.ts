@@ -1,27 +1,25 @@
 import { sajari } from "../../generated/proto";
 import { APIClient, CallOptions } from "../api";
-import { errorFromStatuses } from "../utils";
-import { Field } from "./field";
-import { Mutation } from "./mutation";
-import { createAddRequest, createMutateFieldRequest } from "./utils";
+import { Field, FieldFromProto, FieldToProto } from "./field";
+import { Mutation, MutationToProto } from "./mutation";
 
 /**
- * grpc method endpoint for getting the current schema fields
+ * ListFields returns the fields in the schema.
  * @hidden
  */
-const GetFieldsMethod = "sajari.engine.schema.Schema/GetFields";
+const ListFieldsMethod = "sajari.engine.v2.Schema/ListFields";
 
 /**
- * grpc method endpoint for adding fields to the schema
+ * CreateField create a new field in the schema.
  * @hidden
  */
-const AddFieldsMethod = "sajari.engine.schema.Schema/AddFields";
+const CreateFieldMethod = "sajari.engine.v2.Schema/CreateField";
 
 /**
- * grpc method endpoint for mutating a schema field
+ * MutateField mutates a field in the schema.
  * @hidden
  */
-const MutateFieldMethod = "sajari.engine.schema.Schema/MutateField";
+const MutateFieldMethod = "sajari.engine.v2.Schema/MutateField";
 
 export class Schema {
   /**
@@ -29,64 +27,80 @@ export class Schema {
    */
   private client: APIClient;
 
+  /**
+   * @hidden
+   */
   constructor(client: APIClient) {
     this.client = client;
   }
 
-  // fields returns the fields in the collection.
-  public async fields(options?: CallOptions): Promise<Field[]> {
-    const request = new sajari.rpc.Empty();
+  /**
+   * listFields returns the fields in the schema.
+   */
+  public async listFields(options?: CallOptions): Promise<Field[]> {
+    let fields: Field[] = [];
+    let pageToken = "";
 
-    const response = await this.client.call(
-      GetFieldsMethod,
-      request,
-      sajari.rpc.Empty.encode,
-      sajari.engine.schema.Fields.decode,
-      options
-    );
+    while (true) {
+      const request = sajari.engine.v2.ListFieldsRequest.create({
+        pageToken: pageToken
+      });
 
-    return response.fields.map(Field.fromProto);
-  }
+      const response = await this.client.call(
+        ListFieldsMethod,
+        request,
+        sajari.engine.v2.ListFieldsRequest.encode,
+        sajari.engine.v2.ListFieldsResponse.decode,
+        options
+      );
 
-  // add adds Fields to the collection schema.
-  public async add(fields: Field[], options?: CallOptions): Promise<void> {
-    const request = createAddRequest(fields);
+      fields = fields.concat(response.fields.map(FieldFromProto));
 
-    const response = await this.client.call(
-      AddFieldsMethod,
-      request,
-      sajari.engine.schema.Fields.encode,
-      sajari.engine.schema.Response.decode,
-      options
-    );
-    const error = errorFromStatuses(response.status);
-    if (error) {
-      throw error;
+      if (response.nextPageToken === "") {
+        break;
+      }
+      pageToken = response.nextPageToken;
     }
-    return;
+
+    return fields;
   }
 
-  // mutateField mutates a field identifier by name.
-  // Each mutation is performed in the order in which it is specified.
-  // If any fail, then the rest are ignored.
+  /**
+   * createField creates a new field in the schema.
+   */
+  public async createField(field: Field, options?: CallOptions) {
+    const request = sajari.engine.v2.CreateFieldRequest.create({
+      field: FieldToProto(field)
+    });
+
+    await this.client.call(
+      CreateFieldMethod,
+      request,
+      sajari.engine.v2.CreateFieldRequest.encode,
+      sajari.engine.v2.CreateFieldResponse.decode,
+      options
+    );
+  }
+
+  /**
+   * mutateField mutates a field in the schema.
+   */
   public async mutateField(
     name: string,
-    mutations: Mutation[],
+    mutation: Mutation,
     options?: CallOptions
-  ): Promise<void> {
-    const request = createMutateFieldRequest(name, mutations);
+  ) {
+    const request = sajari.engine.v2.MutateFieldRequest.create({
+      name,
+      mutation: MutationToProto(mutation)
+    });
 
-    const response = await this.client.call(
+    await this.client.call(
       MutateFieldMethod,
       request,
-      sajari.engine.schema.MutateFieldRequest.encode,
-      sajari.engine.schema.Response.decode,
+      sajari.engine.v2.MutateFieldRequest.encode,
+      sajari.engine.v2.MutateFieldResponse.decode,
       options
     );
-    const error = errorFromStatuses(response.status);
-    if (error) {
-      throw error;
-    }
-    return;
   }
 }
