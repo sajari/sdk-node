@@ -59,7 +59,7 @@ const client = new Client("<project>", "<collection>", {
 });
 
 // get the pipeline client
-const pipeline = client.pipeline("<your pipeline name>")
+const pipeline = client.pipeline({name: "<your pipeline name>", version: "<your pipeline version>"});
 
 const record = {
 	"my-boolean-field": true,
@@ -81,7 +81,7 @@ const client = new Client("<project>", "<collection>", {
 });
 
 const session = new DefaultSession(TrackingType.None);
-const pipeline = client.pipeline("<your pipeline name>");
+const pipeline = client.pipeline({name: "<your pipeline name>", version: "<your pipeline version>"});
 const values = { q: "hello" };
 
 pipeline.search(values, session.next(values))
