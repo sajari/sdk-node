@@ -11,7 +11,10 @@ export interface Field {
   /** Description is a description of the field. */
   description: string;
 
-  /** Type represents the underlying data type of the field. Default is a string. */
+  /**
+   * Type represents the underlying data type of the field.
+   * Default is a string.
+   */
   type: Type;
 
   /** Mode defines the mode of the field. */

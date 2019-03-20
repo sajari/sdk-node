@@ -43,7 +43,7 @@ export class Schema {
 
     while (true) {
       const request = sajari.engine.v2.ListFieldsRequest.create({
-        pageToken: pageToken
+        pageToken
       });
 
       const response = await this.client.call(
