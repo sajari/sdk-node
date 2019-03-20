@@ -1,3 +1,5 @@
+import { setField, appendField, incrementField } from "./store";
+
 // re-export the grpc status code enum
 export { status as statusCode } from "grpc";
 
@@ -10,3 +12,12 @@ export {
   Tracking,
   TrackingType
 } from "./pipeline/session";
+
+export { default as schema } from "./schema";
+
+export { FieldMutation } from "./store";
+export const store = {
+  setField,
+  appendField,
+  incrementField
+};
