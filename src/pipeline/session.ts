@@ -4,30 +4,34 @@ import { sajari } from "../../generated/proto";
 /* tslint:disable:max-classes-per-file */
 
 /**
- * Tracking defines behaviour for handling search sessions and result interactions.
+ * Tracking defines behaviour for handling search sessions
+ * and result interactions.
  */
 export interface Tracking {
   /*
-   * type specifies which kind of tokens (if any) should be generated and returned
-   * with the query results.
+   * type specifies which kind of tokens (if any) should be generated
+   * and returned with the query results.
    */
   type: TrackingType;
 
   /*
    * queryId is a unique identifier for a single search query.  In the
-   * case of search-as-you-type style interactions, this is defined to be multiple
-   * individual queries (i.e. as a user types the query is re-run).
+   * case of search-as-you-type style interactions, this is defined to be
+   * multiple individual queries (i.e. as a user types the query is re-run).
    * To identify the individual queries use the [[Tracking.sequence]] number.
    */
   queryId?: string;
 
   /*
-   * sequence (i.e. sequential identifier) in the context of a sequence of queries with
-   * the same queryId.
+   * sequence (i.e. sequential identifier) in the context of a sequence of
+   * queries with the same queryId.
    */
   sequence?: number;
 
-  /** field is a unique field on each result used to associate tracking information to the result. */
+  /**
+   * field is a unique field on each result used to associate
+   * tracking information to the result.
+   */
   field?: string;
 
   /** data values which will be recorded along with query requests. */
@@ -43,15 +47,18 @@ export function TrackingToProto(t: Tracking): sajari.pipeline.v2.Tracking {
 }
 
 /**
- * Session takes query values, maintains session state, and returns tracking data
- * to be sent with search requests.
+ * Session takes query values, maintains session state, and returns
+ * tracking data to be sent with search requests.
  */
 export interface Session {
   next(values: { [k: string]: string }): Tracking;
   reset(): void;
 }
 
-/** TrackingType defines the possible result-interaction tracking types used by [[DefaultSession]] */
+/**
+ * TrackingType defines the possible result-interaction tracking
+ * types used by [[DefaultSession]]
+ */
 export enum TrackingType {
   /** None disables tracking. */
   None = sajari.pipeline.v2.Tracking.Type.NONE,
@@ -151,7 +158,10 @@ export class DefaultSession implements Session {
     this.sessionData = data;
   }
 
-  /** next merges new values into the session and returns tracking data to be sent with search requests. */
+  /**
+   * next merges new values into the session and returns tracking data
+   * to be sent with search requests.
+   */
   public next(values: { [k: string]: string }): Tracking {
     if (this.queryID === "") {
       this.queryID = newQueryID();
