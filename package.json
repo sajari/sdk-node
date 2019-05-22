@@ -1,6 +1,6 @@
 {
   "name": "@sajari/sdk-node",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.6",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "Ben Hinchley <bhinchley@sajari.com>",
@@ -15,7 +15,7 @@
     "node": ">= 10.0.0"
   },
   "scripts": {
-    "prebuild": "npm-run-all lint test",
+    "prebuild": "npm-run-all gen:useragent lint test",
     "build": "tsc",
     "fmt": "prettier --write --config .prettierrc.js \"{src/**/*,*.config,*.d,.*,package}.{js,ts,json}\"",
     "lint": "tslint --fix -p tsconfig.json",
@@ -25,6 +25,7 @@
     "test:watch": "jest --watch",
     "coverage": "jest --coverage",
     "gen:proto": "node scripts/genproto",
+    "gen:useragent": "node scripts/genuseragent",
     "docs": "typedoc ./src/index.ts --mode file --out ./docs --exclude \"**/*+(.test).ts\"",
     "prepublishOnly": "npm-run-all build"
   },
