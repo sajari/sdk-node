@@ -73,7 +73,8 @@ export function KeyToProto(k: Key): sajari.engine.v2.Key | undefined {
  */
 export function KeyFromProto(k: sajari.engine.v2.IKey | null | undefined): Key {
   if (k === null) {
-    throw new Error("sajari: invalid proto");
+    // Return empty key
+    return { field: "", value: "" };
   }
   const v = sajari.engine.v2.Key.create(k);
   return {
