@@ -3,6 +3,7 @@ import merge from "deepmerge";
 import grpc from "grpc";
 import protobuf from "protobufjs/light";
 import retryInterceptor from "./retryInterceptor";
+import { USER_AGENT } from "./ua";
 
 /**
  * Custom formatter for call options.
@@ -29,12 +30,6 @@ const debug = debuglog("sajari:api");
  * @hidden
  */
 const API_ENDPOINT = "api.sajari.com:443";
-
-/**
- * The user agent of the sdk client
- * @hidden
- */
-const USER_AGENT = "sdk-node-1.0.0";
 
 /**
  * The deault grpc authority
