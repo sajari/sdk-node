@@ -6,7 +6,7 @@ import { APIClient, CallOptions } from "./api";
  * @hidden
  */
 export const ConsumeInteractionEndpoint =
-  "sajari.interaction.v2.Interaction/Consume";
+  "sajari.interaction.v2.Interaction/ConsumeToken";
 
 export class Interaction {
   /**
