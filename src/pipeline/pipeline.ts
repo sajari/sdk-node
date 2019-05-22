@@ -11,7 +11,7 @@ import { Tracking, TrackingToProto } from "./session";
  */
 export interface PipelineIdentifier {
   name: string;
-  version: string;
+  version?: string;
 }
 
 /**
@@ -21,7 +21,7 @@ function PipelineIdentifierFromProto(
   v: sajari.pipeline.v2.IIdentifier | null | undefined
 ): PipelineIdentifier {
   if (v == null) {
-    throw new Error("sajari: invalid proto");
+    return { name: "", version: "" };
   }
   const x = sajari.pipeline.v2.Identifier.create(v);
   return {
