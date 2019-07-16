@@ -66,8 +66,7 @@ export default function retryInterceptor(maxRetries: number = 3) {
 
             if (
               status.code !== statusCode.OK &&
-              status.code === statusCode.UNAVAILABLE &&
-              status.details.startsWith("TCP Read failed")
+              status.code === statusCode.UNAVAILABLE
             ) {
               retry(savedSendMessage, savedMetadata);
             } else {
