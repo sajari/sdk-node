@@ -13,7 +13,10 @@ import { USER_AGENT } from "./ua";
 debuglog.formatters.C = function callOptionsFormatter(
   options: CallOptions
 ): string {
-  if (process.env.DEBUG_SHOW_CREDS) {
+  if (
+    process.env.DEBUG_SHOW_CREDS &&
+    process.env.DEBUG_SHOW_CREDS.toLowerCase() === "true"
+  ) {
     return JSON.stringify(options);
   }
   return JSON.stringify({ deadline: options.deadline, credentials: "hidden" });
