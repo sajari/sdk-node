@@ -12,9 +12,16 @@ export class Client {
     project: string,
     collection: string,
     credentials: { key: string; secret: string },
-    endpoint?: string
+    endpoint?: string,
+    insecure: boolean = false
   ) {
-    this.client = new APIClient(project, collection, credentials, endpoint);
+    this.client = new APIClient(
+      project,
+      collection,
+      credentials,
+      endpoint,
+      insecure
+    );
   }
 
   public close(): void {

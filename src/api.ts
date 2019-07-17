@@ -72,16 +72,16 @@ export class APIClient {
     project: string,
     collection: string,
     credentials: { key: string; secret: string },
-    endpoint: string = API_ENDPOINT
+    endpoint: string = API_ENDPOINT,
+    insecure: boolean = false
   ) {
     this.credentials = credentials;
     this.endpoint = endpoint;
     this.client = new grpc.Client(
       this.endpoint,
-      grpc.credentials.combineChannelCredentials(
-        grpc.credentials.createSsl(),
-        createCallCredentials(this.credentials.key, this.credentials.secret)
-      ),
+      insecure
+        ? grpc.credentials.createInsecure()
+        : grpc.credentials.createSsl(),
       {
         "grpc.default_authority": AUTHORITY,
         "grpc.primary_user_agent": USER_AGENT
@@ -114,16 +114,27 @@ export class APIClient {
       debug("call options: %C", callOptions);
       debug("request: %j", request);
 
+      const metadata = this.metadata.clone();
+      metadata.set(
+        "authorization",
+        `keysecret ${callOptions.credentials.key} ${
+          callOptions.credentials.secret
+        }`
+      );
+
       this.client.makeUnaryRequest(
         path,
         wrapEncoder(encoder),
         decoder,
         request,
-        this.metadata,
+        metadata,
         {
           deadline: deadline(callOptions.deadline),
           // tslint:disable-next-line:no-bitwise
           propagate_flags: grpc.propagate.DEFAULTS & ~grpc.propagate.DEADLINE,
+
+          // NOTE(@bhinchley): credentials is required by the type CallOptions,
+          // but this appears to do nothing.
           credentials: createCallCredentials(
             callOptions.credentials.key,
             callOptions.credentials.secret
