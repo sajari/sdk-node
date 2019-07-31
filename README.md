@@ -36,16 +36,21 @@ const client = new Client("<project>", "<collection>", {
 });
 
 const fields = [
-	schema.field.boolean("my-boolean-field", {
-		// Set this field to be required.
-		// FieldMode options are defined here,
-		// https://sajari-sdk-node.netlify.com/enums/fieldmode.html
-		mode: FieldMode.Required 
-	}),
-	schema.field.string("text")
-]
+  schema.field.boolean("my-boolean-field", {
+    // Set this field to be required.
+    // FieldMode options are defined here,
+    // https://sajari-sdk-node.netlify.com/enums/fieldmode.html
+    mode: FieldMode.Required
+  }),
+  schema.field.string("text"),
+  schema.field.string("url", { mode: FieldMode.Unique })
+];
 
-client.schema().add(...fields).catch(error => {/* handle error ... */})
+Promise.all(fields.map((field) => client.schema().createField(field))).catch(
+  (error) => {
+    /* handle error ... */
+  }
+);
 ```
 
 **Adding a record**
@@ -54,21 +59,30 @@ const { Client } = require("@sajari/sdk-node");
 
 // create client
 const client = new Client("<project>", "<collection>", {
-	key: "<key from console>",
-	secret: "<secret from console>"
+  key: "<key from console>",
+  secret: "<secret from console>"
 });
 
 // get the pipeline client
-const pipeline = client.pipeline({name: "<your pipeline name>", version: "<your pipeline version>"});
+const pipeline = client.pipeline({
+  name: "<your pipeline name>",
+  version: "<your pipeline version>"
+});
 
 const record = {
-	"my-boolean-field": true,
-	"text": "hello"
-}
+  "my-boolean-field": "true",
+  text: "hello",
+  url: "https://example.com"
+};
 
-pipeline.add({}, record)
-	.then(key => {/* handle key ... */})
-	.catch(error => {/* handle error ... */})
+pipeline
+  .create({}, record)
+  .then((key) => {
+    /* handle key ... */
+  })
+  .catch((error) => {
+    /* handle error ... */
+  });
 ```
 
 **Performing a search**
@@ -76,17 +90,55 @@ pipeline.add({}, record)
 const { Client, DefaultSession, TrackingType } = require("@sajari/sdk-node");
 
 const client = new Client("<project>", "<collection>", {
-	key: "<key from console>",
-	secret: "<secret from console>"
+  key: "<key from console>",
+  secret: "<secret from console>"
 });
 
-const session = new DefaultSession(TrackingType.None);
-const pipeline = client.pipeline({name: "<your pipeline name>", version: "<your pipeline version>"});
+const session = new DefaultSession(TrackingType.None, "url", {
+    /* optional session data can be added here */
+});
+const pipeline = client.pipeline({
+  name: "<your pipeline name>",
+  version: "<your pipeline version>"
+});
 const values = { q: "hello" };
 
-pipeline.search(values, session.next(values))
-	.then(response => {/* handle response ... */})
-	.catch(error => {/* handle error ... */})
+pipeline
+  .search(values, session.next(values))
+  .then((response) => {
+    /* handle response ... */
+  })
+  .catch((error) => {
+    /* handle error ... */
+  });
+```
+
+**Performing a search (with Click Tracking)**
+```js
+const { Client, DefaultSession, TrackingType } = require("@sajari/sdk-node");
+
+const client = new Client("<project>", "<collection>", {
+  key: "<key from console>",
+  secret: "<secret from console>"
+});
+
+const session = new DefaultSession(TrackingType.Click, "url", {
+    /* optional session data can be added here */
+});
+const pipeline = client.pipeline({
+  name: "<your pipeline name>",
+  version: "<your pipeline version>"
+});
+const values = { q: "hello" };
+
+pipeline
+  .search(values, session.next(values))
+  .then((response) => {
+    /* handle response ... */
+  })
+  .catch((error) => {
+    /* handle error ... */
+  });
 ```
 
 
