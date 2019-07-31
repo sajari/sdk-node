@@ -141,6 +141,39 @@ pipeline
   });
 ```
 
+**Performing a search (with Click Tracking and Session Data)**
+```js
+const { Client, DefaultSession, TrackingType } = require("@sajari/sdk-node");
+
+const client = new Client("<project>", "<collection>", {
+  key: "<key from console>",
+  secret: "<secret from console>"
+});
+
+const session = new DefaultSession(TrackingType.Click, "url", {
+  /*
+    Optionally data can be included when constructing a search session.
+  */
+  "googleAnalyticsID": "123456789",
+  "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1",
+  "userID": "34567uighfrytutr54",
+});
+const pipeline = client.pipeline({
+  name: "<your pipeline name>",
+  version: "<your pipeline version>"
+});
+const values = { q: "hello" };
+
+pipeline
+  .search(values, session.next(values))
+  .then((response) => {
+    /* handle response ... */
+  })
+  .catch((error) => {
+    /* handle error ... */
+  });
+```
+
 
 ## License
 
