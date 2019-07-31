@@ -141,7 +141,7 @@ pipeline
   });
 ```
 
-**Performing a search (with Click Tracking and Session Data)**
+**Performing a search (with PosNeg Tracking and Session Data)**
 ```js
 const { Client, DefaultSession, TrackingType } = require("@sajari/sdk-node");
 
@@ -150,7 +150,7 @@ const client = new Client("<project>", "<collection>", {
   secret: "<secret from console>"
 });
 
-const session = new DefaultSession(TrackingType.Click, "url", {
+const session = new DefaultSession(TrackingType.PosNeg, "url", {
   /*
     Optionally data can be included when constructing a search session.
   */
@@ -172,6 +172,33 @@ pipeline
   .catch((error) => {
     /* handle error ... */
   });
+```
+
+**Consuming an interaction token**
+```js
+const { Client } = require("@sajari/sdk-node");
+
+const client = new Client("<project>", "<collection>", {
+  key: "<key from console>",
+  secret: "<secret from console>"
+});
+
+/*
+On each result when using TrackingType.Click or TrackingType.PosNeg, there is a
+set of tokens. These tokens allow you to provide feedback to the ranking system.
+When a user interacts with a result, you can send back the token with some extra
+information.
+
+The following invocation of the consume function, is noting that this particular
+interaction was a "purchase" and the user purchasing the item was 20 years old (this information coming from some system that you operate.)
+*/
+client.interaction().consume(token, {
+  identifier: "purchase",
+  weight: 1.0,
+  data: {
+    age: "20",
+  }
+})
 ```
 
 
