@@ -1,7 +1,7 @@
 import { appendField, incrementField, setField } from "./store";
 
 // re-export the grpc status code enum
-export { status as statusCode } from "grpc";
+export { status as statusCode } from "@grpc/grpc-js";
 
 export { Client } from "./client";
 export { Key, Value } from "./types";
