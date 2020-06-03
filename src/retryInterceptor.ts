@@ -1,13 +1,13 @@
 // tslint:disable:no-shadowed-variable
 
-import debuglog from "debug";
 import {
   InterceptingCall,
   Listener,
   Metadata,
   status as statusCode,
   StatusObject
-} from "grpc";
+} from "@grpc/grpc-js";
+import debuglog from "debug";
 
 const debug = debuglog("sajari:api:retryInterceptor");
 

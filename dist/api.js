@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.APIClient = void 0;
+var grpc_js_1 = __importDefault(require("@grpc/grpc-js"));
 var debug_1 = __importDefault(require("debug"));
 var deepmerge_1 = __importDefault(require("deepmerge"));
-var grpc_1 = __importDefault(require("grpc"));
 var retryInterceptor_1 = __importDefault(require("./retryInterceptor"));
 var ua_1 = require("./ua");
 /**
@@ -36,6 +36,25 @@ var API_ENDPOINT = "api.sajari.com:443";
  * @hidden
  */
 var AUTHORITY = "api.sajari.com";
+// @link https://github.com/grpc/grpc-node/blob/grpc%401.24.x/packages/grpc-native-core/src/constants.js#L169
+/**
+ * Propagation flags: these can be bitwise or-ed to form the propagation option
+ * for calls.
+ *
+ * Users are encouraged to write propagation masks as deltas from the default.
+ * i.e. write `grpc.propagate.DEFAULTS & ~grpc.propagate.DEADLINE` to disable
+ * deadline propagation.
+ * @memberof grpc
+ * @alias grpc.propagate
+ * @enum {number}
+ */
+var propagate = {
+    DEADLINE: 1,
+    CENSUS_STATS_CONTEXT: 2,
+    CENSUS_TRACING_CONTEXT: 4,
+    CANCELLATION: 8,
+    DEFAULTS: 65535
+};
 /**
  * APIClient wraps the grpc client, providing a single call method for
  * creating an unary request.
@@ -47,13 +66,13 @@ var APIClient = /** @class */ (function () {
         if (insecure === void 0) { insecure = false; }
         this.credentials = credentials;
         this.endpoint = endpoint;
-        this.client = new grpc_1.default.Client(this.endpoint, insecure
-            ? grpc_1.default.credentials.createInsecure()
-            : grpc_1.default.credentials.createSsl(), {
+        this.client = new grpc_js_1.default.Client(this.endpoint, insecure
+            ? grpc_js_1.default.credentials.createInsecure()
+            : grpc_js_1.default.credentials.createSsl(), {
             "grpc.default_authority": AUTHORITY,
             "grpc.primary_user_agent": ua_1.USER_AGENT
         });
-        this.metadata = new grpc_1.default.Metadata();
+        this.metadata = new grpc_js_1.default.Metadata();
         this.metadata.add("project", project);
         this.metadata.add("collection", collection);
     }
@@ -74,7 +93,7 @@ var APIClient = /** @class */ (function () {
             _this.client.makeUnaryRequest(path, wrapEncoder(encoder), decoder, request, metadata, {
                 deadline: deadline(callOptions.deadline),
                 // tslint:disable-next-line:no-bitwise
-                propagate_flags: grpc_1.default.propagate.DEFAULTS & ~grpc_1.default.propagate.DEADLINE,
+                propagate_flags: propagate.DEFAULTS & ~propagate.DEADLINE,
                 // NOTE(@bhinchley): credentials is required by the type CallOptions,
                 // but this appears to do nothing.
                 credentials: createCallCredentials(callOptions.credentials.key, callOptions.credentials.secret),
@@ -115,8 +134,8 @@ exports.APIClient = APIClient;
  * @hidden
  */
 function createCallCredentials(key, secret) {
-    return grpc_1.default.credentials.createFromMetadataGenerator(function (_, callback) {
-        var metadata = new grpc_1.default.Metadata();
+    return grpc_js_1.default.credentials.createFromMetadataGenerator(function (_, callback) {
+        var metadata = new grpc_js_1.default.Metadata();
         metadata.add("authorization", "keysecret " + key + " " + secret);
         callback(null, metadata);
     });

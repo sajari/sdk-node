@@ -1,5 +1,5 @@
 import { appendField, incrementField, setField } from "./store";
-export { status as statusCode } from "grpc";
+export { status as statusCode } from "@grpc/grpc-js";
 export { Client } from "./client";
 export { Key, Value } from "./types";
 export { Session, DefaultSession, Tracking, TrackingType } from "./pipeline/session";

@@ -1,6 +1,6 @@
+import grpc from "@grpc/grpc-js";
 import debuglog from "debug";
 import merge from "deepmerge";
-import grpc from "grpc";
 import protobuf from "protobufjs/light";
 import retryInterceptor from "./retryInterceptor";
 import { USER_AGENT } from "./ua";
@@ -59,6 +59,26 @@ export interface CallOptions {
     secret: string;
   };
 }
+
+// @link https://github.com/grpc/grpc-node/blob/grpc%401.24.x/packages/grpc-native-core/src/constants.js#L169
+/**
+ * Propagation flags: these can be bitwise or-ed to form the propagation option
+ * for calls.
+ *
+ * Users are encouraged to write propagation masks as deltas from the default.
+ * i.e. write `grpc.propagate.DEFAULTS & ~grpc.propagate.DEADLINE` to disable
+ * deadline propagation.
+ * @memberof grpc
+ * @alias grpc.propagate
+ * @enum {number}
+ */
+const propagate = {
+  DEADLINE: 1,
+  CENSUS_STATS_CONTEXT: 2,
+  CENSUS_TRACING_CONTEXT: 4,
+  CANCELLATION: 8,
+  DEFAULTS: 65535
+};
 
 /**
  * APIClient wraps the grpc client, providing a single call method for
@@ -134,7 +154,7 @@ export class APIClient {
         {
           deadline: deadline(callOptions.deadline),
           // tslint:disable-next-line:no-bitwise
-          propagate_flags: grpc.propagate.DEFAULTS & ~grpc.propagate.DEADLINE,
+          propagate_flags: propagate.DEFAULTS & ~propagate.DEADLINE,
 
           // NOTE(@bhinchley): credentials is required by the type CallOptions,
           // but this appears to do nothing.
@@ -184,11 +204,13 @@ function createCallCredentials(
   key: string,
   secret: string
 ): grpc.CallCredentials {
-  return grpc.credentials.createFromMetadataGenerator((_, callback) => {
-    const metadata = new grpc.Metadata();
-    metadata.add("authorization", `keysecret ${key} ${secret}`);
-    callback(null, metadata);
-  });
+  return grpc.credentials.createFromMetadataGenerator(
+    (_ : any, callback : any) => {
+      const metadata = new grpc.Metadata();
+      metadata.add("authorization", `keysecret ${key} ${secret}`);
+      callback(null, metadata);
+    }
+  );
 }
 
 /**

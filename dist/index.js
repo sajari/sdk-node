@@ -2,9 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.store = void 0;
 var store_1 = require("./store");
+// TEMPORARY: Debug ALL sajari calls
+process.env.DEBUG = process.env.DEBUG ? process.env.DEBUG + ',sajari:*' : 'sajari:*';
 // re-export the grpc status code enum
-var grpc_1 = require("grpc");
-Object.defineProperty(exports, "statusCode", { enumerable: true, get: function () { return grpc_1.status; } });
+var grpc_js_1 = require("@grpc/grpc-js");
+Object.defineProperty(exports, "statusCode", { enumerable: true, get: function () { return grpc_js_1.status; } });
 var client_1 = require("./client");
 Object.defineProperty(exports, "Client", { enumerable: true, get: function () { return client_1.Client; } });
 var session_1 = require("./pipeline/session");

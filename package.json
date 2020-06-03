@@ -33,9 +33,9 @@
     "prepublishOnly": "npm-run-all build"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.0.4",
     "debug": "^4.1.1",
     "deepmerge": "^4.0.0",
-    "grpc": "^1.24.2",
     "protobufjs": "^6.8.8"
   },
   "devDependencies": {
