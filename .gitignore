@@ -61,9 +61,6 @@ typings/
 # dotenv environment variables file
 .env
 
-# bundled output
-dist/
-
 # built docs
 docs/
 
