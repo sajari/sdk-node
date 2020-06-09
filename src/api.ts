@@ -1,9 +1,30 @@
-import grpc from "@grpc/grpc-js";
+import * as grpc from "@grpc/grpc-js";
 import debuglog from "debug";
 import merge from "deepmerge";
 import protobuf from "protobufjs/light";
 import retryInterceptor from "./retryInterceptor";
 import { USER_AGENT } from "./ua";
+
+// TEMP: Set debug value to ALWAYS show logs here
+// process.env.DEBUG = 'sajari:api,sajari:*';
+
+function humanSize(bytes: number): string {
+  if (bytes === 0) { return "0.00 B"; }
+  const e = Math.floor(Math.log(bytes) / Math.log(1024));
+  return (bytes/Math.pow(1024, e)).toFixed(2)+' '+' KMGTP'.charAt(e)+'B';
+}
+function logMemoryUsage(msg: string) {
+  const mem = process.memoryUsage();
+  
+  // tslint:disable-next-line: no-console
+  console.log(`[MEMORY USAGE] ${msg}`, {
+    arrayBuffers: humanSize(mem.arrayBuffers),
+    external: humanSize(mem.external),
+    heapTotal: humanSize(mem.heapTotal),
+    heapUsed: humanSize(mem.heapUsed),
+    rss: humanSize(mem.rss),
+  });
+}
 
 /**
  * Custom formatter for call options.
@@ -60,6 +81,7 @@ export interface CallOptions {
   };
 }
 
+// tslint:disable-next-line
 // @link https://github.com/grpc/grpc-node/blob/grpc%401.24.x/packages/grpc-native-core/src/constants.js#L169
 /**
  * Propagation flags: these can be bitwise or-ed to form the propagation option
@@ -123,6 +145,7 @@ export class APIClient {
     decoder: Decoder<Response>,
     options: CallOptions = {}
   ): Promise<Response> {
+    logMemoryUsage('before call');
     return new Promise((resolve, reject) => {
       const callOptions = merge(
         {
@@ -137,20 +160,12 @@ export class APIClient {
       debug("call options: %C", callOptions);
       debug("request: %j", request);
 
-      const metadata = this.metadata.clone();
-      metadata.set(
-        "authorization",
-        `keysecret ${callOptions.credentials.key} ${
-          callOptions.credentials.secret
-        }`
-      );
-
       this.client.makeUnaryRequest(
         path,
         wrapEncoder(encoder),
         decoder,
         request,
-        metadata,
+        this.metadata,
         {
           deadline: deadline(callOptions.deadline),
           // tslint:disable-next-line:no-bitwise
@@ -166,9 +181,11 @@ export class APIClient {
         },
         (err: grpc.ServiceError | null, value?: Response) => {
           if (err) {
+            logMemoryUsage('after call error');
             return reject(err);
           }
           debug("response: %j", value);
+          logMemoryUsage('after call success');
           return resolve(value);
         }
       );
@@ -204,6 +221,7 @@ function createCallCredentials(
   key: string,
   secret: string
 ): grpc.CallCredentials {
+  logMemoryUsage('after call success');
   return grpc.credentials.createFromMetadataGenerator(
     (_ : any, callback : any) => {
       const metadata = new grpc.Metadata();
