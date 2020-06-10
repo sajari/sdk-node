@@ -1,5 +1,6 @@
 import debuglog from "debug";
 import merge from "deepmerge";
+import { EventEmitter } from "events";
 import grpc from "grpc";
 import protobuf from "protobufjs/light";
 import retryInterceptor from "./retryInterceptor";
@@ -70,6 +71,8 @@ export class APIClient {
   private client: grpc.Client;
   private metadata: grpc.Metadata;
   private credentials: { key: string; secret: string };
+  private emitter: EventEmitter | undefined;
+  private insecure: boolean;
 
   constructor(
     project: string,
@@ -80,16 +83,8 @@ export class APIClient {
   ) {
     this.credentials = credentials;
     this.endpoint = endpoint;
-    this.client = new grpc.Client(
-      this.endpoint,
-      insecure
-        ? grpc.credentials.createInsecure()
-        : grpc.credentials.createSsl(),
-      {
-        "grpc.default_authority": AUTHORITY,
-        "grpc.primary_user_agent": USER_AGENT
-      }
-    );
+    this.insecure = insecure;
+    this.client = this.reconnect();
 
     this.metadata = new grpc.Metadata();
     this.metadata.add("project", project);
@@ -125,7 +120,7 @@ export class APIClient {
         }`
       );
 
-      this.client.makeUnaryRequest(
+      this.emitter = this.client.makeUnaryRequest(
         path,
         wrapEncoder(encoder),
         decoder,
@@ -152,6 +147,9 @@ export class APIClient {
           return resolve(value);
         }
       );
+
+      // Reconnect to gRPC server on unexpected disconnects...
+      this.emitter.on('cancelled', this.reconnect);
     });
   }
 
@@ -171,7 +169,35 @@ export class APIClient {
   }
 
   public close() {
-    this.client.close();
+    this.unbindEmitter();
+
+    if (this.client) {
+      this.client.close();
+    }
+  }
+
+  public reconnect(): grpc.Client {
+    // Close any existing client before reconnecting if open
+    if (this.client) {
+      this.close();
+    }
+
+    return this.client = new grpc.Client(
+      this.endpoint,
+      this.insecure
+        ? grpc.credentials.createInsecure()
+        : grpc.credentials.createSsl(),
+      {
+        "grpc.default_authority": AUTHORITY,
+        "grpc.primary_user_agent": USER_AGENT
+      }
+    );
+  }
+
+  private unbindEmitter(): void {
+    if (this.emitter) {
+      this.emitter.off('cancelled', this.reconnect);
+    }
   }
 }
 
