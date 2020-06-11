@@ -66,7 +66,10 @@ export default function retryInterceptor(maxRetries: number = 3) {
 
             if (
               status.code !== statusCode.OK &&
-              status.code === statusCode.UNAVAILABLE
+              (
+                status.code === statusCode.UNKNOWN ||
+                status.code === statusCode.UNAVAILABLE
+              )
             ) {
               retry(savedSendMessage, savedMetadata);
             } else {

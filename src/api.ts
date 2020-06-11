@@ -60,6 +60,14 @@ export interface CallOptions {
     secret: string;
   };
 }
+/*
+export interface SajariResponse extends Response {
+  key: string;
+  pipeline: string;
+  nextPageToken: string;
+  record: object;
+} 
+*/
 
 /**
  * APIClient wraps the grpc client, providing a single call method for
@@ -144,12 +152,15 @@ export class APIClient {
             return reject(err);
           }
           debug("response: %j", value);
+
           return resolve(value);
         }
       );
 
       // Reconnect to gRPC server on unexpected disconnects...
-      this.emitter.on('cancelled', this.reconnect);
+      if (this.emitter) {
+        this.emitter.on('cancelled', this.reconnect);
+      }
     });
   }
 
