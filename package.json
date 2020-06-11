@@ -1,7 +1,9 @@
 {
   "name": "@rentpath/sajari-sdk-node",
-  "version": "3.0.4",
-  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
+  "version": "3.0.5",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "Ben Hinchley <bhinchley@sajari.com>",
