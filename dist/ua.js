@@ -6,4 +6,4 @@ exports.USER_AGENT = void 0;
  * The user agent of the sdk client
  * @hidden
  */
-exports.USER_AGENT = "sdk-node-3.1.0";
+exports.USER_AGENT = "sdk-node-3.1.1";
