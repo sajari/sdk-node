@@ -26,7 +26,7 @@
   },
   "scripts": {
     "clean": "rimraf ./build",
-    "compile": "tsc -p .",
+    "build": "tsc -p .",
     "format": "prettier --write \"**/*.{js,json,md,ts,yaml}\"",
     "setup-examples": "npm link && cd examples && npm install && npm link ../ && cd ../",
     "test-examples": "cd examples && npm test && cd ../"

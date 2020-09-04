@@ -28,14 +28,14 @@ npm test
 ## Setup examples
 
 ```
-npm setup-examples
+npm run setup-examples
 ```
 
 ## Build
 
 ```
-npm clean
-npm compile
+npm run clean
+npm run build
 ```
 
 ## Release
