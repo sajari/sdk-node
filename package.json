@@ -1,0 +1,34 @@
+{
+  "name": "@sajari/sdk-node",
+  "version": "4.0.0-alpha.1",
+  "repository": "git@github.com:github.com/sajari/sdk-node.git",
+  "author": "Sajari Pty Ltd",
+  "license": "MIT",
+  "main": "./build/src/index.js",
+  "types": "./build/src/index.d.ts",
+  "files": [
+    "README.md",
+    "LICENSE",
+    "build/src",
+    "!build/src/**/*.map"
+  ],
+  "dependencies": {
+    "request": "2.88.2",
+    "ts-node": "8.10.2"
+  },
+  "devDependencies": {
+    "@types/node": "14.0.12",
+    "@types/request": "2.48.5",
+    "csv-parser": "^2.3.3",
+    "prettier": "2.0.5",
+    "rimraf": "^3.0.2",
+    "typescript": "3.9.5"
+  },
+  "scripts": {
+    "clean": "rimraf ./build",
+    "compile": "tsc -p .",
+    "format": "prettier --write \"**/*.{js,json,md,ts,yaml}\"",
+    "setup-examples": "npm link && cd examples && npm install && npm link ../ && cd ../",
+    "test-examples": "cd examples && npm test && cd ../"
+  }
+}

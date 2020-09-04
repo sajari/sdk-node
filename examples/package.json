@@ -1,0 +1,15 @@
+{
+  "name": "@sajari/sdk-node-examples",
+  "description": "Examples for the Sajari SDK for Node.js.",
+  "license": "MIT",
+  "author": "Sajari Pty Ltd",
+  "repository": "git@github.com:github.com/sajari/sdk-node.git",
+  "private": true,
+  "scripts": {
+    "test": ""
+  },
+  "dependencies": {
+    "@sajari/sdk-node": "*",
+    "commander": "^6.0.0"
+  }
+}
