@@ -16,11 +16,14 @@
     "request": "2.88.2"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.13",
     "@types/node": "14.6.4",
     "@types/request": "2.48.5",
     "csv-parser": "^2.3.3",
+    "jest": "^26.4.2",
     "prettier": "2.1.1",
     "rimraf": "^3.0.2",
+    "ts-jest": "^26.3.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.2"
   },
@@ -29,6 +32,7 @@
     "build": "tsc -p .",
     "format": "prettier --write \"**/*.{js,json,md,ts,yaml}\"",
     "setup-examples": "npm link && cd examples && npm install && npm link ../ && cd ../",
+    "test": "jest",
     "test-examples": "cd examples && npm test && cd ../"
   }
 }
