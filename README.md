@@ -24,6 +24,10 @@ npm install @sajari/sdk-node
 
 ### Use the SDK
 
+The following example shows how to create a collection using the SDK.
+
+> ⚠️ The function below cleans up after itself by deleting the collection immediately after creation.
+
 ```javascript
 // Import the Sajari SDK.
 const { CollectionsClient, withKeyCredentials } = require("@sajari/sdk-node");
