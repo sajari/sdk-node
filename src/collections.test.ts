@@ -12,5 +12,8 @@ async function createCollection(id: string, displayName: string) {
 }
 
 test("createCollection", async () => {
-  await createCollection("my-collection", "My collection");
+  await createCollection(
+    `my-collection-${new Date().getTime()}`,
+    "My collection"
+  );
 });
