@@ -35,7 +35,7 @@ const client = new CollectionsClient(
   withKeyCredentials("key-id", "key-secret")
 );
 
-async function createCollection() {
+async function createCollection(id, displayName) {
   // Create a new collection.
   const collection = await client.createCollection({ id, displayName });
   console.log(`Collection ${collection.displayName} created.`);
@@ -44,7 +44,10 @@ async function createCollection() {
   await client.deleteCollection(collection.id);
 }
 
-createCollection().catch(console.error);
+createCollection(
+  "collection-id",
+  "collection-display-name",
+).catch(console.error);
 ```
 
 ## Contributing
