@@ -5,6 +5,7 @@ import {
   Sajariv4alpha1Pipeline,
   V4alpha1SetDefaultPipelineRequest,
   V4alpha1GeneratePipelinesRequest,
+  V4alpha1SetDefaultVersionRequest,
 } from "../src/generated/api";
 
 export { withEndpoint, withKeyCredentials } from "./client";
@@ -111,7 +112,7 @@ export class PipelinesClient extends Client {
     version: string;
   } & Omit<
     Sajariv4alpha1Pipeline,
-    "id" | "type" | "name" | "version" | "createTime"
+    "type" | "name" | "version" | "createTime"
   >) {
     try {
       const res = await this.client.createPipeline(
@@ -160,5 +161,33 @@ export class PipelinesClient extends Client {
       type: typeToEnum(type),
     });
     return res.body;
+  }
+
+  async setDefaultPipelineVersion({
+    type,
+    name,
+    ...request
+  }: {
+    type: "record" | "query";
+    name: string;
+  } & V4alpha1SetDefaultVersionRequest) {
+    try {
+      const res = await this.client.setDefaultVersion(
+        this.accountId,
+        this.collectionId,
+        type,
+        name,
+        {
+          ...request,
+        }
+      );
+      return res.body;
+    } catch (e) {
+      if (e instanceof HttpError) {
+        console.error(JSON.stringify(e.response));
+        // TODO(jingram): wrap common errors
+      }
+      throw e;
+    }
   }
 }

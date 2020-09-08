@@ -77,6 +77,7 @@ Examples are in the [`examples/`](examples) directory.
 | Put record                      | [source code](examples/put-record.ts)                      |
 | Query collection                | [source code](examples/query-collection.ts)                |
 | Set collection default pipeline | [source code](examples/set-collection-default-pipeline.ts) |
+| Set default pipeline version    | [source code](examples/set-default-pipeline-version.ts)    |
 
 ## Contributing
 
