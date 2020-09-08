@@ -147,20 +147,29 @@ export class PipelinesClient extends Client {
     return res.body;
   }
 
-  async setDefaultPipeline(
-    id: string,
-    {
-      type,
-      ...request
-    }: {
-      type: "record" | "query";
-    } & Omit<V4alpha1SetDefaultPipelineRequest, "type">
-  ) {
-    const res = await this.client.setDefaultPipeline(this.accountId, id, {
-      ...request,
-      type: typeToEnum(type),
-    });
-    return res.body;
+  async setDefaultPipeline({
+    type,
+    ...request
+  }: {
+    type: "record" | "query";
+  } & Omit<V4alpha1SetDefaultPipelineRequest, "type">) {
+    try {
+      const res = await this.client.setDefaultPipeline(
+        this.accountId,
+        this.collectionId,
+        {
+          ...request,
+          type: typeToEnum(type),
+        }
+      );
+      return res.body;
+    } catch (e) {
+      if (e instanceof HttpError) {
+        console.error(JSON.stringify(e.response));
+        // TODO(jingram): wrap common errors
+      }
+      throw e;
+    }
   }
 
   async setDefaultPipelineVersion({

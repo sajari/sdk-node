@@ -44,7 +44,7 @@ async function main(
       withKeyCredentials(keyId, keySecret)
     );
 
-    const resp = await client.setDefaultPipeline(collectionId, pipeline);
+    const resp = await client.setDefaultPipeline(pipeline);
 
     console.log(JSON.stringify(resp));
   } catch (e) {

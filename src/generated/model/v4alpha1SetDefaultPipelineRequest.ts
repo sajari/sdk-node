@@ -14,14 +14,6 @@ import { RequestFile } from "./models";
 import { V4alpha1PipelineType } from "./v4alpha1PipelineType";
 
 export class V4alpha1SetDefaultPipelineRequest {
-  /**
-   * The account that owns the collection, e.g. `1257894000000000000`.
-   */
-  "accountId"?: string;
-  /**
-   * The collection to set the default query pipeline of, e.g. `my-collection`.
-   */
-  "collectionId"?: string;
   "type": V4alpha1PipelineType;
   /**
    * The name of the pipeline to use when not otherwise specified.
@@ -35,16 +27,6 @@ export class V4alpha1SetDefaultPipelineRequest {
     baseName: string;
     type: string;
   }> = [
-    {
-      name: "accountId",
-      baseName: "account_id",
-      type: "string",
-    },
-    {
-      name: "collectionId",
-      baseName: "collection_id",
-      type: "string",
-    },
     {
       name: "type",
       baseName: "type",
