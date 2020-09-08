@@ -9,7 +9,7 @@ import {
 
 export { withEndpoint, withKeyCredentials } from "./client";
 
-// TODO: work out how to return the enum int.
+// TODO(jingram): work out how to return the enum int.
 export const typeToEnum = (x?: string) => {
   switch (x) {
     case "record":
@@ -94,7 +94,7 @@ export class PipelinesClient extends Client {
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO: wrap common errors
+        // TODO(jingram): wrap common errors
       }
       throw e;
     }
@@ -128,7 +128,7 @@ export class PipelinesClient extends Client {
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO: wrap common errors
+        // TODO(jingram): wrap common errors
       }
       throw e;
     }

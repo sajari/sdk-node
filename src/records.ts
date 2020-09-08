@@ -9,29 +9,6 @@ import {
 
 export { withEndpoint, withKeyCredentials } from "./client";
 
-// TODO: work out how to return the enum int.
-const typeToEnum = (x?: string) => {
-  switch (x) {
-    case "record":
-      return 1;
-    case "query":
-      return 2;
-    default:
-      return 0;
-  }
-};
-
-const viewToEnum = (x?: string) => {
-  switch (x) {
-    case "basic":
-      return "PIPELINE_VIEW_BASIC";
-    case "full":
-      return "PIPELINE_VIEW_FULL";
-    default:
-      return "PIPELINE_VIEW_UNSPECIFIED";
-  }
-};
-
 export class RecordsClient extends Client {
   collectionId: string;
 
@@ -62,7 +39,7 @@ export class RecordsClient extends Client {
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO: wrap common errors
+        // TODO(jingram): wrap common errors
       }
       throw e;
     }
@@ -79,7 +56,7 @@ export class RecordsClient extends Client {
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO: wrap common errors
+        // TODO(jingram): wrap common errors
       }
       throw e;
     }
@@ -100,7 +77,7 @@ export class RecordsClient extends Client {
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO: wrap common errors
+        // TODO(jingram): wrap common errors
       }
       throw e;
     }
@@ -117,7 +94,7 @@ export class RecordsClient extends Client {
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO: wrap common errors
+        // TODO(jingram): wrap common errors
       }
       throw e;
     }

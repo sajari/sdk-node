@@ -39,7 +39,7 @@ export class CollectionsClient extends Client {
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO: wrap common errors
+        // TODO(jingram): wrap common errors
       }
       throw e;
     }
@@ -60,7 +60,7 @@ export class CollectionsClient extends Client {
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO: wrap common errors, e.g. already exists
+        // TODO(jingram): wrap common errors, e.g. already exists
       }
       throw e;
     }
@@ -77,30 +77,6 @@ export class CollectionsClient extends Client {
     });
     return res.body;
   }
-
-  // async updateCollection(
-  //   id: string,
-  //   { displayName }: { displayName: string },
-  //   updateMaskPaths: string[]
-  // ) {
-  //   try {
-  //     const res = await this.client.updateCollection(
-  //       this.accountId,
-  //       id,
-  //       {
-  //         displayName,
-  //       },
-  //       updateMaskPaths
-  //     );
-  //     return res.body;
-  //   } catch (e) {
-  //     if (e instanceof HttpError) {
-  //       console.error(JSON.stringify(e.response));
-  //       // TODO: wrap common errors, e.g. already exists
-  //     }
-  //     throw e;
-  //   }
-  // }
 
   async deleteCollection(id: string) {
     const res = await this.client.deleteCollection(this.accountId, id);
