@@ -8,6 +8,7 @@
   - [Use the SDK](#use-the-sdk)
 - [Examples](#examples)
 - [Contributing](#contributing)
+- [License](#license)
 
 ## Quickstart
 
@@ -55,30 +56,36 @@ createCollection("collection-id", "Collection display name").catch(
 
 ## Examples
 
-Examples are in the [`examples/`](examples) directory.
+Examples are in the [examples](https://github.com/sajari/sdk-node/blob/v4/examples) directory.
 
-| Example                      | Source code                                             |
-| ---------------------------- | ------------------------------------------------------- |
-| Batch create schema fields   | [source code](examples/batch-create-schema-fields.ts)   |
-| Batch put records            | [source code](examples/batch-put-records.ts)            |
-| Create collection            | [source code](examples/create-collection.ts)            |
-| Create pipeline              | [source code](examples/create-pipeline.ts)              |
-| Create schema field          | [source code](examples/create-schema-field.ts)          |
-| Delete collection            | [source code](examples/delete-collection.ts)            |
-| Delete record                | [source code](examples/delete-record.ts)                |
-| Generate pipelines           | [source code](examples/generate-pipelines.ts)           |
-| Get collection               | [source code](examples/get-collection.ts)               |
-| Get pipeline                 | [source code](examples/get-pipeline.ts)                 |
-| Get record                   | [source code](examples/get-record.ts)                   |
-| Infer schema                 | [source code](examples/infer-schema.ts)                 |
-| List collections             | [source code](examples/list-collections.ts)             |
-| List pipelines               | [source code](examples/list-pipelines.ts)               |
-| List schema fields           | [source code](examples/list-schema-fields.ts)           |
-| Put record                   | [source code](examples/put-record.ts)                   |
-| Query collection             | [source code](examples/query-collection.ts)             |
-| Set default pipeline         | [source code](examples/set-default-pipeline.ts)         |
-| Set default pipeline version | [source code](examples/set-default-pipeline-version.ts) |
+| Example                      | Source code                                                                                        |
+| ---------------------------- | -------------------------------------------------------------------------------------------------- |
+| Batch create schema fields   | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/batch-create-schema-fields.ts)   |
+| Batch put records            | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/batch-put-records.ts)            |
+| Create collection            | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/create-collection.ts)            |
+| Create pipeline              | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/create-pipeline.ts)              |
+| Create schema field          | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/create-schema-field.ts)          |
+| Delete collection            | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/delete-collection.ts)            |
+| Delete record                | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/delete-record.ts)                |
+| Generate pipelines           | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/generate-pipelines.ts)           |
+| Get collection               | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/get-collection.ts)               |
+| Get pipeline                 | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/get-pipeline.ts)                 |
+| Get record                   | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/get-record.ts)                   |
+| Infer schema                 | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/infer-schema.ts)                 |
+| List collections             | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/list-collections.ts)             |
+| List pipelines               | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/list-pipelines.ts)               |
+| List schema fields           | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/list-schema-fields.ts)           |
+| Put record                   | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/put-record.ts)                   |
+| Query collection             | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/query-collection.ts)             |
+| Set default pipeline         | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/set-default-pipeline.ts)         |
+| Set default pipeline version | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/set-default-pipeline-version.ts) |
 
 ## Contributing
 
-Contributions are welcome. See the [Contributing](CONTRIBUTING.md) guide.
+Contributions are welcome. See the [Contributing](https://github.com/sajari/sdk-node/blob/v4/examples/CONTRIBUTING.md) guide.
+
+## License
+
+MIT
+
+See [LICENSE](https://github.com/sajari/sdk-node/blob/v4/LICENSE)
