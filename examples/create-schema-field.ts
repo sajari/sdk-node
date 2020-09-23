@@ -42,7 +42,7 @@ async function main(
       withKeyCredentials(keyId, keySecret)
     );
 
-    // TODO(jingram): fix enums which get sent as strings not ints
+    // FIXME(jingram): fix enums which get sent as strings not ints
     const f = await client.createField(field);
 
     console.log(`name=${f.name}`);
