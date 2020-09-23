@@ -31,7 +31,7 @@ function createClient() {
   );
 }
 
-test("createField", async () => {
+test("create field", async () => {
   await client.createField({
     name: `fie_${ksuid.randomSync().string}`,
     type: SchemaFieldType.String,

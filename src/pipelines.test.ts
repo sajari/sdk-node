@@ -30,7 +30,7 @@ function createClient() {
   );
 }
 
-test("createPipeline", async () => {
+test("create pipeline", async () => {
   await client.createPipeline({
     type: "record",
     name: "record",

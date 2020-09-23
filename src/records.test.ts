@@ -36,6 +36,6 @@ async function putRecord(id: string) {
   await client.deleteRecord(record.key!); // TODO(jingram): remove ! once types are fixed.
 }
 
-test("putRecord", async () => {
+test("put record", async () => {
   await putRecord(ksuid.randomSync().string);
 });

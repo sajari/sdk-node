@@ -27,7 +27,7 @@ async function createCollection(displayName: string) {
   await client.deleteCollection(collection.id!); // TODO(jingram): remove ! once types are fixed.
 }
 
-test("createCollection", async () => {
+test("create collection", async () => {
   jest.setTimeout(10000); // create can take longer than the default 5s
 
   await createCollection("My collection");
