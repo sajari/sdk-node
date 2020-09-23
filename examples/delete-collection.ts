@@ -16,13 +16,11 @@ program.requiredOption(
 
 async function main(
   endpoint = program.endpoint,
-  accountId = program.accountId,
   keyId = program.keyId,
   keySecret = program.keySecret,
   id = program.collectionId
 ) {
   const client = new CollectionsClient(
-    accountId,
     withEndpoint(endpoint),
     withKeyCredentials(keyId, keySecret)
   );

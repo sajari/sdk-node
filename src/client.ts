@@ -13,11 +13,8 @@ export abstract class Client {
   endpoint: string = "";
   keyId: string = "";
   keySecret: string = "";
-  accountId: string;
 
-  constructor(accountId: string, ...options: Array<(client: Client) => void>) {
-    this.accountId = accountId;
-
+  constructor(...options: Array<(client: Client) => void>) {
     for (const opt of options) {
       opt(this);
     }

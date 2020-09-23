@@ -2,14 +2,12 @@ import localVarRequest from "request";
 
 export * from "./batchPutRecordsResponseVariables";
 export * from "./bucketsBucket";
-export * from "./constantConfigsConstantConfig";
 export * from "./enginev2Value";
 export * from "./gatewayruntimeError";
 export * from "./gatewayruntimeError1";
 export * from "./gatewayruntimeError2";
 export * from "./gatewayruntimeError3";
 export * from "./gatewayruntimeError4";
-export * from "./parameterConfigsParameterConfig";
 export * from "./protobufAny";
 export * from "./protobufNullValue";
 export * from "./queryAggregateResultAnalysis";
@@ -20,16 +18,13 @@ export * from "./queryAggregateResultMetric";
 export * from "./rpcStatus";
 export * from "./rpcStatus1";
 export * from "./rpcStatus2";
-export * from "./sajariv4alpha1DeleteRecordRequest";
-export * from "./sajariv4alpha1GetRecordRequest";
-export * from "./sajariv4alpha1Key";
-export * from "./sajariv4alpha1Pipeline";
-export * from "./sajariv4alpha1Pipeline1";
+export * from "./sajariv4beta1DeleteRecordRequest";
+export * from "./sajariv4beta1GetRecordRequest";
+export * from "./sajariv4beta1Key";
+export * from "./sajariv4beta1Pipeline";
+export * from "./sajariv4beta1Pipeline1";
 export * from "./schemaFieldMode";
-export * from "./stepConfigConstantConfigs";
-export * from "./stepConfigConstantConfigs1";
-export * from "./stepConfigParameterConfigs";
-export * from "./stepConfigParameterConfigs1";
+export * from "./stepParamBinding";
 export * from "./tokenClick";
 export * from "./tokenPosNeg";
 export * from "./v2QueryAggregateResult";
@@ -38,39 +33,37 @@ export * from "./v2QueryResults";
 export * from "./v2Token";
 export * from "./v2Tracking";
 export * from "./v2TrackingType";
-export * from "./v4alpha1BatchCreateSchemaFieldsRequest";
-export * from "./v4alpha1BatchCreateSchemaFieldsResponse";
-export * from "./v4alpha1BatchCreateSchemaFieldsResponseError";
-export * from "./v4alpha1BatchPutRecordsRequest";
-export * from "./v4alpha1BatchPutRecordsRequestPipeline";
-export * from "./v4alpha1BatchPutRecordsResponse";
-export * from "./v4alpha1BatchPutRecordsResponseError";
-export * from "./v4alpha1BatchPutRecordsResponseKey";
-export * from "./v4alpha1Collection";
-export * from "./v4alpha1GeneratePipelinesRequest";
-export * from "./v4alpha1GeneratePipelinesResponse";
-export * from "./v4alpha1InferSchemaRequest";
-export * from "./v4alpha1InferSchemaResponse";
-export * from "./v4alpha1InferSchemaResponseError";
-export * from "./v4alpha1ListCollectionsResponse";
-export * from "./v4alpha1ListPipelinesResponse";
-export * from "./v4alpha1ListSchemaFieldsResponse";
-export * from "./v4alpha1PipelineType";
-export * from "./v4alpha1PipelineView";
-export * from "./v4alpha1PutRecordRequest";
-export * from "./v4alpha1PutRecordRequestPipeline";
-export * from "./v4alpha1PutRecordResponse";
-export * from "./v4alpha1QueryCollectionRequest";
-export * from "./v4alpha1QueryCollectionRequestPipeline";
-export * from "./v4alpha1QueryCollectionResponse";
-export * from "./v4alpha1QueryCollectionResponsePipeline";
-export * from "./v4alpha1SchemaField";
-export * from "./v4alpha1SchemaField1";
-export * from "./v4alpha1SchemaFieldType";
-export * from "./v4alpha1SetDefaultPipelineRequest";
-export * from "./v4alpha1SetDefaultVersionRequest";
-export * from "./v4alpha1StepConfig";
-export * from "./v4alpha1StepConfig1";
+export * from "./v4beta1BatchCreateSchemaFieldsRequest";
+export * from "./v4beta1BatchCreateSchemaFieldsResponse";
+export * from "./v4beta1BatchCreateSchemaFieldsResponseError";
+export * from "./v4beta1BatchPutRecordsRequest";
+export * from "./v4beta1BatchPutRecordsRequestPipeline";
+export * from "./v4beta1BatchPutRecordsResponse";
+export * from "./v4beta1BatchPutRecordsResponseError";
+export * from "./v4beta1BatchPutRecordsResponseKey";
+export * from "./v4beta1Collection";
+export * from "./v4beta1GeneratePipelinesRequest";
+export * from "./v4beta1GeneratePipelinesResponse";
+export * from "./v4beta1GetPipelineRequestView";
+export * from "./v4beta1ListCollectionsResponse";
+export * from "./v4beta1ListPipelinesRequestView";
+export * from "./v4beta1ListPipelinesResponse";
+export * from "./v4beta1ListSchemaFieldsResponse";
+export * from "./v4beta1PipelineType";
+export * from "./v4beta1PutRecordRequest";
+export * from "./v4beta1PutRecordRequestPipeline";
+export * from "./v4beta1PutRecordResponse";
+export * from "./v4beta1QueryCollectionRequest";
+export * from "./v4beta1QueryCollectionRequestPipeline";
+export * from "./v4beta1QueryCollectionResponse";
+export * from "./v4beta1QueryCollectionResponsePipeline";
+export * from "./v4beta1SchemaField";
+export * from "./v4beta1SchemaField1";
+export * from "./v4beta1SchemaFieldType";
+export * from "./v4beta1SetDefaultPipelineRequest";
+export * from "./v4beta1SetDefaultVersionRequest";
+export * from "./v4beta1Step";
+export * from "./v4beta1Step1";
 export * from "./valueRepeated";
 
 import * as fs from "fs";
@@ -87,14 +80,12 @@ export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
 
 import { BatchPutRecordsResponseVariables } from "./batchPutRecordsResponseVariables";
 import { BucketsBucket } from "./bucketsBucket";
-import { ConstantConfigsConstantConfig } from "./constantConfigsConstantConfig";
 import { Enginev2Value } from "./enginev2Value";
 import { GatewayruntimeError } from "./gatewayruntimeError";
 import { GatewayruntimeError1 } from "./gatewayruntimeError1";
 import { GatewayruntimeError2 } from "./gatewayruntimeError2";
 import { GatewayruntimeError3 } from "./gatewayruntimeError3";
 import { GatewayruntimeError4 } from "./gatewayruntimeError4";
-import { ParameterConfigsParameterConfig } from "./parameterConfigsParameterConfig";
 import { ProtobufAny } from "./protobufAny";
 import { ProtobufNullValue } from "./protobufNullValue";
 import { QueryAggregateResultAnalysis } from "./queryAggregateResultAnalysis";
@@ -105,16 +96,13 @@ import { QueryAggregateResultMetric } from "./queryAggregateResultMetric";
 import { RpcStatus } from "./rpcStatus";
 import { RpcStatus1 } from "./rpcStatus1";
 import { RpcStatus2 } from "./rpcStatus2";
-import { Sajariv4alpha1DeleteRecordRequest } from "./sajariv4alpha1DeleteRecordRequest";
-import { Sajariv4alpha1GetRecordRequest } from "./sajariv4alpha1GetRecordRequest";
-import { Sajariv4alpha1Key } from "./sajariv4alpha1Key";
-import { Sajariv4alpha1Pipeline } from "./sajariv4alpha1Pipeline";
-import { Sajariv4alpha1Pipeline1 } from "./sajariv4alpha1Pipeline1";
+import { Sajariv4beta1DeleteRecordRequest } from "./sajariv4beta1DeleteRecordRequest";
+import { Sajariv4beta1GetRecordRequest } from "./sajariv4beta1GetRecordRequest";
+import { Sajariv4beta1Key } from "./sajariv4beta1Key";
+import { Sajariv4beta1Pipeline } from "./sajariv4beta1Pipeline";
+import { Sajariv4beta1Pipeline1 } from "./sajariv4beta1Pipeline1";
 import { SchemaFieldMode } from "./schemaFieldMode";
-import { StepConfigConstantConfigs } from "./stepConfigConstantConfigs";
-import { StepConfigConstantConfigs1 } from "./stepConfigConstantConfigs1";
-import { StepConfigParameterConfigs } from "./stepConfigParameterConfigs";
-import { StepConfigParameterConfigs1 } from "./stepConfigParameterConfigs1";
+import { StepParamBinding } from "./stepParamBinding";
 import { TokenClick } from "./tokenClick";
 import { TokenPosNeg } from "./tokenPosNeg";
 import { V2QueryAggregateResult } from "./v2QueryAggregateResult";
@@ -123,39 +111,37 @@ import { V2QueryResults } from "./v2QueryResults";
 import { V2Token } from "./v2Token";
 import { V2Tracking } from "./v2Tracking";
 import { V2TrackingType } from "./v2TrackingType";
-import { V4alpha1BatchCreateSchemaFieldsRequest } from "./v4alpha1BatchCreateSchemaFieldsRequest";
-import { V4alpha1BatchCreateSchemaFieldsResponse } from "./v4alpha1BatchCreateSchemaFieldsResponse";
-import { V4alpha1BatchCreateSchemaFieldsResponseError } from "./v4alpha1BatchCreateSchemaFieldsResponseError";
-import { V4alpha1BatchPutRecordsRequest } from "./v4alpha1BatchPutRecordsRequest";
-import { V4alpha1BatchPutRecordsRequestPipeline } from "./v4alpha1BatchPutRecordsRequestPipeline";
-import { V4alpha1BatchPutRecordsResponse } from "./v4alpha1BatchPutRecordsResponse";
-import { V4alpha1BatchPutRecordsResponseError } from "./v4alpha1BatchPutRecordsResponseError";
-import { V4alpha1BatchPutRecordsResponseKey } from "./v4alpha1BatchPutRecordsResponseKey";
-import { V4alpha1Collection } from "./v4alpha1Collection";
-import { V4alpha1GeneratePipelinesRequest } from "./v4alpha1GeneratePipelinesRequest";
-import { V4alpha1GeneratePipelinesResponse } from "./v4alpha1GeneratePipelinesResponse";
-import { V4alpha1InferSchemaRequest } from "./v4alpha1InferSchemaRequest";
-import { V4alpha1InferSchemaResponse } from "./v4alpha1InferSchemaResponse";
-import { V4alpha1InferSchemaResponseError } from "./v4alpha1InferSchemaResponseError";
-import { V4alpha1ListCollectionsResponse } from "./v4alpha1ListCollectionsResponse";
-import { V4alpha1ListPipelinesResponse } from "./v4alpha1ListPipelinesResponse";
-import { V4alpha1ListSchemaFieldsResponse } from "./v4alpha1ListSchemaFieldsResponse";
-import { V4alpha1PipelineType } from "./v4alpha1PipelineType";
-import { V4alpha1PipelineView } from "./v4alpha1PipelineView";
-import { V4alpha1PutRecordRequest } from "./v4alpha1PutRecordRequest";
-import { V4alpha1PutRecordRequestPipeline } from "./v4alpha1PutRecordRequestPipeline";
-import { V4alpha1PutRecordResponse } from "./v4alpha1PutRecordResponse";
-import { V4alpha1QueryCollectionRequest } from "./v4alpha1QueryCollectionRequest";
-import { V4alpha1QueryCollectionRequestPipeline } from "./v4alpha1QueryCollectionRequestPipeline";
-import { V4alpha1QueryCollectionResponse } from "./v4alpha1QueryCollectionResponse";
-import { V4alpha1QueryCollectionResponsePipeline } from "./v4alpha1QueryCollectionResponsePipeline";
-import { V4alpha1SchemaField } from "./v4alpha1SchemaField";
-import { V4alpha1SchemaField1 } from "./v4alpha1SchemaField1";
-import { V4alpha1SchemaFieldType } from "./v4alpha1SchemaFieldType";
-import { V4alpha1SetDefaultPipelineRequest } from "./v4alpha1SetDefaultPipelineRequest";
-import { V4alpha1SetDefaultVersionRequest } from "./v4alpha1SetDefaultVersionRequest";
-import { V4alpha1StepConfig } from "./v4alpha1StepConfig";
-import { V4alpha1StepConfig1 } from "./v4alpha1StepConfig1";
+import { V4beta1BatchCreateSchemaFieldsRequest } from "./v4beta1BatchCreateSchemaFieldsRequest";
+import { V4beta1BatchCreateSchemaFieldsResponse } from "./v4beta1BatchCreateSchemaFieldsResponse";
+import { V4beta1BatchCreateSchemaFieldsResponseError } from "./v4beta1BatchCreateSchemaFieldsResponseError";
+import { V4beta1BatchPutRecordsRequest } from "./v4beta1BatchPutRecordsRequest";
+import { V4beta1BatchPutRecordsRequestPipeline } from "./v4beta1BatchPutRecordsRequestPipeline";
+import { V4beta1BatchPutRecordsResponse } from "./v4beta1BatchPutRecordsResponse";
+import { V4beta1BatchPutRecordsResponseError } from "./v4beta1BatchPutRecordsResponseError";
+import { V4beta1BatchPutRecordsResponseKey } from "./v4beta1BatchPutRecordsResponseKey";
+import { V4beta1Collection } from "./v4beta1Collection";
+import { V4beta1GeneratePipelinesRequest } from "./v4beta1GeneratePipelinesRequest";
+import { V4beta1GeneratePipelinesResponse } from "./v4beta1GeneratePipelinesResponse";
+import { V4beta1GetPipelineRequestView } from "./v4beta1GetPipelineRequestView";
+import { V4beta1ListCollectionsResponse } from "./v4beta1ListCollectionsResponse";
+import { V4beta1ListPipelinesRequestView } from "./v4beta1ListPipelinesRequestView";
+import { V4beta1ListPipelinesResponse } from "./v4beta1ListPipelinesResponse";
+import { V4beta1ListSchemaFieldsResponse } from "./v4beta1ListSchemaFieldsResponse";
+import { V4beta1PipelineType } from "./v4beta1PipelineType";
+import { V4beta1PutRecordRequest } from "./v4beta1PutRecordRequest";
+import { V4beta1PutRecordRequestPipeline } from "./v4beta1PutRecordRequestPipeline";
+import { V4beta1PutRecordResponse } from "./v4beta1PutRecordResponse";
+import { V4beta1QueryCollectionRequest } from "./v4beta1QueryCollectionRequest";
+import { V4beta1QueryCollectionRequestPipeline } from "./v4beta1QueryCollectionRequestPipeline";
+import { V4beta1QueryCollectionResponse } from "./v4beta1QueryCollectionResponse";
+import { V4beta1QueryCollectionResponsePipeline } from "./v4beta1QueryCollectionResponsePipeline";
+import { V4beta1SchemaField } from "./v4beta1SchemaField";
+import { V4beta1SchemaField1 } from "./v4beta1SchemaField1";
+import { V4beta1SchemaFieldType } from "./v4beta1SchemaFieldType";
+import { V4beta1SetDefaultPipelineRequest } from "./v4beta1SetDefaultPipelineRequest";
+import { V4beta1SetDefaultVersionRequest } from "./v4beta1SetDefaultVersionRequest";
+import { V4beta1Step } from "./v4beta1Step";
+import { V4beta1Step1 } from "./v4beta1Step1";
 import { ValueRepeated } from "./valueRepeated";
 
 /* tslint:disable:no-unused-variable */
@@ -174,22 +160,21 @@ let enumsMap: { [index: string]: any } = {
   ProtobufNullValue: ProtobufNullValue,
   SchemaFieldMode: SchemaFieldMode,
   V2TrackingType: V2TrackingType,
-  V4alpha1PipelineType: V4alpha1PipelineType,
-  V4alpha1PipelineView: V4alpha1PipelineView,
-  V4alpha1SchemaFieldType: V4alpha1SchemaFieldType,
+  V4beta1GetPipelineRequestView: V4beta1GetPipelineRequestView,
+  V4beta1ListPipelinesRequestView: V4beta1ListPipelinesRequestView,
+  V4beta1PipelineType: V4beta1PipelineType,
+  V4beta1SchemaFieldType: V4beta1SchemaFieldType,
 };
 
 let typeMap: { [index: string]: any } = {
   BatchPutRecordsResponseVariables: BatchPutRecordsResponseVariables,
   BucketsBucket: BucketsBucket,
-  ConstantConfigsConstantConfig: ConstantConfigsConstantConfig,
   Enginev2Value: Enginev2Value,
   GatewayruntimeError: GatewayruntimeError,
   GatewayruntimeError1: GatewayruntimeError1,
   GatewayruntimeError2: GatewayruntimeError2,
   GatewayruntimeError3: GatewayruntimeError3,
   GatewayruntimeError4: GatewayruntimeError4,
-  ParameterConfigsParameterConfig: ParameterConfigsParameterConfig,
   ProtobufAny: ProtobufAny,
   QueryAggregateResultAnalysis: QueryAggregateResultAnalysis,
   QueryAggregateResultBuckets: QueryAggregateResultBuckets,
@@ -199,15 +184,12 @@ let typeMap: { [index: string]: any } = {
   RpcStatus: RpcStatus,
   RpcStatus1: RpcStatus1,
   RpcStatus2: RpcStatus2,
-  Sajariv4alpha1DeleteRecordRequest: Sajariv4alpha1DeleteRecordRequest,
-  Sajariv4alpha1GetRecordRequest: Sajariv4alpha1GetRecordRequest,
-  Sajariv4alpha1Key: Sajariv4alpha1Key,
-  Sajariv4alpha1Pipeline: Sajariv4alpha1Pipeline,
-  Sajariv4alpha1Pipeline1: Sajariv4alpha1Pipeline1,
-  StepConfigConstantConfigs: StepConfigConstantConfigs,
-  StepConfigConstantConfigs1: StepConfigConstantConfigs1,
-  StepConfigParameterConfigs: StepConfigParameterConfigs,
-  StepConfigParameterConfigs1: StepConfigParameterConfigs1,
+  Sajariv4beta1DeleteRecordRequest: Sajariv4beta1DeleteRecordRequest,
+  Sajariv4beta1GetRecordRequest: Sajariv4beta1GetRecordRequest,
+  Sajariv4beta1Key: Sajariv4beta1Key,
+  Sajariv4beta1Pipeline: Sajariv4beta1Pipeline,
+  Sajariv4beta1Pipeline1: Sajariv4beta1Pipeline1,
+  StepParamBinding: StepParamBinding,
   TokenClick: TokenClick,
   TokenPosNeg: TokenPosNeg,
   V2QueryAggregateResult: V2QueryAggregateResult,
@@ -215,36 +197,33 @@ let typeMap: { [index: string]: any } = {
   V2QueryResults: V2QueryResults,
   V2Token: V2Token,
   V2Tracking: V2Tracking,
-  V4alpha1BatchCreateSchemaFieldsRequest: V4alpha1BatchCreateSchemaFieldsRequest,
-  V4alpha1BatchCreateSchemaFieldsResponse: V4alpha1BatchCreateSchemaFieldsResponse,
-  V4alpha1BatchCreateSchemaFieldsResponseError: V4alpha1BatchCreateSchemaFieldsResponseError,
-  V4alpha1BatchPutRecordsRequest: V4alpha1BatchPutRecordsRequest,
-  V4alpha1BatchPutRecordsRequestPipeline: V4alpha1BatchPutRecordsRequestPipeline,
-  V4alpha1BatchPutRecordsResponse: V4alpha1BatchPutRecordsResponse,
-  V4alpha1BatchPutRecordsResponseError: V4alpha1BatchPutRecordsResponseError,
-  V4alpha1BatchPutRecordsResponseKey: V4alpha1BatchPutRecordsResponseKey,
-  V4alpha1Collection: V4alpha1Collection,
-  V4alpha1GeneratePipelinesRequest: V4alpha1GeneratePipelinesRequest,
-  V4alpha1GeneratePipelinesResponse: V4alpha1GeneratePipelinesResponse,
-  V4alpha1InferSchemaRequest: V4alpha1InferSchemaRequest,
-  V4alpha1InferSchemaResponse: V4alpha1InferSchemaResponse,
-  V4alpha1InferSchemaResponseError: V4alpha1InferSchemaResponseError,
-  V4alpha1ListCollectionsResponse: V4alpha1ListCollectionsResponse,
-  V4alpha1ListPipelinesResponse: V4alpha1ListPipelinesResponse,
-  V4alpha1ListSchemaFieldsResponse: V4alpha1ListSchemaFieldsResponse,
-  V4alpha1PutRecordRequest: V4alpha1PutRecordRequest,
-  V4alpha1PutRecordRequestPipeline: V4alpha1PutRecordRequestPipeline,
-  V4alpha1PutRecordResponse: V4alpha1PutRecordResponse,
-  V4alpha1QueryCollectionRequest: V4alpha1QueryCollectionRequest,
-  V4alpha1QueryCollectionRequestPipeline: V4alpha1QueryCollectionRequestPipeline,
-  V4alpha1QueryCollectionResponse: V4alpha1QueryCollectionResponse,
-  V4alpha1QueryCollectionResponsePipeline: V4alpha1QueryCollectionResponsePipeline,
-  V4alpha1SchemaField: V4alpha1SchemaField,
-  V4alpha1SchemaField1: V4alpha1SchemaField1,
-  V4alpha1SetDefaultPipelineRequest: V4alpha1SetDefaultPipelineRequest,
-  V4alpha1SetDefaultVersionRequest: V4alpha1SetDefaultVersionRequest,
-  V4alpha1StepConfig: V4alpha1StepConfig,
-  V4alpha1StepConfig1: V4alpha1StepConfig1,
+  V4beta1BatchCreateSchemaFieldsRequest: V4beta1BatchCreateSchemaFieldsRequest,
+  V4beta1BatchCreateSchemaFieldsResponse: V4beta1BatchCreateSchemaFieldsResponse,
+  V4beta1BatchCreateSchemaFieldsResponseError: V4beta1BatchCreateSchemaFieldsResponseError,
+  V4beta1BatchPutRecordsRequest: V4beta1BatchPutRecordsRequest,
+  V4beta1BatchPutRecordsRequestPipeline: V4beta1BatchPutRecordsRequestPipeline,
+  V4beta1BatchPutRecordsResponse: V4beta1BatchPutRecordsResponse,
+  V4beta1BatchPutRecordsResponseError: V4beta1BatchPutRecordsResponseError,
+  V4beta1BatchPutRecordsResponseKey: V4beta1BatchPutRecordsResponseKey,
+  V4beta1Collection: V4beta1Collection,
+  V4beta1GeneratePipelinesRequest: V4beta1GeneratePipelinesRequest,
+  V4beta1GeneratePipelinesResponse: V4beta1GeneratePipelinesResponse,
+  V4beta1ListCollectionsResponse: V4beta1ListCollectionsResponse,
+  V4beta1ListPipelinesResponse: V4beta1ListPipelinesResponse,
+  V4beta1ListSchemaFieldsResponse: V4beta1ListSchemaFieldsResponse,
+  V4beta1PutRecordRequest: V4beta1PutRecordRequest,
+  V4beta1PutRecordRequestPipeline: V4beta1PutRecordRequestPipeline,
+  V4beta1PutRecordResponse: V4beta1PutRecordResponse,
+  V4beta1QueryCollectionRequest: V4beta1QueryCollectionRequest,
+  V4beta1QueryCollectionRequestPipeline: V4beta1QueryCollectionRequestPipeline,
+  V4beta1QueryCollectionResponse: V4beta1QueryCollectionResponse,
+  V4beta1QueryCollectionResponsePipeline: V4beta1QueryCollectionResponsePipeline,
+  V4beta1SchemaField: V4beta1SchemaField,
+  V4beta1SchemaField1: V4beta1SchemaField1,
+  V4beta1SetDefaultPipelineRequest: V4beta1SetDefaultPipelineRequest,
+  V4beta1SetDefaultVersionRequest: V4beta1SetDefaultVersionRequest,
+  V4beta1Step: V4beta1Step,
+  V4beta1Step1: V4beta1Step1,
   ValueRepeated: ValueRepeated,
 };
 

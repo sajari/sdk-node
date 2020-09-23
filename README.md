@@ -71,7 +71,6 @@ Examples are in the [examples](https://github.com/sajari/sdk-node/blob/v4/exampl
 | Get collection               | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/get-collection.ts)               |
 | Get pipeline                 | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/get-pipeline.ts)                 |
 | Get record                   | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/get-record.ts)                   |
-| Infer schema                 | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/infer-schema.ts)                 |
 | List collections             | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/list-collections.ts)             |
 | List pipelines               | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/list-pipelines.ts)               |
 | List schema fields           | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/list-schema-fields.ts)           |

@@ -11,7 +11,6 @@ withPaginationOptions(program);
 
 async function main(
   endpoint = program.endpoint,
-  accountId = program.accountId,
   keyId = program.keyId,
   keySecret = program.keySecret,
   pageSize = program.pageSize,
@@ -19,7 +18,6 @@ async function main(
 ) {
   try {
     const client = new CollectionsClient(
-      accountId,
       withEndpoint(endpoint),
       withKeyCredentials(keyId, keySecret)
     );

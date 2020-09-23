@@ -2,9 +2,9 @@ import { Client } from "./client";
 import {
   RecordsApi,
   HttpError,
-  V4alpha1PutRecordRequest,
-  Sajariv4alpha1Key,
-  V4alpha1BatchPutRecordsRequest,
+  V4beta1PutRecordRequest,
+  Sajariv4beta1Key,
+  V4beta1BatchPutRecordsRequest,
 } from "../src/generated/api";
 
 export { withEndpoint, withKeyCredentials } from "./client";
@@ -15,11 +15,10 @@ export class RecordsClient extends Client {
   client: RecordsApi;
 
   constructor(
-    accountId: string,
     collectionId: string,
     ...options: Array<(client: Client) => void>
   ) {
-    super(accountId, ...options);
+    super(...options);
 
     this.collectionId = collectionId;
 
@@ -28,13 +27,9 @@ export class RecordsClient extends Client {
     this.client.password = this.keySecret;
   }
 
-  async getRecord(key: Sajariv4alpha1Key) {
+  async getRecord(key: Sajariv4beta1Key) {
     try {
-      const res = await this.client.getRecord(
-        this.accountId,
-        this.collectionId,
-        { key }
-      );
+      const res = await this.client.getRecord(this.collectionId, { key });
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {
@@ -45,13 +40,9 @@ export class RecordsClient extends Client {
     }
   }
 
-  async putRecord(request: V4alpha1PutRecordRequest) {
+  async putRecord(request: V4beta1PutRecordRequest) {
     try {
-      const res = await this.client.putRecord(
-        this.accountId,
-        this.collectionId,
-        request
-      );
+      const res = await this.client.putRecord(this.collectionId, request);
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {
@@ -63,16 +54,12 @@ export class RecordsClient extends Client {
   }
 
   async batchPutRecords(
-    request: Omit<V4alpha1BatchPutRecordsRequest, "records"> & {
+    request: Omit<V4beta1BatchPutRecordsRequest, "records"> & {
       records: object[];
     }
   ) {
     try {
-      const res = await this.client.batchPutRecords(
-        this.accountId,
-        this.collectionId,
-        request
-      );
+      const res = await this.client.batchPutRecords(this.collectionId, request);
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {
@@ -83,13 +70,9 @@ export class RecordsClient extends Client {
     }
   }
 
-  async deleteRecord(key: Sajariv4alpha1Key) {
+  async deleteRecord(key: Sajariv4beta1Key) {
     try {
-      const res = await this.client.deleteRecord(
-        this.accountId,
-        this.collectionId,
-        { key }
-      );
+      const res = await this.client.deleteRecord(this.collectionId, { key });
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {

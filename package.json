@@ -13,6 +13,7 @@
     "!build/src/**/*.map"
   ],
   "dependencies": {
+    "ksuid": "^2.0.0",
     "request": "2.88.2"
   },
   "devDependencies": {

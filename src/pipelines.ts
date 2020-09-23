@@ -2,10 +2,10 @@ import { Client } from "./client";
 import {
   PipelinesApi,
   HttpError,
-  Sajariv4alpha1Pipeline,
-  V4alpha1SetDefaultPipelineRequest,
-  V4alpha1GeneratePipelinesRequest,
-  V4alpha1SetDefaultVersionRequest,
+  Sajariv4beta1Pipeline,
+  V4beta1SetDefaultPipelineRequest,
+  V4beta1GeneratePipelinesRequest,
+  V4beta1SetDefaultVersionRequest,
 } from "../src/generated/api";
 
 export { withEndpoint, withKeyCredentials } from "./client";
@@ -25,11 +25,11 @@ export const typeToEnum = (x?: string) => {
 const viewToEnum = (x?: string) => {
   switch (x) {
     case "basic":
-      return "PIPELINE_VIEW_BASIC";
+      return "BASIC";
     case "full":
-      return "PIPELINE_VIEW_FULL";
+      return "FULL";
     default:
-      return "PIPELINE_VIEW_UNSPECIFIED";
+      return "VIEW_UNSPECIFIED";
   }
 };
 
@@ -39,11 +39,10 @@ export class PipelinesClient extends Client {
   client: PipelinesApi;
 
   constructor(
-    accountId: string,
     collectionId: string,
     ...options: Array<(client: Client) => void>
   ) {
-    super(accountId, ...options);
+    super(...options);
 
     this.collectionId = collectionId;
 
@@ -64,7 +63,6 @@ export class PipelinesClient extends Client {
     view?: "basic" | "full";
   }) {
     const res = await this.client.getPipeline(
-      this.accountId,
       this.collectionId,
       type,
       name,
@@ -85,7 +83,6 @@ export class PipelinesClient extends Client {
   }) {
     try {
       const res = await this.client.listPipelines(
-        this.accountId,
         this.collectionId,
         pageSize,
         pageToken,
@@ -110,21 +107,14 @@ export class PipelinesClient extends Client {
     type: "record" | "query";
     name: string;
     version: string;
-  } & Omit<
-    Sajariv4alpha1Pipeline,
-    "type" | "name" | "version" | "createTime"
-  >) {
+  } & Omit<Sajariv4beta1Pipeline, "type" | "name" | "version" | "createTime">) {
     try {
-      const res = await this.client.createPipeline(
-        this.accountId,
-        this.collectionId,
-        {
-          type: typeToEnum(type),
-          name,
-          version,
-          ...rest,
-        }
-      );
+      const res = await this.client.createPipeline(this.collectionId, {
+        type: typeToEnum(type),
+        name,
+        version,
+        ...rest,
+      });
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {
@@ -137,13 +127,9 @@ export class PipelinesClient extends Client {
 
   async generatePipelines(
     id: string,
-    request: V4alpha1GeneratePipelinesRequest
+    request: V4beta1GeneratePipelinesRequest
   ) {
-    const res = await this.client.generatePipelines(
-      this.accountId,
-      id,
-      request
-    );
+    const res = await this.client.generatePipelines(id, request);
     return res.body;
   }
 
@@ -152,16 +138,12 @@ export class PipelinesClient extends Client {
     ...request
   }: {
     type: "record" | "query";
-  } & Omit<V4alpha1SetDefaultPipelineRequest, "type">) {
+  } & Omit<V4beta1SetDefaultPipelineRequest, "type">) {
     try {
-      const res = await this.client.setDefaultPipeline(
-        this.accountId,
-        this.collectionId,
-        {
-          ...request,
-          type: typeToEnum(type),
-        }
-      );
+      const res = await this.client.setDefaultPipeline(this.collectionId, {
+        ...request,
+        type: typeToEnum(type),
+      });
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {
@@ -179,10 +161,9 @@ export class PipelinesClient extends Client {
   }: {
     type: "record" | "query";
     name: string;
-  } & V4alpha1SetDefaultVersionRequest) {
+  } & V4beta1SetDefaultVersionRequest) {
     try {
       const res = await this.client.setDefaultVersion(
-        this.accountId,
         this.collectionId,
         type,
         name,

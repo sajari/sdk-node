@@ -23,7 +23,6 @@ program.parse(process.argv);
 
 async function main(
   endpoint = program.endpoint,
-  accountId = program.accountId,
   collectionId = program.collectionId,
   keyId = program.keyId,
   keySecret = program.keySecret,
@@ -34,7 +33,6 @@ async function main(
 ) {
   try {
     const client = new RecordsClient(
-      accountId,
       collectionId,
       withEndpoint(endpoint),
       withKeyCredentials(keyId, keySecret)

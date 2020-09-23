@@ -2,8 +2,7 @@ import { Client } from "./client";
 import {
   SchemaApi,
   HttpError,
-  V4alpha1SchemaField1,
-  V4alpha1InferSchemaRequest,
+  V4beta1SchemaField1,
 } from "../src/generated/api";
 
 export { withEndpoint, withKeyCredentials } from "./client";
@@ -14,22 +13,16 @@ export class SchemaClient extends Client {
   client: SchemaApi;
 
   constructor(
-    accountId: string,
     collectionId: string,
     ...options: Array<(client: Client) => void>
   ) {
-    super(accountId, ...options);
+    super(...options);
 
     this.collectionId = collectionId;
 
     this.client = new SchemaApi(this.endpoint);
     this.client.username = this.keyId;
     this.client.password = this.keySecret;
-  }
-
-  async inferSchema(request: V4alpha1InferSchemaRequest) {
-    const res = await this.client.inferSchema(this.accountId, request);
-    return res.body;
   }
 
   async listFields({
@@ -41,7 +34,6 @@ export class SchemaClient extends Client {
   }) {
     try {
       const res = await this.client.listSchemaFields(
-        this.accountId,
         this.collectionId,
         pageSize,
         pageToken
@@ -56,13 +48,9 @@ export class SchemaClient extends Client {
     }
   }
 
-  async createField(field: V4alpha1SchemaField1) {
+  async createField(field: V4beta1SchemaField1) {
     try {
-      const res = await this.client.createSchemaField(
-        this.accountId,
-        this.collectionId,
-        field
-      );
+      const res = await this.client.createSchemaField(this.collectionId, field);
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {
@@ -73,13 +61,11 @@ export class SchemaClient extends Client {
     }
   }
 
-  async batchCreateFields({ fields = [] }: { fields: V4alpha1SchemaField1[] }) {
+  async batchCreateFields({ fields = [] }: { fields: V4beta1SchemaField1[] }) {
     try {
-      const res = await this.client.batchCreateSchemaFields(
-        this.accountId,
-        this.collectionId,
-        { fields }
-      );
+      const res = await this.client.batchCreateSchemaFields(this.collectionId, {
+        fields,
+      });
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {

@@ -24,7 +24,6 @@ program.parse(process.argv);
 
 async function main(
   endpoint = program.endpoint,
-  accountId = program.accountId,
   collectionId = program.collectionId,
   keyId = program.keyId,
   keySecret = program.keySecret,
@@ -36,20 +35,16 @@ async function main(
 ) {
   try {
     const client = new CollectionsClient(
-      accountId,
       withEndpoint(endpoint),
       withKeyCredentials(keyId, keySecret)
     );
 
-    const resp = await client.queryCollection(
-      collectionId,
-      {
-        query: {
-          q,
-        },
+    const resp = await client.queryCollection(collectionId, {
+      variables: {
+        q,
       },
-      pipeline
-    );
+      pipeline,
+    });
 
     console.log("query results:");
     console.log(" reads=", resp.queryResults?.reads);

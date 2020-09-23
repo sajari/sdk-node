@@ -14,14 +14,13 @@ export const withAccountOptions = (p: commander.Command) =>
       process.env.ENDPOINT || defaultEndpoint
     )
     .requiredOption(
-      "-a, --account-id <account_id>",
-      "account ID",
-      process.env.ACCOUNT_ID
+      "-k, --key-id <key_id>",
+      "account key ID",
+      process.env.KEY_ID
     )
-    .requiredOption("-k, --key-id <key_id>", "key ID", process.env.KEY_ID)
     .requiredOption(
       "-s, --key-secret <key_secret>",
-      "key secret",
+      "account key secret",
       process.env.KEY_SECRET
     );
 
@@ -33,19 +32,18 @@ export const withDefaultOptions = (p: commander.Command) =>
       process.env.ENDPOINT || defaultEndpoint
     )
     .requiredOption(
-      "-a, --account-id <account_id>",
-      "account ID",
-      process.env.ACCOUNT_ID
-    )
-    .requiredOption(
       "-c, --collection-id <collection_id>",
       "collection ID",
       process.env.COLLECTION_ID
     )
-    .requiredOption("-k, --key-id <key_id>", "key ID", process.env.KEY_ID)
+    .requiredOption(
+      "-k, --key-id <key_id>",
+      "account or collection key ID",
+      process.env.KEY_ID
+    )
     .requiredOption(
       "-s, --key-secret <key_secret>",
-      "key secret",
+      "account or collection key secret",
       process.env.KEY_SECRET
     );
 

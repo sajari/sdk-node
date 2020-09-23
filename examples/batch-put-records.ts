@@ -26,7 +26,6 @@ interface Job {
 
 async function main(
   endpoint = program.endpoint,
-  accountId = program.accountId,
   collectionId = program.collectionId,
   keyId = program.keyId,
   keySecret = program.keySecret
@@ -43,7 +42,6 @@ async function main(
     console.log(records);
 
     const client = new RecordsClient(
-      accountId,
       collectionId,
       withEndpoint(endpoint),
       withKeyCredentials(keyId, keySecret)

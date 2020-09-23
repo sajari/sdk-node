@@ -28,5 +28,8 @@ jobs:
       - run: npm test
         env:
           TEST_ACCOUNT_ID: ${{secrets.test_account_id}}
-          TEST_KEY_ID: ${{secrets.test_key_id}}
-          TEST_KEY_SECRET: ${{secrets.test_account_secret}}
+          TEST_ACCOUNT_KEY_ID: ${{secrets.test_account_key_id}}
+          TEST_ACCOUNT_KEY_SECRET: ${{secrets.test_account_key_secret}}
+          TEST_COLLECTION_ID: ${{secrets.test_collection_id}}
+          TEST_COLLECTION_KEY_ID: ${{secrets.test_collection_key_id}}
+          TEST_COLLECTION_KEY_SECRET: ${{secrets.test_collection_key_secret}}

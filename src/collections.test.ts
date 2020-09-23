@@ -1,19 +1,32 @@
-const { CollectionsClient, withKeyCredentials } = require("./collections");
+import { CollectionsClient, withKeyCredentials } from "./collections";
+import { skipSuite } from "./test-util";
 
-const client = new CollectionsClient(
-  process.env.TEST_ACCOUNT_ID,
-  withKeyCredentials(process.env.TEST_KEY_ID, process.env.TEST_KEY_SECRET)
-);
+const _client = createClient();
+if (!_client) {
+  skipSuite("Set TEST_ACCOUNT_KEY_ID and TEST_ACCOUNT_KEY_SECRET to run test");
+}
+const client = _client!;
 
-async function createCollection(id: string, displayName: string) {
-  const collection = await client.createCollection({ id, displayName });
+function createClient() {
+  if (
+    !(process.env.TEST_ACCOUNT_KEY_ID && process.env.TEST_ACCOUNT_KEY_SECRET)
+  ) {
+    return;
+  }
+  return new CollectionsClient(
+    withKeyCredentials(
+      process.env.TEST_ACCOUNT_KEY_ID,
+      process.env.TEST_ACCOUNT_KEY_SECRET
+    )
+  );
+}
 
-  await client.deleteCollection(collection.id);
+async function createCollection(displayName: string) {
+  const collection = await client.createCollection({ displayName });
+
+  await client.deleteCollection(collection.id!); // TODO(jingram): remove ! once types are fixed.
 }
 
 test("createCollection", async () => {
-  await createCollection(
-    `my-collection-${new Date().getTime()}`,
-    "My collection"
-  );
+  await createCollection("My collection");
 });

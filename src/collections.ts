@@ -1,16 +1,19 @@
-import { Client } from "./client";
+import ksuid from "ksuid";
+
 import {
   CollectionsApi,
   HttpError,
-  V4alpha1QueryCollectionRequest,
+  V4beta1QueryCollectionRequest,
 } from "../src/generated/api";
+import { Client } from "./client";
+
 export { withEndpoint, withKeyCredentials } from "./client";
 
 export class CollectionsClient extends Client {
   client: CollectionsApi;
 
-  constructor(accountId: string, ...options: Array<(client: Client) => void>) {
-    super(accountId, ...options);
+  constructor(...options: Array<(client: Client) => void>) {
+    super(...options);
 
     this.client = new CollectionsApi(this.endpoint);
     this.client.username = this.keyId;
@@ -18,7 +21,7 @@ export class CollectionsClient extends Client {
   }
 
   async getCollection(id: string) {
-    const res = await this.client.getCollection(this.accountId, id);
+    const res = await this.client.getCollection(id);
     return res.body;
   }
 
@@ -30,11 +33,7 @@ export class CollectionsClient extends Client {
     pageToken?: string;
   }) {
     try {
-      const res = await this.client.listCollections(
-        this.accountId,
-        pageSize,
-        pageToken
-      );
+      const res = await this.client.listCollections(pageSize, pageToken);
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {
@@ -46,16 +45,15 @@ export class CollectionsClient extends Client {
   }
 
   async createCollection({
-    id,
+    // FIXME(jingram): ideally want to use _, but it's not allowed.
+    id = `col-${ksuid.randomSync().string}`,
     displayName,
   }: {
-    id: string;
+    id?: string;
     displayName: string;
   }) {
     try {
-      const res = await this.client.createCollection(this.accountId, id, {
-        displayName,
-      });
+      const res = await this.client.createCollection(id, { displayName });
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {
@@ -66,20 +64,13 @@ export class CollectionsClient extends Client {
     }
   }
 
-  async queryCollection(
-    id: string,
-    request: Omit<V4alpha1QueryCollectionRequest, "pipeline">,
-    pipeline?: { name: string; version: string }
-  ) {
-    const res = await this.client.queryCollection(this.accountId, id, {
-      ...request,
-      pipeline,
-    });
+  async queryCollection(id: string, request: V4beta1QueryCollectionRequest) {
+    const res = await this.client.queryCollection(id, request);
     return res.body;
   }
 
   async deleteCollection(id: string) {
-    const res = await this.client.deleteCollection(this.accountId, id);
+    const res = await this.client.deleteCollection(id);
     return res.body;
   }
 }
