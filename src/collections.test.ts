@@ -28,5 +28,7 @@ async function createCollection(displayName: string) {
 }
 
 test("createCollection", async () => {
+  jest.setTimeout(10000); // create can take longer than the default 5s
+
   await createCollection("My collection");
 });
