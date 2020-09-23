@@ -1,6 +1,6 @@
 {
   "name": "@sajari/sdk-node",
-  "version": "4.0.0-alpha.5",
+  "version": "4.0.0-alpha.6",
   "repository": "git@github.com:github.com/sajari/sdk-node.git",
   "author": "Sajari Pty Ltd",
   "license": "MIT",
