@@ -63,7 +63,6 @@ async function main(
           title: "",
           description: "",
           params: {},
-          consts: {},
           condition: "",
           annotations: [],
         },
@@ -73,14 +72,9 @@ async function main(
           description: "",
           params: {
             fields: {
-              configs: [
-                {
-                  defaultValue: "title,",
-                },
-              ],
+              defaultValue: "title,",
             },
           },
-          consts: {},
           condition: "",
           annotations: [],
         },
@@ -89,7 +83,6 @@ async function main(
           title: "",
           description: "",
           params: {},
-          consts: {},
           condition: "",
           annotations: [],
         },
@@ -99,14 +92,9 @@ async function main(
           description: "",
           params: {
             fields: {
-              configs: [
-                {
-                  name: "count",
-                },
-              ],
+              bind: "count",
             },
           },
-          consts: {},
           condition: "",
           annotations: [],
         },
@@ -116,14 +104,9 @@ async function main(
           description: "",
           params: {
             fields: {
-              configs: [
-                {
-                  name: "min",
-                },
-              ],
+              bind: "min",
             },
           },
-          consts: {},
           condition: "",
           annotations: [],
         },
@@ -133,14 +116,9 @@ async function main(
           description: "",
           params: {
             fields: {
-              configs: [
-                {
-                  name: "max",
-                },
-              ],
+              bind: "max",
             },
           },
-          consts: {},
           condition: "",
           annotations: [],
         },
@@ -150,14 +128,9 @@ async function main(
           description: "",
           params: {
             fields: {
-              configs: [
-                {
-                  name: "sort",
-                },
-              ],
+              bind: "sort",
             },
           },
-          consts: {},
           condition: "",
           annotations: [],
         },
@@ -167,27 +140,13 @@ async function main(
           description: "",
           params: {
             text: {
-              configs: [
-                {
-                  name: "q",
-                },
-              ],
+              bind: "q",
             },
-          },
-          consts: {
             model: {
-              configs: [
-                {
-                  value: "default",
-                },
-              ],
+              _const: "default",
             },
             phraseLabelWeights: {
-              configs: [
-                {
-                  value: "query:1.0",
-                },
-              ],
+              _const: "query:1.0",
             },
           },
           condition: "",
@@ -199,20 +158,10 @@ async function main(
           description: "",
           params: {
             text: {
-              configs: [
-                {
-                  name: "q",
-                },
-              ],
+              bind: "q",
             },
-          },
-          consts: {
             model: {
-              configs: [
-                {
-                  value: "jobs-001",
-                },
-              ],
+              _const: "jobs-001",
             },
           },
           condition: "",
@@ -222,14 +171,9 @@ async function main(
           id: "set-score-mode",
           title: "",
           description: "",
-          params: {},
-          consts: {
+          params: {
             mode: {
-              configs: [
-                {
-                  value: "MAX",
-                },
-              ],
+              _const: "MAX",
             },
           },
           condition: "",
@@ -239,21 +183,12 @@ async function main(
           id: "index-text-score-instance-boost",
           title: "",
           description: "",
-          params: {},
-          consts: {
+          params: {
             minCount: {
-              configs: [
-                {
-                  value: "5",
-                },
-              ],
+              _const: "5",
             },
             threshold: {
-              configs: [
-                {
-                  value: "0.5",
-                },
-              ],
+              _const: "0.5",
             },
           },
           condition: "",
@@ -263,14 +198,9 @@ async function main(
           id: "feature-boost-value",
           title: "",
           description: "",
-          params: {},
-          consts: {
+          params: {
             value: {
-              configs: [
-                {
-                  value: "0.2",
-                },
-              ],
+              _const: "0.2",
             },
           },
           condition: "",
@@ -280,21 +210,12 @@ async function main(
           id: "filter-boost",
           title: "",
           description: "",
-          params: {},
-          consts: {
+          params: {
             filter: {
-              configs: [
-                {
-                  value: "title = q",
-                },
-              ],
+              _const: "title = q",
             },
             score: {
-              configs: [
-                {
-                  value: "0.05",
-                },
-              ],
+              _const: "0.05",
             },
           },
           condition: "q != ''",
@@ -304,21 +225,12 @@ async function main(
           id: "filter-boost",
           title: "",
           description: "",
-          params: {},
-          consts: {
+          params: {
             filter: {
-              configs: [
-                {
-                  value: "title ^ q",
-                },
-              ],
+              _const: "title ^ q",
             },
             score: {
-              configs: [
-                {
-                  value: "0.03",
-                },
-              ],
+              _const: "0.03",
             },
           },
           condition: "q != ''",
@@ -328,21 +240,12 @@ async function main(
           id: "filter-boost",
           title: "",
           description: "",
-          params: {},
-          consts: {
+          params: {
             filter: {
-              configs: [
-                {
-                  value: "title ~ q",
-                },
-              ],
+              _const: "title ~ q",
             },
             score: {
-              configs: [
-                {
-                  value: "0.05",
-                },
-              ],
+              _const: "0.05",
             },
           },
           condition: "q != ''",
@@ -354,27 +257,13 @@ async function main(
           description: "",
           params: {
             text: {
-              configs: [
-                {
-                  name: "q",
-                },
-              ],
+              bind: "q",
             },
-          },
-          consts: {
             field: {
-              configs: [
-                {
-                  value: "title",
-                },
-              ],
+              _const: "title",
             },
             score: {
-              configs: [
-                {
-                  value: "1.0000",
-                },
-              ],
+              _const: "1.0000",
             },
           },
           condition: "",
@@ -388,14 +277,9 @@ async function main(
           description: "",
           params: {
             text: {
-              configs: [
-                {
-                  name: "q",
-                },
-              ],
+              bind: "q",
             },
           },
-          consts: {},
           condition: "",
           annotations: [],
         },
@@ -405,27 +289,13 @@ async function main(
           description: "",
           params: {
             text: {
-              configs: [
-                {
-                  name: "q",
-                },
-              ],
+              bind: "q",
             },
-          },
-          consts: {
             label: {
-              configs: [
-                {
-                  value: "query",
-                },
-              ],
+              _const: "query",
             },
             model: {
-              configs: [
-                {
-                  value: "default",
-                },
-              ],
+              _const: "default",
             },
           },
           condition: "",
