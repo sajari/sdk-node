@@ -9,14 +9,9 @@ import program, { withAccountOptions } from "./program";
 withAccountOptions(program);
 
 program.requiredOption(
-  "--collection-id <collection_id>",
-  "collection ID",
-  `example-test-${new Date().getTime()}`
-);
-program.requiredOption(
   "--display-name <display_name>",
   "display name",
-  `example test ${new Date().getTime()}`
+  "My collection"
 );
 
 program.parse(process.argv);
@@ -25,7 +20,6 @@ async function main(
   endpoint = program.endpoint,
   keyId = program.keyId,
   keySecret = program.keySecret,
-  id = program.collectionId,
   displayName = program.displayName
 ) {
   const client = new CollectionsClient(
@@ -34,7 +28,7 @@ async function main(
   );
 
   try {
-    const collection = await client.createCollection({ id, displayName });
+    const collection = await client.createCollection({ displayName });
 
     console.log(`id=${collection.id}`);
     console.log(`account id=${collection.accountId}`);
@@ -42,7 +36,7 @@ async function main(
     console.log(`display name=${collection.displayName}`);
 
     // Clean up
-    await client.deleteCollection(id);
+    await client.deleteCollection(collection.id!); // TODO(jingram): remove ! once types are fixed.
   } catch (e) {
     console.error(e);
   }
