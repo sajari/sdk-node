@@ -9,6 +9,8 @@ import program, { withAccountOptions, withPaginationOptions } from "./program";
 withAccountOptions(program);
 withPaginationOptions(program);
 
+program.parse(process.argv);
+
 async function main(
   endpoint = program.endpoint,
   keyId = program.keyId,

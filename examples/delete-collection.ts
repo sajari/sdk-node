@@ -14,6 +14,8 @@ program.requiredOption(
   `example-test-${new Date().getTime()}`
 );
 
+program.parse(process.argv);
+
 async function main(
   endpoint = program.endpoint,
   keyId = program.keyId,
