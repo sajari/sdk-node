@@ -13,9 +13,9 @@
 import { RequestFile } from "./models";
 
 /**
- * The pipeline to use when putting the record.  If not provided the default record pipeline is used.
+ * The pipeline to use when upserting the record.  If not provided the default record pipeline is used.
  */
-export class V4beta1PutRecordRequestPipeline {
+export class V4beta1UpsertRecordRequestPipeline {
   /**
    * The record pipeline\'s name, e.g. `my-pipeline`.
    */
@@ -45,6 +45,6 @@ export class V4beta1PutRecordRequestPipeline {
   ];
 
   static getAttributeTypeMap() {
-    return V4beta1PutRecordRequestPipeline.attributeTypeMap;
+    return V4beta1UpsertRecordRequestPipeline.attributeTypeMap;
   }
 }

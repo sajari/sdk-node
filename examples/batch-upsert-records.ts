@@ -47,7 +47,7 @@ async function main(
       withKeyCredentials(keyId, keySecret)
     );
 
-    const resp = await client.batchPutRecords({
+    const resp = await client.batchUpsertRecords({
       pipeline: { name: "app", version: "1" },
       records,
     });

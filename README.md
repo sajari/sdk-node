@@ -60,7 +60,7 @@ Examples are in the [examples](https://github.com/sajari/sdk-node/blob/v4/exampl
 | Example                      | Source code                                                                                        |
 | ---------------------------- | -------------------------------------------------------------------------------------------------- |
 | Batch create schema fields   | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/batch-create-schema-fields.ts)   |
-| Batch put records            | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/batch-put-records.ts)            |
+| Batch upsert records         | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/batch-upsert-records.ts)         |
 | Create collection            | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/create-collection.ts)            |
 | Create pipeline              | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/create-pipeline.ts)              |
 | Create schema field          | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/create-schema-field.ts)          |
@@ -73,7 +73,7 @@ Examples are in the [examples](https://github.com/sajari/sdk-node/blob/v4/exampl
 | List collections             | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/list-collections.ts)             |
 | List pipelines               | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/list-pipelines.ts)               |
 | List schema fields           | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/list-schema-fields.ts)           |
-| Put record                   | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/put-record.ts)                   |
+| Upsert record                | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/upsert-record.ts)                |
 | Query collection             | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/query-collection.ts)             |
 | Set default pipeline         | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/set-default-pipeline.ts)         |
 | Set default pipeline version | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/set-default-pipeline-version.ts) |

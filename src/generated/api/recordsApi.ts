@@ -17,10 +17,10 @@ import http from "http";
 import { GatewayruntimeError } from "../model/gatewayruntimeError";
 import { Sajariv4beta1DeleteRecordRequest } from "../model/sajariv4beta1DeleteRecordRequest";
 import { Sajariv4beta1GetRecordRequest } from "../model/sajariv4beta1GetRecordRequest";
-import { V4beta1BatchPutRecordsRequest } from "../model/v4beta1BatchPutRecordsRequest";
-import { V4beta1BatchPutRecordsResponse } from "../model/v4beta1BatchPutRecordsResponse";
-import { V4beta1PutRecordRequest } from "../model/v4beta1PutRecordRequest";
-import { V4beta1PutRecordResponse } from "../model/v4beta1PutRecordResponse";
+import { V4beta1BatchUpsertRecordsRequest } from "../model/v4beta1BatchUpsertRecordsRequest";
+import { V4beta1BatchUpsertRecordsResponse } from "../model/v4beta1BatchUpsertRecordsResponse";
+import { V4beta1UpsertRecordRequest } from "../model/v4beta1UpsertRecordRequest";
+import { V4beta1UpsertRecordResponse } from "../model/v4beta1UpsertRecordResponse";
 
 import {
   ObjectSerializer,
@@ -118,22 +118,22 @@ export class RecordsApi {
   }
 
   /**
-   * The batch version of the [PutRecord](/docs/api-reference#operation/PutRecord) call.
-   * @summary Batch put records
-   * @param collectionId The collection to put the records in, e.g. &#x60;my-collection&#x60;.
-   * @param v4beta1BatchPutRecordsRequest
+   * The batch version of the [UpsertRecord](/docs/api-reference#operation/UpsertRecord) call.
+   * @summary Batch upsert records
+   * @param collectionId The collection to upsert the records in, e.g. &#x60;my-collection&#x60;.
+   * @param v4beta1BatchUpsertRecordsRequest
    */
-  public async batchPutRecords(
+  public async batchUpsertRecords(
     collectionId: string,
-    v4beta1BatchPutRecordsRequest: V4beta1BatchPutRecordsRequest,
+    v4beta1BatchUpsertRecordsRequest: V4beta1BatchUpsertRecordsRequest,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{
     response: http.IncomingMessage;
-    body: V4beta1BatchPutRecordsResponse;
+    body: V4beta1BatchUpsertRecordsResponse;
   }> {
     const localVarPath =
       this.basePath +
-      "/v4beta1/collections/{collection_id}/records:batchPut".replace(
+      "/v4beta1/collections/{collection_id}/records:batchUpsert".replace(
         /{\w+}/,
         String(collectionId)
       );
@@ -154,17 +154,17 @@ export class RecordsApi {
     // verify required parameter 'collectionId' is not null or undefined
     if (collectionId === null || collectionId === undefined) {
       throw new Error(
-        "Required parameter collectionId was null or undefined when calling batchPutRecords."
+        "Required parameter collectionId was null or undefined when calling batchUpsertRecords."
       );
     }
 
-    // verify required parameter 'v4beta1BatchPutRecordsRequest' is not null or undefined
+    // verify required parameter 'v4beta1BatchUpsertRecordsRequest' is not null or undefined
     if (
-      v4beta1BatchPutRecordsRequest === null ||
-      v4beta1BatchPutRecordsRequest === undefined
+      v4beta1BatchUpsertRecordsRequest === null ||
+      v4beta1BatchUpsertRecordsRequest === undefined
     ) {
       throw new Error(
-        "Required parameter v4beta1BatchPutRecordsRequest was null or undefined when calling batchPutRecords."
+        "Required parameter v4beta1BatchUpsertRecordsRequest was null or undefined when calling batchUpsertRecords."
       );
     }
 
@@ -180,8 +180,8 @@ export class RecordsApi {
       useQuerystring: this._useQuerystring,
       json: true,
       body: ObjectSerializer.serialize(
-        v4beta1BatchPutRecordsRequest,
-        "V4beta1BatchPutRecordsRequest"
+        v4beta1BatchUpsertRecordsRequest,
+        "V4beta1BatchUpsertRecordsRequest"
       ),
     };
 
@@ -215,7 +215,7 @@ export class RecordsApi {
       }
       return new Promise<{
         response: http.IncomingMessage;
-        body: V4beta1BatchPutRecordsResponse;
+        body: V4beta1BatchUpsertRecordsResponse;
       }>((resolve, reject) => {
         localVarRequest(localVarRequestOptions, (error, response, body) => {
           if (error) {
@@ -223,7 +223,7 @@ export class RecordsApi {
           } else {
             body = ObjectSerializer.deserialize(
               body,
-              "V4beta1BatchPutRecordsResponse"
+              "V4beta1BatchUpsertRecordsResponse"
             );
             if (
               response.statusCode &&
@@ -470,22 +470,22 @@ export class RecordsApi {
     });
   }
   /**
-   * Upsert a record. If the record does not exist in your collection it is inserted. If it does exist it is updated.  If no pipeline is specified, the default record pipeline is used to process the record.  For example, to add a single product from your ecommerce store to a collection, use the following call:  ```json {   \"pipeline\": {     \"name\": \"my-pipeline\",     \"version\": \"1\"   },   \"record\": {     \"id\": \"54hdc7h2334h\",     \"name\": \"Smart TV\",     \"price\": 1999,     \"brand\": \"Acme\",     \"description\": \"...\",     \"in_stock\": true   } } ```
-   * @summary Put record
-   * @param collectionId The collection to put the record in, e.g. &#x60;my-collection&#x60;.
-   * @param v4beta1PutRecordRequest
+   * If the record does not exist in your collection it is inserted. If it does exist it is updated.  If no pipeline is specified, the default record pipeline is used to process the record.  For example, to add a single product from your ecommerce store to a collection, use the following call:  ```json {   \"pipeline\": {     \"name\": \"my-pipeline\",     \"version\": \"1\"   },   \"record\": {     \"id\": \"54hdc7h2334h\",     \"name\": \"Smart TV\",     \"price\": 1999,     \"brand\": \"Acme\",     \"description\": \"...\",     \"in_stock\": true   } } ```
+   * @summary Upsert record
+   * @param collectionId The collection to upsert the record in, e.g. &#x60;my-collection&#x60;.
+   * @param v4beta1UpsertRecordRequest
    */
-  public async putRecord(
+  public async upsertRecord(
     collectionId: string,
-    v4beta1PutRecordRequest: V4beta1PutRecordRequest,
+    v4beta1UpsertRecordRequest: V4beta1UpsertRecordRequest,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{
     response: http.IncomingMessage;
-    body: V4beta1PutRecordResponse;
+    body: V4beta1UpsertRecordResponse;
   }> {
     const localVarPath =
       this.basePath +
-      "/v4beta1/collections/{collection_id}/records:put".replace(
+      "/v4beta1/collections/{collection_id}/records:upsert".replace(
         /{\w+}/,
         String(collectionId)
       );
@@ -506,17 +506,17 @@ export class RecordsApi {
     // verify required parameter 'collectionId' is not null or undefined
     if (collectionId === null || collectionId === undefined) {
       throw new Error(
-        "Required parameter collectionId was null or undefined when calling putRecord."
+        "Required parameter collectionId was null or undefined when calling upsertRecord."
       );
     }
 
-    // verify required parameter 'v4beta1PutRecordRequest' is not null or undefined
+    // verify required parameter 'v4beta1UpsertRecordRequest' is not null or undefined
     if (
-      v4beta1PutRecordRequest === null ||
-      v4beta1PutRecordRequest === undefined
+      v4beta1UpsertRecordRequest === null ||
+      v4beta1UpsertRecordRequest === undefined
     ) {
       throw new Error(
-        "Required parameter v4beta1PutRecordRequest was null or undefined when calling putRecord."
+        "Required parameter v4beta1UpsertRecordRequest was null or undefined when calling upsertRecord."
       );
     }
 
@@ -532,8 +532,8 @@ export class RecordsApi {
       useQuerystring: this._useQuerystring,
       json: true,
       body: ObjectSerializer.serialize(
-        v4beta1PutRecordRequest,
-        "V4beta1PutRecordRequest"
+        v4beta1UpsertRecordRequest,
+        "V4beta1UpsertRecordRequest"
       ),
     };
 
@@ -567,7 +567,7 @@ export class RecordsApi {
       }
       return new Promise<{
         response: http.IncomingMessage;
-        body: V4beta1PutRecordResponse;
+        body: V4beta1UpsertRecordResponse;
       }>((resolve, reject) => {
         localVarRequest(localVarRequestOptions, (error, response, body) => {
           if (error) {
@@ -575,7 +575,7 @@ export class RecordsApi {
           } else {
             body = ObjectSerializer.deserialize(
               body,
-              "V4beta1PutRecordResponse"
+              "V4beta1UpsertRecordResponse"
             );
             if (
               response.statusCode &&

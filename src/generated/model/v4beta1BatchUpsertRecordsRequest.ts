@@ -11,14 +11,14 @@
  */
 
 import { RequestFile } from "./models";
-import { V4beta1PutRecordRequestPipeline } from "./v4beta1PutRecordRequestPipeline";
+import { V4beta1BatchUpsertRecordsRequestPipeline } from "./v4beta1BatchUpsertRecordsRequestPipeline";
 
-export class V4beta1PutRecordRequest {
-  "pipeline"?: V4beta1PutRecordRequestPipeline;
+export class V4beta1BatchUpsertRecordsRequest {
+  "pipeline"?: V4beta1BatchUpsertRecordsRequestPipeline;
   /**
-   * An object made up of field-value pairs that contains the record data.
+   * A list of records to upsert.
    */
-  "record": object;
+  "records": Array<object>;
   /**
    * The initial values for the variables the pipeline operates on and transforms throughout its steps.
    */
@@ -34,12 +34,12 @@ export class V4beta1PutRecordRequest {
     {
       name: "pipeline",
       baseName: "pipeline",
-      type: "V4beta1PutRecordRequestPipeline",
+      type: "V4beta1BatchUpsertRecordsRequestPipeline",
     },
     {
-      name: "record",
-      baseName: "record",
-      type: "object",
+      name: "records",
+      baseName: "records",
+      type: "Array<object>",
     },
     {
       name: "variables",
@@ -49,6 +49,6 @@ export class V4beta1PutRecordRequest {
   ];
 
   static getAttributeTypeMap() {
-    return V4beta1PutRecordRequest.attributeTypeMap;
+    return V4beta1BatchUpsertRecordsRequest.attributeTypeMap;
   }
 }

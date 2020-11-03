@@ -11,14 +11,14 @@
  */
 
 import { RequestFile } from "./models";
-import { RpcStatus1 } from "./rpcStatus1";
+import { Sajariv4beta1Key } from "./sajariv4beta1Key";
 
-export class V4beta1BatchPutRecordsResponseError {
+export class V4beta1BatchUpsertRecordsResponseKey {
   /**
-   * Index of the record in `records` that this error corresponds to.
+   * Index of the record in `records` that this key corresponds to.
    */
   "index"?: number;
-  "status"?: RpcStatus1;
+  "key"?: Sajariv4beta1Key;
 
   static discriminator: string | undefined = undefined;
 
@@ -33,13 +33,13 @@ export class V4beta1BatchPutRecordsResponseError {
       type: "number",
     },
     {
-      name: "status",
-      baseName: "status",
-      type: "RpcStatus1",
+      name: "key",
+      baseName: "key",
+      type: "Sajariv4beta1Key",
     },
   ];
 
   static getAttributeTypeMap() {
-    return V4beta1BatchPutRecordsResponseError.attributeTypeMap;
+    return V4beta1BatchUpsertRecordsResponseKey.attributeTypeMap;
   }
 }

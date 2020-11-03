@@ -11,19 +11,14 @@
  */
 
 import { RequestFile } from "./models";
+import { Sajariv4beta1Key } from "./sajariv4beta1Key";
 
-/**
- * The pipeline to use when putting the records.  If not provided the default record pipeline is used.
- */
-export class V4beta1BatchPutRecordsRequestPipeline {
+export class V4beta1UpsertRecordResponse {
+  "key"?: Sajariv4beta1Key;
   /**
-   * The record pipeline\'s name, e.g. `my-pipeline`.
+   * The modified variables returned by the pipeline after it has finished processing.
    */
-  "name": string;
-  /**
-   * The record pipeline\'s version, e.g. `42`.  If not provided the default version is used.
-   */
-  "version"?: string;
+  "variables"?: object;
 
   static discriminator: string | undefined = undefined;
 
@@ -33,18 +28,18 @@ export class V4beta1BatchPutRecordsRequestPipeline {
     type: string;
   }> = [
     {
-      name: "name",
-      baseName: "name",
-      type: "string",
+      name: "key",
+      baseName: "key",
+      type: "Sajariv4beta1Key",
     },
     {
-      name: "version",
-      baseName: "version",
-      type: "string",
+      name: "variables",
+      baseName: "variables",
+      type: "object",
     },
   ];
 
   static getAttributeTypeMap() {
-    return V4beta1BatchPutRecordsRequestPipeline.attributeTypeMap;
+    return V4beta1UpsertRecordResponse.attributeTypeMap;
   }
 }

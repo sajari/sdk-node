@@ -11,23 +11,23 @@
  */
 
 import { RequestFile } from "./models";
-import { BatchPutRecordsResponseVariables } from "./batchPutRecordsResponseVariables";
-import { V4beta1BatchPutRecordsResponseError } from "./v4beta1BatchPutRecordsResponseError";
-import { V4beta1BatchPutRecordsResponseKey } from "./v4beta1BatchPutRecordsResponseKey";
+import { BatchUpsertRecordsResponseVariables } from "./batchUpsertRecordsResponseVariables";
+import { V4beta1BatchUpsertRecordsResponseError } from "./v4beta1BatchUpsertRecordsResponseError";
+import { V4beta1BatchUpsertRecordsResponseKey } from "./v4beta1BatchUpsertRecordsResponseKey";
 
-export class V4beta1BatchPutRecordsResponse {
+export class V4beta1BatchUpsertRecordsResponse {
   /**
    * A list of keys of the records that were inserted.  If a record was inserted, keys contains an entry containing the index of the inserted record from `records` and the key. You can use the key if you need to retrieve or delete the record.  If a record was updated, keys contains no such entry for the updated record.
    */
-  "keys"?: Array<V4beta1BatchPutRecordsResponseKey>;
+  "keys"?: Array<V4beta1BatchUpsertRecordsResponseKey>;
   /**
    * A list of modified variables returned by the pipeline after it has finished processing each record.
    */
-  "variables"?: Array<BatchPutRecordsResponseVariables>;
+  "variables"?: Array<BatchUpsertRecordsResponseVariables>;
   /**
    * Errors that occurred.
    */
-  "errors"?: Array<V4beta1BatchPutRecordsResponseError>;
+  "errors"?: Array<V4beta1BatchUpsertRecordsResponseError>;
 
   static discriminator: string | undefined = undefined;
 
@@ -39,21 +39,21 @@ export class V4beta1BatchPutRecordsResponse {
     {
       name: "keys",
       baseName: "keys",
-      type: "Array<V4beta1BatchPutRecordsResponseKey>",
+      type: "Array<V4beta1BatchUpsertRecordsResponseKey>",
     },
     {
       name: "variables",
       baseName: "variables",
-      type: "Array<BatchPutRecordsResponseVariables>",
+      type: "Array<BatchUpsertRecordsResponseVariables>",
     },
     {
       name: "errors",
       baseName: "errors",
-      type: "Array<V4beta1BatchPutRecordsResponseError>",
+      type: "Array<V4beta1BatchUpsertRecordsResponseError>",
     },
   ];
 
   static getAttributeTypeMap() {
-    return V4beta1BatchPutRecordsResponse.attributeTypeMap;
+    return V4beta1BatchUpsertRecordsResponse.attributeTypeMap;
   }
 }

@@ -30,12 +30,12 @@ function createClient() {
   );
 }
 
-async function putRecord(id: string) {
-  const record = await client.putRecord({ record: { id } });
+async function upsertRecord(id: string) {
+  const record = await client.upsertRecord({ record: { id } });
 
   await client.deleteRecord(record.key!); // TODO(jingram): remove ! once types are fixed.
 }
 
-test("put record", async () => {
-  await putRecord(ksuid.randomSync().string);
+test("upsert record", async () => {
+  await upsertRecord(ksuid.randomSync().string);
 });

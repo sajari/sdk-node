@@ -12,7 +12,7 @@
 
 import { RequestFile } from "./models";
 
-export class BatchPutRecordsResponseVariables {
+export class BatchUpsertRecordsResponseVariables {
   /**
    * Index of the record in `records` that these variables correspond to.
    */
@@ -42,6 +42,6 @@ export class BatchPutRecordsResponseVariables {
   ];
 
   static getAttributeTypeMap() {
-    return BatchPutRecordsResponseVariables.attributeTypeMap;
+    return BatchUpsertRecordsResponseVariables.attributeTypeMap;
   }
 }

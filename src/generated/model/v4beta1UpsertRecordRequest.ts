@@ -11,14 +11,18 @@
  */
 
 import { RequestFile } from "./models";
-import { Sajariv4beta1Key } from "./sajariv4beta1Key";
+import { V4beta1UpsertRecordRequestPipeline } from "./v4beta1UpsertRecordRequestPipeline";
 
-export class V4beta1BatchPutRecordsResponseKey {
+export class V4beta1UpsertRecordRequest {
+  "pipeline"?: V4beta1UpsertRecordRequestPipeline;
   /**
-   * Index of the record in `records` that this key corresponds to.
+   * An object made up of field-value pairs that contains the record data.
    */
-  "index"?: number;
-  "key"?: Sajariv4beta1Key;
+  "record": object;
+  /**
+   * The initial values for the variables the pipeline operates on and transforms throughout its steps.
+   */
+  "variables"?: object;
 
   static discriminator: string | undefined = undefined;
 
@@ -28,18 +32,23 @@ export class V4beta1BatchPutRecordsResponseKey {
     type: string;
   }> = [
     {
-      name: "index",
-      baseName: "index",
-      type: "number",
+      name: "pipeline",
+      baseName: "pipeline",
+      type: "V4beta1UpsertRecordRequestPipeline",
     },
     {
-      name: "key",
-      baseName: "key",
-      type: "Sajariv4beta1Key",
+      name: "record",
+      baseName: "record",
+      type: "object",
+    },
+    {
+      name: "variables",
+      baseName: "variables",
+      type: "object",
     },
   ];
 
   static getAttributeTypeMap() {
-    return V4beta1BatchPutRecordsResponseKey.attributeTypeMap;
+    return V4beta1UpsertRecordRequest.attributeTypeMap;
   }
 }

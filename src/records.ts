@@ -2,9 +2,9 @@ import { Client } from "./client";
 import {
   RecordsApi,
   HttpError,
-  V4beta1PutRecordRequest,
+  V4beta1UpsertRecordRequest,
   Sajariv4beta1Key,
-  V4beta1BatchPutRecordsRequest,
+  V4beta1BatchUpsertRecordsRequest,
 } from "../src/generated/api";
 
 export { withEndpoint, withKeyCredentials } from "./client";
@@ -40,9 +40,9 @@ export class RecordsClient extends Client {
     }
   }
 
-  async putRecord(request: V4beta1PutRecordRequest) {
+  async upsertRecord(request: V4beta1UpsertRecordRequest) {
     try {
-      const res = await this.client.putRecord(this.collectionId, request);
+      const res = await this.client.upsertRecord(this.collectionId, request);
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {
@@ -53,13 +53,13 @@ export class RecordsClient extends Client {
     }
   }
 
-  async batchPutRecords(
-    request: Omit<V4beta1BatchPutRecordsRequest, "records"> & {
+  async batchUpsertRecords(
+    request: Omit<V4beta1BatchUpsertRecordsRequest, "records"> & {
       records: object[];
     }
   ) {
     try {
-      const res = await this.client.batchPutRecords(this.collectionId, request);
+      const res = await this.client.batchUpsertRecords(this.collectionId, request);
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {

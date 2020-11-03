@@ -38,7 +38,7 @@ async function main(
       withKeyCredentials(keyId, keySecret)
     );
 
-    const r = await client.putRecord({
+    const r = await client.upsertRecord({
       pipeline,
       record: {
         id: `${new Date().getTime()}`,

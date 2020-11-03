@@ -1,6 +1,6 @@
 import localVarRequest from "request";
 
-export * from "./batchPutRecordsResponseVariables";
+export * from "./batchUpsertRecordsResponseVariables";
 export * from "./bucketsBucket";
 export * from "./enginev2Value";
 export * from "./gatewayruntimeError";
@@ -32,11 +32,11 @@ export * from "./v2TrackingType";
 export * from "./v4beta1BatchCreateSchemaFieldsRequest";
 export * from "./v4beta1BatchCreateSchemaFieldsResponse";
 export * from "./v4beta1BatchCreateSchemaFieldsResponseError";
-export * from "./v4beta1BatchPutRecordsRequest";
-export * from "./v4beta1BatchPutRecordsRequestPipeline";
-export * from "./v4beta1BatchPutRecordsResponse";
-export * from "./v4beta1BatchPutRecordsResponseError";
-export * from "./v4beta1BatchPutRecordsResponseKey";
+export * from "./v4beta1BatchUpsertRecordsRequest";
+export * from "./v4beta1BatchUpsertRecordsRequestPipeline";
+export * from "./v4beta1BatchUpsertRecordsResponse";
+export * from "./v4beta1BatchUpsertRecordsResponseError";
+export * from "./v4beta1BatchUpsertRecordsResponseKey";
 export * from "./v4beta1Collection";
 export * from "./v4beta1GeneratePipelinesRequest";
 export * from "./v4beta1GeneratePipelinesResponse";
@@ -46,9 +46,6 @@ export * from "./v4beta1ListPipelinesRequestView";
 export * from "./v4beta1ListPipelinesResponse";
 export * from "./v4beta1ListSchemaFieldsResponse";
 export * from "./v4beta1PipelineType";
-export * from "./v4beta1PutRecordRequest";
-export * from "./v4beta1PutRecordRequestPipeline";
-export * from "./v4beta1PutRecordResponse";
 export * from "./v4beta1QueryCollectionRequest";
 export * from "./v4beta1QueryCollectionRequestPipeline";
 export * from "./v4beta1QueryCollectionResponse";
@@ -60,6 +57,9 @@ export * from "./v4beta1SetDefaultPipelineRequest";
 export * from "./v4beta1SetDefaultVersionRequest";
 export * from "./v4beta1Step";
 export * from "./v4beta1Step1";
+export * from "./v4beta1UpsertRecordRequest";
+export * from "./v4beta1UpsertRecordRequestPipeline";
+export * from "./v4beta1UpsertRecordResponse";
 export * from "./valueRepeated";
 
 import * as fs from "fs";
@@ -74,7 +74,7 @@ export interface RequestDetailedFile {
 
 export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
 
-import { BatchPutRecordsResponseVariables } from "./batchPutRecordsResponseVariables";
+import { BatchUpsertRecordsResponseVariables } from "./batchUpsertRecordsResponseVariables";
 import { BucketsBucket } from "./bucketsBucket";
 import { Enginev2Value } from "./enginev2Value";
 import { GatewayruntimeError } from "./gatewayruntimeError";
@@ -106,11 +106,11 @@ import { V2TrackingType } from "./v2TrackingType";
 import { V4beta1BatchCreateSchemaFieldsRequest } from "./v4beta1BatchCreateSchemaFieldsRequest";
 import { V4beta1BatchCreateSchemaFieldsResponse } from "./v4beta1BatchCreateSchemaFieldsResponse";
 import { V4beta1BatchCreateSchemaFieldsResponseError } from "./v4beta1BatchCreateSchemaFieldsResponseError";
-import { V4beta1BatchPutRecordsRequest } from "./v4beta1BatchPutRecordsRequest";
-import { V4beta1BatchPutRecordsRequestPipeline } from "./v4beta1BatchPutRecordsRequestPipeline";
-import { V4beta1BatchPutRecordsResponse } from "./v4beta1BatchPutRecordsResponse";
-import { V4beta1BatchPutRecordsResponseError } from "./v4beta1BatchPutRecordsResponseError";
-import { V4beta1BatchPutRecordsResponseKey } from "./v4beta1BatchPutRecordsResponseKey";
+import { V4beta1BatchUpsertRecordsRequest } from "./v4beta1BatchUpsertRecordsRequest";
+import { V4beta1BatchUpsertRecordsRequestPipeline } from "./v4beta1BatchUpsertRecordsRequestPipeline";
+import { V4beta1BatchUpsertRecordsResponse } from "./v4beta1BatchUpsertRecordsResponse";
+import { V4beta1BatchUpsertRecordsResponseError } from "./v4beta1BatchUpsertRecordsResponseError";
+import { V4beta1BatchUpsertRecordsResponseKey } from "./v4beta1BatchUpsertRecordsResponseKey";
 import { V4beta1Collection } from "./v4beta1Collection";
 import { V4beta1GeneratePipelinesRequest } from "./v4beta1GeneratePipelinesRequest";
 import { V4beta1GeneratePipelinesResponse } from "./v4beta1GeneratePipelinesResponse";
@@ -120,9 +120,6 @@ import { V4beta1ListPipelinesRequestView } from "./v4beta1ListPipelinesRequestVi
 import { V4beta1ListPipelinesResponse } from "./v4beta1ListPipelinesResponse";
 import { V4beta1ListSchemaFieldsResponse } from "./v4beta1ListSchemaFieldsResponse";
 import { V4beta1PipelineType } from "./v4beta1PipelineType";
-import { V4beta1PutRecordRequest } from "./v4beta1PutRecordRequest";
-import { V4beta1PutRecordRequestPipeline } from "./v4beta1PutRecordRequestPipeline";
-import { V4beta1PutRecordResponse } from "./v4beta1PutRecordResponse";
 import { V4beta1QueryCollectionRequest } from "./v4beta1QueryCollectionRequest";
 import { V4beta1QueryCollectionRequestPipeline } from "./v4beta1QueryCollectionRequestPipeline";
 import { V4beta1QueryCollectionResponse } from "./v4beta1QueryCollectionResponse";
@@ -134,6 +131,9 @@ import { V4beta1SetDefaultPipelineRequest } from "./v4beta1SetDefaultPipelineReq
 import { V4beta1SetDefaultVersionRequest } from "./v4beta1SetDefaultVersionRequest";
 import { V4beta1Step } from "./v4beta1Step";
 import { V4beta1Step1 } from "./v4beta1Step1";
+import { V4beta1UpsertRecordRequest } from "./v4beta1UpsertRecordRequest";
+import { V4beta1UpsertRecordRequestPipeline } from "./v4beta1UpsertRecordRequestPipeline";
+import { V4beta1UpsertRecordResponse } from "./v4beta1UpsertRecordResponse";
 import { ValueRepeated } from "./valueRepeated";
 
 /* tslint:disable:no-unused-variable */
@@ -159,7 +159,7 @@ let enumsMap: { [index: string]: any } = {
 };
 
 let typeMap: { [index: string]: any } = {
-  BatchPutRecordsResponseVariables: BatchPutRecordsResponseVariables,
+  BatchUpsertRecordsResponseVariables: BatchUpsertRecordsResponseVariables,
   BucketsBucket: BucketsBucket,
   Enginev2Value: Enginev2Value,
   GatewayruntimeError: GatewayruntimeError,
@@ -188,20 +188,17 @@ let typeMap: { [index: string]: any } = {
   V4beta1BatchCreateSchemaFieldsRequest: V4beta1BatchCreateSchemaFieldsRequest,
   V4beta1BatchCreateSchemaFieldsResponse: V4beta1BatchCreateSchemaFieldsResponse,
   V4beta1BatchCreateSchemaFieldsResponseError: V4beta1BatchCreateSchemaFieldsResponseError,
-  V4beta1BatchPutRecordsRequest: V4beta1BatchPutRecordsRequest,
-  V4beta1BatchPutRecordsRequestPipeline: V4beta1BatchPutRecordsRequestPipeline,
-  V4beta1BatchPutRecordsResponse: V4beta1BatchPutRecordsResponse,
-  V4beta1BatchPutRecordsResponseError: V4beta1BatchPutRecordsResponseError,
-  V4beta1BatchPutRecordsResponseKey: V4beta1BatchPutRecordsResponseKey,
+  V4beta1BatchUpsertRecordsRequest: V4beta1BatchUpsertRecordsRequest,
+  V4beta1BatchUpsertRecordsRequestPipeline: V4beta1BatchUpsertRecordsRequestPipeline,
+  V4beta1BatchUpsertRecordsResponse: V4beta1BatchUpsertRecordsResponse,
+  V4beta1BatchUpsertRecordsResponseError: V4beta1BatchUpsertRecordsResponseError,
+  V4beta1BatchUpsertRecordsResponseKey: V4beta1BatchUpsertRecordsResponseKey,
   V4beta1Collection: V4beta1Collection,
   V4beta1GeneratePipelinesRequest: V4beta1GeneratePipelinesRequest,
   V4beta1GeneratePipelinesResponse: V4beta1GeneratePipelinesResponse,
   V4beta1ListCollectionsResponse: V4beta1ListCollectionsResponse,
   V4beta1ListPipelinesResponse: V4beta1ListPipelinesResponse,
   V4beta1ListSchemaFieldsResponse: V4beta1ListSchemaFieldsResponse,
-  V4beta1PutRecordRequest: V4beta1PutRecordRequest,
-  V4beta1PutRecordRequestPipeline: V4beta1PutRecordRequestPipeline,
-  V4beta1PutRecordResponse: V4beta1PutRecordResponse,
   V4beta1QueryCollectionRequest: V4beta1QueryCollectionRequest,
   V4beta1QueryCollectionRequestPipeline: V4beta1QueryCollectionRequestPipeline,
   V4beta1QueryCollectionResponse: V4beta1QueryCollectionResponse,
@@ -212,6 +209,9 @@ let typeMap: { [index: string]: any } = {
   V4beta1SetDefaultVersionRequest: V4beta1SetDefaultVersionRequest,
   V4beta1Step: V4beta1Step,
   V4beta1Step1: V4beta1Step1,
+  V4beta1UpsertRecordRequest: V4beta1UpsertRecordRequest,
+  V4beta1UpsertRecordRequestPipeline: V4beta1UpsertRecordRequestPipeline,
+  V4beta1UpsertRecordResponse: V4beta1UpsertRecordResponse,
   ValueRepeated: ValueRepeated,
 };
 

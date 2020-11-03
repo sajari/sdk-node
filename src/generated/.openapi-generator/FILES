@@ -5,7 +5,7 @@ api/collectionsApi.ts
 api/pipelinesApi.ts
 api/recordsApi.ts
 api/schemaApi.ts
-model/batchPutRecordsResponseVariables.ts
+model/batchUpsertRecordsResponseVariables.ts
 model/bucketsBucket.ts
 model/enginev2Value.ts
 model/gatewayruntimeError.ts
@@ -37,11 +37,11 @@ model/v2TrackingType.ts
 model/v4beta1BatchCreateSchemaFieldsRequest.ts
 model/v4beta1BatchCreateSchemaFieldsResponse.ts
 model/v4beta1BatchCreateSchemaFieldsResponseError.ts
-model/v4beta1BatchPutRecordsRequest.ts
-model/v4beta1BatchPutRecordsRequestPipeline.ts
-model/v4beta1BatchPutRecordsResponse.ts
-model/v4beta1BatchPutRecordsResponseError.ts
-model/v4beta1BatchPutRecordsResponseKey.ts
+model/v4beta1BatchUpsertRecordsRequest.ts
+model/v4beta1BatchUpsertRecordsRequestPipeline.ts
+model/v4beta1BatchUpsertRecordsResponse.ts
+model/v4beta1BatchUpsertRecordsResponseError.ts
+model/v4beta1BatchUpsertRecordsResponseKey.ts
 model/v4beta1Collection.ts
 model/v4beta1GeneratePipelinesRequest.ts
 model/v4beta1GeneratePipelinesResponse.ts
@@ -51,9 +51,6 @@ model/v4beta1ListPipelinesRequestView.ts
 model/v4beta1ListPipelinesResponse.ts
 model/v4beta1ListSchemaFieldsResponse.ts
 model/v4beta1PipelineType.ts
-model/v4beta1PutRecordRequest.ts
-model/v4beta1PutRecordRequestPipeline.ts
-model/v4beta1PutRecordResponse.ts
 model/v4beta1QueryCollectionRequest.ts
 model/v4beta1QueryCollectionRequestPipeline.ts
 model/v4beta1QueryCollectionResponse.ts
@@ -65,5 +62,8 @@ model/v4beta1SetDefaultPipelineRequest.ts
 model/v4beta1SetDefaultVersionRequest.ts
 model/v4beta1Step.ts
 model/v4beta1Step1.ts
+model/v4beta1UpsertRecordRequest.ts
+model/v4beta1UpsertRecordRequestPipeline.ts
+model/v4beta1UpsertRecordResponse.ts
 model/valueRepeated.ts
 model/models.ts

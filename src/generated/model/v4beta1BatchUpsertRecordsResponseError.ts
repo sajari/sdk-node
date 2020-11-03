@@ -11,18 +11,14 @@
  */
 
 import { RequestFile } from "./models";
-import { V4beta1BatchPutRecordsRequestPipeline } from "./v4beta1BatchPutRecordsRequestPipeline";
+import { RpcStatus1 } from "./rpcStatus1";
 
-export class V4beta1BatchPutRecordsRequest {
-  "pipeline"?: V4beta1BatchPutRecordsRequestPipeline;
+export class V4beta1BatchUpsertRecordsResponseError {
   /**
-   * A list of records to put.
+   * Index of the record in `records` that this error corresponds to.
    */
-  "records": Array<object>;
-  /**
-   * The initial values for the variables the pipeline operates on and transforms throughout its steps.
-   */
-  "variables"?: object;
+  "index"?: number;
+  "status"?: RpcStatus1;
 
   static discriminator: string | undefined = undefined;
 
@@ -32,23 +28,18 @@ export class V4beta1BatchPutRecordsRequest {
     type: string;
   }> = [
     {
-      name: "pipeline",
-      baseName: "pipeline",
-      type: "V4beta1BatchPutRecordsRequestPipeline",
+      name: "index",
+      baseName: "index",
+      type: "number",
     },
     {
-      name: "records",
-      baseName: "records",
-      type: "Array<object>",
-    },
-    {
-      name: "variables",
-      baseName: "variables",
-      type: "object",
+      name: "status",
+      baseName: "status",
+      type: "RpcStatus1",
     },
   ];
 
   static getAttributeTypeMap() {
-    return V4beta1BatchPutRecordsRequest.attributeTypeMap;
+    return V4beta1BatchUpsertRecordsResponseError.attributeTypeMap;
   }
 }
