@@ -9,10 +9,6 @@ model/batchPutRecordsResponseVariables.ts
 model/bucketsBucket.ts
 model/enginev2Value.ts
 model/gatewayruntimeError.ts
-model/gatewayruntimeError1.ts
-model/gatewayruntimeError2.ts
-model/gatewayruntimeError3.ts
-model/gatewayruntimeError4.ts
 model/protobufAny.ts
 model/protobufNullValue.ts
 model/queryAggregateResultAnalysis.ts

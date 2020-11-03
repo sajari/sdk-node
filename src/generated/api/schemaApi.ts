@@ -14,7 +14,7 @@ import localVarRequest from "request";
 import http from "http";
 
 /* tslint:disable:no-unused-locals */
-import { GatewayruntimeError4 } from "../model/gatewayruntimeError4";
+import { GatewayruntimeError } from "../model/gatewayruntimeError";
 import { V4beta1BatchCreateSchemaFieldsRequest } from "../model/v4beta1BatchCreateSchemaFieldsRequest";
 import { V4beta1BatchCreateSchemaFieldsResponse } from "../model/v4beta1BatchCreateSchemaFieldsResponse";
 import { V4beta1ListSchemaFieldsResponse } from "../model/v4beta1ListSchemaFieldsResponse";

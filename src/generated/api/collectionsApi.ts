@@ -14,7 +14,7 @@ import localVarRequest from "request";
 import http from "http";
 
 /* tslint:disable:no-unused-locals */
-import { GatewayruntimeError1 } from "../model/gatewayruntimeError1";
+import { GatewayruntimeError } from "../model/gatewayruntimeError";
 import { RpcStatus } from "../model/rpcStatus";
 import { V4beta1Collection } from "../model/v4beta1Collection";
 import { V4beta1ListCollectionsResponse } from "../model/v4beta1ListCollectionsResponse";

@@ -14,8 +14,7 @@ import localVarRequest from "request";
 import http from "http";
 
 /* tslint:disable:no-unused-locals */
-import { GatewayruntimeError1 } from "../model/gatewayruntimeError1";
-import { GatewayruntimeError2 } from "../model/gatewayruntimeError2";
+import { GatewayruntimeError } from "../model/gatewayruntimeError";
 import { Sajariv4beta1Pipeline1 } from "../model/sajariv4beta1Pipeline1";
 import { V4beta1GeneratePipelinesRequest } from "../model/v4beta1GeneratePipelinesRequest";
 import { V4beta1GeneratePipelinesResponse } from "../model/v4beta1GeneratePipelinesResponse";

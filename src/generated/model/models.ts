@@ -4,10 +4,6 @@ export * from "./batchPutRecordsResponseVariables";
 export * from "./bucketsBucket";
 export * from "./enginev2Value";
 export * from "./gatewayruntimeError";
-export * from "./gatewayruntimeError1";
-export * from "./gatewayruntimeError2";
-export * from "./gatewayruntimeError3";
-export * from "./gatewayruntimeError4";
 export * from "./protobufAny";
 export * from "./protobufNullValue";
 export * from "./queryAggregateResultAnalysis";
@@ -82,10 +78,6 @@ import { BatchPutRecordsResponseVariables } from "./batchPutRecordsResponseVaria
 import { BucketsBucket } from "./bucketsBucket";
 import { Enginev2Value } from "./enginev2Value";
 import { GatewayruntimeError } from "./gatewayruntimeError";
-import { GatewayruntimeError1 } from "./gatewayruntimeError1";
-import { GatewayruntimeError2 } from "./gatewayruntimeError2";
-import { GatewayruntimeError3 } from "./gatewayruntimeError3";
-import { GatewayruntimeError4 } from "./gatewayruntimeError4";
 import { ProtobufAny } from "./protobufAny";
 import { ProtobufNullValue } from "./protobufNullValue";
 import { QueryAggregateResultAnalysis } from "./queryAggregateResultAnalysis";
@@ -171,10 +163,6 @@ let typeMap: { [index: string]: any } = {
   BucketsBucket: BucketsBucket,
   Enginev2Value: Enginev2Value,
   GatewayruntimeError: GatewayruntimeError,
-  GatewayruntimeError1: GatewayruntimeError1,
-  GatewayruntimeError2: GatewayruntimeError2,
-  GatewayruntimeError3: GatewayruntimeError3,
-  GatewayruntimeError4: GatewayruntimeError4,
   ProtobufAny: ProtobufAny,
   QueryAggregateResultAnalysis: QueryAggregateResultAnalysis,
   QueryAggregateResultBuckets: QueryAggregateResultBuckets,

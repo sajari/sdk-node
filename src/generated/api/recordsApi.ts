@@ -14,7 +14,7 @@ import localVarRequest from "request";
 import http from "http";
 
 /* tslint:disable:no-unused-locals */
-import { GatewayruntimeError3 } from "../model/gatewayruntimeError3";
+import { GatewayruntimeError } from "../model/gatewayruntimeError";
 import { Sajariv4beta1DeleteRecordRequest } from "../model/sajariv4beta1DeleteRecordRequest";
 import { Sajariv4beta1GetRecordRequest } from "../model/sajariv4beta1GetRecordRequest";
 import { V4beta1BatchPutRecordsRequest } from "../model/v4beta1BatchPutRecordsRequest";
