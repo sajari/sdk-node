@@ -36,13 +36,15 @@ async function main(
   collectionId = program.collectionId,
   keyId = program.keyId,
   keySecret = program.keySecret,
-  type = program.type,
-  name = program.pipelineName,
-  version = program.pipelineVersion,
-  description = program.pipelineDescription
+  pipeline = {
+    type: program.pipelineType,
+    name: program.pipelineName,
+    version: program.pipelineVersion,
+    description: program.pipelineDescription
+  }
 ) {
-  if (!(type === "record" || type === "query")) {
-    throw new Error(`invalid type ${type}`);
+  if (!(pipeline.type === "record" || pipeline.type === "query")) {
+    throw new Error(`invalid type ${pipeline.type}`);
   }
 
   try {
@@ -53,10 +55,7 @@ async function main(
     );
 
     const p = await client.createPipeline({
-      type,
-      name: name,
-      version,
-      description,
+      ...pipeline,
       preSteps: [
         {
           id: "set-filter",

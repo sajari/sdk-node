@@ -32,16 +32,18 @@ async function main(
   collectionId = program.collectionId,
   keyId = program.keyId,
   keySecret = program.keySecret,
-  type = program.type,
-  name = program.pipelineName,
-  version = program.pipelineVersion,
-  view = program.pipelineView as "basic" | "full"
-) {
-  if (!(type === "record" || type === "query")) {
-    throw new Error(`invalid type ${type}`);
+  pipeline = {
+    type: program.pipelineType,
+    name: program.pipelineName,
+    version: program.pipelineVersion,
+    view: program.pipelineView as "basic" | "full"
   }
-  if (!(view === "basic" || view === "full")) {
-    throw new Error(`invalid view ${view}`);
+) {
+  if (!(pipeline.type === "record" || pipeline.type === "query")) {
+    throw new Error(`invalid type ${pipeline.type}`);
+  }
+  if (!(pipeline.view === "basic" || pipeline.view === "full")) {
+    throw new Error(`invalid view ${pipeline.view}`);
   }
 
   try {
@@ -51,7 +53,7 @@ async function main(
       withKeyCredentials(keyId, keySecret)
     );
 
-    const p = await client.getPipeline({ type, name, version, view });
+    const p = await client.getPipeline(pipeline);
 
     console.log(`type=${p.type}`);
     console.log(`name=${p.name}`);
