@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseDuration = exports.structToObject = exports.objectToStruct = void 0;
 var proto_1 = require("../generated/proto");
 /**
  * @hidden

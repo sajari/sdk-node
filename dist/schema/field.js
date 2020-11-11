@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fields = exports.field = exports.FieldModeFromProto = exports.FieldModeToProto = exports.FieldMode = exports.TypeFromProto = exports.TypeToProto = exports.Type = exports.FieldFromProto = exports.FieldToProto = void 0;
 var deepmerge_1 = __importDefault(require("deepmerge"));
 var proto_1 = require("../../generated/proto");
 /**

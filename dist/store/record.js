@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RecordFromProto = exports.RecordToProto = void 0;
 var proto_1 = require("../../generated/proto");
 var types_1 = require("../types");
 /**

@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.KeyFromProto = exports.KeyToProto = exports.ValueFromProto = exports.ValueToProto = void 0;
 var proto_1 = require("../generated/proto");
 /**
  * @hidden

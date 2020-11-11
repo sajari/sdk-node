@@ -1,28 +1,15 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
     return result;
 };
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.APIClient = void 0;
 var grpc = __importStar(require("@grpc/grpc-js"));
 var debug_1 = __importDefault(require("debug"));
 var deepmerge_1 = __importDefault(require("deepmerge"));
@@ -41,7 +28,6 @@ function logMemoryUsage(msg) {
     var mem = process.memoryUsage();
     // tslint:disable-next-line: no-console
     console.log("[MEMORY USAGE] " + msg, {
-        arrayBuffers: humanSize(mem.arrayBuffers),
         external: humanSize(mem.external),
         heapTotal: humanSize(mem.heapTotal),
         heapUsed: humanSize(mem.heapUsed),
@@ -109,6 +95,7 @@ var APIClient = /** @class */ (function () {
         this.client = new grpc.Client(this.endpoint, insecure
             ? grpc.credentials.createInsecure()
             : grpc.credentials.createSsl(), {
+            "gprc.keepalive_permit_without_calls": 1,
             "grpc.default_authority": AUTHORITY,
             "grpc.primary_user_agent": ua_1.USER_AGENT
         });
