@@ -197,12 +197,9 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@grpc/grpc-js@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.0.5.tgz#09948c0810e62828fdd61455b2eb13d7879888b0"
-  integrity sha512-Hm+xOiqAhcpT9RYM8lc15dbQD7aQurM7ZU8ulmulepiPlN7iwBXXwP3vSBUimoFoApRqz7pSIisXU8pZaCB4og==
-  dependencies:
-    semver "^6.2.0"
+"@grpc/grpc-js@https://github.com/grpc/grpc-node.git#master":
+  version "0.1.0"
+  resolved "https://github.com/grpc/grpc-node.git#03aaeb78a25fa847642a1cdd217635b64524c2ab"
 
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"

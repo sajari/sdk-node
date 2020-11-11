@@ -15,7 +15,7 @@ function humanSize(bytes: number): string {
 }
 function logMemoryUsage(msg: string) {
   const mem = process.memoryUsage();
-  
+
   // tslint:disable-next-line: no-console
   console.log(`[MEMORY USAGE] ${msg}`, {
     arrayBuffers: humanSize(mem.arrayBuffers),
@@ -125,9 +125,10 @@ export class APIClient {
     this.client = new grpc.Client(
       this.endpoint,
       insecure
-        ? grpc.credentials.createInsecure()
-        : grpc.credentials.createSsl(),
+      ? grpc.credentials.createInsecure()
+      : grpc.credentials.createSsl(),
       {
+        "gprc.keepalive_permit_without_calls": 1,
         "grpc.default_authority": AUTHORITY,
         "grpc.primary_user_agent": USER_AGENT
       }
