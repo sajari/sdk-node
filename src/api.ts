@@ -18,7 +18,6 @@ function logMemoryUsage(msg: string) {
 
   // tslint:disable-next-line: no-console
   console.log(`[MEMORY USAGE] ${msg}`, {
-    arrayBuffers: humanSize(mem.arrayBuffers),
     external: humanSize(mem.external),
     heapTotal: humanSize(mem.heapTotal),
     heapUsed: humanSize(mem.heapUsed),

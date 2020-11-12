@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Client = void 0;
 var api_1 = require("./api");
 var interaction_1 = require("./interaction");
 var pipeline_1 = require("./pipeline");

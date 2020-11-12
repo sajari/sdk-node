@@ -4,4 +4,4 @@
  * The user agent of the sdk client
  * @hidden
  */
-export const USER_AGENT = "sdk-node-3.1.1";
+export const USER_AGENT = "sdk-node-3.2.0";

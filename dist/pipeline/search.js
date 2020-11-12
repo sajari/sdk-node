@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseSearchResponse = void 0;
 var proto_1 = require("../../generated/proto");
 var protoUtils_1 = require("../protoUtils");
 var types_1 = require("../types");

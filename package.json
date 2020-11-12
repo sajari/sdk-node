@@ -33,7 +33,7 @@
     "prepublishOnly": "npm-run-all build"
   },
   "dependencies": {
-    "@grpc/grpc-js": "https://github.com/grpc/grpc-node.git#master",
+    "@grpc/grpc-js": "1.2.0",
     "debug": "^4.1.1",
     "deepmerge": "^4.0.0",
     "protobufjs": "^6.8.8"
