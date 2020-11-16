@@ -1,0 +1,11 @@
+{
+  "name": "@sajari/sdk-node-generate",
+  "private": true,
+  "devDependencies": {
+    "prettier": "2.1.2",
+    "replace-in-file": "6.1.0"
+  },
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,json,md,ts,yaml}\""
+  }
+}
