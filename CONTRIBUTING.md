@@ -11,7 +11,8 @@
 
 ## Prerequisites
 
-Prepare your environment for Node.js.
+- Prepare your environment for Node.js.
+- You will also need Docker if you regenerate the OpenAPI code.
 
 ## Install
 
@@ -29,6 +30,14 @@ npm test
 
 ```
 npm run setup-examples
+```
+
+## Generate
+
+If you need to regenerate the OpenAPI-generated, use the script:
+
+```
+./generate/docker.bash
 ```
 
 ## Build
