@@ -24,7 +24,7 @@ function createClient() {
 async function createCollection(displayName: string) {
   const collection = await client.createCollection({ displayName });
 
-  await client.deleteCollection(collection.id!); // TODO(jingram): remove ! once types are fixed.
+  await client.deleteCollection(collection.id!); // TODO(jingram): Remove ! once types are fixed.
 }
 
 test("create collection", async () => {

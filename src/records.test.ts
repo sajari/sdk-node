@@ -33,7 +33,7 @@ function createClient() {
 async function upsertRecord(id: string) {
   const record = await client.upsertRecord({ record: { id } });
 
-  await client.deleteRecord(record.key!); // TODO(jingram): remove ! once types are fixed.
+  await client.deleteRecord(record.key!); // TODO(jingram): Remove ! once types are fixed.
 }
 
 test("upsert record", async () => {

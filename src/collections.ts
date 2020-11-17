@@ -3,7 +3,7 @@ import ksuid from "ksuid";
 import {
   CollectionsApi,
   HttpError,
-  V4beta1QueryCollectionRequest,
+  V4QueryCollectionRequest,
 } from "../src/generated/api";
 import { Client } from "./client";
 
@@ -38,7 +38,7 @@ export class CollectionsClient extends Client {
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO(jingram): wrap common errors
+        // TODO(jingram): Wrap common errors.
       }
       throw e;
     }
@@ -58,13 +58,13 @@ export class CollectionsClient extends Client {
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO(jingram): wrap common errors, e.g. already exists
+        // TODO(jingram): Wrap common errors., e.g. already exists.
       }
       throw e;
     }
   }
 
-  async queryCollection(id: string, request: V4beta1QueryCollectionRequest) {
+  async queryCollection(id: string, request: V4QueryCollectionRequest) {
     const res = await this.client.queryCollection(id, request);
     return res.body;
   }

@@ -1,9 +1,5 @@
 import { Client } from "./client";
-import {
-  SchemaApi,
-  HttpError,
-  V4beta1SchemaField1,
-} from "../src/generated/api";
+import { SchemaApi, HttpError, V4SchemaField1 } from "../src/generated/api";
 
 export { withEndpoint, withKeyCredentials } from "./client";
 
@@ -42,26 +38,26 @@ export class SchemaClient extends Client {
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO(jingram): wrap common errors
+        // TODO(jingram): Wrap common errors.
       }
       throw e;
     }
   }
 
-  async createField(field: V4beta1SchemaField1) {
+  async createField(field: V4SchemaField1) {
     try {
       const res = await this.client.createSchemaField(this.collectionId, field);
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO(jingram): wrap common errors
+        // TODO(jingram): Wrap common errors.
       }
       throw e;
     }
   }
 
-  async batchCreateFields({ fields = [] }: { fields: V4beta1SchemaField1[] }) {
+  async batchCreateFields({ fields = [] }: { fields: V4SchemaField1[] }) {
     try {
       const res = await this.client.batchCreateSchemaFields(this.collectionId, {
         fields,
@@ -70,7 +66,7 @@ export class SchemaClient extends Client {
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO(jingram): wrap common errors
+        // TODO(jingram): Wrap common errors.
       }
       throw e;
     }

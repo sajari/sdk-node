@@ -5,7 +5,7 @@ export { PipelinesClient } from "./pipelines";
 export { RecordsClient } from "./records";
 
 export {
-  V4beta1SchemaFieldType as SchemaFieldType,
-  V4beta1SchemaField as SchemaField,
+  V4SchemaFieldType as SchemaFieldType,
+  V4SchemaField as SchemaField,
   SchemaFieldMode,
 } from "./generated/api";

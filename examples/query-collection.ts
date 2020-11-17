@@ -46,11 +46,12 @@ async function main(
       pipeline,
     });
 
-    console.log("query results:");
-    console.log(" reads=", resp.queryResults?.reads);
-    console.log(" total results=", resp.queryResults?.totalResults);
-    console.log(" latency=", resp.queryResults?.latency);
-    console.log(" results=", resp.queryResults?.results);
+    console.log("pipeline=", resp.pipeline);
+    console.log("variables=", resp.variables);
+    console.log("processing duration=", resp.processingDuration);
+    console.log("results=", resp.results);
+    console.log("aggregates=", resp.aggregates);
+    console.log("aggregate filters=", resp.aggregateFilters);
   } catch (e) {
     console.error(e);
   }

@@ -36,7 +36,7 @@ async function main(
     type: program.pipelineType,
     name: program.pipelineName,
     version: program.pipelineVersion,
-    view: program.pipelineView as "basic" | "full"
+    view: program.pipelineView as "basic" | "full",
   }
 ) {
   if (!(pipeline.type === "record" || pipeline.type === "query")) {

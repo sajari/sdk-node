@@ -40,7 +40,7 @@ async function main(
     type: program.pipelineType,
     name: program.pipelineName,
     version: program.pipelineVersion,
-    description: program.pipelineDescription
+    description: program.pipelineDescription,
   }
 ) {
   if (!(pipeline.type === "record" || pipeline.type === "query")) {

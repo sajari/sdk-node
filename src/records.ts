@@ -2,9 +2,9 @@ import { Client } from "./client";
 import {
   RecordsApi,
   HttpError,
-  V4beta1UpsertRecordRequest,
-  Sajariv4beta1Key,
-  V4beta1BatchUpsertRecordsRequest,
+  V4UpsertRecordRequest,
+  Sajariv4Key,
+  V4BatchUpsertRecordsRequest,
 } from "../src/generated/api";
 
 export { withEndpoint, withKeyCredentials } from "./client";
@@ -27,57 +27,60 @@ export class RecordsClient extends Client {
     this.client.password = this.keySecret;
   }
 
-  async getRecord(key: Sajariv4beta1Key) {
+  async getRecord(key: Sajariv4Key) {
     try {
       const res = await this.client.getRecord(this.collectionId, { key });
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO(jingram): wrap common errors
+        // TODO(jingram): Wrap common errors.
       }
       throw e;
     }
   }
 
-  async upsertRecord(request: V4beta1UpsertRecordRequest) {
+  async upsertRecord(request: V4UpsertRecordRequest) {
     try {
       const res = await this.client.upsertRecord(this.collectionId, request);
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO(jingram): wrap common errors
+        // TODO(jingram): Wrap common errors.
       }
       throw e;
     }
   }
 
   async batchUpsertRecords(
-    request: Omit<V4beta1BatchUpsertRecordsRequest, "records"> & {
+    request: Omit<V4BatchUpsertRecordsRequest, "records"> & {
       records: object[];
     }
   ) {
     try {
-      const res = await this.client.batchUpsertRecords(this.collectionId, request);
+      const res = await this.client.batchUpsertRecords(
+        this.collectionId,
+        request
+      );
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO(jingram): wrap common errors
+        // TODO(jingram): Wrap common errors.
       }
       throw e;
     }
   }
 
-  async deleteRecord(key: Sajariv4beta1Key) {
+  async deleteRecord(key: Sajariv4Key) {
     try {
       const res = await this.client.deleteRecord(this.collectionId, { key });
       return res.body;
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO(jingram): wrap common errors
+        // TODO(jingram): Wrap common errors.
       }
       throw e;
     }

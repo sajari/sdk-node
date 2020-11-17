@@ -2,15 +2,15 @@ import { Client } from "./client";
 import {
   PipelinesApi,
   HttpError,
-  Sajariv4beta1Pipeline,
-  V4beta1SetDefaultPipelineRequest,
-  V4beta1GeneratePipelinesRequest,
-  V4beta1SetDefaultVersionRequest,
+  Sajariv4Pipeline,
+  V4SetDefaultPipelineRequest,
+  V4GeneratePipelinesRequest,
+  V4SetDefaultVersionRequest,
 } from "../src/generated/api";
 
 export { withEndpoint, withKeyCredentials } from "./client";
 
-// TODO(jingram): work out how to return the enum int.
+// TODO(jingram): Work out how to return the enum int.
 export const typeToEnum = (x?: string) => {
   switch (x) {
     case "record":
@@ -92,7 +92,7 @@ export class PipelinesClient extends Client {
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO(jingram): wrap common errors
+        // TODO(jingram): Wrap common errors.
       }
       throw e;
     }
@@ -107,7 +107,7 @@ export class PipelinesClient extends Client {
     type: "record" | "query";
     name: string;
     version: string;
-  } & Omit<Sajariv4beta1Pipeline, "type" | "name" | "version" | "createTime">) {
+  } & Omit<Sajariv4Pipeline, "type" | "name" | "version" | "createTime">) {
     try {
       const res = await this.client.createPipeline(this.collectionId, {
         type: typeToEnum(type),
@@ -119,16 +119,13 @@ export class PipelinesClient extends Client {
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO(jingram): wrap common errors
+        // TODO(jingram): Wrap common errors.
       }
       throw e;
     }
   }
 
-  async generatePipelines(
-    id: string,
-    request: V4beta1GeneratePipelinesRequest
-  ) {
+  async generatePipelines(id: string, request: V4GeneratePipelinesRequest) {
     const res = await this.client.generatePipelines(id, request);
     return res.body;
   }
@@ -138,7 +135,7 @@ export class PipelinesClient extends Client {
     ...request
   }: {
     type: "record" | "query";
-  } & Omit<V4beta1SetDefaultPipelineRequest, "type">) {
+  } & Omit<V4SetDefaultPipelineRequest, "type">) {
     try {
       const res = await this.client.setDefaultPipeline(this.collectionId, {
         ...request,
@@ -148,7 +145,7 @@ export class PipelinesClient extends Client {
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO(jingram): wrap common errors
+        // TODO(jingram): Wrap common errors.
       }
       throw e;
     }
@@ -161,7 +158,7 @@ export class PipelinesClient extends Client {
   }: {
     type: "record" | "query";
     name: string;
-  } & V4beta1SetDefaultVersionRequest) {
+  } & V4SetDefaultVersionRequest) {
     try {
       const res = await this.client.setDefaultVersion(
         this.collectionId,
@@ -175,7 +172,7 @@ export class PipelinesClient extends Client {
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
-        // TODO(jingram): wrap common errors
+        // TODO(jingram): Wrap common errors.
       }
       throw e;
     }
