@@ -45,8 +45,9 @@ export class CollectionsClient extends Client {
   }
 
   async createCollection({
-    // FIXME(jingram): ideally want to use _, but it's not allowed.
-    id = `col-${ksuid.randomSync().string}`,
+    // TODO(jingram): Ideally want to use _, but it's not allowed.
+    // TODO(jingram): Remove lowercasing once API allows it.
+    id = `col-${ksuid.randomSync().string.toLowerCase()}`,
     displayName,
   }: {
     id?: string;
