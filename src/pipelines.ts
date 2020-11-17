@@ -22,6 +22,17 @@ export const typeToEnum = (x?: string) => {
   }
 };
 
+export const typeToEnumString = (x?: string) => {
+  switch (x) {
+    case "record":
+      return "RECORD";
+    case "query":
+      return "QUERY";
+    default:
+      return "TYPE_UNSPECIFIED";
+  }
+};
+
 const viewToEnum = (x?: string) => {
   switch (x) {
     case "basic":
@@ -151,6 +162,22 @@ export class PipelinesClient extends Client {
     }
   }
 
+  async getDefaultPipeline({ type }: { type: "record" | "query" }) {
+    try {
+      const res = await this.client.getDefaultPipeline(
+        this.collectionId,
+        typeToEnumString(type)
+      );
+      return res.body;
+    } catch (e) {
+      if (e instanceof HttpError) {
+        console.error(JSON.stringify(e.response));
+        // TODO(jingram): Wrap common errors.
+      }
+      throw e;
+    }
+  }
+
   async setDefaultPipelineVersion({
     type,
     name,
@@ -167,6 +194,32 @@ export class PipelinesClient extends Client {
         {
           ...request,
         }
+      );
+      return res.body;
+    } catch (e) {
+      if (e instanceof HttpError) {
+        console.error(JSON.stringify(e.response));
+        // TODO(jingram): Wrap common errors.
+      }
+      throw e;
+    }
+  }
+
+  async getDefaultPipelineVersion({
+    type,
+    name,
+    view,
+  }: {
+    type: "record" | "query";
+    name: string;
+    view: "basic" | "full";
+  }) {
+    try {
+      const res = await this.client.getDefaultVersion(
+        this.collectionId,
+        type,
+        name,
+        viewToEnum(view)
       );
       return res.body;
     } catch (e) {

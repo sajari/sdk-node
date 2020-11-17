@@ -76,7 +76,9 @@ Examples are in the [examples](https://github.com/sajari/sdk-node/blob/v4/exampl
 | Upsert record                | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/upsert-record.ts)                |
 | Query collection             | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/query-collection.ts)             |
 | Set default pipeline         | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/set-default-pipeline.ts)         |
+| Get default pipeline         | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/get-default-pipeline.ts)         |
 | Set default pipeline version | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/set-default-pipeline-version.ts) |
+| Get default pipeline version | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/get-default-pipeline-version.ts) |
 
 ## Contributing
 
