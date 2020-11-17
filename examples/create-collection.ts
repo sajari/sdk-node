@@ -36,7 +36,7 @@ async function main(
     console.log(`display name=${collection.displayName}`);
 
     // Clean up
-    await client.deleteCollection(collection.id!); // TODO(jingram): Remove ! once types are fixed.
+    await client.deleteCollection(collection.id);
   } catch (e) {
     console.error(e);
   }

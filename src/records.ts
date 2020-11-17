@@ -43,7 +43,10 @@ export class RecordsClient extends Client {
   async upsertRecord(request: V4UpsertRecordRequest) {
     try {
       const res = await this.client.upsertRecord(this.collectionId, request);
-      return res.body;
+      // OpenAPI readonly fields become optional TS fields, but we know the API
+      // will return it, so use ! to fix the types. This is done so upstream
+      // users don't have to do this.
+      return { ...res.body, key: res.body.key! };
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));

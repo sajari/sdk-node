@@ -55,7 +55,10 @@ export class CollectionsClient extends Client {
   }) {
     try {
       const res = await this.client.createCollection(id, { displayName });
-      return res.body;
+      // OpenAPI readonly fields become optional TS fields, but we know the API
+      // will return it, so use ! to fix the types. This is done so upstream
+      // users don't have to do this.
+      return { ...res.body, id: res.body.id! };
     } catch (e) {
       if (e instanceof HttpError) {
         console.error(JSON.stringify(e.response));
