@@ -33,7 +33,7 @@ async function main(
     for (const v of resp.schemaFields ?? []) {
       console.log("------------------------");
       console.log(`name=${v.name}`);
-      console.log(`type=${v.type}${v.list ? "[]" : ""}`);
+      console.log(`type=${v.type}${v.array ? "[]" : ""}`);
       console.log(`mode=${v.mode}`);
       console.log(`description=${v.description}`);
     }

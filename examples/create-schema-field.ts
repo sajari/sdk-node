@@ -13,7 +13,7 @@ withDefaultOptions(program);
 program.requiredOption("--field-name <field_name>", "field name", "my-field");
 program.requiredOption("--field-type <field_type>", "field type", "STRING");
 program.requiredOption("--field-mode <field_mode>", "field mode", "NULLABLE");
-program.option("--field-list", "the field is a list of <field_type>", false);
+program.option("--field-array", "the field is an array of <field_type>", false);
 program.requiredOption(
   "--field-description <field_description>",
   "field description",
@@ -32,7 +32,7 @@ async function main(
     type: program.fieldType,
     mode: program.fieldMode,
     description: program.fieldDescription,
-    list: Boolean(program.fieldList),
+    array: Boolean(program.fieldArray),
   }
 ) {
   try {
@@ -46,7 +46,7 @@ async function main(
     const f = await client.createField(field);
 
     console.log(`name=${f.name}`);
-    console.log(`type=${f.type}${f.list ? "[]" : ""}`);
+    console.log(`type=${f.type}${f.array ? "[]" : ""}`);
     console.log(`mode=${f.mode}`);
     console.log(`description=${f.description}`);
   } catch (e) {
