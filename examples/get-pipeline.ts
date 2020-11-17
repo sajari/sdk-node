@@ -58,6 +58,9 @@ async function main(
     console.log(`type=${p.type}`);
     console.log(`name=${p.name}`);
     console.log(`version=${p.version}`);
+    console.log(`description=${p.description}`);
+    console.log(`collection default=${p.collectionDefault}`);
+    console.log(`default version=${p.defaultVersion}`);
     console.log(`pre-steps=`);
     for (const step of p.preSteps || []) {
       console.log(`  - ${JSON.stringify(step)}`);
