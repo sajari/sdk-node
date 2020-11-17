@@ -3,6 +3,7 @@ import ksuid from "ksuid";
 import {
   CollectionsApi,
   HttpError,
+  V4Collection,
   V4QueryCollectionRequest,
 } from "../src/generated/api";
 import { Client } from "./client";
@@ -68,6 +69,38 @@ export class CollectionsClient extends Client {
     }
   }
 
+  async updateCollection(
+    id: string,
+    ...options: Array<
+      (c: V4Collection, updateMask: Record<string, boolean>) => void
+    >
+  ) {
+    try {
+      const c: V4Collection = {
+        displayName: "",
+      };
+      const updateMask: Record<string, boolean> = {};
+
+      for (const opt of options) {
+        opt(c, updateMask);
+      }
+
+      const um = Object.keys(updateMask).map((field) => field);
+
+      const res = await this.client.updateCollection(id, c, um.join(","));
+      // OpenAPI readonly fields become optional TS fields, but we know the API
+      // will return it, so use ! to fix the types. This is done so upstream
+      // users don't have to do this.
+      return { ...res.body, id: res.body.id! };
+    } catch (e) {
+      if (e instanceof HttpError) {
+        console.error(JSON.stringify(e.response));
+        // TODO(jingram): Wrap common errors.
+      }
+      throw e;
+    }
+  }
+
   async queryCollection(id: string, request: V4QueryCollectionRequest) {
     const res = await this.client.queryCollection(id, request);
     return res.body;
@@ -78,3 +111,11 @@ export class CollectionsClient extends Client {
     return res.body;
   }
 }
+
+export const withUpdateCollectionDisplayName = (displayName: string) => (
+  c: V4Collection,
+  updateMask: Record<string, boolean>
+) => {
+  c.displayName = displayName;
+  updateMask["display_name"] = true;
+};
