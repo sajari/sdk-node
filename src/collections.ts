@@ -112,7 +112,7 @@ export class CollectionsClient extends Client {
   }
 }
 
-export const withUpdateCollectionDisplayName = (displayName: string) => (
+export const setCollectionDisplayName = (displayName: string) => (
   c: V4Collection,
   updateMask: Record<string, boolean>
 ) => {

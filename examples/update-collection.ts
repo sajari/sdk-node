@@ -2,7 +2,7 @@ import {
   CollectionsClient,
   withEndpoint,
   withKeyCredentials,
-  withUpdateCollectionDisplayName,
+  setCollectionDisplayName,
 } from "@sajari/sdk-node";
 
 import program, { withDefaultOptions } from "./program";
@@ -32,7 +32,7 @@ async function main(
   try {
     const collection = await client.updateCollection(
       collectionId,
-      withUpdateCollectionDisplayName(displayName)
+      setCollectionDisplayName(displayName)
     );
 
     console.log(`id=${collection.id}`);
