@@ -75,7 +75,7 @@ export class PipelinesClient extends Client {
   }) {
     const res = await this.client.getPipeline(
       this.collectionId,
-      type,
+      typeToEnumString(type),
       name,
       version,
       viewToEnum(view)
@@ -189,7 +189,7 @@ export class PipelinesClient extends Client {
     try {
       const res = await this.client.setDefaultVersion(
         this.collectionId,
-        type,
+        typeToEnumString(type),
         name,
         {
           ...request,
@@ -217,7 +217,7 @@ export class PipelinesClient extends Client {
     try {
       const res = await this.client.getDefaultVersion(
         this.collectionId,
-        type,
+        typeToEnumString(type),
         name,
         viewToEnum(view)
       );

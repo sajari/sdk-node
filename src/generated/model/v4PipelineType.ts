@@ -13,12 +13,10 @@
 import { RequestFile } from "./models";
 
 /**
- *  - TYPE_UNSPECIFIED: Pipeline type not specified.  - RECORD: Record pipeline.  - QUERY: Query pipeline.  - RECORD_PIPELINE: Record pipeline. Deprecated: Use RECORD.  - QUERY_PIPELINE: Query pipeline. Deprecated: Use QUERY.
+ *  - TYPE_UNSPECIFIED: Pipeline type not specified.  - RECORD: Record pipeline.  - QUERY: Query pipeline.
  */
 export enum V4PipelineType {
   TypeUnspecified = <any>"TYPE_UNSPECIFIED",
   Record = <any>"RECORD",
   Query = <any>"QUERY",
-  RecordPipeline = <any>"RECORD_PIPELINE",
-  QueryPipeline = <any>"QUERY_PIPELINE",
 }

@@ -352,19 +352,14 @@ export class PipelinesApi {
     });
   }
   /**
-   * Get the default pipeline for a collection.  Every collection has a default `record` pipeline and a default `query` pipeline.  When a pipeline is required to complete an operation, it can be omitted from the request if a default pipeline has been set. When adding a record to a collection, the default `record` pipeline is used if none is provided. When querying a collection, the default `query` pipeline is used if none is provided.
+   * Get the default pipeline for a collection.  Every collection has a default record pipeline and a default query pipeline.  When a pipeline is required to complete an operation, it can be omitted from the request if a default pipeline has been set. When adding a record to a collection, the default record pipeline is used if none is provided. When querying a collection, the default query pipeline is used if none is provided.
    * @summary Get default pipeline
    * @param collectionId The collection to get the default query pipeline of, e.g. &#x60;my-collection&#x60;.
-   * @param type The type of the pipeline to get.   - TYPE_UNSPECIFIED: Pipeline type not specified.  - RECORD: Record pipeline.  - QUERY: Query pipeline.  - RECORD_PIPELINE: Record pipeline. Deprecated: Use RECORD.  - QUERY_PIPELINE: Query pipeline. Deprecated: Use QUERY.
+   * @param type The type of the pipeline to get.   - TYPE_UNSPECIFIED: Pipeline type not specified.  - RECORD: Record pipeline.  - QUERY: Query pipeline.
    */
   public async getDefaultPipeline(
     collectionId: string,
-    type:
-      | "TYPE_UNSPECIFIED"
-      | "RECORD"
-      | "QUERY"
-      | "RECORD_PIPELINE"
-      | "QUERY_PIPELINE",
+    type: "TYPE_UNSPECIFIED" | "RECORD" | "QUERY",
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{
     response: http.IncomingMessage;
@@ -407,7 +402,7 @@ export class PipelinesApi {
     if (type !== undefined) {
       localVarQueryParameters["type"] = ObjectSerializer.serialize(
         type,
-        "'TYPE_UNSPECIFIED' | 'RECORD' | 'QUERY' | 'RECORD_PIPELINE' | 'QUERY_PIPELINE'"
+        "'TYPE_UNSPECIFIED' | 'RECORD' | 'QUERY'"
       );
     }
 
@@ -482,13 +477,13 @@ export class PipelinesApi {
    * Get the default version for a given pipeline.  The default version of a pipeline is used when a pipeline is referred to without specifying a version.  This allows you to change the pipeline version used for requests without having to change your code.  To retrieve the pipeline in YAML, set the request\'s `Accept` header to `application/yaml`.
    * @summary Get default pipeline version
    * @param collectionId The collection that owns the pipeline to get the default version of, e.g. &#x60;my-collection&#x60;.
-   * @param type The type of the pipeline to get the default version of, either &#x60;record&#x60; or &#x60;query&#x60;.
+   * @param type The type of the pipeline to get the default version of.
    * @param name The name of the pipeline to get the default version of, e.g. &#x60;my-pipeline&#x60;.
    * @param view The amount of information to include in the retrieved pipeline.   - VIEW_UNSPECIFIED: The default / unset value. The API defaults to the &#x60;BASIC&#x60; view.  - BASIC: Include basic information including type, name, version and description but not the full step configuration. This is the default value (for both [ListPipelines](/docs/api-reference#operation/ListPipelines) and [GetPipeline](/docs/api-reference#operation/GetPipeline)).  - FULL: Include the information from &#x60;BASIC&#x60;, plus full step configuration.
    */
   public async getDefaultVersion(
     collectionId: string,
-    type: string,
+    type: "TYPE_UNSPECIFIED" | "RECORD" | "QUERY",
     name: string,
     view?: "VIEW_UNSPECIFIED" | "BASIC" | "FULL",
     options: { headers: { [name: string]: string } } = { headers: {} }
@@ -609,14 +604,14 @@ export class PipelinesApi {
    * Retrieve the details of a pipeline. Supply the type, name and version.  To retrieve the pipeline in YAML, set the request\'s `Accept` header to `application/yaml`.
    * @summary Get pipeline
    * @param collectionId The collection that owns the pipeline, e.g. &#x60;my-collection&#x60;.
-   * @param type The type of the pipeline to retrieve, either &#x60;record&#x60; or &#x60;query&#x60;.
+   * @param type The type of the pipeline to retrieve.
    * @param name The name of the pipeline to retrieve, e.g. &#x60;my-pipeline&#x60;.
    * @param version The version of the pipeline to retrieve, e.g. &#x60;42&#x60;.
    * @param view The amount of information to include in the retrieved pipeline.   - VIEW_UNSPECIFIED: The default / unset value. The API defaults to the &#x60;BASIC&#x60; view.  - BASIC: Include basic information including type, name, version and description but not the full step configuration. This is the default value (for both [ListPipelines](/docs/api-reference#operation/ListPipelines) and [GetPipeline](/docs/api-reference#operation/GetPipeline)).  - FULL: Include the information from &#x60;BASIC&#x60;, plus full step configuration.
    */
   public async getPipeline(
     collectionId: string,
-    type: string,
+    type: "TYPE_UNSPECIFIED" | "RECORD" | "QUERY",
     name: string,
     version: string,
     view?: "VIEW_UNSPECIFIED" | "BASIC" | "FULL",
@@ -876,7 +871,7 @@ export class PipelinesApi {
     });
   }
   /**
-   * Set the default pipeline for a collection.  Every collection has a default `record` pipeline and a default `query` pipeline.  When a pipeline is required to complete an operation, it can be omitted from the request if a default pipeline has been set. When adding a record to a collection, the default `record` pipeline is used if none is provided. When querying a collection, the default `query` pipeline is used if none is provided.  Once a default pipeline has been set it cannot be cleared, only set to another pipeline.
+   * Set the default pipeline for a collection.  Every collection has a default record pipeline and a default query pipeline.  When a pipeline is required to complete an operation, it can be omitted from the request if a default pipeline has been set. When adding a record to a collection, the default record pipeline is used if none is provided. When querying a collection, the default query pipeline is used if none is provided.  Once a default pipeline has been set it cannot be cleared, only set to another pipeline.
    * @summary Set default pipeline
    * @param collectionId The collection to set the default query pipeline of, e.g. &#x60;my-collection&#x60;.
    * @param v4SetDefaultPipelineRequest
@@ -994,13 +989,13 @@ export class PipelinesApi {
    * Set the default version for a given pipeline.  The default version of a pipeline is used when a pipeline is referred to without specifying a version.  This allows you to change the pipeline version used for requests without having to change your code.
    * @summary Set default pipeline version
    * @param collectionId The collection that owns the pipeline to set the default version of, e.g. &#x60;my-collection&#x60;.
-   * @param type The type of the pipeline to set the default version of, either &#x60;record&#x60; or &#x60;query&#x60;.
+   * @param type The type of the pipeline to set the default version of.
    * @param name The name of the pipeline to set the default version of, e.g. &#x60;my-pipeline&#x60;.
    * @param v4SetDefaultVersionRequest
    */
   public async setDefaultVersion(
     collectionId: string,
-    type: string,
+    type: "TYPE_UNSPECIFIED" | "RECORD" | "QUERY",
     name: string,
     v4SetDefaultVersionRequest: V4SetDefaultVersionRequest,
     options: { headers: { [name: string]: string } } = { headers: {} }
