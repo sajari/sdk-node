@@ -5,12 +5,12 @@ set -eo pipefail
 cd "$(dirname "$0")"
 
 function die() {
-  echo 1>&2 $*
-  exit 1
+    echo 1>&2 $*
+    exit 1
 }
 
 if [ -z "$GEN_PATH" ]; then
-  die "GEN_PATH must be set (e.g. path to generated directory)"
+    die "GEN_PATH must be set, e.g. /path/to/src/generated"
 fi
 
 docker-entrypoint.sh generate \
