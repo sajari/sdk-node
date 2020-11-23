@@ -21,12 +21,15 @@ rm -rf $GEN_PATH
 mkdir -p $GEN_PATH
 cp .openapi-generator-ignore $GEN_PATH/
 
-wget -O openapi.json $OPENAPI_URL
+OPENAPI_PATH=`mktemp /tmp/openapi.json.XXX`
+trap "rm -f $OPENAPI_PATH" EXIT
+
+wget -O $OPENAPI_PATH $OPENAPI_URL
 
 img=$(openssl rand -base64 12 | tr -dc a-z0-9)
 docker build -f Dockerfile.generate -t $img .
 docker run --rm -it \
-    -v $(pwd)/openapi.json:/openapi.json \
+    -v $OPENAPI_PATH:/openapi.json \
     -v "$GEN_PATH":/gen \
     -v $(pwd)/generate.bash:/generate.bash \
     -e GEN_PATH=/gen \
