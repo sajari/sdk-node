@@ -1,5 +1,5 @@
 import { Client } from "./client";
-import { SchemaApi, HttpError, V4SchemaField1 } from "../src/generated/api";
+import { SchemaApi, HttpError, SchemaField } from "../src/generated/api";
 
 export { withEndpoint, withKeyCredentials } from "./client";
 
@@ -44,7 +44,7 @@ export class SchemaClient extends Client {
     }
   }
 
-  async createField(field: V4SchemaField1) {
+  async createField(field: SchemaField) {
     try {
       const res = await this.client.createSchemaField(this.collectionId, field);
       return res.body;
@@ -57,7 +57,7 @@ export class SchemaClient extends Client {
     }
   }
 
-  async batchCreateFields({ fields = [] }: { fields: V4SchemaField1[] }) {
+  async batchCreateFields({ fields = [] }: { fields: SchemaField[] }) {
     try {
       const res = await this.client.batchCreateSchemaFields(this.collectionId, {
         fields,

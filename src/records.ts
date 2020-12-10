@@ -2,9 +2,9 @@ import { Client } from "./client";
 import {
   RecordsApi,
   HttpError,
-  V4UpsertRecordRequest,
-  Sajariv4Key,
-  V4BatchUpsertRecordsRequest,
+  UpsertRecordRequest,
+  RecordKey,
+  BatchUpsertRecordsRequest,
 } from "../src/generated/api";
 
 export { withEndpoint, withKeyCredentials } from "./client";
@@ -27,7 +27,7 @@ export class RecordsClient extends Client {
     this.client.password = this.keySecret;
   }
 
-  async getRecord(key: Sajariv4Key) {
+  async getRecord(key: RecordKey) {
     try {
       const res = await this.client.getRecord(this.collectionId, { key });
       return res.body;
@@ -40,7 +40,7 @@ export class RecordsClient extends Client {
     }
   }
 
-  async upsertRecord(request: V4UpsertRecordRequest) {
+  async upsertRecord(request: UpsertRecordRequest) {
     try {
       const res = await this.client.upsertRecord(this.collectionId, request);
       // OpenAPI readonly fields become optional TS fields, but we know the API
@@ -57,7 +57,7 @@ export class RecordsClient extends Client {
   }
 
   async batchUpsertRecords(
-    request: Omit<V4BatchUpsertRecordsRequest, "records"> & {
+    request: Omit<BatchUpsertRecordsRequest, "records"> & {
       records: object[];
     }
   ) {
@@ -76,7 +76,7 @@ export class RecordsClient extends Client {
     }
   }
 
-  async deleteRecord(key: Sajariv4Key) {
+  async deleteRecord(key: RecordKey) {
     try {
       const res = await this.client.deleteRecord(this.collectionId, { key });
       return res.body;

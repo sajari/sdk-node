@@ -14,15 +14,14 @@ import localVarRequest from "request";
 import http from "http";
 
 /* tslint:disable:no-unused-locals */
-import { GatewayruntimeError } from "../model/gatewayruntimeError";
-import { RpcStatus1 } from "../model/rpcStatus1";
-import { Sajariv4Pipeline1 } from "../model/sajariv4Pipeline1";
-import { V4GeneratePipelinesRequest } from "../model/v4GeneratePipelinesRequest";
-import { V4GeneratePipelinesResponse } from "../model/v4GeneratePipelinesResponse";
-import { V4GetDefaultPipelineResponse } from "../model/v4GetDefaultPipelineResponse";
-import { V4ListPipelinesResponse } from "../model/v4ListPipelinesResponse";
-import { V4SetDefaultPipelineRequest } from "../model/v4SetDefaultPipelineRequest";
-import { V4SetDefaultVersionRequest } from "../model/v4SetDefaultVersionRequest";
+import { GeneratePipelinesRequest } from "../model/generatePipelinesRequest";
+import { GeneratePipelinesResponse } from "../model/generatePipelinesResponse";
+import { GetDefaultPipelineResponse } from "../model/getDefaultPipelineResponse";
+import { ListPipelinesResponse } from "../model/listPipelinesResponse";
+import { Pipeline } from "../model/pipeline";
+import { SetDefaultPipelineRequest } from "../model/setDefaultPipelineRequest";
+import { SetDefaultVersionRequest } from "../model/setDefaultVersionRequest";
+import { Status } from "../model/status";
 
 import {
   ObjectSerializer,
@@ -123,13 +122,13 @@ export class PipelinesApi {
    * Create a new pipeline.  Pipelines are immutable once created. If you want to change a pipeline e.g. to add or change some steps, you need to create a new version of that pipeline.  To start using a new pipeline you need to update your record ingestion calls and/or your query calls to specify the new pipeline.  To create the pipeline from YAML, set the request\'s `Content-Type` header to `application/yaml` and submit the pipeline\'s YAML in the request body.
    * @summary Create pipeline
    * @param collectionId The collection to create the pipeline in, e.g. &#x60;my-collection&#x60;.
-   * @param sajariv4Pipeline1 The pipeline to create.
+   * @param pipeline The pipeline to create.
    */
   public async createPipeline(
     collectionId: string,
-    sajariv4Pipeline1: Sajariv4Pipeline1,
+    pipeline: Pipeline,
     options: { headers: { [name: string]: string } } = { headers: {} }
-  ): Promise<{ response: http.IncomingMessage; body: Sajariv4Pipeline1 }> {
+  ): Promise<{ response: http.IncomingMessage; body: Pipeline }> {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/pipelines".replace(
@@ -157,10 +156,10 @@ export class PipelinesApi {
       );
     }
 
-    // verify required parameter 'sajariv4Pipeline1' is not null or undefined
-    if (sajariv4Pipeline1 === null || sajariv4Pipeline1 === undefined) {
+    // verify required parameter 'pipeline' is not null or undefined
+    if (pipeline === null || pipeline === undefined) {
       throw new Error(
-        "Required parameter sajariv4Pipeline1 was null or undefined when calling createPipeline."
+        "Required parameter pipeline was null or undefined when calling createPipeline."
       );
     }
 
@@ -175,7 +174,7 @@ export class PipelinesApi {
       uri: localVarPath,
       useQuerystring: this._useQuerystring,
       json: true,
-      body: ObjectSerializer.serialize(sajariv4Pipeline1, "Sajariv4Pipeline1"),
+      body: ObjectSerializer.serialize(pipeline, "Pipeline"),
     };
 
     let authenticationPromise = Promise.resolve();
@@ -206,42 +205,41 @@ export class PipelinesApi {
           localVarRequestOptions.form = localVarFormParams;
         }
       }
-      return new Promise<{
-        response: http.IncomingMessage;
-        body: Sajariv4Pipeline1;
-      }>((resolve, reject) => {
-        localVarRequest(localVarRequestOptions, (error, response, body) => {
-          if (error) {
-            reject(error);
-          } else {
-            body = ObjectSerializer.deserialize(body, "Sajariv4Pipeline1");
-            if (
-              response.statusCode &&
-              response.statusCode >= 200 &&
-              response.statusCode <= 299
-            ) {
-              resolve({ response: response, body: body });
+      return new Promise<{ response: http.IncomingMessage; body: Pipeline }>(
+        (resolve, reject) => {
+          localVarRequest(localVarRequestOptions, (error, response, body) => {
+            if (error) {
+              reject(error);
             } else {
-              reject(new HttpError(response, body, response.statusCode));
+              body = ObjectSerializer.deserialize(body, "Pipeline");
+              if (
+                response.statusCode &&
+                response.statusCode >= 200 &&
+                response.statusCode <= 299
+              ) {
+                resolve({ response: response, body: body });
+              } else {
+                reject(new HttpError(response, body, response.statusCode));
+              }
             }
-          }
-        });
-      });
+          });
+        }
+      );
     });
   }
   /**
    * Generate basic record, query and autocomplete pipeline templates. Use these templates as a starting point for your collection\'s pipelines.  This call returns a set of pipelines that you can pass directly to the create pipeline call.  The generated templates can be returned in JSON, the default, or YAML. To return the generated pipelines in YAML, set the request\'s `Accept` header to `application/yaml`. The three pipelines in the YAML response are separated by three dashes (`---`).
    * @summary Generate pipelines
    * @param collectionId The collection, e.g. &#x60;my-collection&#x60;.
-   * @param v4GeneratePipelinesRequest
+   * @param generatePipelinesRequest
    */
   public async generatePipelines(
     collectionId: string,
-    v4GeneratePipelinesRequest: V4GeneratePipelinesRequest,
+    generatePipelinesRequest: GeneratePipelinesRequest,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{
     response: http.IncomingMessage;
-    body: V4GeneratePipelinesResponse;
+    body: GeneratePipelinesResponse;
   }> {
     const localVarPath =
       this.basePath +
@@ -270,13 +268,13 @@ export class PipelinesApi {
       );
     }
 
-    // verify required parameter 'v4GeneratePipelinesRequest' is not null or undefined
+    // verify required parameter 'generatePipelinesRequest' is not null or undefined
     if (
-      v4GeneratePipelinesRequest === null ||
-      v4GeneratePipelinesRequest === undefined
+      generatePipelinesRequest === null ||
+      generatePipelinesRequest === undefined
     ) {
       throw new Error(
-        "Required parameter v4GeneratePipelinesRequest was null or undefined when calling generatePipelines."
+        "Required parameter generatePipelinesRequest was null or undefined when calling generatePipelines."
       );
     }
 
@@ -292,8 +290,8 @@ export class PipelinesApi {
       useQuerystring: this._useQuerystring,
       json: true,
       body: ObjectSerializer.serialize(
-        v4GeneratePipelinesRequest,
-        "V4GeneratePipelinesRequest"
+        generatePipelinesRequest,
+        "GeneratePipelinesRequest"
       ),
     };
 
@@ -327,7 +325,7 @@ export class PipelinesApi {
       }
       return new Promise<{
         response: http.IncomingMessage;
-        body: V4GeneratePipelinesResponse;
+        body: GeneratePipelinesResponse;
       }>((resolve, reject) => {
         localVarRequest(localVarRequestOptions, (error, response, body) => {
           if (error) {
@@ -335,7 +333,7 @@ export class PipelinesApi {
           } else {
             body = ObjectSerializer.deserialize(
               body,
-              "V4GeneratePipelinesResponse"
+              "GeneratePipelinesResponse"
             );
             if (
               response.statusCode &&
@@ -363,7 +361,7 @@ export class PipelinesApi {
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{
     response: http.IncomingMessage;
-    body: V4GetDefaultPipelineResponse;
+    body: GetDefaultPipelineResponse;
   }> {
     const localVarPath =
       this.basePath +
@@ -449,7 +447,7 @@ export class PipelinesApi {
       }
       return new Promise<{
         response: http.IncomingMessage;
-        body: V4GetDefaultPipelineResponse;
+        body: GetDefaultPipelineResponse;
       }>((resolve, reject) => {
         localVarRequest(localVarRequestOptions, (error, response, body) => {
           if (error) {
@@ -457,7 +455,7 @@ export class PipelinesApi {
           } else {
             body = ObjectSerializer.deserialize(
               body,
-              "V4GetDefaultPipelineResponse"
+              "GetDefaultPipelineResponse"
             );
             if (
               response.statusCode &&
@@ -487,7 +485,7 @@ export class PipelinesApi {
     name: string,
     view?: "VIEW_UNSPECIFIED" | "BASIC" | "FULL",
     options: { headers: { [name: string]: string } } = { headers: {} }
-  ): Promise<{ response: http.IncomingMessage; body: Sajariv4Pipeline1 }> {
+  ): Promise<{ response: http.IncomingMessage; body: Pipeline }> {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/pipelines/{type}/{name}:getDefaultVersion"
@@ -577,27 +575,26 @@ export class PipelinesApi {
           localVarRequestOptions.form = localVarFormParams;
         }
       }
-      return new Promise<{
-        response: http.IncomingMessage;
-        body: Sajariv4Pipeline1;
-      }>((resolve, reject) => {
-        localVarRequest(localVarRequestOptions, (error, response, body) => {
-          if (error) {
-            reject(error);
-          } else {
-            body = ObjectSerializer.deserialize(body, "Sajariv4Pipeline1");
-            if (
-              response.statusCode &&
-              response.statusCode >= 200 &&
-              response.statusCode <= 299
-            ) {
-              resolve({ response: response, body: body });
+      return new Promise<{ response: http.IncomingMessage; body: Pipeline }>(
+        (resolve, reject) => {
+          localVarRequest(localVarRequestOptions, (error, response, body) => {
+            if (error) {
+              reject(error);
             } else {
-              reject(new HttpError(response, body, response.statusCode));
+              body = ObjectSerializer.deserialize(body, "Pipeline");
+              if (
+                response.statusCode &&
+                response.statusCode >= 200 &&
+                response.statusCode <= 299
+              ) {
+                resolve({ response: response, body: body });
+              } else {
+                reject(new HttpError(response, body, response.statusCode));
+              }
             }
-          }
-        });
-      });
+          });
+        }
+      );
     });
   }
   /**
@@ -616,7 +613,7 @@ export class PipelinesApi {
     version: string,
     view?: "VIEW_UNSPECIFIED" | "BASIC" | "FULL",
     options: { headers: { [name: string]: string } } = { headers: {} }
-  ): Promise<{ response: http.IncomingMessage; body: Sajariv4Pipeline1 }> {
+  ): Promise<{ response: http.IncomingMessage; body: Pipeline }> {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/pipelines/{type}/{name}/{version}"
@@ -714,27 +711,26 @@ export class PipelinesApi {
           localVarRequestOptions.form = localVarFormParams;
         }
       }
-      return new Promise<{
-        response: http.IncomingMessage;
-        body: Sajariv4Pipeline1;
-      }>((resolve, reject) => {
-        localVarRequest(localVarRequestOptions, (error, response, body) => {
-          if (error) {
-            reject(error);
-          } else {
-            body = ObjectSerializer.deserialize(body, "Sajariv4Pipeline1");
-            if (
-              response.statusCode &&
-              response.statusCode >= 200 &&
-              response.statusCode <= 299
-            ) {
-              resolve({ response: response, body: body });
+      return new Promise<{ response: http.IncomingMessage; body: Pipeline }>(
+        (resolve, reject) => {
+          localVarRequest(localVarRequestOptions, (error, response, body) => {
+            if (error) {
+              reject(error);
             } else {
-              reject(new HttpError(response, body, response.statusCode));
+              body = ObjectSerializer.deserialize(body, "Pipeline");
+              if (
+                response.statusCode &&
+                response.statusCode >= 200 &&
+                response.statusCode <= 299
+              ) {
+                resolve({ response: response, body: body });
+              } else {
+                reject(new HttpError(response, body, response.statusCode));
+              }
             }
-          }
-        });
-      });
+          });
+        }
+      );
     });
   }
   /**
@@ -751,10 +747,7 @@ export class PipelinesApi {
     pageToken?: string,
     view?: "VIEW_UNSPECIFIED" | "BASIC" | "FULL",
     options: { headers: { [name: string]: string } } = { headers: {} }
-  ): Promise<{
-    response: http.IncomingMessage;
-    body: V4ListPipelinesResponse;
-  }> {
+  ): Promise<{ response: http.IncomingMessage; body: ListPipelinesResponse }> {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/pipelines".replace(
@@ -846,16 +839,13 @@ export class PipelinesApi {
       }
       return new Promise<{
         response: http.IncomingMessage;
-        body: V4ListPipelinesResponse;
+        body: ListPipelinesResponse;
       }>((resolve, reject) => {
         localVarRequest(localVarRequestOptions, (error, response, body) => {
           if (error) {
             reject(error);
           } else {
-            body = ObjectSerializer.deserialize(
-              body,
-              "V4ListPipelinesResponse"
-            );
+            body = ObjectSerializer.deserialize(body, "ListPipelinesResponse");
             if (
               response.statusCode &&
               response.statusCode >= 200 &&
@@ -874,11 +864,11 @@ export class PipelinesApi {
    * Set the default pipeline for a collection.  Every collection has a default record pipeline and a default query pipeline.  When a pipeline is required to complete an operation, it can be omitted from the request if a default pipeline has been set. When adding a record to a collection, the default record pipeline is used if none is provided. When querying a collection, the default query pipeline is used if none is provided.  Once a default pipeline has been set it cannot be cleared, only set to another pipeline.
    * @summary Set default pipeline
    * @param collectionId The collection to set the default query pipeline of, e.g. &#x60;my-collection&#x60;.
-   * @param v4SetDefaultPipelineRequest
+   * @param setDefaultPipelineRequest
    */
   public async setDefaultPipeline(
     collectionId: string,
-    v4SetDefaultPipelineRequest: V4SetDefaultPipelineRequest,
+    setDefaultPipelineRequest: SetDefaultPipelineRequest,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{ response: http.IncomingMessage; body: object }> {
     const localVarPath =
@@ -908,13 +898,13 @@ export class PipelinesApi {
       );
     }
 
-    // verify required parameter 'v4SetDefaultPipelineRequest' is not null or undefined
+    // verify required parameter 'setDefaultPipelineRequest' is not null or undefined
     if (
-      v4SetDefaultPipelineRequest === null ||
-      v4SetDefaultPipelineRequest === undefined
+      setDefaultPipelineRequest === null ||
+      setDefaultPipelineRequest === undefined
     ) {
       throw new Error(
-        "Required parameter v4SetDefaultPipelineRequest was null or undefined when calling setDefaultPipeline."
+        "Required parameter setDefaultPipelineRequest was null or undefined when calling setDefaultPipeline."
       );
     }
 
@@ -930,8 +920,8 @@ export class PipelinesApi {
       useQuerystring: this._useQuerystring,
       json: true,
       body: ObjectSerializer.serialize(
-        v4SetDefaultPipelineRequest,
-        "V4SetDefaultPipelineRequest"
+        setDefaultPipelineRequest,
+        "SetDefaultPipelineRequest"
       ),
     };
 
@@ -991,13 +981,13 @@ export class PipelinesApi {
    * @param collectionId The collection that owns the pipeline to set the default version of, e.g. &#x60;my-collection&#x60;.
    * @param type The type of the pipeline to set the default version of.
    * @param name The name of the pipeline to set the default version of, e.g. &#x60;my-pipeline&#x60;.
-   * @param v4SetDefaultVersionRequest
+   * @param setDefaultVersionRequest
    */
   public async setDefaultVersion(
     collectionId: string,
     type: "TYPE_UNSPECIFIED" | "RECORD" | "QUERY",
     name: string,
-    v4SetDefaultVersionRequest: V4SetDefaultVersionRequest,
+    setDefaultVersionRequest: SetDefaultVersionRequest,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{ response: http.IncomingMessage; body: object }> {
     const localVarPath =
@@ -1041,13 +1031,13 @@ export class PipelinesApi {
       );
     }
 
-    // verify required parameter 'v4SetDefaultVersionRequest' is not null or undefined
+    // verify required parameter 'setDefaultVersionRequest' is not null or undefined
     if (
-      v4SetDefaultVersionRequest === null ||
-      v4SetDefaultVersionRequest === undefined
+      setDefaultVersionRequest === null ||
+      setDefaultVersionRequest === undefined
     ) {
       throw new Error(
-        "Required parameter v4SetDefaultVersionRequest was null or undefined when calling setDefaultVersion."
+        "Required parameter setDefaultVersionRequest was null or undefined when calling setDefaultVersion."
       );
     }
 
@@ -1063,8 +1053,8 @@ export class PipelinesApi {
       useQuerystring: this._useQuerystring,
       json: true,
       body: ObjectSerializer.serialize(
-        v4SetDefaultVersionRequest,
-        "V4SetDefaultVersionRequest"
+        setDefaultVersionRequest,
+        "SetDefaultVersionRequest"
       ),
     };
 

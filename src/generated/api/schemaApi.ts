@@ -14,11 +14,10 @@ import localVarRequest from "request";
 import http from "http";
 
 /* tslint:disable:no-unused-locals */
-import { GatewayruntimeError } from "../model/gatewayruntimeError";
-import { V4BatchCreateSchemaFieldsRequest } from "../model/v4BatchCreateSchemaFieldsRequest";
-import { V4BatchCreateSchemaFieldsResponse } from "../model/v4BatchCreateSchemaFieldsResponse";
-import { V4ListSchemaFieldsResponse } from "../model/v4ListSchemaFieldsResponse";
-import { V4SchemaField1 } from "../model/v4SchemaField1";
+import { BatchCreateSchemaFieldsRequest } from "../model/batchCreateSchemaFieldsRequest";
+import { BatchCreateSchemaFieldsResponse } from "../model/batchCreateSchemaFieldsResponse";
+import { ListSchemaFieldsResponse } from "../model/listSchemaFieldsResponse";
+import { SchemaField } from "../model/schemaField";
 
 import {
   ObjectSerializer,
@@ -119,15 +118,15 @@ export class SchemaApi {
    * The batch version of the [CreateSchemaField](/docs/api-reference#operation/CreateSchemaField) call.
    * @summary Batch create schema fields
    * @param collectionId The collection to create the schema fields in, e.g. &#x60;my-collection&#x60;.
-   * @param v4BatchCreateSchemaFieldsRequest
+   * @param batchCreateSchemaFieldsRequest
    */
   public async batchCreateSchemaFields(
     collectionId: string,
-    v4BatchCreateSchemaFieldsRequest: V4BatchCreateSchemaFieldsRequest,
+    batchCreateSchemaFieldsRequest: BatchCreateSchemaFieldsRequest,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{
     response: http.IncomingMessage;
-    body: V4BatchCreateSchemaFieldsResponse;
+    body: BatchCreateSchemaFieldsResponse;
   }> {
     const localVarPath =
       this.basePath +
@@ -156,13 +155,13 @@ export class SchemaApi {
       );
     }
 
-    // verify required parameter 'v4BatchCreateSchemaFieldsRequest' is not null or undefined
+    // verify required parameter 'batchCreateSchemaFieldsRequest' is not null or undefined
     if (
-      v4BatchCreateSchemaFieldsRequest === null ||
-      v4BatchCreateSchemaFieldsRequest === undefined
+      batchCreateSchemaFieldsRequest === null ||
+      batchCreateSchemaFieldsRequest === undefined
     ) {
       throw new Error(
-        "Required parameter v4BatchCreateSchemaFieldsRequest was null or undefined when calling batchCreateSchemaFields."
+        "Required parameter batchCreateSchemaFieldsRequest was null or undefined when calling batchCreateSchemaFields."
       );
     }
 
@@ -178,8 +177,8 @@ export class SchemaApi {
       useQuerystring: this._useQuerystring,
       json: true,
       body: ObjectSerializer.serialize(
-        v4BatchCreateSchemaFieldsRequest,
-        "V4BatchCreateSchemaFieldsRequest"
+        batchCreateSchemaFieldsRequest,
+        "BatchCreateSchemaFieldsRequest"
       ),
     };
 
@@ -213,7 +212,7 @@ export class SchemaApi {
       }
       return new Promise<{
         response: http.IncomingMessage;
-        body: V4BatchCreateSchemaFieldsResponse;
+        body: BatchCreateSchemaFieldsResponse;
       }>((resolve, reject) => {
         localVarRequest(localVarRequestOptions, (error, response, body) => {
           if (error) {
@@ -221,7 +220,7 @@ export class SchemaApi {
           } else {
             body = ObjectSerializer.deserialize(
               body,
-              "V4BatchCreateSchemaFieldsResponse"
+              "BatchCreateSchemaFieldsResponse"
             );
             if (
               response.statusCode &&
@@ -241,13 +240,13 @@ export class SchemaApi {
    * Create a new field in your collection\'s schema.
    * @summary Create schema field
    * @param collectionId The collection to create a schema field in, e.g. &#x60;my-collection&#x60;.
-   * @param v4SchemaField1 The schema field to create.
+   * @param schemaField The schema field to create.
    */
   public async createSchemaField(
     collectionId: string,
-    v4SchemaField1: V4SchemaField1,
+    schemaField: SchemaField,
     options: { headers: { [name: string]: string } } = { headers: {} }
-  ): Promise<{ response: http.IncomingMessage; body: V4SchemaField1 }> {
+  ): Promise<{ response: http.IncomingMessage; body: SchemaField }> {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/schemaFields".replace(
@@ -275,10 +274,10 @@ export class SchemaApi {
       );
     }
 
-    // verify required parameter 'v4SchemaField1' is not null or undefined
-    if (v4SchemaField1 === null || v4SchemaField1 === undefined) {
+    // verify required parameter 'schemaField' is not null or undefined
+    if (schemaField === null || schemaField === undefined) {
       throw new Error(
-        "Required parameter v4SchemaField1 was null or undefined when calling createSchemaField."
+        "Required parameter schemaField was null or undefined when calling createSchemaField."
       );
     }
 
@@ -293,7 +292,7 @@ export class SchemaApi {
       uri: localVarPath,
       useQuerystring: this._useQuerystring,
       json: true,
-      body: ObjectSerializer.serialize(v4SchemaField1, "V4SchemaField1"),
+      body: ObjectSerializer.serialize(schemaField, "SchemaField"),
     };
 
     let authenticationPromise = Promise.resolve();
@@ -324,27 +323,26 @@ export class SchemaApi {
           localVarRequestOptions.form = localVarFormParams;
         }
       }
-      return new Promise<{
-        response: http.IncomingMessage;
-        body: V4SchemaField1;
-      }>((resolve, reject) => {
-        localVarRequest(localVarRequestOptions, (error, response, body) => {
-          if (error) {
-            reject(error);
-          } else {
-            body = ObjectSerializer.deserialize(body, "V4SchemaField1");
-            if (
-              response.statusCode &&
-              response.statusCode >= 200 &&
-              response.statusCode <= 299
-            ) {
-              resolve({ response: response, body: body });
+      return new Promise<{ response: http.IncomingMessage; body: SchemaField }>(
+        (resolve, reject) => {
+          localVarRequest(localVarRequestOptions, (error, response, body) => {
+            if (error) {
+              reject(error);
             } else {
-              reject(new HttpError(response, body, response.statusCode));
+              body = ObjectSerializer.deserialize(body, "SchemaField");
+              if (
+                response.statusCode &&
+                response.statusCode >= 200 &&
+                response.statusCode <= 299
+              ) {
+                resolve({ response: response, body: body });
+              } else {
+                reject(new HttpError(response, body, response.statusCode));
+              }
             }
-          }
-        });
-      });
+          });
+        }
+      );
     });
   }
   /**
@@ -361,7 +359,7 @@ export class SchemaApi {
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{
     response: http.IncomingMessage;
-    body: V4ListSchemaFieldsResponse;
+    body: ListSchemaFieldsResponse;
   }> {
     const localVarPath =
       this.basePath +
@@ -447,7 +445,7 @@ export class SchemaApi {
       }
       return new Promise<{
         response: http.IncomingMessage;
-        body: V4ListSchemaFieldsResponse;
+        body: ListSchemaFieldsResponse;
       }>((resolve, reject) => {
         localVarRequest(localVarRequestOptions, (error, response, body) => {
           if (error) {
@@ -455,7 +453,7 @@ export class SchemaApi {
           } else {
             body = ObjectSerializer.deserialize(
               body,
-              "V4ListSchemaFieldsResponse"
+              "ListSchemaFieldsResponse"
             );
             if (
               response.statusCode &&

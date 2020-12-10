@@ -2,10 +2,10 @@ import { Client } from "./client";
 import {
   PipelinesApi,
   HttpError,
-  Sajariv4Pipeline,
-  V4SetDefaultPipelineRequest,
-  V4GeneratePipelinesRequest,
-  V4SetDefaultVersionRequest,
+  Pipeline,
+  SetDefaultPipelineRequest,
+  GeneratePipelinesRequest,
+  SetDefaultVersionRequest,
 } from "../src/generated/api";
 
 export { withEndpoint, withKeyCredentials } from "./client";
@@ -118,7 +118,7 @@ export class PipelinesClient extends Client {
     type: "record" | "query";
     name: string;
     version: string;
-  } & Omit<Sajariv4Pipeline, "type" | "name" | "version" | "createTime">) {
+  } & Omit<Pipeline, "type" | "name" | "version" | "createTime">) {
     try {
       const res = await this.client.createPipeline(this.collectionId, {
         type: typeToEnum(type),
@@ -136,7 +136,7 @@ export class PipelinesClient extends Client {
     }
   }
 
-  async generatePipelines(id: string, request: V4GeneratePipelinesRequest) {
+  async generatePipelines(id: string, request: GeneratePipelinesRequest) {
     const res = await this.client.generatePipelines(id, request);
     return res.body;
   }
@@ -146,7 +146,7 @@ export class PipelinesClient extends Client {
     ...request
   }: {
     type: "record" | "query";
-  } & Omit<V4SetDefaultPipelineRequest, "type">) {
+  } & Omit<SetDefaultPipelineRequest, "type">) {
     try {
       const res = await this.client.setDefaultPipeline(this.collectionId, {
         ...request,
@@ -185,7 +185,7 @@ export class PipelinesClient extends Client {
   }: {
     type: "record" | "query";
     name: string;
-  } & V4SetDefaultVersionRequest) {
+  } & SetDefaultVersionRequest) {
     try {
       const res = await this.client.setDefaultVersion(
         this.collectionId,

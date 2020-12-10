@@ -142,10 +142,10 @@ async function main(
               bind: "q",
             },
             model: {
-              _const: "default",
+              constant: "default",
             },
             phraseLabelWeights: {
-              _const: "query:1.0",
+              constant: "query:1.0",
             },
           },
           condition: "",
@@ -160,7 +160,7 @@ async function main(
               bind: "q",
             },
             model: {
-              _const: "jobs-001",
+              constant: "jobs-001",
             },
           },
           condition: "",
@@ -172,7 +172,7 @@ async function main(
           description: "",
           params: {
             mode: {
-              _const: "MAX",
+              constant: "MAX",
             },
           },
           condition: "",
@@ -184,10 +184,10 @@ async function main(
           description: "",
           params: {
             minCount: {
-              _const: "5",
+              constant: "5",
             },
             threshold: {
-              _const: "0.5",
+              constant: "0.5",
             },
           },
           condition: "",
@@ -199,7 +199,7 @@ async function main(
           description: "",
           params: {
             value: {
-              _const: "0.2",
+              constant: "0.2",
             },
           },
           condition: "",
@@ -211,10 +211,10 @@ async function main(
           description: "",
           params: {
             filter: {
-              _const: "title = q",
+              constant: "title = q",
             },
             score: {
-              _const: "0.05",
+              constant: "0.05",
             },
           },
           condition: "q != ''",
@@ -226,10 +226,10 @@ async function main(
           description: "",
           params: {
             filter: {
-              _const: "title ^ q",
+              constant: "title ^ q",
             },
             score: {
-              _const: "0.03",
+              constant: "0.03",
             },
           },
           condition: "q != ''",
@@ -241,10 +241,10 @@ async function main(
           description: "",
           params: {
             filter: {
-              _const: "title ~ q",
+              constant: "title ~ q",
             },
             score: {
-              _const: "0.05",
+              constant: "0.05",
             },
           },
           condition: "q != ''",
@@ -259,10 +259,10 @@ async function main(
               bind: "q",
             },
             field: {
-              _const: "title",
+              constant: "title",
             },
             score: {
-              _const: "1.0000",
+              constant: "1.0000",
             },
           },
           condition: "",
@@ -291,10 +291,10 @@ async function main(
               bind: "q",
             },
             label: {
-              _const: "query",
+              constant: "query",
             },
             model: {
-              _const: "default",
+              constant: "default",
             },
           },
           condition: "",

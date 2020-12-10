@@ -3,8 +3,8 @@ import ksuid from "ksuid";
 import {
   CollectionsApi,
   HttpError,
-  V4Collection,
-  V4QueryCollectionRequest,
+  Collection,
+  QueryCollectionRequest,
 } from "../src/generated/api";
 import { Client } from "./client";
 
@@ -72,11 +72,11 @@ export class CollectionsClient extends Client {
   async updateCollection(
     id: string,
     ...options: Array<
-      (c: V4Collection, updateMask: Record<string, boolean>) => void
+      (c: Collection, updateMask: Record<string, boolean>) => void
     >
   ) {
     try {
-      const c: V4Collection = {
+      const c: Collection = {
         displayName: "",
       };
       const updateMask: Record<string, boolean> = {};
@@ -101,7 +101,7 @@ export class CollectionsClient extends Client {
     }
   }
 
-  async queryCollection(id: string, request: V4QueryCollectionRequest) {
+  async queryCollection(id: string, request: QueryCollectionRequest) {
     const res = await this.client.queryCollection(id, request);
     return res.body;
   }
@@ -113,7 +113,7 @@ export class CollectionsClient extends Client {
 }
 
 export const setCollectionDisplayName = (displayName: string) => (
-  c: V4Collection,
+  c: Collection,
   updateMask: Record<string, boolean>
 ) => {
   c.displayName = displayName;

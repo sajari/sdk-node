@@ -14,13 +14,12 @@ import localVarRequest from "request";
 import http from "http";
 
 /* tslint:disable:no-unused-locals */
-import { GatewayruntimeError } from "../model/gatewayruntimeError";
-import { Sajariv4DeleteRecordRequest } from "../model/sajariv4DeleteRecordRequest";
-import { Sajariv4GetRecordRequest } from "../model/sajariv4GetRecordRequest";
-import { V4BatchUpsertRecordsRequest } from "../model/v4BatchUpsertRecordsRequest";
-import { V4BatchUpsertRecordsResponse } from "../model/v4BatchUpsertRecordsResponse";
-import { V4UpsertRecordRequest } from "../model/v4UpsertRecordRequest";
-import { V4UpsertRecordResponse } from "../model/v4UpsertRecordResponse";
+import { BatchUpsertRecordsRequest } from "../model/batchUpsertRecordsRequest";
+import { BatchUpsertRecordsResponse } from "../model/batchUpsertRecordsResponse";
+import { DeleteRecordRequest } from "../model/deleteRecordRequest";
+import { GetRecordRequest } from "../model/getRecordRequest";
+import { UpsertRecordRequest } from "../model/upsertRecordRequest";
+import { UpsertRecordResponse } from "../model/upsertRecordResponse";
 
 import {
   ObjectSerializer,
@@ -121,15 +120,15 @@ export class RecordsApi {
    * The batch version of the [UpsertRecord](/docs/api-reference#operation/UpsertRecord) call.
    * @summary Batch upsert records
    * @param collectionId The collection to upsert the records in, e.g. &#x60;my-collection&#x60;.
-   * @param v4BatchUpsertRecordsRequest
+   * @param batchUpsertRecordsRequest
    */
   public async batchUpsertRecords(
     collectionId: string,
-    v4BatchUpsertRecordsRequest: V4BatchUpsertRecordsRequest,
+    batchUpsertRecordsRequest: BatchUpsertRecordsRequest,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{
     response: http.IncomingMessage;
-    body: V4BatchUpsertRecordsResponse;
+    body: BatchUpsertRecordsResponse;
   }> {
     const localVarPath =
       this.basePath +
@@ -158,13 +157,13 @@ export class RecordsApi {
       );
     }
 
-    // verify required parameter 'v4BatchUpsertRecordsRequest' is not null or undefined
+    // verify required parameter 'batchUpsertRecordsRequest' is not null or undefined
     if (
-      v4BatchUpsertRecordsRequest === null ||
-      v4BatchUpsertRecordsRequest === undefined
+      batchUpsertRecordsRequest === null ||
+      batchUpsertRecordsRequest === undefined
     ) {
       throw new Error(
-        "Required parameter v4BatchUpsertRecordsRequest was null or undefined when calling batchUpsertRecords."
+        "Required parameter batchUpsertRecordsRequest was null or undefined when calling batchUpsertRecords."
       );
     }
 
@@ -180,8 +179,8 @@ export class RecordsApi {
       useQuerystring: this._useQuerystring,
       json: true,
       body: ObjectSerializer.serialize(
-        v4BatchUpsertRecordsRequest,
-        "V4BatchUpsertRecordsRequest"
+        batchUpsertRecordsRequest,
+        "BatchUpsertRecordsRequest"
       ),
     };
 
@@ -215,7 +214,7 @@ export class RecordsApi {
       }
       return new Promise<{
         response: http.IncomingMessage;
-        body: V4BatchUpsertRecordsResponse;
+        body: BatchUpsertRecordsResponse;
       }>((resolve, reject) => {
         localVarRequest(localVarRequestOptions, (error, response, body) => {
           if (error) {
@@ -223,7 +222,7 @@ export class RecordsApi {
           } else {
             body = ObjectSerializer.deserialize(
               body,
-              "V4BatchUpsertRecordsResponse"
+              "BatchUpsertRecordsResponse"
             );
             if (
               response.statusCode &&
@@ -243,11 +242,11 @@ export class RecordsApi {
    * Delete a record with the given key.
    * @summary Delete record
    * @param collectionId The collection that contains the record to delete, e.g. &#x60;my-collection&#x60;.
-   * @param sajariv4DeleteRecordRequest
+   * @param deleteRecordRequest
    */
   public async deleteRecord(
     collectionId: string,
-    sajariv4DeleteRecordRequest: Sajariv4DeleteRecordRequest,
+    deleteRecordRequest: DeleteRecordRequest,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{ response: http.IncomingMessage; body: any }> {
     const localVarPath =
@@ -277,13 +276,10 @@ export class RecordsApi {
       );
     }
 
-    // verify required parameter 'sajariv4DeleteRecordRequest' is not null or undefined
-    if (
-      sajariv4DeleteRecordRequest === null ||
-      sajariv4DeleteRecordRequest === undefined
-    ) {
+    // verify required parameter 'deleteRecordRequest' is not null or undefined
+    if (deleteRecordRequest === null || deleteRecordRequest === undefined) {
       throw new Error(
-        "Required parameter sajariv4DeleteRecordRequest was null or undefined when calling deleteRecord."
+        "Required parameter deleteRecordRequest was null or undefined when calling deleteRecord."
       );
     }
 
@@ -299,8 +295,8 @@ export class RecordsApi {
       useQuerystring: this._useQuerystring,
       json: true,
       body: ObjectSerializer.serialize(
-        sajariv4DeleteRecordRequest,
-        "Sajariv4DeleteRecordRequest"
+        deleteRecordRequest,
+        "DeleteRecordRequest"
       ),
     };
 
@@ -358,11 +354,11 @@ export class RecordsApi {
    * Retrieve a record with the given key.
    * @summary Get record
    * @param collectionId The collection that contains the record to retrieve, e.g. &#x60;my-collection&#x60;.
-   * @param sajariv4GetRecordRequest
+   * @param getRecordRequest
    */
   public async getRecord(
     collectionId: string,
-    sajariv4GetRecordRequest: Sajariv4GetRecordRequest,
+    getRecordRequest: GetRecordRequest,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{ response: http.IncomingMessage; body: object }> {
     const localVarPath =
@@ -392,13 +388,10 @@ export class RecordsApi {
       );
     }
 
-    // verify required parameter 'sajariv4GetRecordRequest' is not null or undefined
-    if (
-      sajariv4GetRecordRequest === null ||
-      sajariv4GetRecordRequest === undefined
-    ) {
+    // verify required parameter 'getRecordRequest' is not null or undefined
+    if (getRecordRequest === null || getRecordRequest === undefined) {
       throw new Error(
-        "Required parameter sajariv4GetRecordRequest was null or undefined when calling getRecord."
+        "Required parameter getRecordRequest was null or undefined when calling getRecord."
       );
     }
 
@@ -413,10 +406,7 @@ export class RecordsApi {
       uri: localVarPath,
       useQuerystring: this._useQuerystring,
       json: true,
-      body: ObjectSerializer.serialize(
-        sajariv4GetRecordRequest,
-        "Sajariv4GetRecordRequest"
-      ),
+      body: ObjectSerializer.serialize(getRecordRequest, "GetRecordRequest"),
     };
 
     let authenticationPromise = Promise.resolve();
@@ -473,13 +463,13 @@ export class RecordsApi {
    * If the record does not exist in your collection it is inserted. If it does exist it is updated.  If no pipeline is specified, the default record pipeline is used to process the record.  For example, to add a single product from your ecommerce store to a collection, use the following call:  ```json {   \"pipeline\": {     \"name\": \"my-pipeline\",     \"version\": \"1\"   },   \"record\": {     \"id\": \"54hdc7h2334h\",     \"name\": \"Smart TV\",     \"price\": 1999,     \"brand\": \"Acme\",     \"description\": \"...\",     \"in_stock\": true   } } ```
    * @summary Upsert record
    * @param collectionId The collection to upsert the record in, e.g. &#x60;my-collection&#x60;.
-   * @param v4UpsertRecordRequest
+   * @param upsertRecordRequest
    */
   public async upsertRecord(
     collectionId: string,
-    v4UpsertRecordRequest: V4UpsertRecordRequest,
+    upsertRecordRequest: UpsertRecordRequest,
     options: { headers: { [name: string]: string } } = { headers: {} }
-  ): Promise<{ response: http.IncomingMessage; body: V4UpsertRecordResponse }> {
+  ): Promise<{ response: http.IncomingMessage; body: UpsertRecordResponse }> {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/records:upsert".replace(
@@ -507,10 +497,10 @@ export class RecordsApi {
       );
     }
 
-    // verify required parameter 'v4UpsertRecordRequest' is not null or undefined
-    if (v4UpsertRecordRequest === null || v4UpsertRecordRequest === undefined) {
+    // verify required parameter 'upsertRecordRequest' is not null or undefined
+    if (upsertRecordRequest === null || upsertRecordRequest === undefined) {
       throw new Error(
-        "Required parameter v4UpsertRecordRequest was null or undefined when calling upsertRecord."
+        "Required parameter upsertRecordRequest was null or undefined when calling upsertRecord."
       );
     }
 
@@ -526,8 +516,8 @@ export class RecordsApi {
       useQuerystring: this._useQuerystring,
       json: true,
       body: ObjectSerializer.serialize(
-        v4UpsertRecordRequest,
-        "V4UpsertRecordRequest"
+        upsertRecordRequest,
+        "UpsertRecordRequest"
       ),
     };
 
@@ -561,13 +551,13 @@ export class RecordsApi {
       }
       return new Promise<{
         response: http.IncomingMessage;
-        body: V4UpsertRecordResponse;
+        body: UpsertRecordResponse;
       }>((resolve, reject) => {
         localVarRequest(localVarRequestOptions, (error, response, body) => {
           if (error) {
             reject(error);
           } else {
-            body = ObjectSerializer.deserialize(body, "V4UpsertRecordResponse");
+            body = ObjectSerializer.deserialize(body, "UpsertRecordResponse");
             if (
               response.statusCode &&
               response.statusCode >= 200 &&
