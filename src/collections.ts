@@ -119,3 +119,11 @@ export const setCollectionDisplayName = (displayName: string) => (
   c.displayName = displayName;
   updateMask["display_name"] = true;
 };
+
+export const setCollectionAuthorizedQueryDomains = (domains: string[]) => (
+  c: Collection,
+  updateMask: Record<string, boolean>
+) => {
+  c.authorizedQueryDomains = domains;
+  updateMask["authorized_query_domains"] = true;
+};

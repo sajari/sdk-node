@@ -34,6 +34,9 @@ async function main(
       console.log(`account id=${c.accountId}`);
       console.log(`create time=${c.createTime}`);
       console.log(`display name=${c.displayName}`);
+      console.log(
+        `authorized query domains=${collection.authorizedQueryDomains}`
+      );
     }
   } catch (e) {
     console.error(e);

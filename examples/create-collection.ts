@@ -34,6 +34,9 @@ async function main(
     console.log(`account id=${collection.accountId}`);
     console.log(`create time=${collection.createTime}`);
     console.log(`display name=${collection.displayName}`);
+    console.log(
+      `authorized query domains=${collection.authorizedQueryDomains}`
+    );
 
     // Clean up
     await client.deleteCollection(collection.id);

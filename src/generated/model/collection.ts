@@ -29,6 +29,10 @@ export class Collection {
    * The collection\'s display name. You can change this at any time.
    */
   "displayName": string;
+  /**
+   * The list of authorized query domains for the collection.  Client-side / browser requests to the [QueryCollection](/docs/api-reference#operation/QueryCollection) call can be made by any authorized query domain or any of its subdomains. This allows your interface to make search requests without having to provide an API key in the client-side request.
+   */
+  "authorizedQueryDomains"?: Array<string>;
 
   static discriminator: string | undefined = undefined;
 
@@ -56,6 +60,11 @@ export class Collection {
       name: "displayName",
       baseName: "display_name",
       type: "string",
+    },
+    {
+      name: "authorizedQueryDomains",
+      baseName: "authorized_query_domains",
+      type: "Array<string>",
     },
   ];
 
