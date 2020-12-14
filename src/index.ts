@@ -8,4 +8,9 @@ export { SchemaClient } from "./schema";
 export { PipelinesClient } from "./pipelines";
 export { RecordsClient } from "./records";
 
-export { SchemaFieldType, SchemaField, SchemaFieldMode } from "./generated/api";
+export {
+  HttpError,
+  SchemaFieldType,
+  SchemaField,
+  SchemaFieldMode,
+} from "./generated/api";

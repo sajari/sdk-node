@@ -9,6 +9,7 @@ import program, {
   withPaginationOptions,
   withPipelineView,
 } from "./program";
+import { handleError } from "./api-util";
 
 withDefaultOptions(program);
 withPaginationOptions(program);
@@ -54,7 +55,7 @@ async function main(
       }
     }
   } catch (e) {
-    console.error(e);
+    handleError(e);
   }
 }
 

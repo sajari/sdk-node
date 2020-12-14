@@ -5,6 +5,7 @@ import {
 } from "@sajari/sdk-node";
 
 import program, { withDefaultOptions } from "./program";
+import { handleError } from "./api-util";
 
 withDefaultOptions(program);
 
@@ -51,7 +52,7 @@ async function main(
       `query pipeline=${JSON.stringify(resp.queryPipeline, null, "  ")}`
     );
   } catch (e) {
-    console.error(e);
+    handleError(e);
   }
 }
 

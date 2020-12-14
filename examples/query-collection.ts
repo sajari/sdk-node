@@ -5,6 +5,7 @@ import {
 } from "@sajari/sdk-node";
 
 import program, { withDefaultOptions } from "./program";
+import { handleError } from "./api-util";
 
 withDefaultOptions(program);
 
@@ -53,7 +54,7 @@ async function main(
     console.log("aggregates=", resp.aggregates);
     console.log("aggregate filters=", resp.aggregateFilters);
   } catch (e) {
-    console.error(e);
+    handleError(e);
   }
 }
 

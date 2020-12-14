@@ -1,28 +1,27 @@
 import { Client } from "./client";
 import {
   PipelinesApi,
-  HttpError,
   Pipeline,
   SetDefaultPipelineRequest,
   GeneratePipelinesRequest,
   SetDefaultVersionRequest,
+  PipelineType,
 } from "../src/generated/api";
 
 export { withEndpoint, withKeyCredentials } from "./client";
 
-// TODO(jingram): Work out how to return the enum int.
-export const typeToEnum = (x?: string) => {
+const typeToEnum = (x?: string) => {
   switch (x) {
     case "record":
-      return 1;
+      return PipelineType.Record;
     case "query":
-      return 2;
+      return PipelineType.Query;
     default:
-      return 0;
+      return PipelineType.TypeUnspecified;
   }
 };
 
-export const typeToEnumString = (x?: string) => {
+const typeToEnumString = (x?: string) => {
   switch (x) {
     case "record":
       return "RECORD";
@@ -92,21 +91,13 @@ export class PipelinesClient extends Client {
     pageToken?: string;
     view?: "basic" | "full";
   }) {
-    try {
-      const res = await this.client.listPipelines(
-        this.collectionId,
-        pageSize,
-        pageToken,
-        viewToEnum(view)
-      );
-      return res.body;
-    } catch (e) {
-      if (e instanceof HttpError) {
-        console.error(JSON.stringify(e.response));
-        // TODO(jingram): Wrap common errors.
-      }
-      throw e;
-    }
+    const res = await this.client.listPipelines(
+      this.collectionId,
+      pageSize,
+      pageToken,
+      viewToEnum(view)
+    );
+    return res.body;
   }
 
   async createPipeline({
@@ -119,21 +110,13 @@ export class PipelinesClient extends Client {
     name: string;
     version: string;
   } & Omit<Pipeline, "type" | "name" | "version" | "createTime">) {
-    try {
-      const res = await this.client.createPipeline(this.collectionId, {
-        type: typeToEnum(type),
-        name,
-        version,
-        ...rest,
-      });
-      return res.body;
-    } catch (e) {
-      if (e instanceof HttpError) {
-        console.error(JSON.stringify(e.response));
-        // TODO(jingram): Wrap common errors.
-      }
-      throw e;
-    }
+    const res = await this.client.createPipeline(this.collectionId, {
+      type: typeToEnum(type),
+      name,
+      version,
+      ...rest,
+    });
+    return res.body;
   }
 
   async generatePipelines(id: string, request: GeneratePipelinesRequest) {
@@ -147,35 +130,19 @@ export class PipelinesClient extends Client {
   }: {
     type: "record" | "query";
   } & Omit<SetDefaultPipelineRequest, "type">) {
-    try {
-      const res = await this.client.setDefaultPipeline(this.collectionId, {
-        ...request,
-        type: typeToEnum(type),
-      });
-      return res.body;
-    } catch (e) {
-      if (e instanceof HttpError) {
-        console.error(JSON.stringify(e.response));
-        // TODO(jingram): Wrap common errors.
-      }
-      throw e;
-    }
+    const res = await this.client.setDefaultPipeline(this.collectionId, {
+      ...request,
+      type: typeToEnum(type),
+    });
+    return res.body;
   }
 
   async getDefaultPipeline({ type }: { type: "record" | "query" }) {
-    try {
-      const res = await this.client.getDefaultPipeline(
-        this.collectionId,
-        typeToEnumString(type)
-      );
-      return res.body;
-    } catch (e) {
-      if (e instanceof HttpError) {
-        console.error(JSON.stringify(e.response));
-        // TODO(jingram): Wrap common errors.
-      }
-      throw e;
-    }
+    const res = await this.client.getDefaultPipeline(
+      this.collectionId,
+      typeToEnumString(type)
+    );
+    return res.body;
   }
 
   async setDefaultPipelineVersion({
@@ -186,23 +153,15 @@ export class PipelinesClient extends Client {
     type: "record" | "query";
     name: string;
   } & SetDefaultVersionRequest) {
-    try {
-      const res = await this.client.setDefaultVersion(
-        this.collectionId,
-        typeToEnumString(type),
-        name,
-        {
-          ...request,
-        }
-      );
-      return res.body;
-    } catch (e) {
-      if (e instanceof HttpError) {
-        console.error(JSON.stringify(e.response));
-        // TODO(jingram): Wrap common errors.
+    const res = await this.client.setDefaultVersion(
+      this.collectionId,
+      typeToEnumString(type),
+      name,
+      {
+        ...request,
       }
-      throw e;
-    }
+    );
+    return res.body;
   }
 
   async getDefaultPipelineVersion({
@@ -214,20 +173,12 @@ export class PipelinesClient extends Client {
     name: string;
     view: "basic" | "full";
   }) {
-    try {
-      const res = await this.client.getDefaultVersion(
-        this.collectionId,
-        typeToEnumString(type),
-        name,
-        viewToEnum(view)
-      );
-      return res.body;
-    } catch (e) {
-      if (e instanceof HttpError) {
-        console.error(JSON.stringify(e.response));
-        // TODO(jingram): Wrap common errors.
-      }
-      throw e;
-    }
+    const res = await this.client.getDefaultVersion(
+      this.collectionId,
+      typeToEnumString(type),
+      name,
+      viewToEnum(view)
+    );
+    return res.body;
   }
 }

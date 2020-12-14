@@ -5,6 +5,7 @@ import {
 } from "@sajari/sdk-node";
 
 import program, { withAccountOptions } from "./program";
+import { handleError } from "./api-util";
 
 withAccountOptions(program);
 
@@ -26,8 +27,10 @@ async function main(
   endpoint = program.endpoint,
   keyId = program.keyId,
   keySecret = program.keySecret,
-  collectionId = program.collectionId,
-  displayName = program.collectionDisplayName
+  collection = {
+    id: program.collectionId,
+    displayName: program.collectionDisplayName,
+  }
 ) {
   const client = new CollectionsClient(
     withEndpoint(endpoint),
@@ -35,23 +38,18 @@ async function main(
   );
 
   try {
-    const collection = await client.createCollection({
-      id: collectionId,
-      displayName,
-    });
+    const c = await client.createCollection(collection);
 
-    console.log(`id=${collection.id}`);
-    console.log(`account id=${collection.accountId}`);
-    console.log(`create time=${collection.createTime}`);
-    console.log(`display name=${collection.displayName}`);
-    console.log(
-      `authorized query domains=${collection.authorizedQueryDomains}`
-    );
+    console.log(`id=${c.id}`);
+    console.log(`account id=${c.accountId}`);
+    console.log(`create time=${c.createTime}`);
+    console.log(`display name=${c.displayName}`);
+    console.log(`authorized query domains=${c.authorizedQueryDomains}`);
 
     // Clean up
-    await client.deleteCollection(collection.id);
+    await client.deleteCollection(c.id);
   } catch (e) {
-    console.error(e);
+    handleError(e);
   }
 }
 

@@ -1,6 +1,5 @@
 import {
   CollectionsApi,
-  HttpError,
   Collection,
   QueryCollectionRequest,
 } from "../src/generated/api";
@@ -31,16 +30,8 @@ export class CollectionsClient extends Client {
     pageSize?: number;
     pageToken?: string;
   }) {
-    try {
-      const res = await this.client.listCollections(pageSize, pageToken);
-      return res.body;
-    } catch (e) {
-      if (e instanceof HttpError) {
-        console.error(JSON.stringify(e.response));
-        // TODO(jingram): Wrap common errors.
-      }
-      throw e;
-    }
+    const res = await this.client.listCollections(pageSize, pageToken);
+    return res.body;
   }
 
   async createCollection({
@@ -50,19 +41,11 @@ export class CollectionsClient extends Client {
     id: string;
     displayName: string;
   }) {
-    try {
-      const res = await this.client.createCollection(id, { displayName });
-      // OpenAPI readonly fields become optional TS fields, but we know the API
-      // will return it, so use ! to fix the types. This is done so upstream
-      // users don't have to do this.
-      return { ...res.body, id: res.body.id! };
-    } catch (e) {
-      if (e instanceof HttpError) {
-        console.error(JSON.stringify(e.response));
-        // TODO(jingram): Wrap common errors., e.g. already exists.
-      }
-      throw e;
-    }
+    const res = await this.client.createCollection(id, { displayName });
+    // OpenAPI readonly fields become optional TS fields, but we know the API
+    // will return it, so use ! to fix the types. This is done so upstream
+    // users don't have to do this.
+    return { ...res.body, id: res.body.id! };
   }
 
   async updateCollection(
@@ -71,30 +54,22 @@ export class CollectionsClient extends Client {
       (c: Collection, updateMask: Record<string, boolean>) => void
     >
   ) {
-    try {
-      const c: Collection = {
-        displayName: "",
-      };
-      const updateMask: Record<string, boolean> = {};
+    const c: Collection = {
+      displayName: "",
+    };
+    const updateMask: Record<string, boolean> = {};
 
-      for (const opt of options) {
-        opt(c, updateMask);
-      }
-
-      const um = Object.keys(updateMask).map((field) => field);
-
-      const res = await this.client.updateCollection(id, c, um.join(","));
-      // OpenAPI readonly fields become optional TS fields, but we know the API
-      // will return it, so use ! to fix the types. This is done so upstream
-      // users don't have to do this.
-      return { ...res.body, id: res.body.id! };
-    } catch (e) {
-      if (e instanceof HttpError) {
-        console.error(JSON.stringify(e.response));
-        // TODO(jingram): Wrap common errors.
-      }
-      throw e;
+    for (const opt of options) {
+      opt(c, updateMask);
     }
+
+    const um = Object.keys(updateMask).map((field) => field);
+
+    const res = await this.client.updateCollection(id, c, um.join(","));
+    // OpenAPI readonly fields become optional TS fields, but we know the API
+    // will return it, so use ! to fix the types. This is done so upstream
+    // users don't have to do this.
+    return { ...res.body, id: res.body.id! };
   }
 
   async queryCollection(id: string, request: QueryCollectionRequest) {

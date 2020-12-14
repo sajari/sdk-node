@@ -1,5 +1,5 @@
 import { Client } from "./client";
-import { SchemaApi, HttpError, SchemaField } from "../src/generated/api";
+import { SchemaApi, SchemaField } from "../src/generated/api";
 
 export { withEndpoint, withKeyCredentials } from "./client";
 
@@ -28,47 +28,23 @@ export class SchemaClient extends Client {
     pageSize?: number;
     pageToken?: string;
   }) {
-    try {
-      const res = await this.client.listSchemaFields(
-        this.collectionId,
-        pageSize,
-        pageToken
-      );
-      return res.body;
-    } catch (e) {
-      if (e instanceof HttpError) {
-        console.error(JSON.stringify(e.response));
-        // TODO(jingram): Wrap common errors.
-      }
-      throw e;
-    }
+    const res = await this.client.listSchemaFields(
+      this.collectionId,
+      pageSize,
+      pageToken
+    );
+    return res.body;
   }
 
   async createField(field: SchemaField) {
-    try {
-      const res = await this.client.createSchemaField(this.collectionId, field);
-      return res.body;
-    } catch (e) {
-      if (e instanceof HttpError) {
-        console.error(JSON.stringify(e.response));
-        // TODO(jingram): Wrap common errors.
-      }
-      throw e;
-    }
+    const res = await this.client.createSchemaField(this.collectionId, field);
+    return res.body;
   }
 
   async batchCreateFields({ fields = [] }: { fields: SchemaField[] }) {
-    try {
-      const res = await this.client.batchCreateSchemaFields(this.collectionId, {
-        fields,
-      });
-      return res.body;
-    } catch (e) {
-      if (e instanceof HttpError) {
-        console.error(JSON.stringify(e.response));
-        // TODO(jingram): Wrap common errors.
-      }
-      throw e;
-    }
+    const res = await this.client.batchCreateSchemaFields(this.collectionId, {
+      fields,
+    });
+    return res.body;
   }
 }

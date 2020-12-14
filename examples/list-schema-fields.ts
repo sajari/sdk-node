@@ -5,6 +5,7 @@ import {
 } from "@sajari/sdk-node";
 
 import program, { withDefaultOptions, withPaginationOptions } from "./program";
+import { handleError } from "./api-util";
 
 withDefaultOptions(program);
 withPaginationOptions(program);
@@ -38,7 +39,7 @@ async function main(
       console.log(`description=${v.description}`);
     }
   } catch (e) {
-    console.error(e);
+    handleError(e);
   }
 }
 

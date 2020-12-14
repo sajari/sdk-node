@@ -5,6 +5,7 @@ import {
 } from "@sajari/sdk-node";
 
 import program, { withAccountOptions } from "./program";
+import { handleError } from "./api-util";
 
 withAccountOptions(program);
 
@@ -30,7 +31,7 @@ async function main(
   try {
     await client.deleteCollection(id);
   } catch (e) {
-    console.error(e);
+    handleError(e);
   }
 }
 

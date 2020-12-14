@@ -5,6 +5,7 @@ import {
 } from "@sajari/sdk-node";
 
 import program, { withAccountOptions, withPaginationOptions } from "./program";
+import { handleError } from "./api-util";
 
 withAccountOptions(program);
 withPaginationOptions(program);
@@ -34,12 +35,10 @@ async function main(
       console.log(`account id=${c.accountId}`);
       console.log(`create time=${c.createTime}`);
       console.log(`display name=${c.displayName}`);
-      console.log(
-        `authorized query domains=${collection.authorizedQueryDomains}`
-      );
+      console.log(`authorized query domains=${c.authorizedQueryDomains}`);
     }
   } catch (e) {
-    console.error(e);
+    handleError(e);
   }
 }
 

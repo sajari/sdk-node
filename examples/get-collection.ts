@@ -5,6 +5,7 @@ import {
 } from "@sajari/sdk-node";
 
 import program, { withAccountOptions } from "./program";
+import { handleError } from "./api-util";
 
 withAccountOptions(program);
 
@@ -38,7 +39,7 @@ async function main(
       `authorized query domains=${collection.authorizedQueryDomains}`
     );
   } catch (e) {
-    console.error(e);
+    handleError(e);
   }
 }
 

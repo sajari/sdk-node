@@ -7,6 +7,7 @@ import {
 } from "@sajari/sdk-node";
 
 import program, { withDefaultOptions } from "./program";
+import { handleError } from "./api-util";
 
 withDefaultOptions(program);
 
@@ -62,7 +63,7 @@ async function main(
       `authorized query domains=${collection.authorizedQueryDomains}`
     );
   } catch (e) {
-    console.error(e);
+    handleError(e);
   }
 }
 

@@ -2,11 +2,10 @@ import {
   SchemaClient,
   withEndpoint,
   withKeyCredentials,
-  SchemaFieldType,
-  SchemaFieldMode,
 } from "@sajari/sdk-node";
 
 import program, { withDefaultOptions } from "./program";
+import { handleError } from "./api-util";
 
 withDefaultOptions(program);
 
@@ -49,7 +48,7 @@ async function main(
     console.log(`mode=${f.mode}`);
     console.log(`description=${f.description}`);
   } catch (e) {
-    console.error(e);
+    handleError(e);
   }
 }
 
