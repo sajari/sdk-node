@@ -9,8 +9,14 @@ import program, { withAccountOptions } from "./program";
 withAccountOptions(program);
 
 program.requiredOption(
-  "--display-name <display_name>",
-  "display name",
+  "--collection-id <collection_id>",
+  "collection ID",
+  "my-collection"
+);
+
+program.requiredOption(
+  "--collection-display-name <collection_display_name>",
+  "collection display name",
   "My collection"
 );
 
@@ -20,7 +26,8 @@ async function main(
   endpoint = program.endpoint,
   keyId = program.keyId,
   keySecret = program.keySecret,
-  displayName = program.displayName
+  collectionId = program.collectionId,
+  displayName = program.collectionDisplayName
 ) {
   const client = new CollectionsClient(
     withEndpoint(endpoint),
@@ -28,7 +35,10 @@ async function main(
   );
 
   try {
-    const collection = await client.createCollection({ displayName });
+    const collection = await client.createCollection({
+      id: collectionId,
+      displayName,
+    });
 
     console.log(`id=${collection.id}`);
     console.log(`account id=${collection.accountId}`);

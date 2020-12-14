@@ -39,9 +39,9 @@ const client = new CollectionsClient(
   withKeyCredentials("key-id", "key-secret")
 );
 
-async function createCollection(displayName) {
+async function createCollection(id, displayName) {
   // Create a new collection.
-  const collection = await client.createCollection({ displayName });
+  const collection = await client.createCollection({ id, displayName });
   console.log(`Collection ${collection.displayName} created.`);
 
   // Clean up.

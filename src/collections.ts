@@ -1,5 +1,3 @@
-import ksuid from "ksuid";
-
 import {
   CollectionsApi,
   HttpError,
@@ -46,12 +44,10 @@ export class CollectionsClient extends Client {
   }
 
   async createCollection({
-    // TODO(jingram): Ideally want to use _, but it's not allowed.
-    // TODO(jingram): Remove lowercasing once API allows it.
-    id = `col-${ksuid.randomSync().string.toLowerCase()}`,
+    id,
     displayName,
   }: {
-    id?: string;
+    id: string;
     displayName: string;
   }) {
     try {
