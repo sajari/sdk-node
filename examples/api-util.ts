@@ -1,11 +1,11 @@
-import { HttpError } from "@sajari/sdk-node";
+import { APIError } from "@sajari/sdk-node";
 
 export const handleError = (e: any) => {
-  if (e instanceof HttpError) {
+  if (e instanceof APIError) {
     const msg = [
       `Message: ${e.message}`,
-      `Status: ${e.statusCode}`,
-      `Response: $JSON.stringify(e.response, null, 2)}`,
+      `Code: ${e.code}`,
+      `Details: ${JSON.stringify(e.details, null, 2)}`,
     ].join("\n");
     console.error(msg);
     return;

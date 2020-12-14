@@ -1,5 +1,6 @@
 import { Client } from "./client";
-import { SchemaApi, SchemaField } from "../src/generated/api";
+import { SchemaApi, SchemaField } from "./generated/api";
+import { handleError } from "./api-util";
 
 export { withEndpoint, withKeyCredentials } from "./client";
 
@@ -28,23 +29,35 @@ export class SchemaClient extends Client {
     pageSize?: number;
     pageToken?: string;
   }) {
-    const res = await this.client.listSchemaFields(
-      this.collectionId,
-      pageSize,
-      pageToken
-    );
-    return res.body;
+    try {
+      const res = await this.client.listSchemaFields(
+        this.collectionId,
+        pageSize,
+        pageToken
+      );
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async createField(field: SchemaField) {
-    const res = await this.client.createSchemaField(this.collectionId, field);
-    return res.body;
+    try {
+      const res = await this.client.createSchemaField(this.collectionId, field);
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async batchCreateFields({ fields = [] }: { fields: SchemaField[] }) {
-    const res = await this.client.batchCreateSchemaFields(this.collectionId, {
-      fields,
-    });
-    return res.body;
+    try {
+      const res = await this.client.batchCreateSchemaFields(this.collectionId, {
+        fields,
+      });
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 }

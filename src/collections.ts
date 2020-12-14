@@ -1,9 +1,10 @@
+import { Client } from "./client";
 import {
   CollectionsApi,
   Collection,
   QueryCollectionRequest,
-} from "../src/generated/api";
-import { Client } from "./client";
+} from "./generated/api";
+import { handleError } from "./api-util";
 
 export { withEndpoint, withKeyCredentials } from "./client";
 
@@ -19,8 +20,12 @@ export class CollectionsClient extends Client {
   }
 
   async getCollection(id: string) {
-    const res = await this.client.getCollection(id);
-    return res.body;
+    try {
+      const res = await this.client.getCollection(id);
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async listCollections({
@@ -30,8 +35,12 @@ export class CollectionsClient extends Client {
     pageSize?: number;
     pageToken?: string;
   }) {
-    const res = await this.client.listCollections(pageSize, pageToken);
-    return res.body;
+    try {
+      const res = await this.client.listCollections(pageSize, pageToken);
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async createCollection({
@@ -41,11 +50,15 @@ export class CollectionsClient extends Client {
     id: string;
     displayName: string;
   }) {
-    const res = await this.client.createCollection(id, { displayName });
-    // OpenAPI readonly fields become optional TS fields, but we know the API
-    // will return it, so use ! to fix the types. This is done so upstream
-    // users don't have to do this.
-    return { ...res.body, id: res.body.id! };
+    try {
+      const res = await this.client.createCollection(id, { displayName });
+      // OpenAPI readonly fields become optional TS fields, but we know the API
+      // will return it, so use ! to fix the types. This is done so upstream
+      // users don't have to do this.
+      return { ...res.body, id: res.body.id! };
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async updateCollection(
@@ -65,21 +78,33 @@ export class CollectionsClient extends Client {
 
     const um = Object.keys(updateMask).map((field) => field);
 
-    const res = await this.client.updateCollection(id, c, um.join(","));
-    // OpenAPI readonly fields become optional TS fields, but we know the API
-    // will return it, so use ! to fix the types. This is done so upstream
-    // users don't have to do this.
-    return { ...res.body, id: res.body.id! };
+    try {
+      const res = await this.client.updateCollection(id, c, um.join(","));
+      // OpenAPI readonly fields become optional TS fields, but we know the API
+      // will return it, so use ! to fix the types. This is done so upstream
+      // users don't have to do this.
+      return { ...res.body, id: res.body.id! };
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async queryCollection(id: string, request: QueryCollectionRequest) {
-    const res = await this.client.queryCollection(id, request);
-    return res.body;
+    try {
+      const res = await this.client.queryCollection(id, request);
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async deleteCollection(id: string) {
-    const res = await this.client.deleteCollection(id);
-    return res.body;
+    try {
+      const res = await this.client.deleteCollection(id);
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 }
 

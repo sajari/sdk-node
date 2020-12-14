@@ -4,7 +4,8 @@ import {
   UpsertRecordRequest,
   RecordKey,
   BatchUpsertRecordsRequest,
-} from "../src/generated/api";
+} from "./generated/api";
+import { handleError } from "./api-util";
 
 export { withEndpoint, withKeyCredentials } from "./client";
 
@@ -27,16 +28,24 @@ export class RecordsClient extends Client {
   }
 
   async getRecord(key: RecordKey) {
-    const res = await this.client.getRecord(this.collectionId, { key });
-    return res.body;
+    try {
+      const res = await this.client.getRecord(this.collectionId, { key });
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async upsertRecord(request: UpsertRecordRequest) {
-    const res = await this.client.upsertRecord(this.collectionId, request);
-    // OpenAPI readonly fields become optional TS fields, but we know the API
-    // will return it, so use ! to fix the types. This is done so upstream
-    // users don't have to do this.
-    return { ...res.body, key: res.body.key! };
+    try {
+      const res = await this.client.upsertRecord(this.collectionId, request);
+      // OpenAPI readonly fields become optional TS fields, but we know the API
+      // will return it, so use ! to fix the types. This is done so upstream
+      // users don't have to do this.
+      return { ...res.body, key: res.body.key! };
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async batchUpsertRecords(
@@ -44,15 +53,23 @@ export class RecordsClient extends Client {
       records: object[];
     }
   ) {
-    const res = await this.client.batchUpsertRecords(
-      this.collectionId,
-      request
-    );
-    return res.body;
+    try {
+      const res = await this.client.batchUpsertRecords(
+        this.collectionId,
+        request
+      );
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async deleteRecord(key: RecordKey) {
-    const res = await this.client.deleteRecord(this.collectionId, { key });
-    return res.body;
+    try {
+      const res = await this.client.deleteRecord(this.collectionId, { key });
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 }

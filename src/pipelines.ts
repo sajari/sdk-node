@@ -6,7 +6,8 @@ import {
   GeneratePipelinesRequest,
   SetDefaultVersionRequest,
   PipelineType,
-} from "../src/generated/api";
+} from "./generated/api";
+import { handleError } from "./api-util";
 
 export { withEndpoint, withKeyCredentials } from "./client";
 
@@ -72,14 +73,18 @@ export class PipelinesClient extends Client {
     version: string;
     view?: "basic" | "full";
   }) {
-    const res = await this.client.getPipeline(
-      this.collectionId,
-      typeToEnumString(type),
-      name,
-      version,
-      viewToEnum(view)
-    );
-    return res.body;
+    try {
+      const res = await this.client.getPipeline(
+        this.collectionId,
+        typeToEnumString(type),
+        name,
+        version,
+        viewToEnum(view)
+      );
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async listPipelines({
@@ -91,13 +96,17 @@ export class PipelinesClient extends Client {
     pageToken?: string;
     view?: "basic" | "full";
   }) {
-    const res = await this.client.listPipelines(
-      this.collectionId,
-      pageSize,
-      pageToken,
-      viewToEnum(view)
-    );
-    return res.body;
+    try {
+      const res = await this.client.listPipelines(
+        this.collectionId,
+        pageSize,
+        pageToken,
+        viewToEnum(view)
+      );
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async createPipeline({
@@ -110,18 +119,26 @@ export class PipelinesClient extends Client {
     name: string;
     version: string;
   } & Omit<Pipeline, "type" | "name" | "version" | "createTime">) {
-    const res = await this.client.createPipeline(this.collectionId, {
-      type: typeToEnum(type),
-      name,
-      version,
-      ...rest,
-    });
-    return res.body;
+    try {
+      const res = await this.client.createPipeline(this.collectionId, {
+        type: typeToEnum(type),
+        name,
+        version,
+        ...rest,
+      });
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async generatePipelines(id: string, request: GeneratePipelinesRequest) {
-    const res = await this.client.generatePipelines(id, request);
-    return res.body;
+    try {
+      const res = await this.client.generatePipelines(id, request);
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async setDefaultPipeline({
@@ -130,19 +147,27 @@ export class PipelinesClient extends Client {
   }: {
     type: "record" | "query";
   } & Omit<SetDefaultPipelineRequest, "type">) {
-    const res = await this.client.setDefaultPipeline(this.collectionId, {
-      ...request,
-      type: typeToEnum(type),
-    });
-    return res.body;
+    try {
+      const res = await this.client.setDefaultPipeline(this.collectionId, {
+        ...request,
+        type: typeToEnum(type),
+      });
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async getDefaultPipeline({ type }: { type: "record" | "query" }) {
-    const res = await this.client.getDefaultPipeline(
-      this.collectionId,
-      typeToEnumString(type)
-    );
-    return res.body;
+    try {
+      const res = await this.client.getDefaultPipeline(
+        this.collectionId,
+        typeToEnumString(type)
+      );
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async setDefaultPipelineVersion({
@@ -153,15 +178,19 @@ export class PipelinesClient extends Client {
     type: "record" | "query";
     name: string;
   } & SetDefaultVersionRequest) {
-    const res = await this.client.setDefaultVersion(
-      this.collectionId,
-      typeToEnumString(type),
-      name,
-      {
-        ...request,
-      }
-    );
-    return res.body;
+    try {
+      const res = await this.client.setDefaultVersion(
+        this.collectionId,
+        typeToEnumString(type),
+        name,
+        {
+          ...request,
+        }
+      );
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 
   async getDefaultPipelineVersion({
@@ -173,12 +202,16 @@ export class PipelinesClient extends Client {
     name: string;
     view: "basic" | "full";
   }) {
-    const res = await this.client.getDefaultVersion(
-      this.collectionId,
-      typeToEnumString(type),
-      name,
-      viewToEnum(view)
-    );
-    return res.body;
+    try {
+      const res = await this.client.getDefaultVersion(
+        this.collectionId,
+        typeToEnumString(type),
+        name,
+        viewToEnum(view)
+      );
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
   }
 }
