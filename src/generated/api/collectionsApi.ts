@@ -237,7 +237,10 @@ export class CollectionsApi {
   ): Promise<{ response: http.IncomingMessage; body: any }> {
     const localVarPath =
       this.basePath +
-      "/v4/collections/{collection_id}".replace(/{\w+}/, String(collectionId));
+      "/v4/collections/{collection_id}".replace(
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
+      );
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
       {},
@@ -333,7 +336,10 @@ export class CollectionsApi {
   ): Promise<{ response: http.IncomingMessage; body: Collection }> {
     const localVarPath =
       this.basePath +
-      "/v4/collections/{collection_id}".replace(/{\w+}/, String(collectionId));
+      "/v4/collections/{collection_id}".replace(
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
+      );
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
       {},
@@ -545,8 +551,8 @@ export class CollectionsApi {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}:queryCollection".replace(
-        /{\w+}/,
-        String(collectionId)
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
       );
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
@@ -665,7 +671,10 @@ export class CollectionsApi {
   ): Promise<{ response: http.IncomingMessage; body: Collection }> {
     const localVarPath =
       this.basePath +
-      "/v4/collections/{collection_id}".replace(/{\w+}/, String(collectionId));
+      "/v4/collections/{collection_id}".replace(
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
+      );
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
       {},

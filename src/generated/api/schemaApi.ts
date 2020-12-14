@@ -131,8 +131,8 @@ export class SchemaApi {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/schemaFields:batchCreate".replace(
-        /{\w+}/,
-        String(collectionId)
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
       );
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
@@ -250,8 +250,8 @@ export class SchemaApi {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/schemaFields".replace(
-        /{\w+}/,
-        String(collectionId)
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
       );
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
@@ -364,8 +364,8 @@ export class SchemaApi {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/schemaFields".replace(
-        /{\w+}/,
-        String(collectionId)
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
       );
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(

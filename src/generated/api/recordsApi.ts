@@ -133,8 +133,8 @@ export class RecordsApi {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/records:batchUpsert".replace(
-        /{\w+}/,
-        String(collectionId)
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
       );
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
@@ -252,8 +252,8 @@ export class RecordsApi {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/records:delete".replace(
-        /{\w+}/,
-        String(collectionId)
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
       );
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
@@ -364,8 +364,8 @@ export class RecordsApi {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/records:get".replace(
-        /{\w+}/,
-        String(collectionId)
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
       );
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
@@ -473,8 +473,8 @@ export class RecordsApi {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/records:upsert".replace(
-        /{\w+}/,
-        String(collectionId)
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
       );
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(

@@ -132,8 +132,8 @@ export class PipelinesApi {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/pipelines".replace(
-        /{\w+}/,
-        String(collectionId)
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
       );
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
@@ -244,8 +244,8 @@ export class PipelinesApi {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}:generatePipelines".replace(
-        /{\w+}/,
-        String(collectionId)
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
       );
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
@@ -366,8 +366,8 @@ export class PipelinesApi {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}:getDefaultPipeline".replace(
-        /{\w+}/,
-        String(collectionId)
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
       );
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
@@ -489,9 +489,12 @@ export class PipelinesApi {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/pipelines/{type}/{name}:getDefaultVersion"
-        .replace(/{\w+}/, String(collectionId))
-        .replace(/{\w+}/, String(type))
-        .replace(/{\w+}/, String(name));
+        .replace(
+          "{" + "collection_id" + "}",
+          encodeURIComponent(String(collectionId))
+        )
+        .replace("{" + "type" + "}", encodeURIComponent(String(type)))
+        .replace("{" + "name" + "}", encodeURIComponent(String(name)));
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
       {},
@@ -617,10 +620,13 @@ export class PipelinesApi {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/pipelines/{type}/{name}/{version}"
-        .replace(/{\w+}/, String(collectionId))
-        .replace(/{\w+}/, String(type))
-        .replace(/{\w+}/, String(name))
-        .replace(/{\w+}/, String(version));
+        .replace(
+          "{" + "collection_id" + "}",
+          encodeURIComponent(String(collectionId))
+        )
+        .replace("{" + "type" + "}", encodeURIComponent(String(type)))
+        .replace("{" + "name" + "}", encodeURIComponent(String(name)))
+        .replace("{" + "version" + "}", encodeURIComponent(String(version)));
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
       {},
@@ -751,8 +757,8 @@ export class PipelinesApi {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/pipelines".replace(
-        /{\w+}/,
-        String(collectionId)
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
       );
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
@@ -874,8 +880,8 @@ export class PipelinesApi {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}:setDefaultPipeline".replace(
-        /{\w+}/,
-        String(collectionId)
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
       );
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
@@ -993,9 +999,12 @@ export class PipelinesApi {
     const localVarPath =
       this.basePath +
       "/v4/collections/{collection_id}/pipelines/{type}/{name}:setDefaultVersion"
-        .replace(/{\w+}/, String(collectionId))
-        .replace(/{\w+}/, String(type))
-        .replace(/{\w+}/, String(name));
+        .replace(
+          "{" + "collection_id" + "}",
+          encodeURIComponent(String(collectionId))
+        )
+        .replace("{" + "type" + "}", encodeURIComponent(String(type)))
+        .replace("{" + "name" + "}", encodeURIComponent(String(name)));
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
       {},
