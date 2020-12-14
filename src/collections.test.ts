@@ -1,3 +1,5 @@
+import ksuid from "ksuid";
+
 import { CollectionsClient, withKeyCredentials } from "./collections";
 import { skipSuite } from "./test-util";
 
@@ -21,8 +23,8 @@ function createClient() {
   );
 }
 
-async function createCollection(displayName: string) {
-  const collection = await client.createCollection({ displayName });
+async function createCollection(id: string, displayName: string) {
+  const collection = await client.createCollection({ id, displayName });
 
   await client.deleteCollection(collection.id);
 }
@@ -30,5 +32,5 @@ async function createCollection(displayName: string) {
 test("create collection", async () => {
   jest.setTimeout(10000); // create can take longer than the default 5s
 
-  await createCollection("My collection");
+  await createCollection(`col-${ksuid.randomSync().string}`, "My collection");
 });
