@@ -7,7 +7,6 @@
 - [Run tests](#run-tests)
 - [Setup examples](#setup-examples)
 - [Build](#build)
-- [Release](#release)
 
 ## Prerequisites
 
@@ -46,7 +45,3 @@ If you need to regenerate the OpenAPI-generated, use the script:
 npm run clean
 npm run build
 ```
-
-## Release
-
-TODO
