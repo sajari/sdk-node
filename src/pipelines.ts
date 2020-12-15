@@ -7,6 +7,7 @@ import {
   SetDefaultVersionRequest,
   PipelineType,
 } from "./generated/api";
+import { clientUserAgentHeader, clientUserAgent } from "./user-agent";
 import { handleError } from "./api-util";
 
 export { withEndpoint, withKeyCredentials } from "./client";
@@ -60,6 +61,9 @@ export class PipelinesClient extends Client {
     this.client = new PipelinesApi(this.endpoint);
     this.client.username = this.keyId;
     this.client.password = this.keySecret;
+    this.client.defaultHeaders = {
+      [clientUserAgentHeader]: clientUserAgent(),
+    };
   }
 
   async getPipeline({

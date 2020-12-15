@@ -1,5 +1,6 @@
 import { Client } from "./client";
 import { SchemaApi, SchemaField } from "./generated/api";
+import { clientUserAgentHeader, clientUserAgent } from "./user-agent";
 import { handleError } from "./api-util";
 
 export { withEndpoint, withKeyCredentials } from "./client";
@@ -20,6 +21,9 @@ export class SchemaClient extends Client {
     this.client = new SchemaApi(this.endpoint);
     this.client.username = this.keyId;
     this.client.password = this.keySecret;
+    this.client.defaultHeaders = {
+      [clientUserAgentHeader]: clientUserAgent(),
+    };
   }
 
   async listFields({

@@ -5,6 +5,7 @@ import {
   RecordKey,
   BatchUpsertRecordsRequest,
 } from "./generated/api";
+import { clientUserAgentHeader, clientUserAgent } from "./user-agent";
 import { handleError } from "./api-util";
 
 export { withEndpoint, withKeyCredentials } from "./client";
@@ -25,6 +26,9 @@ export class RecordsClient extends Client {
     this.client = new RecordsApi(this.endpoint);
     this.client.username = this.keyId;
     this.client.password = this.keySecret;
+    this.client.defaultHeaders = {
+      [clientUserAgentHeader]: clientUserAgent(),
+    };
   }
 
   async getRecord(key: RecordKey) {

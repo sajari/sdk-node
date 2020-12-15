@@ -5,6 +5,14 @@ import { server, rest } from "./test/server";
 import { endpoint, ErrorResponse, errorResponse } from "./test/api-util";
 import { APIError } from ".";
 
+jest.mock(
+  "../package.json",
+  () => ({
+    version: "1.2.3",
+  }),
+  { virtual: true }
+);
+
 const createClient = () =>
   new CollectionsClient(withKeyCredentials("test-key-id", "test-key-secret"));
 
@@ -41,4 +49,24 @@ test("server error turns into thrown APIError", async () => {
       })
     );
   }
+});
+
+test("sends client user agent header", async () => {
+  let header: null | string = null;
+
+  server.use(
+    rest.delete<{}, {}, { id: string }>(
+      `${endpoint}/v4/collections/:id`,
+      (req, res, ctx) => {
+        header = req.headers.get("sajari-client-user-agent");
+        return res(ctx.json({}));
+      }
+    )
+  );
+
+  const client = createClient();
+
+  await client.deleteCollection(newId());
+
+  expect(header).toEqual("sajari-sdk-node/1.2.3");
 });
