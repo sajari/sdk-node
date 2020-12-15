@@ -1,6 +1,12 @@
-# sajari-sdk-node
+# Sajari SDK for Node
 
-**Table of contents:**
+[![Build status](https://github.com/sajari/sdk-node/workflows/Build/badge.svg?branch=master)](https://github.com/sajari/sdk-node/actions)
+
+The official [Sajari](https://www.sajari.com) Node client library.
+
+Sajari is a smart, highly-configurable, real-time search service that enables thousands of businesses worldwide to provide amazing search experiences on their websites, stores, and applications.
+
+## Table of contents
 
 - [Quickstart](#quickstart)
   - [Before you begin](#before-you-begin)
@@ -54,37 +60,37 @@ createCollection("collection-id", "Collection display name").catch(
 
 ## Examples
 
-Examples are in the [examples](https://github.com/sajari/sdk-node/blob/v4/examples) directory.
+Examples are in the [examples](https://github.com/sajari/sdk-node/blob/master/examples) directory.
 
-| Example                      | Source code                                                                                        |
-| ---------------------------- | -------------------------------------------------------------------------------------------------- |
-| Batch create schema fields   | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/batch-create-schema-fields.ts)   |
-| Batch upsert records         | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/batch-upsert-records.ts)         |
-| Create collection            | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/create-collection.ts)            |
-| Create pipeline              | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/create-pipeline.ts)              |
-| Create schema field          | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/create-schema-field.ts)          |
-| Delete collection            | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/delete-collection.ts)            |
-| Delete record                | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/delete-record.ts)                |
-| Generate pipelines           | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/generate-pipelines.ts)           |
-| Get collection               | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/get-collection.ts)               |
-| Get pipeline                 | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/get-pipeline.ts)                 |
-| Get record                   | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/get-record.ts)                   |
-| List collections             | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/list-collections.ts)             |
-| List pipelines               | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/list-pipelines.ts)               |
-| List schema fields           | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/list-schema-fields.ts)           |
-| Upsert record                | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/upsert-record.ts)                |
-| Query collection             | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/query-collection.ts)             |
-| Set default pipeline         | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/set-default-pipeline.ts)         |
-| Get default pipeline         | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/get-default-pipeline.ts)         |
-| Set default pipeline version | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/set-default-pipeline-version.ts) |
-| Get default pipeline version | [source code](https://github.com/sajari/sdk-node/blob/v4/examples/get-default-pipeline-version.ts) |
+| Example                      | Source code                                                                                            |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Batch create schema fields   | [source code](https://github.com/sajari/sdk-node/blob/master/examples/batch-create-schema-fields.ts)   |
+| Batch upsert records         | [source code](https://github.com/sajari/sdk-node/blob/master/examples/batch-upsert-records.ts)         |
+| Create collection            | [source code](https://github.com/sajari/sdk-node/blob/master/examples/create-collection.ts)            |
+| Create pipeline              | [source code](https://github.com/sajari/sdk-node/blob/master/examples/create-pipeline.ts)              |
+| Create schema field          | [source code](https://github.com/sajari/sdk-node/blob/master/examples/create-schema-field.ts)          |
+| Delete collection            | [source code](https://github.com/sajari/sdk-node/blob/master/examples/delete-collection.ts)            |
+| Delete record                | [source code](https://github.com/sajari/sdk-node/blob/master/examples/delete-record.ts)                |
+| Generate pipelines           | [source code](https://github.com/sajari/sdk-node/blob/master/examples/generate-pipelines.ts)           |
+| Get collection               | [source code](https://github.com/sajari/sdk-node/blob/master/examples/get-collection.ts)               |
+| Get pipeline                 | [source code](https://github.com/sajari/sdk-node/blob/master/examples/get-pipeline.ts)                 |
+| Get record                   | [source code](https://github.com/sajari/sdk-node/blob/master/examples/get-record.ts)                   |
+| List collections             | [source code](https://github.com/sajari/sdk-node/blob/master/examples/list-collections.ts)             |
+| List pipelines               | [source code](https://github.com/sajari/sdk-node/blob/master/examples/list-pipelines.ts)               |
+| List schema fields           | [source code](https://github.com/sajari/sdk-node/blob/master/examples/list-schema-fields.ts)           |
+| Upsert record                | [source code](https://github.com/sajari/sdk-node/blob/master/examples/upsert-record.ts)                |
+| Query collection             | [source code](https://github.com/sajari/sdk-node/blob/master/examples/query-collection.ts)             |
+| Set default pipeline         | [source code](https://github.com/sajari/sdk-node/blob/master/examples/set-default-pipeline.ts)         |
+| Get default pipeline         | [source code](https://github.com/sajari/sdk-node/blob/master/examples/get-default-pipeline.ts)         |
+| Set default pipeline version | [source code](https://github.com/sajari/sdk-node/blob/master/examples/set-default-pipeline-version.ts) |
+| Get default pipeline version | [source code](https://github.com/sajari/sdk-node/blob/master/examples/get-default-pipeline-version.ts) |
 
 ## Contributing
 
-Contributions are welcome. See the [Contributing](https://github.com/sajari/sdk-node/blob/v4/examples/CONTRIBUTING.md) guide.
+Contributions are welcome. See the [Contributing](https://github.com/sajari/sdk-node/blob/master/examples/CONTRIBUTING.md) guide.
 
 ## License
 
 MIT
 
-See [LICENSE](https://github.com/sajari/sdk-node/blob/v4/LICENSE)
+See [LICENSE](https://github.com/sajari/sdk-node/blob/master/LICENSE)
