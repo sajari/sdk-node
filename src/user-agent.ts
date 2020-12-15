@@ -1,4 +1,4 @@
-const { version } = require("../package.json");
+import { version } from "./version";
 
 export const clientUserAgentHeader = "Sajari-Client-User-Agent";
 

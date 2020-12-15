@@ -5,13 +5,9 @@ import { server, rest } from "./test/server";
 import { endpoint, ErrorResponse, errorResponse } from "./test/api-util";
 import { APIError } from ".";
 
-jest.mock(
-  "../package.json",
-  () => ({
-    version: "1.2.3-test",
-  }),
-  { virtual: true }
-);
+jest.mock("./version", () => ({
+  version: "1.2.3-test",
+}));
 
 const createClient = () =>
   new CollectionsClient(withKeyCredentials("test-key-id", "test-key-secret"));
