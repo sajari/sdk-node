@@ -10,7 +10,7 @@ function die() {
 }
 
 if [ -z "$GEN_PATH" ]; then
-    die "GEN_PATH must be set, e.g. /path/to/src/generated"
+    die "GEN_PATH must be set, e.g. /path/to/sajari/sdk-node/src/generated"
 fi
 if [ -z "$TEMPLATES_PATH" ]; then
     die "TEMPLATES_PATH must be set, e.g. /path/to/sajari/sdk-node/generate/templates"

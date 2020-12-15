@@ -3,7 +3,7 @@ import ksuid from "ksuid";
 import { CollectionsClient, withKeyCredentials } from "./collections";
 import { server, rest } from "./test/server";
 import { endpoint, ErrorResponse, errorResponse } from "./test/api-util";
-import { APIError } from ".";
+import { ApiError } from ".";
 
 jest.mock("./version", () => ({
   version: "1.2.3-test",
@@ -20,7 +20,7 @@ test("create collection", async () => {
   await client.createCollection({ id: newId(), displayName: "My collection" });
 });
 
-test("server error turns into thrown APIError", async () => {
+test("server error turns into thrown ApiError", async () => {
   server.use(
     rest.post<{}, ErrorResponse>(
       `${endpoint}/v4/collections`,
@@ -37,7 +37,7 @@ test("server error turns into thrown APIError", async () => {
       displayName: "My collection",
     });
   } catch (e) {
-    expect(e).toBeInstanceOf(APIError);
+    expect(e).toBeInstanceOf(ApiError);
     expect(e).toEqual(
       expect.objectContaining({
         code: 3,

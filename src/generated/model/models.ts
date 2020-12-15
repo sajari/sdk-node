@@ -21,7 +21,7 @@ export * from "./listCollectionsResponse";
 export * from "./listPipelinesRequestView";
 export * from "./listPipelinesResponse";
 export * from "./listSchemaFieldsResponse";
-export * from "./modelError";
+export * from "./apiError";
 export * from "./pipeline";
 export * from "./pipelineStep";
 export * from "./pipelineStepParamBinding";
@@ -89,7 +89,7 @@ import { ListCollectionsResponse } from "./listCollectionsResponse";
 import { ListPipelinesRequestView } from "./listPipelinesRequestView";
 import { ListPipelinesResponse } from "./listPipelinesResponse";
 import { ListSchemaFieldsResponse } from "./listSchemaFieldsResponse";
-import { ModelError } from "./modelError";
+import { ApiError } from "./apiError";
 import { Pipeline } from "./pipeline";
 import { PipelineStep } from "./pipelineStep";
 import { PipelineStepParamBinding } from "./pipelineStepParamBinding";
@@ -166,7 +166,7 @@ let typeMap: { [index: string]: any } = {
   ListCollectionsResponse: ListCollectionsResponse,
   ListPipelinesResponse: ListPipelinesResponse,
   ListSchemaFieldsResponse: ListSchemaFieldsResponse,
-  ModelError: ModelError,
+  ApiError: ApiError,
   Pipeline: Pipeline,
   PipelineStep: PipelineStep,
   PipelineStepParamBinding: PipelineStepParamBinding,

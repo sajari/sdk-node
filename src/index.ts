@@ -10,7 +10,7 @@ export { RecordsClient } from "./records";
 
 export {
   HttpError,
-  ModelError as APIError,
+  ApiError,
   SchemaFieldType,
   SchemaField,
   SchemaFieldMode,
