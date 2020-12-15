@@ -10,7 +10,7 @@
 
 ## Prerequisites
 
-- Prepare your environment for Node.js.
+- Prepare your environment for Node.js. We use [volta](https://volta.sh/) to manage node versions. Follow the [install guide for volta](https://docs.volta.sh/guide/getting-started) to get started.
 - You will also need Docker if you regenerate the OpenAPI code.
 
 ## Install
