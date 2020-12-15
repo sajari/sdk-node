@@ -43,5 +43,6 @@ docker build -f Dockerfile.post-generate -t $img .
 docker run --rm -it \
     -v "$GEN_PATH":/app/gen \
     -v $(pwd)/post-generate.bash:/app/post-generate.bash \
+    -e GEN_PATH=/app/gen \
     $img \
     ./post-generate.bash

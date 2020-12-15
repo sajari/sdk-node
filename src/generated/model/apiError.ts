@@ -13,7 +13,7 @@
 import { RequestFile } from "./models";
 import { ProtobufAny } from "./protobufAny";
 
-export class ModelError {
+export class ApiError {
   "code"?: number;
   "message"?: string;
   "details"?: Array<ProtobufAny>;
@@ -43,6 +43,6 @@ export class ModelError {
   ];
 
   static getAttributeTypeMap() {
-    return ModelError.attributeTypeMap;
+    return ApiError.attributeTypeMap;
   }
 }

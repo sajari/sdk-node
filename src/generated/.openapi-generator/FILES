@@ -26,7 +26,7 @@ model/listCollectionsResponse.ts
 model/listPipelinesRequestView.ts
 model/listPipelinesResponse.ts
 model/listSchemaFieldsResponse.ts
-model/modelError.ts
+model/apiError.ts
 model/pipeline.ts
 model/pipelineStep.ts
 model/pipelineStepParamBinding.ts
