@@ -1,50 +1,22 @@
-import { APIClient } from "./api";
-import { Interaction } from "./interaction";
-import { Pipeline, PipelineImpl } from "./pipeline";
-import { PipelineIdentifier } from "./pipeline/pipeline";
-import { Schema } from "./schema";
-import { Store } from "./store/client";
+export const withEndpoint = (endpoint: string) => (client: Client) => {
+  client.endpoint = endpoint;
+};
 
-export class Client {
-  private client: APIClient;
+export const withKeyCredentials = (keyId: string, keySecret: string) => (
+  client: Client
+) => {
+  client.keyId = keyId;
+  client.keySecret = keySecret;
+};
 
-  constructor(
-    project: string,
-    collection: string,
-    credentials: { key: string; secret: string },
-    endpoint?: string,
-    insecure: boolean = false
-  ) {
-    this.client = new APIClient(
-      project,
-      collection,
-      credentials,
-      endpoint,
-      insecure
-    );
-  }
+export abstract class Client {
+  endpoint: string = "";
+  keyId: string = "";
+  keySecret: string = "";
 
-  public close(): void {
-    this.client.close();
-  }
-
-  public wait(seconds: number) {
-    return this.client.wait(seconds);
-  }
-
-  public pipeline(pipeline: PipelineIdentifier): Pipeline {
-    return new PipelineImpl(pipeline, this.client);
-  }
-
-  public schema(): Schema {
-    return new Schema(this.client);
-  }
-
-  public store(): Store {
-    return new Store(this.client);
-  }
-
-  public interaction(): Interaction {
-    return new Interaction(this.client);
+  constructor(...options: Array<(client: Client) => void>) {
+    for (const opt of options) {
+      opt(this);
+    }
   }
 }

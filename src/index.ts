@@ -1,33 +1,17 @@
-import { appendField, incrementField, setField } from "./store";
-
-// re-export the grpc status code enum
-export { status as statusCode } from "grpc";
-
-export { Client } from "./client";
-export { Key, Value } from "./types";
+export { withEndpoint, withKeyCredentials } from "./client";
+export {
+  CollectionsClient,
+  setCollectionDisplayName,
+  setCollectionAuthorizedQueryDomains,
+} from "./collections";
+export { SchemaClient } from "./schema";
+export { PipelinesClient } from "./pipelines";
+export { RecordsClient } from "./records";
 
 export {
-  Session,
-  DefaultSession,
-  Tracking,
-  TrackingType
-} from "./pipeline/session";
-
-export {
-  SearchResponse,
-  Results,
-  Result,
-  Aggregates,
-  CountResponse,
-  BucketsResponse,
-  BucketResponse
-} from "./pipeline/search";
-
-export { default as schema, FieldMode } from "./schema";
-
-export { FieldMutation } from "./store";
-export const store = {
-  setField,
-  appendField,
-  incrementField
-};
+  HttpError,
+  ModelError as APIError,
+  SchemaFieldType,
+  SchemaField,
+  SchemaFieldMode,
+} from "./generated/api";

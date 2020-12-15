@@ -1,207 +1,96 @@
-# @sajari/sdk-node
+# Sajari SDK for Node
 
-> Node.js SDK for Sajari APIs <br/>
-> NOTE: THIS IS STILL IN ALPHA
+[![Build status](https://github.com/sajari/sdk-node/workflows/Build/badge.svg?branch=master)](https://github.com/sajari/sdk-node/actions)
 
-## Getting Started
+The official [Sajari](https://www.sajari.com) Node client library.
 
-### Installation
+Sajari is a smart, highly-configurable, real-time search service that enables thousands of businesses worldwide to provide amazing search experiences on their websites, stores, and applications.
 
-This is a [Node.js](https://nodejs.org/) module available through the
-[npm registry](https://www.npmjs.com/). It can be installed using the
-[`npm`](https://docs.npmjs.com/getting-started/installing-npm-packages-locally)
-or [`yarn`](https://yarnpkg.com/en/) command line tools.
+## Table of contents
 
-```sh
-npm install @sajari/sdk-node --save # yarn add @sajari/sdk-node
+- [Quickstart](#quickstart)
+  - [Before you begin](#before-you-begin)
+  - [Install the SDK](#install-the-sdk)
+  - [Use the SDK](#use-the-sdk)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Quickstart
+
+### Before you begin
+
+1. [Create a Sajari account](http://sajari.com/console)
+1. [Retrieve your account credentials](https://www.sajari.com/console/project/credentials)
+
+### Install the SDK
+
+```bash
+npm install @sajari/sdk-node
 ```
 
-### Tests
+### Use the SDK
 
-```sh
-npm install
-npm test
+The following example shows how to create a collection using the SDK.
+
+> ⚠️ The function below cleans up after itself by deleting the collection immediately after creation.
+
+```javascript
+// Import the Sajari SDK.
+import { CollectionsClient, withKeyCredentials } from "@sajari/sdk-node";
+
+// Create a client for working with collections from account key credentials.
+const client = new CollectionsClient(
+  withKeyCredentials("account-key-id", "account-key-secret")
+);
+
+async function createCollection(id, displayName) {
+  // Create a new collection.
+  const collection = await client.createCollection({ id, displayName });
+  console.log(`Collection ${collection.displayName} created.`);
+
+  // Clean up. Remove this in your application to keep the collection.
+  await client.deleteCollection(collection.id);
+}
+
+createCollection("collection-id", "Collection display name").catch(
+  console.error
+);
 ```
 
 ## Examples
 
-**Creating a schema**
-```js
-const { Client, FieldMode, schema } = require("@sajari/sdk-node");
+Examples are in the [examples](https://github.com/sajari/sdk-node/blob/master/examples) directory.
 
-// create client
-const client = new Client("<project>", "<collection>", {
-	key: "<key from console>",
-	secret: "<secret from console>"
-});
+| Example                      | Source code                                                                                            |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Batch create schema fields   | [source code](https://github.com/sajari/sdk-node/blob/master/examples/batch-create-schema-fields.ts)   |
+| Batch upsert records         | [source code](https://github.com/sajari/sdk-node/blob/master/examples/batch-upsert-records.ts)         |
+| Create collection            | [source code](https://github.com/sajari/sdk-node/blob/master/examples/create-collection.ts)            |
+| Create pipeline              | [source code](https://github.com/sajari/sdk-node/blob/master/examples/create-pipeline.ts)              |
+| Create schema field          | [source code](https://github.com/sajari/sdk-node/blob/master/examples/create-schema-field.ts)          |
+| Delete collection            | [source code](https://github.com/sajari/sdk-node/blob/master/examples/delete-collection.ts)            |
+| Delete record                | [source code](https://github.com/sajari/sdk-node/blob/master/examples/delete-record.ts)                |
+| Generate pipelines           | [source code](https://github.com/sajari/sdk-node/blob/master/examples/generate-pipelines.ts)           |
+| Get collection               | [source code](https://github.com/sajari/sdk-node/blob/master/examples/get-collection.ts)               |
+| Get pipeline                 | [source code](https://github.com/sajari/sdk-node/blob/master/examples/get-pipeline.ts)                 |
+| Get record                   | [source code](https://github.com/sajari/sdk-node/blob/master/examples/get-record.ts)                   |
+| List collections             | [source code](https://github.com/sajari/sdk-node/blob/master/examples/list-collections.ts)             |
+| List pipelines               | [source code](https://github.com/sajari/sdk-node/blob/master/examples/list-pipelines.ts)               |
+| List schema fields           | [source code](https://github.com/sajari/sdk-node/blob/master/examples/list-schema-fields.ts)           |
+| Upsert record                | [source code](https://github.com/sajari/sdk-node/blob/master/examples/upsert-record.ts)                |
+| Query collection             | [source code](https://github.com/sajari/sdk-node/blob/master/examples/query-collection.ts)             |
+| Set default pipeline         | [source code](https://github.com/sajari/sdk-node/blob/master/examples/set-default-pipeline.ts)         |
+| Get default pipeline         | [source code](https://github.com/sajari/sdk-node/blob/master/examples/get-default-pipeline.ts)         |
+| Set default pipeline version | [source code](https://github.com/sajari/sdk-node/blob/master/examples/set-default-pipeline-version.ts) |
+| Get default pipeline version | [source code](https://github.com/sajari/sdk-node/blob/master/examples/get-default-pipeline-version.ts) |
 
-const fields = [
-  schema.field.boolean("my-boolean-field", {
-    // Set this field to be required.
-    // FieldMode options are defined here,
-    // https://sajari-sdk-node.netlify.com/enums/fieldmode.html
-    mode: FieldMode.Required
-  }),
-  schema.field.string("text"),
-  schema.field.string("url", { mode: FieldMode.Unique })
-];
+## Contributing
 
-Promise.all(fields.map((field) => client.schema().createField(field))).catch(
-  (error) => {
-    /* handle error ... */
-  }
-);
-```
-
-**Adding a record**
-```js
-const { Client } = require("@sajari/sdk-node");
-
-// create client
-const client = new Client("<project>", "<collection>", {
-  key: "<key from console>",
-  secret: "<secret from console>"
-});
-
-// get the pipeline client
-const pipeline = client.pipeline({
-  name: "<your pipeline name>",
-  version: "<your pipeline version>"
-});
-
-const record = {
-  "my-boolean-field": "true",
-  text: "hello",
-  url: "https://example.com"
-};
-
-pipeline
-  .create({}, record)
-  .then((key) => {
-    /* handle key ... */
-  })
-  .catch((error) => {
-    /* handle error ... */
-  });
-```
-
-**Performing a search**
-```js
-const { Client, DefaultSession, TrackingType } = require("@sajari/sdk-node");
-
-const client = new Client("<project>", "<collection>", {
-  key: "<key from console>",
-  secret: "<secret from console>"
-});
-
-const session = new DefaultSession(TrackingType.None, "url", {
-    /* optional session data can be added here */
-});
-const pipeline = client.pipeline({
-  name: "<your pipeline name>",
-  version: "<your pipeline version>"
-});
-const values = { q: "hello" };
-
-pipeline
-  .search(values, session.next(values))
-  .then((response) => {
-    /* handle response ... */
-  })
-  .catch((error) => {
-    /* handle error ... */
-  });
-```
-
-**Performing a search (with Click Tracking)**
-```js
-const { Client, DefaultSession, TrackingType } = require("@sajari/sdk-node");
-
-const client = new Client("<project>", "<collection>", {
-  key: "<key from console>",
-  secret: "<secret from console>"
-});
-
-const session = new DefaultSession(TrackingType.Click, "url", {
-    /* optional session data can be added here */
-});
-const pipeline = client.pipeline({
-  name: "<your pipeline name>",
-  version: "<your pipeline version>"
-});
-const values = { q: "hello" };
-
-pipeline
-  .search(values, session.next(values))
-  .then((response) => {
-    /* handle response ... */
-  })
-  .catch((error) => {
-    /* handle error ... */
-  });
-```
-
-**Performing a search (with PosNeg Tracking and Session Data)**
-```js
-const { Client, DefaultSession, TrackingType } = require("@sajari/sdk-node");
-
-const client = new Client("<project>", "<collection>", {
-  key: "<key from console>",
-  secret: "<secret from console>"
-});
-
-const session = new DefaultSession(TrackingType.PosNeg, "url", {
-  /*
-    Optionally data can be included when constructing a search session.
-  */
-  "googleAnalyticsID": "123456789",
-  "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1",
-  "userID": "34567uighfrytutr54",
-});
-const pipeline = client.pipeline({
-  name: "<your pipeline name>",
-  version: "<your pipeline version>"
-});
-const values = { q: "hello" };
-
-pipeline
-  .search(values, session.next(values))
-  .then((response) => {
-    /* handle response ... */
-  })
-  .catch((error) => {
-    /* handle error ... */
-  });
-```
-
-**Consuming an interaction token**
-```js
-const { Client } = require("@sajari/sdk-node");
-
-const client = new Client("<project>", "<collection>", {
-  key: "<key from console>",
-  secret: "<secret from console>"
-});
-
-/*
-On each result when using TrackingType.Click or TrackingType.PosNeg, there is a
-set of tokens. These tokens allow you to provide feedback to the ranking system.
-When a user interacts with a result, you can send back the token with some extra
-information.
-
-The following invocation of the consume function, is noting that this particular
-interaction was a "purchase" and the user purchasing the item was 20 years old (this information coming from some system that you operate.)
-*/
-client.interaction().consume(token, {
-  identifier: "purchase",
-  weight: 1.0,
-  data: {
-    age: "20",
-  }
-})
-```
-
+Contributions are welcome. See the [Contributing](https://github.com/sajari/sdk-node/blob/master/examples/CONTRIBUTING.md) guide.
 
 ## License
 
-[MIT](LICENSE)
+MIT
+
+See [LICENSE](https://github.com/sajari/sdk-node/blob/master/LICENSE)
