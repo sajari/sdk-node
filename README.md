@@ -31,12 +31,11 @@ The following example shows how to create a collection using the SDK.
 
 ```javascript
 // Import the Sajari SDK.
-const { CollectionsClient, withKeyCredentials } = require("@sajari/sdk-node");
+import { CollectionsClient, withKeyCredentials } from "@sajari/sdk-node";
 
-// Create a client for working with collections from the account key
-// credentials.
+// Create a client for working with collections from account key credentials.
 const client = new CollectionsClient(
-  withKeyCredentials("key-id", "key-secret")
+  withKeyCredentials("account-key-id", "account-key-secret")
 );
 
 async function createCollection(id, displayName) {
@@ -44,7 +43,7 @@ async function createCollection(id, displayName) {
   const collection = await client.createCollection({ id, displayName });
   console.log(`Collection ${collection.displayName} created.`);
 
-  // Clean up.
+  // Clean up. Remove this in your application to keep the collection.
   await client.deleteCollection(collection.id);
 }
 
