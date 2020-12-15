@@ -36,5 +36,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test-examples": "cd examples && npm test && cd ../"
+  },
+  "volta": {
+    "node": "12.20.0"
   }
 }
