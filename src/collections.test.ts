@@ -1,36 +1,44 @@
 import ksuid from "ksuid";
 
 import { CollectionsClient, withKeyCredentials } from "./collections";
-import { skipSuite } from "./test-util";
+import { server, rest } from "./test/server";
+import { endpoint, ErrorResponse, errorResponse } from "./test/api-util";
+import { APIError } from ".";
 
-const _client = createClient();
-if (!_client) {
-  skipSuite("Set TEST_ACCOUNT_KEY_ID and TEST_ACCOUNT_KEY_SECRET to run test");
-}
-const client = _client!;
+const createClient = () =>
+  new CollectionsClient(withKeyCredentials("test-key-id", "test-key-secret"));
 
-function createClient() {
-  if (
-    !(process.env.TEST_ACCOUNT_KEY_ID && process.env.TEST_ACCOUNT_KEY_SECRET)
-  ) {
-    return;
-  }
-  return new CollectionsClient(
-    withKeyCredentials(
-      process.env.TEST_ACCOUNT_KEY_ID,
-      process.env.TEST_ACCOUNT_KEY_SECRET
-    )
-  );
-}
-
-async function createCollection(id: string, displayName: string) {
-  const collection = await client.createCollection({ id, displayName });
-
-  await client.deleteCollection(collection.id);
-}
+const newId = () => `col-${ksuid.randomSync().string}`;
 
 test("create collection", async () => {
-  jest.setTimeout(10000); // create can take longer than the default 5s
+  const client = createClient();
 
-  await createCollection(`col-${ksuid.randomSync().string}`, "My collection");
+  await client.createCollection({ id: newId(), displayName: "My collection" });
+});
+
+test("server error turns into thrown APIError", async () => {
+  server.use(
+    rest.post<{}, ErrorResponse>(
+      `${endpoint}/v4/collections`,
+      async (req, res, ctx) =>
+        res(ctx.status(400), ctx.json(errorResponse(3, "msg")))
+    )
+  );
+
+  const client = createClient();
+
+  try {
+    await client.createCollection({
+      id: newId(),
+      displayName: "My collection",
+    });
+  } catch (e) {
+    expect(e).toBeInstanceOf(APIError);
+    expect(e).toEqual(
+      expect.objectContaining({
+        code: 3,
+        message: "msg",
+      })
+    );
+  }
 });

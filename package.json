@@ -22,6 +22,7 @@
     "csv-parser": "^3.0.0",
     "jest": "^26.6.3",
     "ksuid": "^2.0.0",
+    "msw": "0.23.0",
     "prettier": "2.2.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.4.4",
@@ -33,6 +34,7 @@
     "format": "prettier --write \"**/*.{js,json,md,ts,yaml}\"",
     "setup-examples": "npm link && cd examples && npm install && npm link ../ && cd ../",
     "test": "jest",
+    "test:watch": "jest --watch",
     "test-examples": "cd examples && npm test && cd ../"
   }
 }
