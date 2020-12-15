@@ -26,11 +26,13 @@
     "prettier": "2.2.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.4.4",
+    "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   },
   "scripts": {
     "clean": "rimraf ./build",
-    "build": "tsc -p .",
+    "generate-version": "ts-node generate-version.ts",
+    "build": "npm run generate-version && tsc -p .",
     "format": "prettier --write \"**/*.{js,json,md,ts,yaml}\"",
     "setup-examples": "npm link && cd examples && npm install && npm link ../ && cd ../",
     "test": "jest",
