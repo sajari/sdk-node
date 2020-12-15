@@ -8,7 +8,7 @@ import { APIError } from ".";
 jest.mock(
   "../package.json",
   () => ({
-    version: "1.2.3",
+    version: "1.2.3-test",
   }),
   { virtual: true }
 );
@@ -68,5 +68,5 @@ test("sends client user agent header", async () => {
 
   await client.deleteCollection(newId());
 
-  expect(header).toEqual("sajari-sdk-node/1.2.3");
+  expect(header).toEqual("sajari-sdk-node/1.2.3-test");
 });
