@@ -87,7 +87,7 @@ Examples are in the [examples](https://github.com/sajari/sdk-node/blob/master/ex
 
 ## Contributing
 
-Contributions are welcome. See the [Contributing](https://github.com/sajari/sdk-node/blob/master/examples/CONTRIBUTING.md) guide.
+Contributions are welcome. See the [Contributing](https://github.com/sajari/sdk-node/blob/master/CONTRIBUTING.md) guide.
 
 ## License
 
