@@ -117,7 +117,7 @@ export class RecordsApi {
   }
 
   /**
-   * The batch version of the [UpsertRecord](/docs/api-reference#operation/UpsertRecord) call.
+   * The batch version of the [UpsertRecord](/api#operation/UpsertRecord) call.
    * @summary Batch upsert records
    * @param collectionId The collection to upsert the records in, e.g. &#x60;my-collection&#x60;.
    * @param batchUpsertRecordsRequest

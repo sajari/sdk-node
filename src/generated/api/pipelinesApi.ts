@@ -21,7 +21,6 @@ import { ListPipelinesResponse } from "../model/listPipelinesResponse";
 import { Pipeline } from "../model/pipeline";
 import { SetDefaultPipelineRequest } from "../model/setDefaultPipelineRequest";
 import { SetDefaultVersionRequest } from "../model/setDefaultVersionRequest";
-import { Status } from "../model/status";
 
 import {
   ObjectSerializer,
@@ -477,7 +476,7 @@ export class PipelinesApi {
    * @param collectionId The collection that owns the pipeline to get the default version of, e.g. &#x60;my-collection&#x60;.
    * @param type The type of the pipeline to get the default version of.
    * @param name The name of the pipeline to get the default version of, e.g. &#x60;my-pipeline&#x60;.
-   * @param view The amount of information to include in the retrieved pipeline.   - VIEW_UNSPECIFIED: The default / unset value. The API defaults to the &#x60;BASIC&#x60; view.  - BASIC: Include basic information including type, name, version and description but not the full step configuration. This is the default value (for both [ListPipelines](/docs/api-reference#operation/ListPipelines) and [GetPipeline](/docs/api-reference#operation/GetPipeline)).  - FULL: Include the information from &#x60;BASIC&#x60;, plus full step configuration.
+   * @param view The amount of information to include in the retrieved pipeline.   - VIEW_UNSPECIFIED: The default / unset value. The API defaults to the &#x60;BASIC&#x60; view.  - BASIC: Include basic information including type, name, version and description but not the full step configuration. This is the default value (for both [ListPipelines](/api#operation/ListPipelines) and [GetPipeline](/api#operation/GetPipeline)).  - FULL: Include the information from &#x60;BASIC&#x60;, plus full step configuration.
    */
   public async getDefaultVersion(
     collectionId: string,
@@ -607,7 +606,7 @@ export class PipelinesApi {
    * @param type The type of the pipeline to retrieve.
    * @param name The name of the pipeline to retrieve, e.g. &#x60;my-pipeline&#x60;.
    * @param version The version of the pipeline to retrieve, e.g. &#x60;42&#x60;.
-   * @param view The amount of information to include in the retrieved pipeline.   - VIEW_UNSPECIFIED: The default / unset value. The API defaults to the &#x60;BASIC&#x60; view.  - BASIC: Include basic information including type, name, version and description but not the full step configuration. This is the default value (for both [ListPipelines](/docs/api-reference#operation/ListPipelines) and [GetPipeline](/docs/api-reference#operation/GetPipeline)).  - FULL: Include the information from &#x60;BASIC&#x60;, plus full step configuration.
+   * @param view The amount of information to include in the retrieved pipeline.   - VIEW_UNSPECIFIED: The default / unset value. The API defaults to the &#x60;BASIC&#x60; view.  - BASIC: Include basic information including type, name, version and description but not the full step configuration. This is the default value (for both [ListPipelines](/api#operation/ListPipelines) and [GetPipeline](/api#operation/GetPipeline)).  - FULL: Include the information from &#x60;BASIC&#x60;, plus full step configuration.
    */
   public async getPipeline(
     collectionId: string,
@@ -744,8 +743,8 @@ export class PipelinesApi {
    * @summary List pipelines
    * @param collectionId The collection that owns this set of pipelines, e.g. &#x60;my-collection&#x60;.
    * @param pageSize The maximum number of pipelines to return. The service may return fewer than this value.  If unspecified, at most 50 pipelines are returned.  The maximum value is 1000; values above 1000 are coerced to 1000.
-   * @param pageToken A page token, received from a previous [ListPipelines](/docs/api-reference#operation/ListPipelines) call.  Provide this to retrieve the subsequent page.  When paginating, all other parameters provided to [ListPipelines](/docs/api-reference#operation/ListPipelines) must match the call that provided the page token.
-   * @param view The amount of information to include in each retrieved pipeline.   - VIEW_UNSPECIFIED: The default / unset value. The API defaults to the &#x60;BASIC&#x60; view.  - BASIC: Include basic information including type, name, version and description but not the full step configuration. This is the default value (for both [ListPipelines](/docs/api-reference#operation/ListPipelines) and [GetPipeline](/docs/api-reference#operation/GetPipeline)).  - FULL: Include the information from &#x60;BASIC&#x60;, plus full step configuration.
+   * @param pageToken A page token, received from a previous [ListPipelines](/api#operation/ListPipelines) call.  Provide this to retrieve the subsequent page.  When paginating, all other parameters provided to [ListPipelines](/api#operation/ListPipelines) must match the call that provided the page token.
+   * @param view The amount of information to include in each retrieved pipeline.   - VIEW_UNSPECIFIED: The default / unset value. The API defaults to the &#x60;BASIC&#x60; view.  - BASIC: Include basic information including type, name, version and description but not the full step configuration. This is the default value (for both [ListPipelines](/api#operation/ListPipelines) and [GetPipeline](/api#operation/GetPipeline)).  - FULL: Include the information from &#x60;BASIC&#x60;, plus full step configuration.
    */
   public async listPipelines(
     collectionId: string,
