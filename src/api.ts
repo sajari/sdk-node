@@ -5,26 +5,6 @@ import protobuf from "protobufjs/light";
 import retryInterceptor from "./retryInterceptor";
 import { USER_AGENT } from "./ua";
 
-// TEMP: Set debug value to ALWAYS show logs here
-// process.env.DEBUG = 'sajari:api,sajari:*';
-
-function humanSize(bytes: number): string {
-  if (bytes === 0) { return "0.00 B"; }
-  const e = Math.floor(Math.log(bytes) / Math.log(1024));
-  return (bytes/Math.pow(1024, e)).toFixed(2)+' '+' KMGTP'.charAt(e)+'B';
-}
-function logMemoryUsage(msg: string) {
-  const mem = process.memoryUsage();
-
-  // tslint:disable-next-line: no-console
-  console.log(`[MEMORY USAGE] ${msg}`, {
-    external: humanSize(mem.external),
-    heapTotal: humanSize(mem.heapTotal),
-    heapUsed: humanSize(mem.heapUsed),
-    rss: humanSize(mem.rss),
-  });
-}
-
 /**
  * Custom formatter for call options.
  * By default we hide the credentials from being logged to the console.
@@ -43,10 +23,16 @@ debuglog.formatters.C = function callOptionsFormatter(
 };
 
 /**
- * debug message logger
+ * debug request message logger
  * @hidden
  */
-const debug = debuglog("sajari:api");
+const debugRequest = debuglog("sajari:api:request");
+
+/**
+ * debug response message logger
+ * @hidden
+ */
+const debugResponse = debuglog("sajari:api:response");
 
 /**
  * The default API endpoint
@@ -145,7 +131,6 @@ export class APIClient {
     decoder: Decoder<Response>,
     options: CallOptions = {}
   ): Promise<Response> {
-    logMemoryUsage('before call');
     return new Promise((resolve, reject) => {
       const callOptions = merge(
         {
@@ -155,10 +140,10 @@ export class APIClient {
         options
       );
 
-      debug("endpoint: %j", this.endpoint);
-      debug("grpc method: %j", path);
-      debug("call options: %C", callOptions);
-      debug("request: %j", request);
+      debugRequest("endpoint: %j", this.endpoint);
+      debugRequest("grpc method: %j", path);
+      debugRequest("call options: %C", callOptions);
+      debugRequest("request: %j", request);
 
       this.client.makeUnaryRequest(
         path,
@@ -181,12 +166,12 @@ export class APIClient {
         },
         (err: grpc.ServiceError | null, value?: Response) => {
           if (err) {
-            logMemoryUsage('after call error');
             return reject(err);
           }
-          debug("response: %j", value);
-          logMemoryUsage('after call success');
-          return resolve(value);
+          debugResponse("response: %j", value);
+          if (value) {
+            return resolve(value);
+          }
         }
       );
     });
@@ -221,7 +206,6 @@ function createCallCredentials(
   key: string,
   secret: string
 ): grpc.CallCredentials {
-  logMemoryUsage('after call success');
   return grpc.credentials.createFromMetadataGenerator(
     (_ : any, callback : any) => {
       const metadata = new grpc.Metadata();

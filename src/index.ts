@@ -1,8 +1,5 @@
 import { appendField, incrementField, setField } from "./store";
 
-// TEMPORARY: Debug ALL sajari calls
-process.env.DEBUG = process.env.DEBUG ? process.env.DEBUG + ',sajari:*' : 'sajari:*';
-
 // re-export the grpc status code enum
 export { status as statusCode } from "@grpc/grpc-js";
 
