@@ -1,7 +1,6 @@
+import * as grpc from "@grpc/grpc-js";
 import debuglog from "debug";
 import merge from "deepmerge";
-import { EventEmitter } from "events";
-import grpc from "grpc";
 import protobuf from "protobufjs/light";
 import retryInterceptor from "./retryInterceptor";
 import { USER_AGENT } from "./ua";
@@ -24,10 +23,16 @@ debuglog.formatters.C = function callOptionsFormatter(
 };
 
 /**
- * debug message logger
+ * debug request message logger
  * @hidden
  */
-const debug = debuglog("sajari:api");
+const debugRequest = debuglog("sajari:api:request");
+
+/**
+ * debug response message logger
+ * @hidden
+ */
+const debugResponse = debuglog("sajari:api:response");
 
 /**
  * The default API endpoint
@@ -60,14 +65,27 @@ export interface CallOptions {
     secret: string;
   };
 }
-/*
-export interface SajariResponse extends Response {
-  key: string;
-  pipeline: string;
-  nextPageToken: string;
-  record: object;
-} 
-*/
+
+// tslint:disable-next-line
+// @link https://github.com/grpc/grpc-node/blob/grpc%401.24.x/packages/grpc-native-core/src/constants.js#L169
+/**
+ * Propagation flags: these can be bitwise or-ed to form the propagation option
+ * for calls.
+ *
+ * Users are encouraged to write propagation masks as deltas from the default.
+ * i.e. write `grpc.propagate.DEFAULTS & ~grpc.propagate.DEADLINE` to disable
+ * deadline propagation.
+ * @memberof grpc
+ * @alias grpc.propagate
+ * @enum {number}
+ */
+const propagate = {
+  DEADLINE: 1,
+  CENSUS_STATS_CONTEXT: 2,
+  CENSUS_TRACING_CONTEXT: 4,
+  CANCELLATION: 8,
+  DEFAULTS: 65535
+};
 
 /**
  * APIClient wraps the grpc client, providing a single call method for
@@ -79,8 +97,6 @@ export class APIClient {
   private client: grpc.Client;
   private metadata: grpc.Metadata;
   private credentials: { key: string; secret: string };
-  private emitter: EventEmitter | undefined;
-  private insecure: boolean;
 
   constructor(
     project: string,
@@ -91,8 +107,17 @@ export class APIClient {
   ) {
     this.credentials = credentials;
     this.endpoint = endpoint;
-    this.insecure = insecure;
-    this.client = this.reconnect();
+    this.client = new grpc.Client(
+      this.endpoint,
+      insecure
+      ? grpc.credentials.createInsecure()
+      : grpc.credentials.createSsl(),
+      {
+        "gprc.keepalive_permit_without_calls": 1,
+        "grpc.default_authority": AUTHORITY,
+        "grpc.primary_user_agent": USER_AGENT
+      }
+    );
 
     this.metadata = new grpc.Metadata();
     this.metadata.add("project", project);
@@ -115,29 +140,21 @@ export class APIClient {
         options
       );
 
-      debug("endpoint: %j", this.endpoint);
-      debug("grpc method: %j", path);
-      debug("call options: %C", callOptions);
-      debug("request: %j", request);
+      debugRequest("endpoint: %j", this.endpoint);
+      debugRequest("grpc method: %j", path);
+      debugRequest("call options: %C", callOptions);
+      debugRequest("request: %j", request);
 
-      const metadata = this.metadata.clone();
-      metadata.set(
-        "authorization",
-        `keysecret ${callOptions.credentials.key} ${
-          callOptions.credentials.secret
-        }`
-      );
-
-      this.emitter = this.client.makeUnaryRequest(
+      this.client.makeUnaryRequest(
         path,
         wrapEncoder(encoder),
         decoder,
         request,
-        metadata,
+        this.metadata,
         {
           deadline: deadline(callOptions.deadline),
           // tslint:disable-next-line:no-bitwise
-          propagate_flags: grpc.propagate.DEFAULTS & ~grpc.propagate.DEADLINE,
+          propagate_flags: propagate.DEFAULTS & ~propagate.DEADLINE,
 
           // NOTE(@bhinchley): credentials is required by the type CallOptions,
           // but this appears to do nothing.
@@ -151,16 +168,12 @@ export class APIClient {
           if (err) {
             return reject(err);
           }
-          debug("response: %j", value);
-
-          return resolve(value);
+          debugResponse("response: %j", value);
+          if (value) {
+            return resolve(value);
+          }
         }
       );
-
-      // Reconnect to gRPC server on unexpected disconnects...
-      if (this.emitter) {
-        this.emitter.on('cancelled', this.reconnect);
-      }
     });
   }
 
@@ -180,35 +193,7 @@ export class APIClient {
   }
 
   public close() {
-    this.unbindEmitter();
-
-    if (this.client) {
-      this.client.close();
-    }
-  }
-
-  public reconnect(): grpc.Client {
-    // Close any existing client before reconnecting if open
-    if (this.client) {
-      this.close();
-    }
-
-    return this.client = new grpc.Client(
-      this.endpoint,
-      this.insecure
-        ? grpc.credentials.createInsecure()
-        : grpc.credentials.createSsl(),
-      {
-        "grpc.default_authority": AUTHORITY,
-        "grpc.primary_user_agent": USER_AGENT
-      }
-    );
-  }
-
-  private unbindEmitter(): void {
-    if (this.emitter) {
-      this.emitter.off('cancelled', this.reconnect);
-    }
+    this.client.close();
   }
 }
 
@@ -221,11 +206,13 @@ function createCallCredentials(
   key: string,
   secret: string
 ): grpc.CallCredentials {
-  return grpc.credentials.createFromMetadataGenerator((_, callback) => {
-    const metadata = new grpc.Metadata();
-    metadata.add("authorization", `keysecret ${key} ${secret}`);
-    callback(null, metadata);
-  });
+  return grpc.credentials.createFromMetadataGenerator(
+    (_ : any, callback : any) => {
+      const metadata = new grpc.Metadata();
+      metadata.add("authorization", `keysecret ${key} ${secret}`);
+      callback(null, metadata);
+    }
+  );
 }
 
 /**
