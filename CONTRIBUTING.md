@@ -36,7 +36,7 @@ npm run setup-examples
 If you need to regenerate the OpenAPI-generated, use the script:
 
 ```
-./generate/docker.bash
+./generate/docker.sh
 ```
 
 ## Build
