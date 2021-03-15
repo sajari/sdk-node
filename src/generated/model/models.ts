@@ -22,6 +22,7 @@ export * from "./listPipelinesRequestView";
 export * from "./listPipelinesResponse";
 export * from "./listSchemaFieldsResponse";
 export * from "./apiError";
+export * from "./percentileDataPoint";
 export * from "./pipeline";
 export * from "./pipelineStep";
 export * from "./pipelineStepParamBinding";
@@ -35,6 +36,7 @@ export * from "./queryAggregateResultBucketsBucket";
 export * from "./queryAggregateResultCount";
 export * from "./queryAggregateResultDate";
 export * from "./queryAggregateResultMetric";
+export * from "./queryAggregateResultPercentile";
 export * from "./queryCollectionRequest";
 export * from "./queryCollectionRequestPipeline";
 export * from "./queryCollectionRequestTracking";
@@ -90,6 +92,7 @@ import { ListPipelinesRequestView } from "./listPipelinesRequestView";
 import { ListPipelinesResponse } from "./listPipelinesResponse";
 import { ListSchemaFieldsResponse } from "./listSchemaFieldsResponse";
 import { ApiError } from "./apiError";
+import { PercentileDataPoint } from "./percentileDataPoint";
 import { Pipeline } from "./pipeline";
 import { PipelineStep } from "./pipelineStep";
 import { PipelineStepParamBinding } from "./pipelineStepParamBinding";
@@ -103,6 +106,7 @@ import { QueryAggregateResultBucketsBucket } from "./queryAggregateResultBuckets
 import { QueryAggregateResultCount } from "./queryAggregateResultCount";
 import { QueryAggregateResultDate } from "./queryAggregateResultDate";
 import { QueryAggregateResultMetric } from "./queryAggregateResultMetric";
+import { QueryAggregateResultPercentile } from "./queryAggregateResultPercentile";
 import { QueryCollectionRequest } from "./queryCollectionRequest";
 import { QueryCollectionRequestPipeline } from "./queryCollectionRequestPipeline";
 import { QueryCollectionRequestTracking } from "./queryCollectionRequestTracking";
@@ -167,6 +171,7 @@ let typeMap: { [index: string]: any } = {
   ListPipelinesResponse: ListPipelinesResponse,
   ListSchemaFieldsResponse: ListSchemaFieldsResponse,
   ApiError: ApiError,
+  PercentileDataPoint: PercentileDataPoint,
   Pipeline: Pipeline,
   PipelineStep: PipelineStep,
   PipelineStepParamBinding: PipelineStepParamBinding,
@@ -178,6 +183,7 @@ let typeMap: { [index: string]: any } = {
   QueryAggregateResultCount: QueryAggregateResultCount,
   QueryAggregateResultDate: QueryAggregateResultDate,
   QueryAggregateResultMetric: QueryAggregateResultMetric,
+  QueryAggregateResultPercentile: QueryAggregateResultPercentile,
   QueryCollectionRequest: QueryCollectionRequest,
   QueryCollectionRequestPipeline: QueryCollectionRequestPipeline,
   QueryCollectionRequestTracking: QueryCollectionRequestTracking,

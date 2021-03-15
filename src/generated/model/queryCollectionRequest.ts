@@ -15,7 +15,7 @@ import { QueryCollectionRequestPipeline } from "./queryCollectionRequestPipeline
 import { QueryCollectionRequestTracking } from "./queryCollectionRequestTracking";
 
 /**
- * QueryCollectionRequest is a request to perform a search using a pipeline.
+ * A request to perform a search using a pipeline.
  */
 export class QueryCollectionRequest {
   "pipeline"?: QueryCollectionRequestPipeline;

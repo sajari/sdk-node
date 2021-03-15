@@ -27,6 +27,7 @@ model/listPipelinesRequestView.ts
 model/listPipelinesResponse.ts
 model/listSchemaFieldsResponse.ts
 model/apiError.ts
+model/percentileDataPoint.ts
 model/pipeline.ts
 model/pipelineStep.ts
 model/pipelineStepParamBinding.ts
@@ -40,6 +41,7 @@ model/queryAggregateResultBucketsBucket.ts
 model/queryAggregateResultCount.ts
 model/queryAggregateResultDate.ts
 model/queryAggregateResultMetric.ts
+model/queryAggregateResultPercentile.ts
 model/queryCollectionRequest.ts
 model/queryCollectionRequestPipeline.ts
 model/queryCollectionRequestTracking.ts

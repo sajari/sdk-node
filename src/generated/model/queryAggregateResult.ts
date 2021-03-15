@@ -16,6 +16,7 @@ import { QueryAggregateResultBuckets } from "./queryAggregateResultBuckets";
 import { QueryAggregateResultCount } from "./queryAggregateResultCount";
 import { QueryAggregateResultDate } from "./queryAggregateResultDate";
 import { QueryAggregateResultMetric } from "./queryAggregateResultMetric";
+import { QueryAggregateResultPercentile } from "./queryAggregateResultPercentile";
 
 /**
  * A query aggregate result contains results of aggregations.
@@ -26,6 +27,7 @@ export class QueryAggregateResult {
   "buckets"?: QueryAggregateResultBuckets;
   "date"?: QueryAggregateResultDate;
   "analysis"?: QueryAggregateResultAnalysis;
+  "percentile"?: QueryAggregateResultPercentile;
 
   static discriminator: string | undefined = undefined;
 
@@ -58,6 +60,11 @@ export class QueryAggregateResult {
       name: "analysis",
       baseName: "analysis",
       type: "QueryAggregateResultAnalysis",
+    },
+    {
+      name: "percentile",
+      baseName: "percentile",
+      type: "QueryAggregateResultPercentile",
     },
   ];
 
