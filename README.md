@@ -90,7 +90,6 @@ Examples are in the [examples](https://github.com/sajari/sdk-node/blob/master/ex
 Contributions are welcome. See the [Contributing](https://github.com/sajari/sdk-node/blob/master/CONTRIBUTING.md) guide.
 
 ## License
-
 MIT
 
 See [LICENSE](https://github.com/sajari/sdk-node/blob/master/LICENSE)
