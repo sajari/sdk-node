@@ -16,6 +16,8 @@ if [ -z "$TEMPLATES_PATH" ]; then
     die "TEMPLATES_PATH must be set, e.g. /path/to/sajari/sdk-node/generate/templates"
 fi
 
+VERSION=4.1.0
+
 docker-entrypoint.sh generate \
     -i /openapi.json \
     -g typescript-node \
@@ -23,4 +25,5 @@ docker-entrypoint.sh generate \
     --git-repo-id sdk-node \
     -t $TEMPLATES_PATH \
     --additional-properties supportsES6=true \
+    --additional-properties artifactVersion=$VERSION \
     -o $GEN_PATH

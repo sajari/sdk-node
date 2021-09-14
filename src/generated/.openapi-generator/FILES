@@ -2,6 +2,7 @@
 api.ts
 api/apis.ts
 api/collectionsApi.ts
+api/eventsApi.ts
 api/pipelinesApi.ts
 api/recordsApi.ts
 api/schemaApi.ts
@@ -56,6 +57,7 @@ model/recordKey.ts
 model/schemaField.ts
 model/schemaFieldMode.ts
 model/schemaFieldType.ts
+model/sendEventRequest.ts
 model/setDefaultPipelineRequest.ts
 model/setDefaultVersionRequest.ts
 model/status.ts

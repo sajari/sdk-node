@@ -51,6 +51,7 @@ export * from "./recordKey";
 export * from "./schemaField";
 export * from "./schemaFieldMode";
 export * from "./schemaFieldType";
+export * from "./sendEventRequest";
 export * from "./setDefaultPipelineRequest";
 export * from "./setDefaultVersionRequest";
 export * from "./status";
@@ -121,6 +122,7 @@ import { RecordKey } from "./recordKey";
 import { SchemaField } from "./schemaField";
 import { SchemaFieldMode } from "./schemaFieldMode";
 import { SchemaFieldType } from "./schemaFieldType";
+import { SendEventRequest } from "./sendEventRequest";
 import { SetDefaultPipelineRequest } from "./setDefaultPipelineRequest";
 import { SetDefaultVersionRequest } from "./setDefaultVersionRequest";
 import { Status } from "./status";
@@ -195,6 +197,7 @@ let typeMap: { [index: string]: any } = {
   QueryResultTokenPosNeg: QueryResultTokenPosNeg,
   RecordKey: RecordKey,
   SchemaField: SchemaField,
+  SendEventRequest: SendEventRequest,
   SetDefaultPipelineRequest: SetDefaultPipelineRequest,
   SetDefaultVersionRequest: SetDefaultVersionRequest,
   Status: Status,

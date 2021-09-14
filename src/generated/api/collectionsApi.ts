@@ -226,7 +226,7 @@ export class CollectionsApi {
     });
   }
   /**
-   * Delete a collection and all of its associated data.  > Note: this operation cannot be reversed.
+   * Delete a collection and all of its associated data.  > Note: This operation cannot be reversed.
    * @summary Delete collection
    * @param collectionId The collection to delete, e.g. &#x60;my-collection&#x60;.
    */

@@ -20,7 +20,7 @@ import { QueryCollectionRequestTracking } from "./queryCollectionRequestTracking
 export class QueryCollectionRequest {
   "pipeline"?: QueryCollectionRequestPipeline;
   /**
-   * The initial values for the variables the pipeline operates on and transforms throughout its steps.  A typical variable is `q` which is the query the user entered, for example:  ```json { \"q\": \"search terms\" } ```
+   * The initial values for the variables the pipeline operates on and transforms throughout its steps.  The most important variable is `q` which is the query the user entered, for example:  ```json { \"q\": \"search terms\" } ```  To paginate through results, set the variables `page` and `resultsPerPage`, for example:  ```json { \"q\": \"search terms\", \"page\": 5, \"resultsPerPage\": 20 } ```  To sort results, set the variable `sort` to the name of one of your collection\'s schema fields, for example:  ```json { \"q\": \"search terms\", \"sort\": \"name\" } ```  To sort in reverse, prefix the schema field with a minus sign `-`, for example:  ```json { \"q\": \"search terms\", \"sort\": \"-name\" } ```
    */
   "variables": object;
   "tracking"?: QueryCollectionRequestTracking;
