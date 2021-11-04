@@ -18,13 +18,13 @@ import { PercentileDataPoint } from "./percentileDataPoint";
  */
 export class QueryAggregateResultPercentile {
   /**
-   * The percentile data points.
-   */
-  "percentiles"?: Array<PercentileDataPoint>;
-  /**
    * The cumulative distribution function (CDF) data points.
    */
   "cdf"?: Array<PercentileDataPoint>;
+  /**
+   * The percentile data points.
+   */
+  "percentiles"?: Array<PercentileDataPoint>;
 
   static discriminator: string | undefined = undefined;
 
@@ -34,13 +34,13 @@ export class QueryAggregateResultPercentile {
     type: string;
   }> = [
     {
-      name: "percentiles",
-      baseName: "percentiles",
+      name: "cdf",
+      baseName: "cdf",
       type: "Array<PercentileDataPoint>",
     },
     {
-      name: "cdf",
-      baseName: "cdf",
+      name: "percentiles",
+      baseName: "percentiles",
       type: "Array<PercentileDataPoint>",
     },
   ];

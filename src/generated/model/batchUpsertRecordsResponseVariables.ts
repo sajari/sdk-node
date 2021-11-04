@@ -20,7 +20,7 @@ export class BatchUpsertRecordsResponseVariables {
   /**
    * The variables.
    */
-  "variables"?: object;
+  "variables"?: { [key: string]: object };
 
   static discriminator: string | undefined = undefined;
 
@@ -37,7 +37,7 @@ export class BatchUpsertRecordsResponseVariables {
     {
       name: "variables",
       baseName: "variables",
-      type: "object",
+      type: "{ [key: string]: object; }",
     },
   ];
 

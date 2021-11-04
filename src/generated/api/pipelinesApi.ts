@@ -739,7 +739,7 @@ export class PipelinesApi {
     });
   }
   /**
-   * Retrieve a list of pipelines.
+   * Retrieve a list of pipelines in a collection.
    * @summary List pipelines
    * @param collectionId The collection that owns this set of pipelines, e.g. &#x60;my-collection&#x60;.
    * @param pageSize The maximum number of pipelines to return. The service may return fewer than this value.  If unspecified, at most 50 pipelines are returned.  The maximum value is 1000; values above 1000 are coerced to 1000.

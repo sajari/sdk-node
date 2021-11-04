@@ -22,13 +22,13 @@ export class Status {
    */
   "code"?: number;
   /**
-   * A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
-   */
-  "message"?: string;
-  /**
    * A list of messages that carry the error details.  There is a common set of message types for APIs to use.
    */
   "details"?: Array<ProtobufAny>;
+  /**
+   * A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+   */
+  "message"?: string;
 
   static discriminator: string | undefined = undefined;
 
@@ -43,14 +43,14 @@ export class Status {
       type: "number",
     },
     {
-      name: "message",
-      baseName: "message",
-      type: "string",
-    },
-    {
       name: "details",
       baseName: "details",
       type: "Array<ProtobufAny>",
+    },
+    {
+      name: "message",
+      baseName: "message",
+      type: "string",
     },
   ];
 

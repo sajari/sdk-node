@@ -28,6 +28,7 @@ model/listPipelinesRequestView.ts
 model/listPipelinesResponse.ts
 model/listSchemaFieldsResponse.ts
 model/apiError.ts
+model/models.ts
 model/percentileDataPoint.ts
 model/pipeline.ts
 model/pipelineStep.ts
@@ -61,7 +62,7 @@ model/sendEventRequest.ts
 model/setDefaultPipelineRequest.ts
 model/setDefaultVersionRequest.ts
 model/status.ts
+model/updateRecordRequest.ts
 model/upsertRecordRequest.ts
 model/upsertRecordRequestPipeline.ts
 model/upsertRecordResponse.ts
-model/models.ts

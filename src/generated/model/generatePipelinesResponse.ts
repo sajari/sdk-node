@@ -14,9 +14,9 @@ import { RequestFile } from "./models";
 import { Pipeline } from "./pipeline";
 
 export class GeneratePipelinesResponse {
-  "recordPipeline"?: Pipeline;
-  "queryPipeline"?: Pipeline;
   "autocompletePipeline"?: Pipeline;
+  "queryPipeline"?: Pipeline;
+  "recordPipeline"?: Pipeline;
 
   static discriminator: string | undefined = undefined;
 
@@ -26,8 +26,8 @@ export class GeneratePipelinesResponse {
     type: string;
   }> = [
     {
-      name: "recordPipeline",
-      baseName: "record_pipeline",
+      name: "autocompletePipeline",
+      baseName: "autocomplete_pipeline",
       type: "Pipeline",
     },
     {
@@ -36,8 +36,8 @@ export class GeneratePipelinesResponse {
       type: "Pipeline",
     },
     {
-      name: "autocompletePipeline",
-      baseName: "autocomplete_pipeline",
+      name: "recordPipeline",
+      baseName: "record_pipeline",
       type: "Pipeline",
     },
   ];

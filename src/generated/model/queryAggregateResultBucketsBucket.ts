@@ -17,13 +17,13 @@ import { RequestFile } from "./models";
  */
 export class QueryAggregateResultBucketsBucket {
   /**
-   * Name of bucket.
-   */
-  "name"?: string;
-  /**
    * Number of records in the bucket.
    */
   "count"?: number;
+  /**
+   * Name of bucket.
+   */
+  "name"?: string;
 
   static discriminator: string | undefined = undefined;
 
@@ -33,14 +33,14 @@ export class QueryAggregateResultBucketsBucket {
     type: string;
   }> = [
     {
-      name: "name",
-      baseName: "name",
-      type: "string",
-    },
-    {
       name: "count",
       baseName: "count",
       type: "number",
+    },
+    {
+      name: "name",
+      baseName: "name",
+      type: "string",
     },
   ];
 

@@ -17,6 +17,10 @@ import { BatchUpsertRecordsResponseVariables } from "./batchUpsertRecordsRespons
 
 export class BatchUpsertRecordsResponse {
   /**
+   * Errors that occurred.
+   */
+  "errors"?: Array<BatchUpsertRecordsResponseError>;
+  /**
    * A list of keys of the records that were inserted.  If a record was inserted, keys contains an entry containing the index of the inserted record from `records` and the key. You can use the key if you need to retrieve or delete the record.  If a record was updated, keys contains no such entry for the updated record.
    */
   "keys"?: Array<BatchUpsertRecordsResponseKey>;
@@ -24,10 +28,6 @@ export class BatchUpsertRecordsResponse {
    * A list of modified variables returned by the pipeline after it has finished processing each record.
    */
   "variables"?: Array<BatchUpsertRecordsResponseVariables>;
-  /**
-   * Errors that occurred.
-   */
-  "errors"?: Array<BatchUpsertRecordsResponseError>;
 
   static discriminator: string | undefined = undefined;
 
@@ -37,6 +37,11 @@ export class BatchUpsertRecordsResponse {
     type: string;
   }> = [
     {
+      name: "errors",
+      baseName: "errors",
+      type: "Array<BatchUpsertRecordsResponseError>",
+    },
+    {
       name: "keys",
       baseName: "keys",
       type: "Array<BatchUpsertRecordsResponseKey>",
@@ -45,11 +50,6 @@ export class BatchUpsertRecordsResponse {
       name: "variables",
       baseName: "variables",
       type: "Array<BatchUpsertRecordsResponseVariables>",
-    },
-    {
-      name: "errors",
-      baseName: "errors",
-      type: "Array<BatchUpsertRecordsResponseError>",
     },
   ];
 

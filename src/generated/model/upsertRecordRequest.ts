@@ -22,7 +22,7 @@ export class UpsertRecordRequest {
   /**
    * The initial values for the variables the pipeline operates on and transforms throughout its steps.
    */
-  "variables"?: object;
+  "variables"?: { [key: string]: object };
 
   static discriminator: string | undefined = undefined;
 
@@ -44,7 +44,7 @@ export class UpsertRecordRequest {
     {
       name: "variables",
       baseName: "variables",
-      type: "object",
+      type: "{ [key: string]: object; }",
     },
   ];
 

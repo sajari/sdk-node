@@ -237,7 +237,7 @@ export class SchemaApi {
     });
   }
   /**
-   * Create a new field in your collection\'s schema.
+   * Create a new field in a collection\'s schema.
    * @summary Create schema field
    * @param collectionId The collection to create a schema field in, e.g. &#x60;my-collection&#x60;.
    * @param schemaField The schema field to create.
@@ -346,7 +346,7 @@ export class SchemaApi {
     });
   }
   /**
-   * Retrieve a list of schema fields in the collection.
+   * Retrieve a list of schema fields in a collection.
    * @summary List schema fields
    * @param collectionId The collection that owns this set of schema fields, e.g. &#x60;my-collection&#x60;.
    * @param pageSize The maximum number of schema fields to return. The service may return fewer than this value.  If unspecified, at most 50 schema fields are returned.  The maximum value is 1000; values above 1000 are coerced to 1000.

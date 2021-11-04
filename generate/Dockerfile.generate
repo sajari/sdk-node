@@ -1,1 +1,1 @@
-FROM openapitools/openapi-generator-cli@sha256:1de19c2ef32f8d1b74de687ad72c47e0024287e780be38ada4c6ace09cda13e4
+FROM openapitools/openapi-generator-cli:latest-release

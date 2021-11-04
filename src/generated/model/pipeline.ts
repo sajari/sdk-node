@@ -16,38 +16,38 @@ import { PipelineType } from "./pipelineType";
 
 export class Pipeline {
   /**
-   * Output only. Creation time of the pipeline.
+   * Output only. Indicates if the pipeline is the collection default pipeline.
+   */
+  "collectionDefault"?: boolean;
+  /**
+   * Output only. Time the pipeline was created.
    */
   "createTime"?: Date;
-  "type": PipelineType;
   /**
-   * The pipeline\'s name.  Must start with an alphanumeric character followed by one or more alphanumeric, `_`, `-` or `.` characters. Strictly speaking, it must match the regular expression: `^[a-zA-Z0-9][a-zA-Z0-9_\\-\\.]+$`.
+   * Output only. Indicates if the pipeline is the default version.
    */
-  "name": string;
-  /**
-   * The pipeline\'s version.  Must start with an alphanumeric character followed by one or more alphanumeric, `_`, `-` or `.` characters. Strictly speaking, it must match the regular expression: `^[a-zA-Z0-9][a-zA-Z0-9_\\-\\.]+$`.
-   */
-  "version": string;
+  "defaultVersion"?: boolean;
   /**
    * Description of the pipeline.
    */
   "description"?: string;
   /**
-   * Pre-steps are run before an indexing operation or query request is sent to the search index.
+   * The pipeline\'s name.  Must start with an alphanumeric character followed by one or more alphanumeric, `_`, `-` or `.` characters. Strictly speaking, it must match the regular expression: `^[a-zA-Z0-9][a-zA-Z0-9_\\-\\.]+$`.
    */
-  "preSteps"?: Array<PipelineStep>;
+  "name": string;
   /**
    * Post-steps are run after an indexing operation or query request has been sent to the search index.  For indexing operations, the post-steps only run when creating new records. They do not run when updating records.  For querying, the post-steps have access to the result-set. This makes it possible to act on the results before sending them back to the caller.
    */
   "postSteps"?: Array<PipelineStep>;
   /**
-   * Output only. Indicates if the pipeline is the collection default pipeline.
+   * Pre-steps are run before an indexing operation or query request is sent to the search index.
    */
-  "collectionDefault"?: boolean;
+  "preSteps"?: Array<PipelineStep>;
+  "type": PipelineType;
   /**
-   * Output only. Indicates if the pipeline is the default version.
+   * The pipeline\'s version.  Must start with an alphanumeric character followed by one or more alphanumeric, `_`, `-` or `.` characters. Strictly speaking, it must match the regular expression: `^[a-zA-Z0-9][a-zA-Z0-9_\\-\\.]+$`.
    */
-  "defaultVersion"?: boolean;
+  "version": string;
 
   static discriminator: string | undefined = undefined;
 
@@ -57,24 +57,19 @@ export class Pipeline {
     type: string;
   }> = [
     {
+      name: "collectionDefault",
+      baseName: "collection_default",
+      type: "boolean",
+    },
+    {
       name: "createTime",
       baseName: "create_time",
       type: "Date",
     },
     {
-      name: "type",
-      baseName: "type",
-      type: "PipelineType",
-    },
-    {
-      name: "name",
-      baseName: "name",
-      type: "string",
-    },
-    {
-      name: "version",
-      baseName: "version",
-      type: "string",
+      name: "defaultVersion",
+      baseName: "default_version",
+      type: "boolean",
     },
     {
       name: "description",
@@ -82,9 +77,9 @@ export class Pipeline {
       type: "string",
     },
     {
-      name: "preSteps",
-      baseName: "pre_steps",
-      type: "Array<PipelineStep>",
+      name: "name",
+      baseName: "name",
+      type: "string",
     },
     {
       name: "postSteps",
@@ -92,14 +87,19 @@ export class Pipeline {
       type: "Array<PipelineStep>",
     },
     {
-      name: "collectionDefault",
-      baseName: "collection_default",
-      type: "boolean",
+      name: "preSteps",
+      baseName: "pre_steps",
+      type: "Array<PipelineStep>",
     },
     {
-      name: "defaultVersion",
-      baseName: "default_version",
-      type: "boolean",
+      name: "type",
+      baseName: "type",
+      type: "PipelineType",
+    },
+    {
+      name: "version",
+      baseName: "version",
+      type: "string",
     },
   ];
 

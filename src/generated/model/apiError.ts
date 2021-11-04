@@ -15,8 +15,8 @@ import { ProtobufAny } from "./protobufAny";
 
 export class ApiError {
   "code"?: number;
-  "message"?: string;
   "details"?: Array<ProtobufAny>;
+  "message"?: string;
 
   static discriminator: string | undefined = undefined;
 
@@ -31,14 +31,14 @@ export class ApiError {
       type: "number",
     },
     {
-      name: "message",
-      baseName: "message",
-      type: "string",
-    },
-    {
       name: "details",
       baseName: "details",
       type: "Array<ProtobufAny>",
+    },
+    {
+      name: "message",
+      baseName: "message",
+      type: "string",
     },
   ];
 

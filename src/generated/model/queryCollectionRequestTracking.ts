@@ -14,7 +14,14 @@ import { RequestFile } from "./models";
 import { QueryCollectionRequestTrackingType } from "./queryCollectionRequestTrackingType";
 
 export class QueryCollectionRequestTracking {
-  "type"?: QueryCollectionRequestTrackingType;
+  /**
+   * Custom values to be included in tracking data.
+   */
+  "data"?: { [key: string]: string };
+  /**
+   * Tracking field used to identify records in the collection.  Must be unique schema field.
+   */
+  "field"?: string;
   /**
    * Query ID of the query. If this is empty, then one is generated.
    */
@@ -23,14 +30,7 @@ export class QueryCollectionRequestTracking {
    * Sequence number of query.
    */
   "sequence"?: number;
-  /**
-   * Tracking field used to identify records in the collection.  Must be unique schema field.
-   */
-  "field"?: string;
-  /**
-   * Custom values to be included in tracking data.
-   */
-  "data"?: { [key: string]: string };
+  "type"?: QueryCollectionRequestTrackingType;
 
   static discriminator: string | undefined = undefined;
 
@@ -40,9 +40,14 @@ export class QueryCollectionRequestTracking {
     type: string;
   }> = [
     {
-      name: "type",
-      baseName: "type",
-      type: "QueryCollectionRequestTrackingType",
+      name: "data",
+      baseName: "data",
+      type: "{ [key: string]: string; }",
+    },
+    {
+      name: "field",
+      baseName: "field",
+      type: "string",
     },
     {
       name: "queryId",
@@ -55,14 +60,9 @@ export class QueryCollectionRequestTracking {
       type: "number",
     },
     {
-      name: "field",
-      baseName: "field",
-      type: "string",
-    },
-    {
-      name: "data",
-      baseName: "data",
-      type: "{ [key: string]: string; }",
+      name: "type",
+      baseName: "type",
+      type: "QueryCollectionRequestTrackingType",
     },
   ];
 

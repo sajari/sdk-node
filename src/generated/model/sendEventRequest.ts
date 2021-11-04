@@ -17,6 +17,10 @@ import { RequestFile } from "./models";
  */
 export class SendEventRequest {
   /**
+   * An object made up of field-value pairs that contains additional metadata to record with the event.  Every value in the object must be one of the following primitive types:  - boolean - number - string
+   */
+  "metadata"?: { [key: string]: object };
+  /**
    * The name of event, e.g. `click`, `purchase`.
    */
   "name": string;
@@ -28,10 +32,6 @@ export class SendEventRequest {
    * The weight assigned to the event.  Generally a sensible weight is 1. If you want to weight an event in a certain way you can use a value other than 1. For example, if you want to capture profit in an event, you could set the weight to a value that represents the profit.
    */
   "weight"?: number;
-  /**
-   * An object made up of field-value pairs that contains additional metadata to record with the event.  Every value in the object must be one of the following primitive types:  - boolean - number - string
-   */
-  "metadata"?: { [key: string]: object };
 
   static discriminator: string | undefined = undefined;
 
@@ -40,6 +40,11 @@ export class SendEventRequest {
     baseName: string;
     type: string;
   }> = [
+    {
+      name: "metadata",
+      baseName: "metadata",
+      type: "{ [key: string]: object; }",
+    },
     {
       name: "name",
       baseName: "name",
@@ -54,11 +59,6 @@ export class SendEventRequest {
       name: "weight",
       baseName: "weight",
       type: "number",
-    },
-    {
-      name: "metadata",
-      baseName: "metadata",
-      type: "{ [key: string]: object; }",
     },
   ];
 

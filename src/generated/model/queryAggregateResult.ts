@@ -22,11 +22,11 @@ import { QueryAggregateResultPercentile } from "./queryAggregateResultPercentile
  * A query aggregate result contains results of aggregations.
  */
 export class QueryAggregateResult {
-  "metric"?: QueryAggregateResultMetric;
-  "count"?: QueryAggregateResultCount;
-  "buckets"?: QueryAggregateResultBuckets;
-  "date"?: QueryAggregateResultDate;
   "analysis"?: QueryAggregateResultAnalysis;
+  "buckets"?: QueryAggregateResultBuckets;
+  "count"?: QueryAggregateResultCount;
+  "date"?: QueryAggregateResultDate;
+  "metric"?: QueryAggregateResultMetric;
   "percentile"?: QueryAggregateResultPercentile;
 
   static discriminator: string | undefined = undefined;
@@ -37,14 +37,9 @@ export class QueryAggregateResult {
     type: string;
   }> = [
     {
-      name: "metric",
-      baseName: "metric",
-      type: "QueryAggregateResultMetric",
-    },
-    {
-      name: "count",
-      baseName: "count",
-      type: "QueryAggregateResultCount",
+      name: "analysis",
+      baseName: "analysis",
+      type: "QueryAggregateResultAnalysis",
     },
     {
       name: "buckets",
@@ -52,14 +47,19 @@ export class QueryAggregateResult {
       type: "QueryAggregateResultBuckets",
     },
     {
+      name: "count",
+      baseName: "count",
+      type: "QueryAggregateResultCount",
+    },
+    {
       name: "date",
       baseName: "date",
       type: "QueryAggregateResultDate",
     },
     {
-      name: "analysis",
-      baseName: "analysis",
-      type: "QueryAggregateResultAnalysis",
+      name: "metric",
+      baseName: "metric",
+      type: "QueryAggregateResultMetric",
     },
     {
       name: "percentile",

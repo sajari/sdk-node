@@ -15,6 +15,10 @@ import { SchemaField } from "./schemaField";
 
 export class ListSchemaFieldsResponse {
   /**
+   * A token, which can be sent as `page_token` to retrieve the next page.  If this field is omitted, there are no subsequent pages.
+   */
+  "nextPageToken"?: string;
+  /**
    * The schema fields.
    */
   "schemaFields"?: Array<SchemaField>;
@@ -22,10 +26,6 @@ export class ListSchemaFieldsResponse {
    * Maximum number of fields to return.
    */
   "totalSize"?: number;
-  /**
-   * A token, which can be sent as `page_token` to retrieve the next page.  If this field is omitted, there are no subsequent pages.
-   */
-  "nextPageToken"?: string;
 
   static discriminator: string | undefined = undefined;
 
@@ -35,6 +35,11 @@ export class ListSchemaFieldsResponse {
     type: string;
   }> = [
     {
+      name: "nextPageToken",
+      baseName: "next_page_token",
+      type: "string",
+    },
+    {
       name: "schemaFields",
       baseName: "schema_fields",
       type: "Array<SchemaField>",
@@ -43,11 +48,6 @@ export class ListSchemaFieldsResponse {
       name: "totalSize",
       baseName: "total_size",
       type: "number",
-    },
-    {
-      name: "nextPageToken",
-      baseName: "next_page_token",
-      type: "string",
     },
   ];
 

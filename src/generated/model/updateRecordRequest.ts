@@ -11,22 +11,18 @@
  */
 
 import { RequestFile } from "./models";
-import { QueryResultToken } from "./queryResultToken";
+import { RecordKey } from "./recordKey";
 
-export class QueryResult {
+export class UpdateRecordRequest {
+  "key": RecordKey;
   /**
-   * Index score.
+   * The record to update.
    */
-  "indexScore"?: number;
+  "record": { [key: string]: object };
   /**
-   * An object made up of field-value pairs that contains the record data.
+   * The list of fields to be updated, separated by a comma, e.g. `field1,field2`.  For each field that you want to update, provide a corresponding value in the record object containing the new value.
    */
-  "record"?: object;
-  /**
-   * The normalized score attributed to this record. Combines the index score and feature score.
-   */
-  "score"?: number;
-  "token"?: QueryResultToken;
+  "updateMask": string;
 
   static discriminator: string | undefined = undefined;
 
@@ -36,28 +32,23 @@ export class QueryResult {
     type: string;
   }> = [
     {
-      name: "indexScore",
-      baseName: "index_score",
-      type: "number",
+      name: "key",
+      baseName: "key",
+      type: "RecordKey",
     },
     {
       name: "record",
       baseName: "record",
-      type: "object",
+      type: "{ [key: string]: object; }",
     },
     {
-      name: "score",
-      baseName: "score",
-      type: "number",
-    },
-    {
-      name: "token",
-      baseName: "token",
-      type: "QueryResultToken",
+      name: "updateMask",
+      baseName: "update_mask",
+      type: "string",
     },
   ];
 
   static getAttributeTypeMap() {
-    return QueryResult.attributeTypeMap;
+    return UpdateRecordRequest.attributeTypeMap;
   }
 }

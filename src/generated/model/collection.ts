@@ -14,15 +14,15 @@ import { RequestFile } from "./models";
 
 export class Collection {
   /**
-   * Output only. The collection\'s ID.
-   */
-  "id"?: string;
-  /**
    * Output only. The ID of the account that owns this collection.
    */
   "accountId"?: string;
   /**
-   * Output only. Creation time of the collection.
+   * The list of authorized query domains for the collection.  Client-side / browser requests to the [QueryCollection](/api#operation/QueryCollection) call can be made by any authorized query domain or any of its subdomains. This allows your interface to make search requests without having to provide an API key in the client-side request.
+   */
+  "authorizedQueryDomains"?: Array<string>;
+  /**
+   * Output only. Time the collection was created.
    */
   "createTime"?: Date;
   /**
@@ -30,9 +30,9 @@ export class Collection {
    */
   "displayName": string;
   /**
-   * The list of authorized query domains for the collection.  Client-side / browser requests to the [QueryCollection](/api#operation/QueryCollection) call can be made by any authorized query domain or any of its subdomains. This allows your interface to make search requests without having to provide an API key in the client-side request.
+   * Output only. The collection\'s ID.
    */
-  "authorizedQueryDomains"?: Array<string>;
+  "id"?: string;
 
   static discriminator: string | undefined = undefined;
 
@@ -42,14 +42,14 @@ export class Collection {
     type: string;
   }> = [
     {
-      name: "id",
-      baseName: "id",
-      type: "string",
-    },
-    {
       name: "accountId",
       baseName: "account_id",
       type: "string",
+    },
+    {
+      name: "authorizedQueryDomains",
+      baseName: "authorized_query_domains",
+      type: "Array<string>",
     },
     {
       name: "createTime",
@@ -62,9 +62,9 @@ export class Collection {
       type: "string",
     },
     {
-      name: "authorizedQueryDomains",
-      baseName: "authorized_query_domains",
-      type: "Array<string>",
+      name: "id",
+      baseName: "id",
+      type: "string",
     },
   ];
 

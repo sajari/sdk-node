@@ -18,6 +18,7 @@ import { BatchUpsertRecordsRequest } from "../model/batchUpsertRecordsRequest";
 import { BatchUpsertRecordsResponse } from "../model/batchUpsertRecordsResponse";
 import { DeleteRecordRequest } from "../model/deleteRecordRequest";
 import { GetRecordRequest } from "../model/getRecordRequest";
+import { UpdateRecordRequest } from "../model/updateRecordRequest";
 import { UpsertRecordRequest } from "../model/upsertRecordRequest";
 import { UpsertRecordResponse } from "../model/upsertRecordResponse";
 
@@ -460,7 +461,119 @@ export class RecordsApi {
     });
   }
   /**
-   * If the record does not exist in your collection it is inserted. If it does exist it is updated.  If no pipeline is specified, the default record pipeline is used to process the record.  If the record is inserted, the response contains the key of the inserted record. You can use this if you need to retrieve or delete the record. If the record is updated, the response does not contain a key. Callers can use this as a signal to determine if the record is inserted/created or updated.  For example, to add a single product from your ecommerce store to a collection, use the following call:  ```json {   \"pipeline\": {     \"name\": \"my-pipeline\",     \"version\": \"1\"   },   \"record\": {     \"id\": \"54hdc7h2334h\",     \"name\": \"Smart TV\",     \"price\": 1999,     \"brand\": \"Acme\",     \"description\": \"...\",     \"in_stock\": true   } } ```
+   * Add or update specific fields within a record with the given values. The updated record is returned in the response.  To replace all fields in a record, you should use the [UpsertRecord](/api#operation/UpsertRecord) call.  Note that the update record call cannot be used to add or update indexed or unique fields. For this case use the [UpsertRecord](/api#operation/UpsertRecord) call.
+   * @summary Update record
+   * @param collectionId The collection that contains the record to update, e.g. &#x60;my-collection&#x60;.
+   * @param updateRecordRequest
+   */
+  public async updateRecord(
+    collectionId: string,
+    updateRecordRequest: UpdateRecordRequest,
+    options: { headers: { [name: string]: string } } = { headers: {} }
+  ): Promise<{ response: http.IncomingMessage; body: object }> {
+    const localVarPath =
+      this.basePath +
+      "/v4/collections/{collection_id}/records:update".replace(
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
+      );
+    let localVarQueryParameters: any = {};
+    let localVarHeaderParams: any = (<any>Object).assign(
+      {},
+      this._defaultHeaders
+    );
+    const produces = ["application/json"];
+    // give precedence to 'application/json'
+    if (produces.indexOf("application/json") >= 0) {
+      localVarHeaderParams.Accept = "application/json";
+    } else {
+      localVarHeaderParams.Accept = produces.join(",");
+    }
+    let localVarFormParams: any = {};
+
+    // verify required parameter 'collectionId' is not null or undefined
+    if (collectionId === null || collectionId === undefined) {
+      throw new Error(
+        "Required parameter collectionId was null or undefined when calling updateRecord."
+      );
+    }
+
+    // verify required parameter 'updateRecordRequest' is not null or undefined
+    if (updateRecordRequest === null || updateRecordRequest === undefined) {
+      throw new Error(
+        "Required parameter updateRecordRequest was null or undefined when calling updateRecord."
+      );
+    }
+
+    (<any>Object).assign(localVarHeaderParams, options.headers);
+
+    let localVarUseFormData = false;
+
+    let localVarRequestOptions: localVarRequest.Options = {
+      method: "POST",
+      qs: localVarQueryParameters,
+      headers: localVarHeaderParams,
+      uri: localVarPath,
+      useQuerystring: this._useQuerystring,
+      json: true,
+      body: ObjectSerializer.serialize(
+        updateRecordRequest,
+        "UpdateRecordRequest"
+      ),
+    };
+
+    let authenticationPromise = Promise.resolve();
+    if (
+      this.authentications.BasicAuth.username &&
+      this.authentications.BasicAuth.password
+    ) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.BasicAuth.applyToRequest(localVarRequestOptions)
+      );
+    }
+    authenticationPromise = authenticationPromise.then(() =>
+      this.authentications.default.applyToRequest(localVarRequestOptions)
+    );
+
+    let interceptorPromise = authenticationPromise;
+    for (const interceptor of this.interceptors) {
+      interceptorPromise = interceptorPromise.then(() =>
+        interceptor(localVarRequestOptions)
+      );
+    }
+
+    return interceptorPromise.then(() => {
+      if (Object.keys(localVarFormParams).length) {
+        if (localVarUseFormData) {
+          (<any>localVarRequestOptions).formData = localVarFormParams;
+        } else {
+          localVarRequestOptions.form = localVarFormParams;
+        }
+      }
+      return new Promise<{ response: http.IncomingMessage; body: object }>(
+        (resolve, reject) => {
+          localVarRequest(localVarRequestOptions, (error, response, body) => {
+            if (error) {
+              reject(error);
+            } else {
+              body = ObjectSerializer.deserialize(body, "object");
+              if (
+                response.statusCode &&
+                response.statusCode >= 200 &&
+                response.statusCode <= 299
+              ) {
+                resolve({ response: response, body: body });
+              } else {
+                reject(new HttpError(response, body, response.statusCode));
+              }
+            }
+          });
+        }
+      );
+    });
+  }
+  /**
+   * If the record does not exist in the collection it is inserted. If it does exist it is updated.  If no pipeline is specified, the default record pipeline is used to process the record.  If the record is inserted, the response contains the key of the inserted record. You can use this if you need to retrieve or delete the record. If the record is updated, the response does not contain a key. Callers can use this as a signal to determine if the record is inserted/created or updated.  For example, to add a single product from your ecommerce store to a collection, use the following call:  ```json {   \"pipeline\": {     \"name\": \"my-pipeline\",     \"version\": \"1\"   },   \"record\": {     \"id\": \"54hdc7h2334h\",     \"name\": \"Smart TV\",     \"price\": 1999,     \"brand\": \"Acme\",     \"description\": \"...\",     \"in_stock\": true   } } ```
    * @summary Upsert record
    * @param collectionId The collection to upsert the record in, e.g. &#x60;my-collection&#x60;.
    * @param upsertRecordRequest

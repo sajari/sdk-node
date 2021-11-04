@@ -19,16 +19,6 @@ import { SchemaFieldType } from "./schemaFieldType";
  */
 export class SchemaField {
   /**
-   * The name of the field.
-   */
-  "name": string;
-  /**
-   * The description of the field.
-   */
-  "description"?: string;
-  "type": SchemaFieldType;
-  "mode": SchemaFieldMode;
-  /**
    * Array indicates if the field is an array of values.  For example, if `type` is string and `array` is `true`, then the field is an array of strings.
    */
   "array"?: boolean;
@@ -36,6 +26,16 @@ export class SchemaField {
    * The required length of the array, if `array` is `true`.  This allows you to enforce that an array contains an exact number of items.  For example, to store a 2x2 vector, you could set `type` to float, `array` to `true` and `array_length` to `4`.
    */
   "arrayLength"?: number;
+  /**
+   * The description of the field.
+   */
+  "description"?: string;
+  "mode": SchemaFieldMode;
+  /**
+   * The name of the field.
+   */
+  "name": string;
+  "type": SchemaFieldType;
 
   static discriminator: string | undefined = undefined;
 
@@ -45,26 +45,6 @@ export class SchemaField {
     type: string;
   }> = [
     {
-      name: "name",
-      baseName: "name",
-      type: "string",
-    },
-    {
-      name: "description",
-      baseName: "description",
-      type: "string",
-    },
-    {
-      name: "type",
-      baseName: "type",
-      type: "SchemaFieldType",
-    },
-    {
-      name: "mode",
-      baseName: "mode",
-      type: "SchemaFieldMode",
-    },
-    {
       name: "array",
       baseName: "array",
       type: "boolean",
@@ -73,6 +53,26 @@ export class SchemaField {
       name: "arrayLength",
       baseName: "array_length",
       type: "number",
+    },
+    {
+      name: "description",
+      baseName: "description",
+      type: "string",
+    },
+    {
+      name: "mode",
+      baseName: "mode",
+      type: "SchemaFieldMode",
+    },
+    {
+      name: "name",
+      baseName: "name",
+      type: "string",
+    },
+    {
+      name: "type",
+      baseName: "type",
+      type: "SchemaFieldType",
     },
   ];
 

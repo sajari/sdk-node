@@ -18,7 +18,7 @@ export class UpsertRecordResponse {
   /**
    * The modified variables returned by the pipeline after it has finished processing.
    */
-  "variables"?: object;
+  "variables"?: { [key: string]: object };
 
   static discriminator: string | undefined = undefined;
 
@@ -35,7 +35,7 @@ export class UpsertRecordResponse {
     {
       name: "variables",
       baseName: "variables",
-      type: "object",
+      type: "{ [key: string]: object; }",
     },
   ];
 

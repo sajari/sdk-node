@@ -16,13 +16,13 @@ import { SchemaField } from "./schemaField";
 
 export class BatchCreateSchemaFieldsResponse {
   /**
-   * Schema fields created.
-   */
-  "fields"?: Array<SchemaField>;
-  /**
    * Errors that occurred.
    */
   "errors"?: Array<BatchCreateSchemaFieldsResponseError>;
+  /**
+   * Schema fields created.
+   */
+  "fields"?: Array<SchemaField>;
 
   static discriminator: string | undefined = undefined;
 
@@ -32,14 +32,14 @@ export class BatchCreateSchemaFieldsResponse {
     type: string;
   }> = [
     {
-      name: "fields",
-      baseName: "fields",
-      type: "Array<SchemaField>",
-    },
-    {
       name: "errors",
       baseName: "errors",
       type: "Array<BatchCreateSchemaFieldsResponseError>",
+    },
+    {
+      name: "fields",
+      baseName: "fields",
+      type: "Array<SchemaField>",
     },
   ];
 

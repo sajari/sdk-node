@@ -14,13 +14,13 @@ import { RequestFile } from "./models";
 
 export class GeneratePipelinesRequest {
   /**
-   * Prioritized list of fields to search.
-   */
-  "searchableFields": Array<string>;
-  /**
    * List of fields to train query suggestions from.
    */
   "queryTrainingFields"?: Array<string>;
+  /**
+   * Prioritized list of fields to search.
+   */
+  "searchableFields": Array<string>;
 
   static discriminator: string | undefined = undefined;
 
@@ -30,13 +30,13 @@ export class GeneratePipelinesRequest {
     type: string;
   }> = [
     {
-      name: "searchableFields",
-      baseName: "searchable_fields",
+      name: "queryTrainingFields",
+      baseName: "query_training_fields",
       type: "Array<string>",
     },
     {
-      name: "queryTrainingFields",
-      baseName: "query_training_fields",
+      name: "searchableFields",
+      baseName: "searchable_fields",
       type: "Array<string>",
     },
   ];

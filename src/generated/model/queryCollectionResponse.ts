@@ -16,11 +16,19 @@ import { QueryCollectionResponsePipeline } from "./queryCollectionResponsePipeli
 import { QueryResult } from "./queryResult";
 
 export class QueryCollectionResponse {
+  /**
+   * The aggregates run with filters.
+   */
+  "aggregateFilters"?: { [key: string]: QueryAggregateResult };
+  /**
+   * The aggregates returned by the query.
+   */
+  "aggregates"?: { [key: string]: QueryAggregateResult };
   "pipeline"?: QueryCollectionResponsePipeline;
   /**
-   * The modified variables returned by the pipeline after it has finished processing.
+   * The total time taken to perform the query.
    */
-  "variables"?: object;
+  "processingDuration"?: string;
   /**
    * The results returned by the query.
    */
@@ -30,17 +38,9 @@ export class QueryCollectionResponse {
    */
   "totalSize"?: string;
   /**
-   * The total time taken to perform the query.
+   * The modified variables returned by the pipeline after it has finished processing.
    */
-  "processingDuration"?: string;
-  /**
-   * The aggregates returned by the query.
-   */
-  "aggregates"?: { [key: string]: QueryAggregateResult };
-  /**
-   * The aggregates run with filters.
-   */
-  "aggregateFilters"?: { [key: string]: QueryAggregateResult };
+  "variables"?: { [key: string]: object };
 
   static discriminator: string | undefined = undefined;
 
@@ -50,14 +50,24 @@ export class QueryCollectionResponse {
     type: string;
   }> = [
     {
+      name: "aggregateFilters",
+      baseName: "aggregate_filters",
+      type: "{ [key: string]: QueryAggregateResult; }",
+    },
+    {
+      name: "aggregates",
+      baseName: "aggregates",
+      type: "{ [key: string]: QueryAggregateResult; }",
+    },
+    {
       name: "pipeline",
       baseName: "pipeline",
       type: "QueryCollectionResponsePipeline",
     },
     {
-      name: "variables",
-      baseName: "variables",
-      type: "object",
+      name: "processingDuration",
+      baseName: "processing_duration",
+      type: "string",
     },
     {
       name: "results",
@@ -70,19 +80,9 @@ export class QueryCollectionResponse {
       type: "string",
     },
     {
-      name: "processingDuration",
-      baseName: "processing_duration",
-      type: "string",
-    },
-    {
-      name: "aggregates",
-      baseName: "aggregates",
-      type: "{ [key: string]: QueryAggregateResult; }",
-    },
-    {
-      name: "aggregateFilters",
-      baseName: "aggregate_filters",
-      type: "{ [key: string]: QueryAggregateResult; }",
+      name: "variables",
+      baseName: "variables",
+      type: "{ [key: string]: object; }",
     },
   ];
 

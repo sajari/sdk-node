@@ -16,13 +16,13 @@ import { BatchUpsertRecordsRequestPipeline } from "./batchUpsertRecordsRequestPi
 export class BatchUpsertRecordsRequest {
   "pipeline"?: BatchUpsertRecordsRequestPipeline;
   /**
-   * A list of records to upsert.
+   * A list of records to upsert.  A maximum of 200 records can be upsert in a batch.
    */
   "records": Array<object>;
   /**
    * The initial values for the variables the pipeline operates on and transforms throughout its steps.
    */
-  "variables"?: object;
+  "variables"?: { [key: string]: object };
 
   static discriminator: string | undefined = undefined;
 
@@ -44,7 +44,7 @@ export class BatchUpsertRecordsRequest {
     {
       name: "variables",
       baseName: "variables",
-      type: "object",
+      type: "{ [key: string]: object; }",
     },
   ];
 

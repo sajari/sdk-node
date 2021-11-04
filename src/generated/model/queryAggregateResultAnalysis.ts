@@ -14,25 +14,25 @@ import { RequestFile } from "./models";
 
 export class QueryAggregateResultAnalysis {
   /**
-   * Coverage is the number of records which have a value set.
+   * Average number of items in an array field.
    */
-  "coverage"?: number;
+  "avgLength"?: number;
   /**
    * Cardinality is the number of different values in a field.
    */
   "cardinality"?: number;
   /**
-   * Minimum length of an array field.
+   * Coverage is the number of records which have a value set.
    */
-  "minLength"?: number;
+  "coverage"?: number;
   /**
    * Maximum number of values in an array field.
    */
   "maxLength"?: number;
   /**
-   * Average number of items in an array field.
+   * Minimum length of an array field.
    */
-  "avgLength"?: number;
+  "minLength"?: number;
 
   static discriminator: string | undefined = undefined;
 
@@ -42,8 +42,8 @@ export class QueryAggregateResultAnalysis {
     type: string;
   }> = [
     {
-      name: "coverage",
-      baseName: "coverage",
+      name: "avgLength",
+      baseName: "avg_length",
       type: "number",
     },
     {
@@ -52,8 +52,8 @@ export class QueryAggregateResultAnalysis {
       type: "number",
     },
     {
-      name: "minLength",
-      baseName: "min_length",
+      name: "coverage",
+      baseName: "coverage",
       type: "number",
     },
     {
@@ -62,8 +62,8 @@ export class QueryAggregateResultAnalysis {
       type: "number",
     },
     {
-      name: "avgLength",
-      baseName: "avg_length",
+      name: "minLength",
+      baseName: "min_length",
       type: "number",
     },
   ];

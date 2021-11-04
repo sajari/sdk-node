@@ -14,11 +14,11 @@ import { RequestFile } from "./models";
 import { PipelineType } from "./pipelineType";
 
 export class SetDefaultPipelineRequest {
-  "type": PipelineType;
   /**
    * The name of the pipeline to use when not otherwise specified.
    */
   "pipeline": string;
+  "type": PipelineType;
 
   static discriminator: string | undefined = undefined;
 
@@ -28,14 +28,14 @@ export class SetDefaultPipelineRequest {
     type: string;
   }> = [
     {
-      name: "type",
-      baseName: "type",
-      type: "PipelineType",
-    },
-    {
       name: "pipeline",
       baseName: "pipeline",
       type: "string",
+    },
+    {
+      name: "type",
+      baseName: "type",
+      type: "PipelineType",
     },
   ];
 

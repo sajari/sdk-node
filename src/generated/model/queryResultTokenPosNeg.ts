@@ -16,8 +16,8 @@ import { RequestFile } from "./models";
  * PosNeg is a pair of tokens which are used to mark a record as a good/bad result for a request.
  */
 export class QueryResultTokenPosNeg {
-  "pos"?: string;
   "neg"?: string;
+  "pos"?: string;
 
   static discriminator: string | undefined = undefined;
 
@@ -27,13 +27,13 @@ export class QueryResultTokenPosNeg {
     type: string;
   }> = [
     {
-      name: "pos",
-      baseName: "pos",
+      name: "neg",
+      baseName: "neg",
       type: "string",
     },
     {
-      name: "neg",
-      baseName: "neg",
+      name: "pos",
+      baseName: "pos",
       type: "string",
     },
   ];

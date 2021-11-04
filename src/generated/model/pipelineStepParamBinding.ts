@@ -18,17 +18,17 @@ export class PipelineStepParamBinding {
    */
   "bind"?: string;
   /**
-   * Set the description of the step parameter.
+   * Bind the step parameter to a constant value.
    */
-  "description"?: string;
+  "constant"?: string;
   /**
    * Set a default value for the step parameter.  This allows you to set a default value for the step parameter when it is not bound to a pipeline variable.
    */
   "defaultValue"?: string;
   /**
-   * Bind the step parameter to a constant value.
+   * Set the description of the step parameter.
    */
-  "constant"?: string;
+  "description"?: string;
 
   static discriminator: string | undefined = undefined;
 
@@ -43,8 +43,8 @@ export class PipelineStepParamBinding {
       type: "string",
     },
     {
-      name: "description",
-      baseName: "description",
+      name: "constant",
+      baseName: "constant",
       type: "string",
     },
     {
@@ -53,8 +53,8 @@ export class PipelineStepParamBinding {
       type: "string",
     },
     {
-      name: "constant",
-      baseName: "constant",
+      name: "description",
+      baseName: "description",
       type: "string",
     },
   ];

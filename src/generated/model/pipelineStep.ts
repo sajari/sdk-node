@@ -18,29 +18,29 @@ import { PipelineStepParamBinding } from "./pipelineStepParamBinding";
  */
 export class PipelineStep {
   /**
-   * ID of the step template.
+   * Annotations added to the request when the step is run.
    */
-  "id": string;
-  /**
-   * Title for the step. Overrides the default title.
-   */
-  "title"?: string;
-  /**
-   * Description for the step. Overrides the default description.
-   */
-  "description"?: string;
-  /**
-   * Bindings for the step parameters.
-   */
-  "params"?: { [key: string]: PipelineStepParamBinding };
+  "annotations"?: Array<string>;
   /**
    * Condition expression to determine if the step should be run.  This is a filter expression much like the query filter expression, but it acts upon the pipeline variables.  For example, to only run the step if the pipeline `q` variable is not empty, set this to `q != \'\'`.
    */
   "condition"?: string;
   /**
-   * Annotations added to the request when the step is run.
+   * Description for the step. Overrides the default description.
    */
-  "annotations"?: Array<string>;
+  "description"?: string;
+  /**
+   * ID of the step template.
+   */
+  "id": string;
+  /**
+   * Bindings for the step parameters.
+   */
+  "params"?: { [key: string]: PipelineStepParamBinding };
+  /**
+   * Title for the step. Overrides the default title.
+   */
+  "title"?: string;
 
   static discriminator: string | undefined = undefined;
 
@@ -50,13 +50,13 @@ export class PipelineStep {
     type: string;
   }> = [
     {
-      name: "id",
-      baseName: "id",
-      type: "string",
+      name: "annotations",
+      baseName: "annotations",
+      type: "Array<string>",
     },
     {
-      name: "title",
-      baseName: "title",
+      name: "condition",
+      baseName: "condition",
       type: "string",
     },
     {
@@ -65,19 +65,19 @@ export class PipelineStep {
       type: "string",
     },
     {
+      name: "id",
+      baseName: "id",
+      type: "string",
+    },
+    {
       name: "params",
       baseName: "params",
       type: "{ [key: string]: PipelineStepParamBinding; }",
     },
     {
-      name: "condition",
-      baseName: "condition",
+      name: "title",
+      baseName: "title",
       type: "string",
-    },
-    {
-      name: "annotations",
-      baseName: "annotations",
-      type: "Array<string>",
     },
   ];
 
