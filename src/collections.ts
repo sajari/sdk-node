@@ -83,7 +83,7 @@ export class CollectionsClient extends Client {
     const um = Object.keys(updateMask).map((field) => field);
 
     try {
-      const res = await this.client.updateCollection(id, c, um.join(","));
+      const res = await this.client.updateCollection(id, um.join(","), c);
       // OpenAPI readonly fields become optional TS fields, but we know the API
       // will return it, so use ! to fix the types. This is done so upstream
       // users don't have to do this.
