@@ -4,8 +4,11 @@ api/apis.ts
 api/collectionsApi.ts
 api/eventsApi.ts
 api/pipelinesApi.ts
+api/promotionsApi.ts
 api/recordsApi.ts
+api/redirectsApi.ts
 api/schemaApi.ts
+model/activePromotion.ts
 model/batchCreateSchemaFieldsRequest.ts
 model/batchCreateSchemaFieldsResponse.ts
 model/batchCreateSchemaFieldsResponseError.ts
@@ -23,9 +26,13 @@ model/getDefaultPipelineResponse.ts
 model/getDefaultVersionRequestView.ts
 model/getPipelineRequestView.ts
 model/getRecordRequest.ts
+model/integration.ts
 model/listCollectionsResponse.ts
+model/listIntegrationsResponse.ts
 model/listPipelinesRequestView.ts
 model/listPipelinesResponse.ts
+model/listPromotionsResponse.ts
+model/listRedirectsResponse.ts
 model/listSchemaFieldsResponse.ts
 model/apiError.ts
 model/models.ts
@@ -34,6 +41,12 @@ model/pipeline.ts
 model/pipelineStep.ts
 model/pipelineStepParamBinding.ts
 model/pipelineType.ts
+model/promotion.ts
+model/promotionExclusion.ts
+model/promotionFilterBoost.ts
+model/promotionFilterCondition.ts
+model/promotionPin.ts
+model/promotionRangeBoost.ts
 model/protobufAny.ts
 model/protobufNullValue.ts
 model/queryAggregateResult.ts
@@ -55,6 +68,8 @@ model/queryResultToken.ts
 model/queryResultTokenClick.ts
 model/queryResultTokenPosNeg.ts
 model/recordKey.ts
+model/redirect.ts
+model/redirectResult.ts
 model/schemaField.ts
 model/schemaFieldMode.ts
 model/schemaFieldType.ts

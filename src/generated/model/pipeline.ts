@@ -1,6 +1,6 @@
 /**
- * Sajari API
- * Sajari is a smart, highly-configurable, real-time search service that enables thousands of businesses worldwide to provide amazing search experiences on their websites, stores, and applications.
+ * Search.io API
+ * Search.io is a smart, highly-configurable, real-time search service that enables thousands of businesses worldwide to provide amazing search experiences on their websites, stores, and applications.
  *
  * The version of the OpenAPI document: v4
  * Contact: support@sajari.com
@@ -36,11 +36,11 @@ export class Pipeline {
    */
   "name": string;
   /**
-   * Post-steps are run after an indexing operation or query request has been sent to the search index.  For indexing operations, the post-steps only run when creating new records. They do not run when updating records.  For querying, the post-steps have access to the result-set. This makes it possible to act on the results before sending them back to the caller.
+   * The post-steps that are run after an indexing operation or query request has been sent to the search index.  For indexing operations, the post-steps only run when creating new records. They do not run when updating records.  For querying, the post-steps have access to the result-set. This makes it possible to act on the results before sending them back to the caller.
    */
   "postSteps"?: Array<PipelineStep>;
   /**
-   * Pre-steps are run before an indexing operation or query request is sent to the search index.
+   * The pre-steps that are run before an indexing operation or query request is sent to the search index.
    */
   "preSteps"?: Array<PipelineStep>;
   "type": PipelineType;

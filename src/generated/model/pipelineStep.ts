@@ -1,6 +1,6 @@
 /**
- * Sajari API
- * Sajari is a smart, highly-configurable, real-time search service that enables thousands of businesses worldwide to provide amazing search experiences on their websites, stores, and applications.
+ * Search.io API
+ * Search.io is a smart, highly-configurable, real-time search service that enables thousands of businesses worldwide to provide amazing search experiences on their websites, stores, and applications.
  *
  * The version of the OpenAPI document: v4
  * Contact: support@sajari.com
@@ -22,7 +22,7 @@ export class PipelineStep {
    */
   "annotations"?: Array<string>;
   /**
-   * Condition expression to determine if the step should be run.  This is a filter expression much like the query filter expression, but it acts upon the pipeline variables.  For example, to only run the step if the pipeline `q` variable is not empty, set this to `q != \'\'`.
+   * A condition expression to determine if the step should be run.  This is a filter expression much like the query filter expression, but it acts upon the pipeline variables.  For example, to only run the step if the pipeline `q` variable is not empty, set this to `q != \'\'`.
    */
   "condition"?: string;
   /**
