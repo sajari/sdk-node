@@ -1,6 +1,6 @@
 import { ProtobufAny } from "../generated/api";
 
-export const endpoint = "https://api-gateway.sajari.com";
+export const endpoint = "https://api.search.io";
 
 export interface ErrorResponse {
   code: number;

@@ -1,8 +1,8 @@
 {
   "name": "@sajari/sdk-node-examples",
-  "description": "Examples for the Sajari SDK for Node.js.",
+  "description": "Examples for the Search.io SDK for Node.js.",
   "license": "MIT",
-  "author": "Sajari Pty Ltd",
+  "author": "Search.io",
   "repository": "git@github.com:github.com/sajari/sdk-node.git",
   "private": true,
   "scripts": {
