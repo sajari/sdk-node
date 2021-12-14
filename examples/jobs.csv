@@ -1,6 +1,6 @@
 id,title,company,salary,skills,latitude,longitude,positions_available
-J01,Software Engineer,Sajari,"$100,000","Go,React",-33.868820,151.209290,3
-J02,Data Scientist,Sajari,99000,"R",0,0,1
+J01,Software Engineer,Search.io,"$100,000","Go,React",-33.868820,151.209290,3
+J02,Data Scientist,Search.io,99000,"R",0,0,1
 J03,Designer,SEEK,199000,"Photoshop",0,0,1
 J04,UX Designer,SEEK,199000,"Photoshop",0,0,1
 J05,Graphic Designer,SEEK,199000,"Photoshop",0,0,1

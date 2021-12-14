@@ -2,7 +2,7 @@
   "name": "@sajari/sdk-node",
   "version": "4.1.0",
   "repository": "git@github.com:github.com/sajari/sdk-node.git",
-  "author": "Sajari Pty Ltd",
+  "author": "Search.io",
   "license": "MIT",
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",

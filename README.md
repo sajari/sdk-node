@@ -1,10 +1,10 @@
-# Sajari SDK for Node
+# Search.io SDK for Node
 
 [![Build status](https://github.com/sajari/sdk-node/workflows/Build/badge.svg?branch=master)](https://github.com/sajari/sdk-node/actions)
 
-The official [Sajari](https://www.sajari.com) Node client library.
+The official [Search.io](https://www.search.io) Node client library.
 
-Sajari is a smart, highly-configurable, real-time search service that enables thousands of businesses worldwide to provide amazing search experiences on their websites, stores, and applications.
+Search.io offers a search and discovery service with Neuralsearch®, the world's first instant AI search technology. Businesses of all sizes use Search.io to build site search and discovery solutions that maximize e-commerce revenue, optimize on-site customer experience, and scale their online presence.
 
 ## Table of contents
 
@@ -20,8 +20,8 @@ Sajari is a smart, highly-configurable, real-time search service that enables th
 
 ### Before you begin
 
-1. [Create a Sajari account](http://sajari.com/console)
-1. [Retrieve your account credentials](https://www.sajari.com/console/project/credentials)
+1. [Create a Search.io account](http://app.search.io)
+1. [Retrieve your account credentials](https://app.search.io/project/credentials)
 
 ### Install the SDK
 
@@ -36,7 +36,7 @@ The following example shows how to create a collection using the SDK.
 > ⚠️ The function below cleans up after itself by deleting the collection immediately after creation.
 
 ```javascript
-// Import the Sajari SDK.
+// Import the Search.io SDK.
 import { CollectionsClient, withKeyCredentials } from "@sajari/sdk-node";
 
 // Create a client for working with collections from account key credentials.
@@ -90,6 +90,7 @@ Examples are in the [examples](https://github.com/sajari/sdk-node/blob/master/ex
 Contributions are welcome. See the [Contributing](https://github.com/sajari/sdk-node/blob/master/CONTRIBUTING.md) guide.
 
 ## License
+
 MIT
 
 See [LICENSE](https://github.com/sajari/sdk-node/blob/master/LICENSE)

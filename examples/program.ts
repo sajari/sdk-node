@@ -4,7 +4,7 @@ const program = new commander.Command();
 
 program.version("0.0.1");
 
-const defaultEndpoint = "https://api-gateway.sajari.com";
+const defaultEndpoint = "https://api.search.io";
 
 export const withAccountOptions = (p: commander.Command) =>
   p
