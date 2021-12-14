@@ -1,5 +1,6 @@
 import localVarRequest from "request";
 
+export * from "./activePromotion";
 export * from "./batchCreateSchemaFieldsRequest";
 export * from "./batchCreateSchemaFieldsResponse";
 export * from "./batchCreateSchemaFieldsResponseError";
@@ -17,9 +18,13 @@ export * from "./getDefaultPipelineResponse";
 export * from "./getDefaultVersionRequestView";
 export * from "./getPipelineRequestView";
 export * from "./getRecordRequest";
+export * from "./integration";
 export * from "./listCollectionsResponse";
+export * from "./listIntegrationsResponse";
 export * from "./listPipelinesRequestView";
 export * from "./listPipelinesResponse";
+export * from "./listPromotionsResponse";
+export * from "./listRedirectsResponse";
 export * from "./listSchemaFieldsResponse";
 export * from "./apiError";
 export * from "./percentileDataPoint";
@@ -27,6 +32,12 @@ export * from "./pipeline";
 export * from "./pipelineStep";
 export * from "./pipelineStepParamBinding";
 export * from "./pipelineType";
+export * from "./promotion";
+export * from "./promotionExclusion";
+export * from "./promotionFilterBoost";
+export * from "./promotionFilterCondition";
+export * from "./promotionPin";
+export * from "./promotionRangeBoost";
 export * from "./protobufAny";
 export * from "./protobufNullValue";
 export * from "./queryAggregateResult";
@@ -48,6 +59,8 @@ export * from "./queryResultToken";
 export * from "./queryResultTokenClick";
 export * from "./queryResultTokenPosNeg";
 export * from "./recordKey";
+export * from "./redirect";
+export * from "./redirectResult";
 export * from "./schemaField";
 export * from "./schemaFieldMode";
 export * from "./schemaFieldType";
@@ -72,6 +85,7 @@ export interface RequestDetailedFile {
 
 export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
 
+import { ActivePromotion } from "./activePromotion";
 import { BatchCreateSchemaFieldsRequest } from "./batchCreateSchemaFieldsRequest";
 import { BatchCreateSchemaFieldsResponse } from "./batchCreateSchemaFieldsResponse";
 import { BatchCreateSchemaFieldsResponseError } from "./batchCreateSchemaFieldsResponseError";
@@ -89,9 +103,13 @@ import { GetDefaultPipelineResponse } from "./getDefaultPipelineResponse";
 import { GetDefaultVersionRequestView } from "./getDefaultVersionRequestView";
 import { GetPipelineRequestView } from "./getPipelineRequestView";
 import { GetRecordRequest } from "./getRecordRequest";
+import { Integration } from "./integration";
 import { ListCollectionsResponse } from "./listCollectionsResponse";
+import { ListIntegrationsResponse } from "./listIntegrationsResponse";
 import { ListPipelinesRequestView } from "./listPipelinesRequestView";
 import { ListPipelinesResponse } from "./listPipelinesResponse";
+import { ListPromotionsResponse } from "./listPromotionsResponse";
+import { ListRedirectsResponse } from "./listRedirectsResponse";
 import { ListSchemaFieldsResponse } from "./listSchemaFieldsResponse";
 import { ApiError } from "./apiError";
 import { PercentileDataPoint } from "./percentileDataPoint";
@@ -99,6 +117,12 @@ import { Pipeline } from "./pipeline";
 import { PipelineStep } from "./pipelineStep";
 import { PipelineStepParamBinding } from "./pipelineStepParamBinding";
 import { PipelineType } from "./pipelineType";
+import { Promotion } from "./promotion";
+import { PromotionExclusion } from "./promotionExclusion";
+import { PromotionFilterBoost } from "./promotionFilterBoost";
+import { PromotionFilterCondition } from "./promotionFilterCondition";
+import { PromotionPin } from "./promotionPin";
+import { PromotionRangeBoost } from "./promotionRangeBoost";
 import { ProtobufAny } from "./protobufAny";
 import { ProtobufNullValue } from "./protobufNullValue";
 import { QueryAggregateResult } from "./queryAggregateResult";
@@ -120,6 +144,8 @@ import { QueryResultToken } from "./queryResultToken";
 import { QueryResultTokenClick } from "./queryResultTokenClick";
 import { QueryResultTokenPosNeg } from "./queryResultTokenPosNeg";
 import { RecordKey } from "./recordKey";
+import { Redirect } from "./redirect";
+import { RedirectResult } from "./redirectResult";
 import { SchemaField } from "./schemaField";
 import { SchemaFieldMode } from "./schemaFieldMode";
 import { SchemaFieldType } from "./schemaFieldType";
@@ -156,6 +182,7 @@ let enumsMap: { [index: string]: any } = {
 };
 
 let typeMap: { [index: string]: any } = {
+  ActivePromotion: ActivePromotion,
   BatchCreateSchemaFieldsRequest: BatchCreateSchemaFieldsRequest,
   BatchCreateSchemaFieldsResponse: BatchCreateSchemaFieldsResponse,
   BatchCreateSchemaFieldsResponseError: BatchCreateSchemaFieldsResponseError,
@@ -171,14 +198,24 @@ let typeMap: { [index: string]: any } = {
   GeneratePipelinesResponse: GeneratePipelinesResponse,
   GetDefaultPipelineResponse: GetDefaultPipelineResponse,
   GetRecordRequest: GetRecordRequest,
+  Integration: Integration,
   ListCollectionsResponse: ListCollectionsResponse,
+  ListIntegrationsResponse: ListIntegrationsResponse,
   ListPipelinesResponse: ListPipelinesResponse,
+  ListPromotionsResponse: ListPromotionsResponse,
+  ListRedirectsResponse: ListRedirectsResponse,
   ListSchemaFieldsResponse: ListSchemaFieldsResponse,
   ApiError: ApiError,
   PercentileDataPoint: PercentileDataPoint,
   Pipeline: Pipeline,
   PipelineStep: PipelineStep,
   PipelineStepParamBinding: PipelineStepParamBinding,
+  Promotion: Promotion,
+  PromotionExclusion: PromotionExclusion,
+  PromotionFilterBoost: PromotionFilterBoost,
+  PromotionFilterCondition: PromotionFilterCondition,
+  PromotionPin: PromotionPin,
+  PromotionRangeBoost: PromotionRangeBoost,
   ProtobufAny: ProtobufAny,
   QueryAggregateResult: QueryAggregateResult,
   QueryAggregateResultAnalysis: QueryAggregateResultAnalysis,
@@ -198,6 +235,8 @@ let typeMap: { [index: string]: any } = {
   QueryResultTokenClick: QueryResultTokenClick,
   QueryResultTokenPosNeg: QueryResultTokenPosNeg,
   RecordKey: RecordKey,
+  Redirect: Redirect,
+  RedirectResult: RedirectResult,
   SchemaField: SchemaField,
   SendEventRequest: SendEventRequest,
   SetDefaultPipelineRequest: SetDefaultPipelineRequest,

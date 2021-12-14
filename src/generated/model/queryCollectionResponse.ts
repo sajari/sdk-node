@@ -1,6 +1,6 @@
 /**
- * Sajari API
- * Sajari is a smart, highly-configurable, real-time search service that enables thousands of businesses worldwide to provide amazing search experiences on their websites, stores, and applications.
+ * Search.io API
+ * Search.io is a smart, highly-configurable, real-time search service that enables thousands of businesses worldwide to provide amazing search experiences on their websites, stores, and applications.
  *
  * The version of the OpenAPI document: v4
  * Contact: support@sajari.com
@@ -11,11 +11,17 @@
  */
 
 import { RequestFile } from "./models";
+import { ActivePromotion } from "./activePromotion";
 import { QueryAggregateResult } from "./queryAggregateResult";
 import { QueryCollectionResponsePipeline } from "./queryCollectionResponsePipeline";
 import { QueryResult } from "./queryResult";
+import { RedirectResult } from "./redirectResult";
 
 export class QueryCollectionResponse {
+  /**
+   * A list of the promotions activated when running the query.
+   */
+  "activePromotions"?: Array<ActivePromotion>;
   /**
    * The aggregates run with filters.
    */
@@ -29,6 +35,10 @@ export class QueryCollectionResponse {
    * The total time taken to perform the query.
    */
   "processingDuration"?: string;
+  /**
+   * A mapping of redirects triggered for all possible variations of the query.
+   */
+  "redirects"?: { [key: string]: RedirectResult };
   /**
    * The results returned by the query.
    */
@@ -50,6 +60,11 @@ export class QueryCollectionResponse {
     type: string;
   }> = [
     {
+      name: "activePromotions",
+      baseName: "active_promotions",
+      type: "Array<ActivePromotion>",
+    },
+    {
       name: "aggregateFilters",
       baseName: "aggregate_filters",
       type: "{ [key: string]: QueryAggregateResult; }",
@@ -68,6 +83,11 @@ export class QueryCollectionResponse {
       name: "processingDuration",
       baseName: "processing_duration",
       type: "string",
+    },
+    {
+      name: "redirects",
+      baseName: "redirects",
+      type: "{ [key: string]: RedirectResult; }",
     },
     {
       name: "results",
