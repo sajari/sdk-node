@@ -4,6 +4,10 @@ export * from "./activePromotion";
 export * from "./batchCreateSchemaFieldsRequest";
 export * from "./batchCreateSchemaFieldsResponse";
 export * from "./batchCreateSchemaFieldsResponseError";
+export * from "./batchUpdateRecordsRequest";
+export * from "./batchUpdateRecordsResponse";
+export * from "./batchUpdateRecordsResponseError";
+export * from "./batchUpdateRecordsResponseRecord";
 export * from "./batchUpsertRecordsRequest";
 export * from "./batchUpsertRecordsRequestPipeline";
 export * from "./batchUpsertRecordsResponse";
@@ -18,9 +22,7 @@ export * from "./getDefaultPipelineResponse";
 export * from "./getDefaultVersionRequestView";
 export * from "./getPipelineRequestView";
 export * from "./getRecordRequest";
-export * from "./integration";
 export * from "./listCollectionsResponse";
-export * from "./listIntegrationsResponse";
 export * from "./listPipelinesRequestView";
 export * from "./listPipelinesResponse";
 export * from "./listPromotionsResponse";
@@ -33,12 +35,14 @@ export * from "./pipelineStep";
 export * from "./pipelineStepParamBinding";
 export * from "./pipelineType";
 export * from "./promotion";
+export * from "./promotionCategory";
 export * from "./promotionExclusion";
 export * from "./promotionFilterBoost";
 export * from "./promotionFilterCondition";
 export * from "./promotionPin";
 export * from "./promotionRangeBoost";
 export * from "./protobufAny";
+export * from "./protobufFieldMask";
 export * from "./protobufNullValue";
 export * from "./queryAggregateResult";
 export * from "./queryAggregateResultAnalysis";
@@ -89,6 +93,10 @@ import { ActivePromotion } from "./activePromotion";
 import { BatchCreateSchemaFieldsRequest } from "./batchCreateSchemaFieldsRequest";
 import { BatchCreateSchemaFieldsResponse } from "./batchCreateSchemaFieldsResponse";
 import { BatchCreateSchemaFieldsResponseError } from "./batchCreateSchemaFieldsResponseError";
+import { BatchUpdateRecordsRequest } from "./batchUpdateRecordsRequest";
+import { BatchUpdateRecordsResponse } from "./batchUpdateRecordsResponse";
+import { BatchUpdateRecordsResponseError } from "./batchUpdateRecordsResponseError";
+import { BatchUpdateRecordsResponseRecord } from "./batchUpdateRecordsResponseRecord";
 import { BatchUpsertRecordsRequest } from "./batchUpsertRecordsRequest";
 import { BatchUpsertRecordsRequestPipeline } from "./batchUpsertRecordsRequestPipeline";
 import { BatchUpsertRecordsResponse } from "./batchUpsertRecordsResponse";
@@ -103,9 +111,7 @@ import { GetDefaultPipelineResponse } from "./getDefaultPipelineResponse";
 import { GetDefaultVersionRequestView } from "./getDefaultVersionRequestView";
 import { GetPipelineRequestView } from "./getPipelineRequestView";
 import { GetRecordRequest } from "./getRecordRequest";
-import { Integration } from "./integration";
 import { ListCollectionsResponse } from "./listCollectionsResponse";
-import { ListIntegrationsResponse } from "./listIntegrationsResponse";
 import { ListPipelinesRequestView } from "./listPipelinesRequestView";
 import { ListPipelinesResponse } from "./listPipelinesResponse";
 import { ListPromotionsResponse } from "./listPromotionsResponse";
@@ -118,12 +124,14 @@ import { PipelineStep } from "./pipelineStep";
 import { PipelineStepParamBinding } from "./pipelineStepParamBinding";
 import { PipelineType } from "./pipelineType";
 import { Promotion } from "./promotion";
+import { PromotionCategory } from "./promotionCategory";
 import { PromotionExclusion } from "./promotionExclusion";
 import { PromotionFilterBoost } from "./promotionFilterBoost";
 import { PromotionFilterCondition } from "./promotionFilterCondition";
 import { PromotionPin } from "./promotionPin";
 import { PromotionRangeBoost } from "./promotionRangeBoost";
 import { ProtobufAny } from "./protobufAny";
+import { ProtobufFieldMask } from "./protobufFieldMask";
 import { ProtobufNullValue } from "./protobufNullValue";
 import { QueryAggregateResult } from "./queryAggregateResult";
 import { QueryAggregateResultAnalysis } from "./queryAggregateResultAnalysis";
@@ -186,6 +194,10 @@ let typeMap: { [index: string]: any } = {
   BatchCreateSchemaFieldsRequest: BatchCreateSchemaFieldsRequest,
   BatchCreateSchemaFieldsResponse: BatchCreateSchemaFieldsResponse,
   BatchCreateSchemaFieldsResponseError: BatchCreateSchemaFieldsResponseError,
+  BatchUpdateRecordsRequest: BatchUpdateRecordsRequest,
+  BatchUpdateRecordsResponse: BatchUpdateRecordsResponse,
+  BatchUpdateRecordsResponseError: BatchUpdateRecordsResponseError,
+  BatchUpdateRecordsResponseRecord: BatchUpdateRecordsResponseRecord,
   BatchUpsertRecordsRequest: BatchUpsertRecordsRequest,
   BatchUpsertRecordsRequestPipeline: BatchUpsertRecordsRequestPipeline,
   BatchUpsertRecordsResponse: BatchUpsertRecordsResponse,
@@ -198,9 +210,7 @@ let typeMap: { [index: string]: any } = {
   GeneratePipelinesResponse: GeneratePipelinesResponse,
   GetDefaultPipelineResponse: GetDefaultPipelineResponse,
   GetRecordRequest: GetRecordRequest,
-  Integration: Integration,
   ListCollectionsResponse: ListCollectionsResponse,
-  ListIntegrationsResponse: ListIntegrationsResponse,
   ListPipelinesResponse: ListPipelinesResponse,
   ListPromotionsResponse: ListPromotionsResponse,
   ListRedirectsResponse: ListRedirectsResponse,
@@ -211,12 +221,14 @@ let typeMap: { [index: string]: any } = {
   PipelineStep: PipelineStep,
   PipelineStepParamBinding: PipelineStepParamBinding,
   Promotion: Promotion,
+  PromotionCategory: PromotionCategory,
   PromotionExclusion: PromotionExclusion,
   PromotionFilterBoost: PromotionFilterBoost,
   PromotionFilterCondition: PromotionFilterCondition,
   PromotionPin: PromotionPin,
   PromotionRangeBoost: PromotionRangeBoost,
   ProtobufAny: ProtobufAny,
+  ProtobufFieldMask: ProtobufFieldMask,
   QueryAggregateResult: QueryAggregateResult,
   QueryAggregateResultAnalysis: QueryAggregateResultAnalysis,
   QueryAggregateResultBuckets: QueryAggregateResultBuckets,

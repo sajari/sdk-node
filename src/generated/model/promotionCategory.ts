@@ -12,22 +12,15 @@
 
 import { RequestFile } from "./models";
 
-/**
- * RedirectResult indicates that a redirect has been triggered for a given query.
- */
-export class RedirectResult {
+export class PromotionCategory {
   /**
-   * The redirect\'s ID.
+   * The logical field that specifies a record\'s category, e.g. \"product_type\".
    */
-  "id"?: string;
+  "idField"?: string;
   /**
-   * The target to redirect the user to.
+   * The field that contains a human-readable rendering of a record\'s category, e.g. \"product_type_name\". When creating promotions, this field\'s text value is displayed instead of the `id_field`. If `mapping_field` is not provided, the text value of the record\'s `id_field` is displayed.
    */
-  "target"?: string;
-  /**
-   * A redirect token.  Call SendEvent with this token to indicate that a redirect has been performed.
-   */
-  "token"?: string;
+  "mappingField"?: string;
 
   static discriminator: string | undefined = undefined;
 
@@ -37,23 +30,18 @@ export class RedirectResult {
     type: string;
   }> = [
     {
-      name: "id",
-      baseName: "id",
+      name: "idField",
+      baseName: "id_field",
       type: "string",
     },
     {
-      name: "target",
-      baseName: "target",
-      type: "string",
-    },
-    {
-      name: "token",
-      baseName: "token",
+      name: "mappingField",
+      baseName: "mapping_field",
       type: "string",
     },
   ];
 
   static getAttributeTypeMap() {
-    return RedirectResult.attributeTypeMap;
+    return PromotionCategory.attributeTypeMap;
   }
 }

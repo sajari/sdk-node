@@ -12,22 +12,15 @@
 
 import { RequestFile } from "./models";
 
-/**
- * RedirectResult indicates that a redirect has been triggered for a given query.
- */
-export class RedirectResult {
+export class BatchUpdateRecordsResponseRecord {
   /**
-   * The redirect\'s ID.
+   * The index of the record in `requests`.
    */
-  "id"?: string;
+  "index"?: number;
   /**
-   * The target to redirect the user to.
+   * The updated record.
    */
-  "target"?: string;
-  /**
-   * A redirect token.  Call SendEvent with this token to indicate that a redirect has been performed.
-   */
-  "token"?: string;
+  "record"?: object;
 
   static discriminator: string | undefined = undefined;
 
@@ -37,23 +30,18 @@ export class RedirectResult {
     type: string;
   }> = [
     {
-      name: "id",
-      baseName: "id",
-      type: "string",
+      name: "index",
+      baseName: "index",
+      type: "number",
     },
     {
-      name: "target",
-      baseName: "target",
-      type: "string",
-    },
-    {
-      name: "token",
-      baseName: "token",
-      type: "string",
+      name: "record",
+      baseName: "record",
+      type: "object",
     },
   ];
 
   static getAttributeTypeMap() {
-    return RedirectResult.attributeTypeMap;
+    return BatchUpdateRecordsResponseRecord.attributeTypeMap;
   }
 }

@@ -11,23 +11,18 @@
  */
 
 import { RequestFile } from "./models";
+import { BatchUpdateRecordsResponseError } from "./batchUpdateRecordsResponseError";
+import { BatchUpdateRecordsResponseRecord } from "./batchUpdateRecordsResponseRecord";
 
-/**
- * RedirectResult indicates that a redirect has been triggered for a given query.
- */
-export class RedirectResult {
+export class BatchUpdateRecordsResponse {
   /**
-   * The redirect\'s ID.
+   * The errors that occurred.
    */
-  "id"?: string;
+  "errors"?: Array<BatchUpdateRecordsResponseError>;
   /**
-   * The target to redirect the user to.
+   * A list of updated records.
    */
-  "target"?: string;
-  /**
-   * A redirect token.  Call SendEvent with this token to indicate that a redirect has been performed.
-   */
-  "token"?: string;
+  "records"?: Array<BatchUpdateRecordsResponseRecord>;
 
   static discriminator: string | undefined = undefined;
 
@@ -37,23 +32,18 @@ export class RedirectResult {
     type: string;
   }> = [
     {
-      name: "id",
-      baseName: "id",
-      type: "string",
+      name: "errors",
+      baseName: "errors",
+      type: "Array<BatchUpdateRecordsResponseError>",
     },
     {
-      name: "target",
-      baseName: "target",
-      type: "string",
-    },
-    {
-      name: "token",
-      baseName: "token",
-      type: "string",
+      name: "records",
+      baseName: "records",
+      type: "Array<BatchUpdateRecordsResponseRecord>",
     },
   ];
 
   static getAttributeTypeMap() {
-    return RedirectResult.attributeTypeMap;
+    return BatchUpdateRecordsResponse.attributeTypeMap;
   }
 }

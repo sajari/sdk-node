@@ -12,6 +12,10 @@ model/activePromotion.ts
 model/batchCreateSchemaFieldsRequest.ts
 model/batchCreateSchemaFieldsResponse.ts
 model/batchCreateSchemaFieldsResponseError.ts
+model/batchUpdateRecordsRequest.ts
+model/batchUpdateRecordsResponse.ts
+model/batchUpdateRecordsResponseError.ts
+model/batchUpdateRecordsResponseRecord.ts
 model/batchUpsertRecordsRequest.ts
 model/batchUpsertRecordsRequestPipeline.ts
 model/batchUpsertRecordsResponse.ts
@@ -26,9 +30,7 @@ model/getDefaultPipelineResponse.ts
 model/getDefaultVersionRequestView.ts
 model/getPipelineRequestView.ts
 model/getRecordRequest.ts
-model/integration.ts
 model/listCollectionsResponse.ts
-model/listIntegrationsResponse.ts
 model/listPipelinesRequestView.ts
 model/listPipelinesResponse.ts
 model/listPromotionsResponse.ts
@@ -42,12 +44,14 @@ model/pipelineStep.ts
 model/pipelineStepParamBinding.ts
 model/pipelineType.ts
 model/promotion.ts
+model/promotionCategory.ts
 model/promotionExclusion.ts
 model/promotionFilterBoost.ts
 model/promotionFilterCondition.ts
 model/promotionPin.ts
 model/promotionRangeBoost.ts
 model/protobufAny.ts
+model/protobufFieldMask.ts
 model/protobufNullValue.ts
 model/queryAggregateResult.ts
 model/queryAggregateResultAnalysis.ts

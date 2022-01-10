@@ -11,23 +11,17 @@
  */
 
 import { RequestFile } from "./models";
+import { UpdateRecordRequest } from "./updateRecordRequest";
 
-/**
- * RedirectResult indicates that a redirect has been triggered for a given query.
- */
-export class RedirectResult {
+export class BatchUpdateRecordsRequest {
   /**
-   * The redirect\'s ID.
+   * The list of requests containing the records to be updated.  A maximum of 200 records can be updated in a batch.
    */
-  "id"?: string;
+  "requests": Array<UpdateRecordRequest>;
   /**
-   * The target to redirect the user to.
+   * The list of fields to be updated, separated by a comma, e.g. `field1,field2`.  For each field that you want to update, provide a corresponding value in each record object, within the requests list, containing the new value.  If provided, and you also provide an update mask in any child request, the values must match.
    */
-  "target"?: string;
-  /**
-   * A redirect token.  Call SendEvent with this token to indicate that a redirect has been performed.
-   */
-  "token"?: string;
+  "updateMask"?: string;
 
   static discriminator: string | undefined = undefined;
 
@@ -37,23 +31,18 @@ export class RedirectResult {
     type: string;
   }> = [
     {
-      name: "id",
-      baseName: "id",
-      type: "string",
+      name: "requests",
+      baseName: "requests",
+      type: "Array<UpdateRecordRequest>",
     },
     {
-      name: "target",
-      baseName: "target",
-      type: "string",
-    },
-    {
-      name: "token",
-      baseName: "token",
+      name: "updateMask",
+      baseName: "update_mask",
       type: "string",
     },
   ];
 
   static getAttributeTypeMap() {
-    return RedirectResult.attributeTypeMap;
+    return BatchUpdateRecordsRequest.attributeTypeMap;
   }
 }
