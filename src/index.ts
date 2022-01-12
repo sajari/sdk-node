@@ -7,6 +7,7 @@ export {
 export { SchemaClient } from "./schema";
 export { PipelinesClient } from "./pipelines";
 export { RecordsClient } from "./records";
+export { EventsClient } from "./events";
 
 export {
   HttpError,
