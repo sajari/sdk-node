@@ -13,7 +13,7 @@
 import { RequestFile } from "./models";
 
 /**
- * RedirectResult indicates that a redirect has been triggered for a given query.
+ * Indicates that a redirect has been triggered for a given query.
  */
 export class RedirectResult {
   /**

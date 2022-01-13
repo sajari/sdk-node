@@ -782,7 +782,7 @@ export class CollectionsApi {
    * @summary Update collection
    * @param collectionId The collection to update, e.g. &#x60;my-collection&#x60;.
    * @param updateMask The list of fields to be updated, separated by a comma, e.g. &#x60;field1,field2&#x60;.  Each field should be in snake case, e.g. &#x60;display_name&#x60;.  For each field that you want to update, provide a corresponding value in the collection object containing the new value.
-   * @param collection Details of the collection to update.
+   * @param collection The details of the collection to update.
    */
   public async updateCollection(
     collectionId: string,

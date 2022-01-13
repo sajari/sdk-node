@@ -15,7 +15,7 @@ import { PromotionExclusion } from "./promotionExclusion";
 import { PromotionPin } from "./promotionPin";
 
 /**
- * ActivePromotion is a promotion that is active for a given search.
+ * A promotion that is active for a given search.
  */
 export class ActivePromotion {
   /**
