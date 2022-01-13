@@ -1,6 +1,7 @@
 import localVarRequest from "request";
 
 export * from "./activePromotion";
+export * from "./banner";
 export * from "./batchCreateSchemaFieldsRequest";
 export * from "./batchCreateSchemaFieldsResponse";
 export * from "./batchCreateSchemaFieldsResponseError";
@@ -90,6 +91,7 @@ export interface RequestDetailedFile {
 export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
 
 import { ActivePromotion } from "./activePromotion";
+import { Banner } from "./banner";
 import { BatchCreateSchemaFieldsRequest } from "./batchCreateSchemaFieldsRequest";
 import { BatchCreateSchemaFieldsResponse } from "./batchCreateSchemaFieldsResponse";
 import { BatchCreateSchemaFieldsResponseError } from "./batchCreateSchemaFieldsResponseError";
@@ -191,6 +193,7 @@ let enumsMap: { [index: string]: any } = {
 
 let typeMap: { [index: string]: any } = {
   ActivePromotion: ActivePromotion,
+  Banner: Banner,
   BatchCreateSchemaFieldsRequest: BatchCreateSchemaFieldsRequest,
   BatchCreateSchemaFieldsResponse: BatchCreateSchemaFieldsResponse,
   BatchCreateSchemaFieldsResponseError: BatchCreateSchemaFieldsResponseError,

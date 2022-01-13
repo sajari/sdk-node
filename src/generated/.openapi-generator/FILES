@@ -9,6 +9,7 @@ api/recordsApi.ts
 api/redirectsApi.ts
 api/schemaApi.ts
 model/activePromotion.ts
+model/banner.ts
 model/batchCreateSchemaFieldsRequest.ts
 model/batchCreateSchemaFieldsResponse.ts
 model/batchCreateSchemaFieldsResponseError.ts

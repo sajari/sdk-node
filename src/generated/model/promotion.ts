@@ -11,6 +11,7 @@
  */
 
 import { RequestFile } from "./models";
+import { Banner } from "./banner";
 import { PromotionExclusion } from "./promotionExclusion";
 import { PromotionFilterBoost } from "./promotionFilterBoost";
 import { PromotionFilterCondition } from "./promotionFilterCondition";
@@ -21,6 +22,10 @@ import { PromotionRangeBoost } from "./promotionRangeBoost";
  * Promotion contains a trigger, determining which searches it should be active for, and a list of alterations that should be made to search results when it is active.
  */
 export class Promotion {
+  /**
+   * The banners that are injected into the result set when the promotion is triggered.
+   */
+  "banners"?: Array<Banner>;
   /**
    * Output only. The ID of the collection that owns this promotion.
    */
@@ -85,6 +90,11 @@ export class Promotion {
     baseName: string;
     type: string;
   }> = [
+    {
+      name: "banners",
+      baseName: "banners",
+      type: "Array<Banner>",
+    },
     {
       name: "collectionId",
       baseName: "collection_id",

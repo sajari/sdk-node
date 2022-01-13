@@ -14,11 +14,11 @@ import { RequestFile } from "./models";
 
 export class GeneratePipelinesRequest {
   /**
-   * List of fields to train query suggestions from.
+   * A list of fields to train query suggestions from.
    */
   "queryTrainingFields"?: Array<string>;
   /**
-   * Prioritized list of fields to search.
+   * A prioritized list of fields to search.
    */
   "searchableFields": Array<string>;
 

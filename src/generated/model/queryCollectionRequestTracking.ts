@@ -15,19 +15,19 @@ import { QueryCollectionRequestTrackingType } from "./queryCollectionRequestTrac
 
 export class QueryCollectionRequestTracking {
   /**
-   * Custom values to be included in tracking data.
+   * A set of custom values to be included in tracking data.
    */
   "data"?: { [key: string]: string };
   /**
-   * Tracking field used to identify records in the collection.  Must be unique schema field.
+   * The tracking field used to identify records in the collection.  Must be unique schema field.
    */
   "field"?: string;
   /**
-   * Query ID of the query. If this is empty, then one is generated.
+   * The query ID of the query. If this is empty, then one is generated.
    */
   "queryId"?: string;
   /**
-   * Sequence number of query.
+   * The sequence number of query.
    */
   "sequence"?: number;
   "type"?: QueryCollectionRequestTrackingType;
