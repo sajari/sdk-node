@@ -5,7 +5,7 @@ set -eo pipefail
 cd "$(dirname "$0")"
 
 function die() {
-    echo 1>&2 $*
+    echo 1>&2 "$@"
     exit 1
 }
 
@@ -23,7 +23,7 @@ docker-entrypoint.sh generate \
     -g typescript-node \
     --git-user-id sajari \
     --git-repo-id sdk-node \
-    -t $TEMPLATES_PATH \
+    -t "$TEMPLATES_PATH" \
     --additional-properties supportsES6=true \
     --additional-properties artifactVersion=$VERSION \
-    -o $GEN_PATH
+    -o "$GEN_PATH"
