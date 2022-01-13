@@ -2,12 +2,11 @@ export const withEndpoint = (endpoint: string) => (client: Client) => {
   client.endpoint = endpoint;
 };
 
-export const withKeyCredentials = (keyId: string, keySecret: string) => (
-  client: Client
-) => {
-  client.keyId = keyId;
-  client.keySecret = keySecret;
-};
+export const withKeyCredentials =
+  (keyId: string, keySecret: string) => (client: Client) => {
+    client.keyId = keyId;
+    client.keySecret = keySecret;
+  };
 
 export abstract class Client {
   endpoint: string = "";
