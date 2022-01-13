@@ -81,6 +81,7 @@ Examples are in the [examples](https://github.com/sajari/sdk-node/blob/master/ex
 | Upsert record                | [source code](https://github.com/sajari/sdk-node/blob/master/examples/upsert-record.ts)                |
 | Query collection             | [source code](https://github.com/sajari/sdk-node/blob/master/examples/query-collection.ts)             |
 | Set default pipeline         | [source code](https://github.com/sajari/sdk-node/blob/master/examples/set-default-pipeline.ts)         |
+| Send event                   | [source code](https://github.com/sajari/sdk-node/blob/master/examples/send-event.ts)                   |
 | Get default pipeline         | [source code](https://github.com/sajari/sdk-node/blob/master/examples/get-default-pipeline.ts)         |
 | Set default pipeline version | [source code](https://github.com/sajari/sdk-node/blob/master/examples/set-default-pipeline-version.ts) |
 | Get default pipeline version | [source code](https://github.com/sajari/sdk-node/blob/master/examples/get-default-pipeline-version.ts) |
