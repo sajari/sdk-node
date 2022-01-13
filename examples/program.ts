@@ -6,6 +6,13 @@ program.version("0.0.1");
 
 const defaultEndpoint = "https://api.search.io";
 
+export const withEndpointOptions = (p: commander.Command) =>
+  p.option(
+    "-e, --endpoint <endpoint>",
+    "API endpoint",
+    process.env.ENDPOINT || defaultEndpoint
+  );
+
 export const withAccountOptions = (p: commander.Command) =>
   p
     .option(
