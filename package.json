@@ -1,6 +1,6 @@
 {
   "name": "@sajari/sdk-node",
-  "version": "4.4.0",
+  "version": "4.4.1",
   "repository": "git@github.com:github.com/sajari/sdk-node.git",
   "author": "Search.io",
   "license": "MIT",
