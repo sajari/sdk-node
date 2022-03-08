@@ -12,6 +12,7 @@
 
 import { RequestFile } from "./models";
 import { ActivePromotion } from "./activePromotion";
+import { Banner } from "./banner";
 import { QueryAggregateResult } from "./queryAggregateResult";
 import { QueryCollectionResponsePipeline } from "./queryCollectionResponsePipeline";
 import { QueryResult } from "./queryResult";
@@ -31,6 +32,10 @@ export class QueryCollectionResponse {
    */
   "aggregates"?: { [key: string]: QueryAggregateResult };
   /**
+   * Banners associated with this query.
+   */
+  "banners"?: Array<Banner>;
+  /**
    * The weight applied to the features in the query, used for analyzing the index, neural and feature components for results.  For each result:  ``` score = max(index_score, neural_score) * (1 - feature_score_weight) +         feature_score * feature_score_weight ```
    */
   "featureScoreWeight"?: number;
@@ -39,6 +44,10 @@ export class QueryCollectionResponse {
    * The total time taken to perform the query.
    */
   "processingDuration"?: string;
+  /**
+   * The query identifier.  This uniqely identifies the specific query it was returned on. This is used to link user interactions with a query.
+   */
+  "queryId"?: string;
   /**
    * A mapping of redirects triggered for all possible variations of the query.
    */
@@ -79,6 +88,11 @@ export class QueryCollectionResponse {
       type: "{ [key: string]: QueryAggregateResult; }",
     },
     {
+      name: "banners",
+      baseName: "banners",
+      type: "Array<Banner>",
+    },
+    {
       name: "featureScoreWeight",
       baseName: "feature_score_weight",
       type: "number",
@@ -91,6 +105,11 @@ export class QueryCollectionResponse {
     {
       name: "processingDuration",
       baseName: "processing_duration",
+      type: "string",
+    },
+    {
+      name: "queryId",
+      baseName: "query_id",
       type: "string",
     },
     {

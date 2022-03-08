@@ -11,13 +11,18 @@
  */
 
 import { RequestFile } from "./models";
+import { TextPosition } from "./textPosition";
 
 /**
  * A synthetic search result that renders as an image. It takes a user to a pre-determined location when clicked.
  */
 export class Banner {
   /**
-   * the height the banner occupies in grid cells.
+   * The description of the banner, displayed in sub-head font.
+   */
+  "description"?: string;
+  /**
+   * The height the banner occupies in grid cells.
    */
   "height"?: number;
   /**
@@ -37,6 +42,15 @@ export class Banner {
    */
   "targetUrl"?: string;
   /**
+   * The color of the text as a hex code with a # prefix, e.g. #FFCC00 or #FC0.
+   */
+  "textColor"?: string;
+  "textPosition"?: TextPosition;
+  /**
+   * The title of the banner, displayed in header font.
+   */
+  "title"?: string;
+  /**
    * The width the banner occupies in grid cells.
    */
   "width"?: number;
@@ -48,6 +62,11 @@ export class Banner {
     baseName: string;
     type: string;
   }> = [
+    {
+      name: "description",
+      baseName: "description",
+      type: "string",
+    },
     {
       name: "height",
       baseName: "height",
@@ -71,6 +90,21 @@ export class Banner {
     {
       name: "targetUrl",
       baseName: "target_url",
+      type: "string",
+    },
+    {
+      name: "textColor",
+      baseName: "text_color",
+      type: "string",
+    },
+    {
+      name: "textPosition",
+      baseName: "text_position",
+      type: "TextPosition",
+    },
+    {
+      name: "title",
+      baseName: "title",
       type: "string",
     },
     {

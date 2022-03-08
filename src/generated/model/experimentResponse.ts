@@ -11,12 +11,26 @@
  */
 
 import { RequestFile } from "./models";
+import { QueryCollectionResponse } from "./queryCollectionResponse";
 
-/**
- *  - VIEW_UNSPECIFIED: The default / unset value. The API defaults to the `BASIC` view.  - BASIC: Include basic information including type, name, version and description but not the full step configuration. This is the default value (for both [ListPipelines](/docs/api#operation/ListPipelines) and [GetPipeline](/docs/api#operation/GetPipeline)).  - FULL: Include the information from `BASIC`, plus full step configuration.
- */
-export enum ListPipelinesRequestView {
-  ViewUnspecified = <any>"VIEW_UNSPECIFIED",
-  Basic = <any>"BASIC",
-  Full = <any>"FULL",
+export class ExperimentResponse {
+  "queryResponse"?: QueryCollectionResponse;
+
+  static discriminator: string | undefined = undefined;
+
+  static attributeTypeMap: Array<{
+    name: string;
+    baseName: string;
+    type: string;
+  }> = [
+    {
+      name: "queryResponse",
+      baseName: "query_response",
+      type: "QueryCollectionResponse",
+    },
+  ];
+
+  static getAttributeTypeMap() {
+    return ExperimentResponse.attributeTypeMap;
+  }
 }

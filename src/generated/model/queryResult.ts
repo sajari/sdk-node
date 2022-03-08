@@ -11,9 +11,11 @@
  */
 
 import { RequestFile } from "./models";
+import { Banner } from "./banner";
 import { QueryResultToken } from "./queryResultToken";
 
 export class QueryResult {
+  "banner"?: Banner;
   /**
    * The feature score of the result.  This is a value between 0 and 1 representing the business-specific ranking of the result as determined by the ranking adjustments. See [Ranking adjustments](https://docs.search.io/documentation/fundamentals/search-settings/ranking-adjustments) for more information.
    */
@@ -31,6 +33,10 @@ export class QueryResult {
    */
   "record"?: object;
   /**
+   * The relevance score of the result.  This is the best of `index_score` and `neural_score` with any index boosts applied on top.
+   */
+  "relevanceScore"?: number;
+  /**
    * The overall relevance of the result.  This is a value between 0 and 1 that combines the index, neural and feature scores. The higher the score the more relevant the result is.
    */
   "score"?: number;
@@ -43,6 +49,11 @@ export class QueryResult {
     baseName: string;
     type: string;
   }> = [
+    {
+      name: "banner",
+      baseName: "banner",
+      type: "Banner",
+    },
     {
       name: "featureScore",
       baseName: "feature_score",
@@ -62,6 +73,11 @@ export class QueryResult {
       name: "record",
       baseName: "record",
       type: "object",
+    },
+    {
+      name: "relevanceScore",
+      baseName: "relevance_score",
+      type: "number",
     },
     {
       name: "score",

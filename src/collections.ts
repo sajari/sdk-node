@@ -3,11 +3,14 @@ import {
   CollectionsApi,
   Collection,
   QueryCollectionRequest,
+  Event
 } from "./generated/api";
 import { clientUserAgentHeader, clientUserAgent } from "./user-agent";
 import { handleError } from "./api-util";
 
 export { withEndpoint, withKeyCredentials } from "./client";
+
+type HeaderOptions = { headers: { [name: string]: string }};
 
 export class CollectionsClient extends Client {
   client: CollectionsApi;
@@ -105,6 +108,15 @@ export class CollectionsClient extends Client {
   async deleteCollection(id: string) {
     try {
       const res = await this.client.deleteCollection(id);
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
+  }
+
+  async trackEvent(id: string, event: Event, accountId?: string, options?: HeaderOptions) {
+    try {
+      const res = await this.client.trackEvent(id, event, accountId, options);
       return res.body;
     } catch (e) {
       throw handleError(e);

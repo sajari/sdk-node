@@ -17,6 +17,10 @@ export * from "./batchUpsertRecordsResponseKey";
 export * from "./batchUpsertRecordsResponseVariables";
 export * from "./collection";
 export * from "./deleteRecordRequest";
+export * from "./event";
+export * from "./experimentRequest";
+export * from "./experimentRequestPipeline";
+export * from "./experimentResponse";
 export * from "./generatePipelinesRequest";
 export * from "./generatePipelinesResponse";
 export * from "./getDefaultPipelineResponse";
@@ -26,6 +30,7 @@ export * from "./getRecordRequest";
 export * from "./listCollectionsResponse";
 export * from "./listPipelinesRequestView";
 export * from "./listPipelinesResponse";
+export * from "./listPromotionsRequestPromotionView";
 export * from "./listPromotionsResponse";
 export * from "./listRedirectsResponse";
 export * from "./listSchemaFieldsResponse";
@@ -41,6 +46,7 @@ export * from "./promotionExclusion";
 export * from "./promotionFilterBoost";
 export * from "./promotionFilterCondition";
 export * from "./promotionPin";
+export * from "./promotionPinMode";
 export * from "./promotionRangeBoost";
 export * from "./protobufAny";
 export * from "./protobufFieldMask";
@@ -73,6 +79,7 @@ export * from "./sendEventRequest";
 export * from "./setDefaultPipelineRequest";
 export * from "./setDefaultVersionRequest";
 export * from "./status";
+export * from "./textPosition";
 export * from "./updateRecordRequest";
 export * from "./upsertRecordRequest";
 export * from "./upsertRecordRequestPipeline";
@@ -107,6 +114,10 @@ import { BatchUpsertRecordsResponseKey } from "./batchUpsertRecordsResponseKey";
 import { BatchUpsertRecordsResponseVariables } from "./batchUpsertRecordsResponseVariables";
 import { Collection } from "./collection";
 import { DeleteRecordRequest } from "./deleteRecordRequest";
+import { Event } from "./event";
+import { ExperimentRequest } from "./experimentRequest";
+import { ExperimentRequestPipeline } from "./experimentRequestPipeline";
+import { ExperimentResponse } from "./experimentResponse";
 import { GeneratePipelinesRequest } from "./generatePipelinesRequest";
 import { GeneratePipelinesResponse } from "./generatePipelinesResponse";
 import { GetDefaultPipelineResponse } from "./getDefaultPipelineResponse";
@@ -116,6 +127,7 @@ import { GetRecordRequest } from "./getRecordRequest";
 import { ListCollectionsResponse } from "./listCollectionsResponse";
 import { ListPipelinesRequestView } from "./listPipelinesRequestView";
 import { ListPipelinesResponse } from "./listPipelinesResponse";
+import { ListPromotionsRequestPromotionView } from "./listPromotionsRequestPromotionView";
 import { ListPromotionsResponse } from "./listPromotionsResponse";
 import { ListRedirectsResponse } from "./listRedirectsResponse";
 import { ListSchemaFieldsResponse } from "./listSchemaFieldsResponse";
@@ -131,6 +143,7 @@ import { PromotionExclusion } from "./promotionExclusion";
 import { PromotionFilterBoost } from "./promotionFilterBoost";
 import { PromotionFilterCondition } from "./promotionFilterCondition";
 import { PromotionPin } from "./promotionPin";
+import { PromotionPinMode } from "./promotionPinMode";
 import { PromotionRangeBoost } from "./promotionRangeBoost";
 import { ProtobufAny } from "./protobufAny";
 import { ProtobufFieldMask } from "./protobufFieldMask";
@@ -163,6 +176,7 @@ import { SendEventRequest } from "./sendEventRequest";
 import { SetDefaultPipelineRequest } from "./setDefaultPipelineRequest";
 import { SetDefaultVersionRequest } from "./setDefaultVersionRequest";
 import { Status } from "./status";
+import { TextPosition } from "./textPosition";
 import { UpdateRecordRequest } from "./updateRecordRequest";
 import { UpsertRecordRequest } from "./upsertRecordRequest";
 import { UpsertRecordRequestPipeline } from "./upsertRecordRequestPipeline";
@@ -184,11 +198,14 @@ let enumsMap: { [index: string]: any } = {
   GetDefaultVersionRequestView: GetDefaultVersionRequestView,
   GetPipelineRequestView: GetPipelineRequestView,
   ListPipelinesRequestView: ListPipelinesRequestView,
+  ListPromotionsRequestPromotionView: ListPromotionsRequestPromotionView,
   PipelineType: PipelineType,
+  PromotionPinMode: PromotionPinMode,
   ProtobufNullValue: ProtobufNullValue,
   QueryCollectionRequestTrackingType: QueryCollectionRequestTrackingType,
   SchemaFieldMode: SchemaFieldMode,
   SchemaFieldType: SchemaFieldType,
+  TextPosition: TextPosition,
 };
 
 let typeMap: { [index: string]: any } = {
@@ -209,6 +226,10 @@ let typeMap: { [index: string]: any } = {
   BatchUpsertRecordsResponseVariables: BatchUpsertRecordsResponseVariables,
   Collection: Collection,
   DeleteRecordRequest: DeleteRecordRequest,
+  Event: Event,
+  ExperimentRequest: ExperimentRequest,
+  ExperimentRequestPipeline: ExperimentRequestPipeline,
+  ExperimentResponse: ExperimentResponse,
   GeneratePipelinesRequest: GeneratePipelinesRequest,
   GeneratePipelinesResponse: GeneratePipelinesResponse,
   GetDefaultPipelineResponse: GetDefaultPipelineResponse,
