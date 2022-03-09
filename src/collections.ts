@@ -114,9 +114,9 @@ export class CollectionsClient extends Client {
     }
   }
 
-  async trackEvent(collectionId: string, event: Event, accountId?: string, options?: HeaderOptions) {
+  async trackEvent(accountId: string, collectionId: string, event: Event, options?: HeaderOptions) {
     try {
-      const res = await this.client.trackEvent(collectionId, event, accountId, options);
+      const res = await this.client.trackEvent(accountId, collectionId, event, options);
       return res.body;
     } catch (e) {
       throw handleError(e);

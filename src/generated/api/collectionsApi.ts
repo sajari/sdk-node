@@ -891,16 +891,16 @@ export class CollectionsApi {
     });
   }
   /**
-   * Track an analytics event when a user interacts with an object returned by a [QueryCollection](/docs/api/#operation/QueryCollection) request.  An analytics event can be tracked for the following objects:  - Results - Promotion banners - Redirects  Note: You must pass either your API key credentials or an Account-Id header. Do not share your API keys in publicly accessible areas such as GitHub, client-side code, and so forth.
+   * Track an analytics event when a user interacts with an object returned by a [QueryCollection](/docs/api/#operation/QueryCollection) request.  An analytics event can be tracked for the following objects:  - Results - Promotion banners - Redirects  Note: You must pass an `Account-Id` header.
    * @summary Track event
+   * @param accountId The account that owns the collection, e.g. &#x60;1618535966441231024&#x60;.
    * @param collectionId The collection to track the event against, e.g. &#x60;my-collection&#x60;.
    * @param event The details of the event to track.
-   * @param accountId You must pass either your API key credentials or an &#x60;Account-Id&#x60; header. Do not share your API keys in publicly accessible areas such as GitHub, client-side code, and so forth.
    */
   public async trackEvent(
+    accountId: string,
     collectionId: string,
     event: Event,
-    accountId?: string,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{ response: http.IncomingMessage; body: object }> {
     const localVarPath =
@@ -922,6 +922,13 @@ export class CollectionsApi {
       localVarHeaderParams.Accept = produces.join(",");
     }
     let localVarFormParams: any = {};
+
+    // verify required parameter 'accountId' is not null or undefined
+    if (accountId === null || accountId === undefined) {
+      throw new Error(
+        "Required parameter accountId was null or undefined when calling trackEvent."
+      );
+    }
 
     // verify required parameter 'collectionId' is not null or undefined
     if (collectionId === null || collectionId === undefined) {
