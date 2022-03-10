@@ -13,10 +13,9 @@
 import { RequestFile } from "./models";
 
 /**
- *  - VIEW_UNSPECIFIED: The default / unset value. The API defaults to the `BASIC` view.  - BASIC: Include basic information including type, name, version and description but not the full step configuration. This is the default value (for both [ListPipelines](/docs/api#operation/ListPipelines) and [GetPipeline](/docs/api#operation/GetPipeline)).  - FULL: Include the information from `BASIC`, plus full step configuration.
+ *  - PIN: The pin applies regardless of whether the pinned item is in the underlying result set of the search.  This has the net effect that a search result can be surfaced even if it was not originally a part of the search result set.  - PROMOTE: The pin only applies if the pinned item is in the underlying result set of the search.
  */
-export enum ListPipelinesRequestView {
-  ViewUnspecified = <any>"VIEW_UNSPECIFIED",
-  Basic = <any>"BASIC",
-  Full = <any>"FULL",
+export enum PromotionPinMode {
+  Pin = <any>"PIN",
+  Promote = <any>"PROMOTE",
 }

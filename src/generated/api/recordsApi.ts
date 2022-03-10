@@ -120,7 +120,7 @@ export class RecordsApi {
   }
 
   /**
-   * The batch version of the [UpdateRecord](/api#operation/UpdateRecord) call.
+   * The batch version of the [UpdateRecord](/docs/api#operation/UpdateRecord) call.
    * @summary Batch update records
    * @param collectionId The collection that contains the records to update, e.g. &#x60;my-collection&#x60;.
    * @param batchUpdateRecordsRequest
@@ -242,7 +242,7 @@ export class RecordsApi {
     });
   }
   /**
-   * The batch version of the [UpsertRecord](/api#operation/UpsertRecord) call.
+   * The batch version of the [UpsertRecord](/docs/api#operation/UpsertRecord) call.
    * @summary Batch upsert records
    * @param collectionId The collection to upsert the records in, e.g. &#x60;my-collection&#x60;.
    * @param batchUpsertRecordsRequest
@@ -585,7 +585,7 @@ export class RecordsApi {
     });
   }
   /**
-   * Add or update specific fields within a record with the given values. The updated record is returned in the response.  To replace all fields in a record, you should use the [UpsertRecord](/api#operation/UpsertRecord) call.  Note that the update record call cannot be used to add or update indexed or unique fields. For this case use the [UpsertRecord](/api#operation/UpsertRecord) call.
+   * Add or update specific fields within a record with the given values. The updated record is returned in the response.  To replace all fields in a record, you should use the [UpsertRecord](/docs/api#operation/UpsertRecord) call.  Note that the update record call cannot be used to add or update indexed or unique fields. For this case use the [UpsertRecord](/docs/api#operation/UpsertRecord) call.
    * @summary Update record
    * @param collectionId The collection that contains the record to update, e.g. &#x60;my-collection&#x60;.
    * @param updateRecordRequest

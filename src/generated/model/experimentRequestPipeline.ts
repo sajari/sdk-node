@@ -11,16 +11,19 @@
  */
 
 import { RequestFile } from "./models";
-import { PromotionPinMode } from "./promotionPinMode";
-import { RecordKey } from "./recordKey";
 
-export class PromotionPin {
-  "key"?: RecordKey;
-  "mode"?: PromotionPinMode;
+/**
+ * The pipeline to use when running the experiment.  If not provided the default query pipeline is used.
+ */
+export class ExperimentRequestPipeline {
   /**
-   * Position the record should occupy in search results. The top position is position 1.  Doesn\'t need to be contiguous with other pins, i.e. there can be gaps in the pinned set that are filled with organic results.  In the case where there are insufficient search results pinned items are collapsed.
+   * The query pipeline\'s name, e.g. `my-pipeline`.
    */
-  "position"?: number;
+  "name": string;
+  /**
+   * The query pipeline\'s version, e.g. `42`.  If not provided the default version is used.
+   */
+  "version"?: string;
 
   static discriminator: string | undefined = undefined;
 
@@ -30,23 +33,18 @@ export class PromotionPin {
     type: string;
   }> = [
     {
-      name: "key",
-      baseName: "key",
-      type: "RecordKey",
+      name: "name",
+      baseName: "name",
+      type: "string",
     },
     {
-      name: "mode",
-      baseName: "mode",
-      type: "PromotionPinMode",
-    },
-    {
-      name: "position",
-      baseName: "position",
-      type: "number",
+      name: "version",
+      baseName: "version",
+      type: "string",
     },
   ];
 
   static getAttributeTypeMap() {
-    return PromotionPin.attributeTypeMap;
+    return ExperimentRequestPipeline.attributeTypeMap;
   }
 }

@@ -115,7 +115,7 @@ export class SchemaApi {
   }
 
   /**
-   * The batch version of the [CreateSchemaField](/api#operation/CreateSchemaField) call.
+   * The batch version of the [CreateSchemaField](/docs/api#operation/CreateSchemaField) call.
    * @summary Batch create schema fields
    * @param collectionId The collection to create the schema fields in, e.g. &#x60;my-collection&#x60;.
    * @param batchCreateSchemaFieldsRequest
@@ -350,7 +350,7 @@ export class SchemaApi {
    * @summary List schema fields
    * @param collectionId The collection that owns this set of schema fields, e.g. &#x60;my-collection&#x60;.
    * @param pageSize The maximum number of schema fields to return. The service may return fewer than this value.  If unspecified, at most 50 schema fields are returned.  The maximum value is 1000; values above 1000 are coerced to 1000.
-   * @param pageToken A page token, received from a previous [ListSchemaFields](/api#operation/ListSchemaFields) call.  Provide this to retrieve the subsequent page.  When paginating, all other parameters provided to [ListSchemaFields](/api#operation/ListSchemaFields) must match the call that provided the page token.
+   * @param pageToken A page token, received from a previous [ListSchemaFields](/docs/api#operation/ListSchemaFields) call.  Provide this to retrieve the subsequent page.  When paginating, all other parameters provided to [ListSchemaFields](/docs/api#operation/ListSchemaFields) must match the call that provided the page token.
    */
   public async listSchemaFields(
     collectionId: string,

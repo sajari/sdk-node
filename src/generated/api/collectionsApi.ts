@@ -15,6 +15,9 @@ import http from "http";
 
 /* tslint:disable:no-unused-locals */
 import { Collection } from "../model/collection";
+import { Event } from "../model/event";
+import { ExperimentRequest } from "../model/experimentRequest";
+import { ExperimentResponse } from "../model/experimentResponse";
 import { ListCollectionsResponse } from "../model/listCollectionsResponse";
 import { QueryCollectionRequest } from "../model/queryCollectionRequest";
 import { QueryCollectionResponse } from "../model/queryCollectionResponse";
@@ -325,6 +328,116 @@ export class CollectionsApi {
     });
   }
   /**
+   * Run a query on a collection with a hypothetical configuration to see what kinds of results it produces.  Saved promotions with a start date in the future are enabled during the experiment, unless they are explicitly disabled.  The following example demonstrates how to run a simple experiment for a string, against a pipeline and with a proposed promotion:  ```json {   \"pipeline\": { \"name\": \"my-pipeline\" },   \"variables\": { \"q\": \"search terms\" },   \"promotions\": [{     \"id\": \"1234\",     \"condition\": \"q = \'search terms\'\",     \"pins\": [{       \"key\": { \"field\": \"id\", \"value\": \"54hdc7h2334h\" },       \"position\": 1     }]   }] } ```
+   * @summary Experiment
+   * @param collectionId The collection to query, e.g. &#x60;my-collection&#x60;.
+   * @param experimentRequest
+   */
+  public async experiment(
+    collectionId: string,
+    experimentRequest: ExperimentRequest,
+    options: { headers: { [name: string]: string } } = { headers: {} }
+  ): Promise<{ response: http.IncomingMessage; body: ExperimentResponse }> {
+    const localVarPath =
+      this.basePath +
+      "/v4/collections/{collection_id}:experiment".replace(
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
+      );
+    let localVarQueryParameters: any = {};
+    let localVarHeaderParams: any = (<any>Object).assign(
+      {},
+      this._defaultHeaders
+    );
+    const produces = ["application/json"];
+    // give precedence to 'application/json'
+    if (produces.indexOf("application/json") >= 0) {
+      localVarHeaderParams.Accept = "application/json";
+    } else {
+      localVarHeaderParams.Accept = produces.join(",");
+    }
+    let localVarFormParams: any = {};
+
+    // verify required parameter 'collectionId' is not null or undefined
+    if (collectionId === null || collectionId === undefined) {
+      throw new Error(
+        "Required parameter collectionId was null or undefined when calling experiment."
+      );
+    }
+
+    // verify required parameter 'experimentRequest' is not null or undefined
+    if (experimentRequest === null || experimentRequest === undefined) {
+      throw new Error(
+        "Required parameter experimentRequest was null or undefined when calling experiment."
+      );
+    }
+
+    (<any>Object).assign(localVarHeaderParams, options.headers);
+
+    let localVarUseFormData = false;
+
+    let localVarRequestOptions: localVarRequest.Options = {
+      method: "POST",
+      qs: localVarQueryParameters,
+      headers: localVarHeaderParams,
+      uri: localVarPath,
+      useQuerystring: this._useQuerystring,
+      json: true,
+      body: ObjectSerializer.serialize(experimentRequest, "ExperimentRequest"),
+    };
+
+    let authenticationPromise = Promise.resolve();
+    if (
+      this.authentications.BasicAuth.username &&
+      this.authentications.BasicAuth.password
+    ) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.BasicAuth.applyToRequest(localVarRequestOptions)
+      );
+    }
+    authenticationPromise = authenticationPromise.then(() =>
+      this.authentications.default.applyToRequest(localVarRequestOptions)
+    );
+
+    let interceptorPromise = authenticationPromise;
+    for (const interceptor of this.interceptors) {
+      interceptorPromise = interceptorPromise.then(() =>
+        interceptor(localVarRequestOptions)
+      );
+    }
+
+    return interceptorPromise.then(() => {
+      if (Object.keys(localVarFormParams).length) {
+        if (localVarUseFormData) {
+          (<any>localVarRequestOptions).formData = localVarFormParams;
+        } else {
+          localVarRequestOptions.form = localVarFormParams;
+        }
+      }
+      return new Promise<{
+        response: http.IncomingMessage;
+        body: ExperimentResponse;
+      }>((resolve, reject) => {
+        localVarRequest(localVarRequestOptions, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            if (
+              response.statusCode &&
+              response.statusCode >= 200 &&
+              response.statusCode <= 299
+            ) {
+              body = ObjectSerializer.deserialize(body, "ExperimentResponse");
+              resolve({ response: response, body: body });
+            } else {
+              reject(new HttpError(response, body, response.statusCode));
+            }
+          }
+        });
+      });
+    });
+  }
+  /**
    * Retrieve the details of a collection.
    * @summary Get collection
    * @param collectionId The collection to retrieve, e.g. &#x60;my-collection&#x60;.
@@ -427,7 +540,7 @@ export class CollectionsApi {
    * Retrieve a list of collections in an account.
    * @summary List collections
    * @param pageSize The maximum number of collections to return. The service may return fewer than this value.  If unspecified, at most 50 collections are returned.  The maximum value is 100; values above 100 are coerced to 100.
-   * @param pageToken A page token, received from a previous [ListCollections](/api#operation/ListCollections) call.  Provide this to retrieve the subsequent page.  When paginating, all other parameters provided to [ListCollections](/api#operation/ListCollections) must match the call that provided the page token.
+   * @param pageToken A page token, received from a previous [ListCollections](/docs/api#operation/ListCollections) call.  Provide this to retrieve the subsequent page.  When paginating, all other parameters provided to [ListCollections](/docs/api#operation/ListCollections) must match the call that provided the page token.
    */
   public async listCollections(
     pageSize?: number,
@@ -534,7 +647,7 @@ export class CollectionsApi {
     });
   }
   /**
-   * Query the collection to search for records.  The following example demonstrates how to run a simple search for a particular string:  ```json {   \"variables\": { \"q\": \"search terms\" } } ```  For more information:  - See [filtering content](https://docs.search.io/documentation/fundamentals/integrating-search/filters-and-sort-options) - See [tracking in the Go SDK](https://github.com/sajari/sdk-go/blob/v2/session.go) - See [tracking in the JS SDK](https://github.com/sajari/sajari-sdk-js/blob/master/src/session.ts)
+   * Query the collection to search for records.  The following example demonstrates how to run a simple search for a particular string:  ```json {   \"variables\": { \"q\": \"search terms\" } } ```  For more information:  - See [filtering content](https://docs.search.io/documentation/fundamentals/integrating-search/filters-and-sort-options) - See [tracking in the Go SDK](https://github.com/sajari/sdk-go/blob/v2/session.go) - See [tracking in the JS SDK](https://github.com/sajari/sdk-js/blob/554e182e77d3ba99a9c100b208ebf3be414d2067/src/index.ts#L881)  Note: Unlike other API calls, the `QueryCollection` call can be called from a browser. When called from a browser, the `Account-Id` header must be set to your account ID.
    * @summary Query collection
    * @param collectionId The collection to query, e.g. &#x60;my-collection&#x60;.
    * @param queryCollectionRequest
@@ -656,7 +769,7 @@ export class CollectionsApi {
     });
   }
   /**
-   * Query the collection to search for records.  The following example demonstrates how to run a simple search for a particular string:  ```json {   \"variables\": { \"q\": \"search terms\" } } ```  For more information:  - See [filtering content](https://docs.search.io/documentation/fundamentals/integrating-search/filters-and-sort-options) - See [tracking in the Go SDK](https://github.com/sajari/sdk-go/blob/v2/session.go) - See [tracking in the JS SDK](https://github.com/sajari/sajari-sdk-js/blob/master/src/session.ts)
+   * Query the collection to search for records.  The following example demonstrates how to run a simple search for a particular string:  ```json {   \"variables\": { \"q\": \"search terms\" } } ```  For more information:  - See [filtering content](https://docs.search.io/documentation/fundamentals/integrating-search/filters-and-sort-options) - See [tracking in the Go SDK](https://github.com/sajari/sdk-go/blob/v2/session.go) - See [tracking in the JS SDK](https://github.com/sajari/sdk-js/blob/554e182e77d3ba99a9c100b208ebf3be414d2067/src/index.ts#L881)  Note: Unlike other API calls, the `QueryCollection` call can be called from a browser. When called from a browser, the `Account-Id` header must be set to your account ID.
    * @summary Query collection
    * @param collectionId The collection to query, e.g. &#x60;my-collection&#x60;.
    * @param queryCollectionRequest
@@ -775,6 +888,128 @@ export class CollectionsApi {
           }
         });
       });
+    });
+  }
+  /**
+   * Track an analytics event when a user interacts with an object returned by a [QueryCollection](/docs/api/#operation/QueryCollection) request.  An analytics event can be tracked for the following objects:  - Results - Promotion banners - Redirects  Note: You must pass an `Account-Id` header.
+   * @summary Track event
+   * @param accountId The account that owns the collection, e.g. &#x60;1618535966441231024&#x60;.
+   * @param collectionId The collection to track the event against, e.g. &#x60;my-collection&#x60;.
+   * @param event The details of the event to track.
+   */
+  public async trackEvent(
+    accountId: string,
+    collectionId: string,
+    event: Event,
+    options: { headers: { [name: string]: string } } = { headers: {} }
+  ): Promise<{ response: http.IncomingMessage; body: object }> {
+    const localVarPath =
+      this.basePath +
+      "/v4/collections/{collection_id}:trackEvent".replace(
+        "{" + "collection_id" + "}",
+        encodeURIComponent(String(collectionId))
+      );
+    let localVarQueryParameters: any = {};
+    let localVarHeaderParams: any = (<any>Object).assign(
+      {},
+      this._defaultHeaders
+    );
+    const produces = ["application/json"];
+    // give precedence to 'application/json'
+    if (produces.indexOf("application/json") >= 0) {
+      localVarHeaderParams.Accept = "application/json";
+    } else {
+      localVarHeaderParams.Accept = produces.join(",");
+    }
+    let localVarFormParams: any = {};
+
+    // verify required parameter 'accountId' is not null or undefined
+    if (accountId === null || accountId === undefined) {
+      throw new Error(
+        "Required parameter accountId was null or undefined when calling trackEvent."
+      );
+    }
+
+    // verify required parameter 'collectionId' is not null or undefined
+    if (collectionId === null || collectionId === undefined) {
+      throw new Error(
+        "Required parameter collectionId was null or undefined when calling trackEvent."
+      );
+    }
+
+    // verify required parameter 'event' is not null or undefined
+    if (event === null || event === undefined) {
+      throw new Error(
+        "Required parameter event was null or undefined when calling trackEvent."
+      );
+    }
+
+    localVarHeaderParams["Account-Id"] = ObjectSerializer.serialize(
+      accountId,
+      "string"
+    );
+    (<any>Object).assign(localVarHeaderParams, options.headers);
+
+    let localVarUseFormData = false;
+
+    let localVarRequestOptions: localVarRequest.Options = {
+      method: "POST",
+      qs: localVarQueryParameters,
+      headers: localVarHeaderParams,
+      uri: localVarPath,
+      useQuerystring: this._useQuerystring,
+      json: true,
+      body: ObjectSerializer.serialize(event, "Event"),
+    };
+
+    let authenticationPromise = Promise.resolve();
+    if (
+      this.authentications.BasicAuth.username &&
+      this.authentications.BasicAuth.password
+    ) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.BasicAuth.applyToRequest(localVarRequestOptions)
+      );
+    }
+    authenticationPromise = authenticationPromise.then(() =>
+      this.authentications.default.applyToRequest(localVarRequestOptions)
+    );
+
+    let interceptorPromise = authenticationPromise;
+    for (const interceptor of this.interceptors) {
+      interceptorPromise = interceptorPromise.then(() =>
+        interceptor(localVarRequestOptions)
+      );
+    }
+
+    return interceptorPromise.then(() => {
+      if (Object.keys(localVarFormParams).length) {
+        if (localVarUseFormData) {
+          (<any>localVarRequestOptions).formData = localVarFormParams;
+        } else {
+          localVarRequestOptions.form = localVarFormParams;
+        }
+      }
+      return new Promise<{ response: http.IncomingMessage; body: object }>(
+        (resolve, reject) => {
+          localVarRequest(localVarRequestOptions, (error, response, body) => {
+            if (error) {
+              reject(error);
+            } else {
+              if (
+                response.statusCode &&
+                response.statusCode >= 200 &&
+                response.statusCode <= 299
+              ) {
+                body = ObjectSerializer.deserialize(body, "object");
+                resolve({ response: response, body: body });
+              } else {
+                reject(new HttpError(response, body, response.statusCode));
+              }
+            }
+          });
+        }
+      );
     });
   }
   /**
