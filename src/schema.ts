@@ -24,6 +24,9 @@ export class SchemaClient extends Client {
     this.client.defaultHeaders = {
       [clientUserAgentHeader]: clientUserAgent(),
     };
+    this.client.addInterceptor(opts => {
+      opts.forever = true;
+    })
   }
 
   async listFields({
