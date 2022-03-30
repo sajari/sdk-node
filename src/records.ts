@@ -29,6 +29,9 @@ export class RecordsClient extends Client {
     this.client.defaultHeaders = {
       [clientUserAgentHeader]: clientUserAgent(),
     };
+    this.client.addInterceptor(opts => {
+      opts.forever = true;
+    })
   }
 
   async getRecord(key: RecordKey) {

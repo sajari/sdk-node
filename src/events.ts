@@ -17,6 +17,9 @@ export class EventsClient extends Client {
     this.client.defaultHeaders = {
       [clientUserAgentHeader]: clientUserAgent(),
     };
+    this.client.addInterceptor(opts => {
+      opts.forever = true;
+    })
   }
 
   async sendEvent(accountId: string, args: SendEventRequest) {
