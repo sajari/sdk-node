@@ -346,6 +346,119 @@ export class SchemaApi {
     });
   }
   /**
+   * Deleting a schema field removes it from all records within the collection, however, references to the schema field in pipelines are not removed.  > Note: This operation cannot be reversed.
+   * @summary Delete schema field
+   * @param collectionId The collection the schema field belongs to, e.g. &#x60;my-collection&#x60;.
+   * @param schemaFieldName The name of the schema field to delete.
+   */
+  public async deleteSchemaField(
+    collectionId: string,
+    schemaFieldName: string,
+    options: { headers: { [name: string]: string } } = { headers: {} }
+  ): Promise<{ response: http.IncomingMessage; body: any }> {
+    const localVarPath =
+      this.basePath +
+      "/v4/collections/{collection_id}/schemaFields/{schema_field_name}"
+        .replace(
+          "{" + "collection_id" + "}",
+          encodeURIComponent(String(collectionId))
+        )
+        .replace(
+          "{" + "schema_field_name" + "}",
+          encodeURIComponent(String(schemaFieldName))
+        );
+    let localVarQueryParameters: any = {};
+    let localVarHeaderParams: any = (<any>Object).assign(
+      {},
+      this._defaultHeaders
+    );
+    const produces = ["application/json"];
+    // give precedence to 'application/json'
+    if (produces.indexOf("application/json") >= 0) {
+      localVarHeaderParams.Accept = "application/json";
+    } else {
+      localVarHeaderParams.Accept = produces.join(",");
+    }
+    let localVarFormParams: any = {};
+
+    // verify required parameter 'collectionId' is not null or undefined
+    if (collectionId === null || collectionId === undefined) {
+      throw new Error(
+        "Required parameter collectionId was null or undefined when calling deleteSchemaField."
+      );
+    }
+
+    // verify required parameter 'schemaFieldName' is not null or undefined
+    if (schemaFieldName === null || schemaFieldName === undefined) {
+      throw new Error(
+        "Required parameter schemaFieldName was null or undefined when calling deleteSchemaField."
+      );
+    }
+
+    (<any>Object).assign(localVarHeaderParams, options.headers);
+
+    let localVarUseFormData = false;
+
+    let localVarRequestOptions: localVarRequest.Options = {
+      method: "DELETE",
+      qs: localVarQueryParameters,
+      headers: localVarHeaderParams,
+      uri: localVarPath,
+      useQuerystring: this._useQuerystring,
+      json: true,
+    };
+
+    let authenticationPromise = Promise.resolve();
+    if (
+      this.authentications.BasicAuth.username &&
+      this.authentications.BasicAuth.password
+    ) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.BasicAuth.applyToRequest(localVarRequestOptions)
+      );
+    }
+    authenticationPromise = authenticationPromise.then(() =>
+      this.authentications.default.applyToRequest(localVarRequestOptions)
+    );
+
+    let interceptorPromise = authenticationPromise;
+    for (const interceptor of this.interceptors) {
+      interceptorPromise = interceptorPromise.then(() =>
+        interceptor(localVarRequestOptions)
+      );
+    }
+
+    return interceptorPromise.then(() => {
+      if (Object.keys(localVarFormParams).length) {
+        if (localVarUseFormData) {
+          (<any>localVarRequestOptions).formData = localVarFormParams;
+        } else {
+          localVarRequestOptions.form = localVarFormParams;
+        }
+      }
+      return new Promise<{ response: http.IncomingMessage; body: any }>(
+        (resolve, reject) => {
+          localVarRequest(localVarRequestOptions, (error, response, body) => {
+            if (error) {
+              reject(error);
+            } else {
+              if (
+                response.statusCode &&
+                response.statusCode >= 200 &&
+                response.statusCode <= 299
+              ) {
+                body = ObjectSerializer.deserialize(body, "any");
+                resolve({ response: response, body: body });
+              } else {
+                reject(new HttpError(response, body, response.statusCode));
+              }
+            }
+          });
+        }
+      );
+    });
+  }
+  /**
    * Retrieve a list of schema fields in a collection.
    * @summary List schema fields
    * @param collectionId The collection that owns this set of schema fields, e.g. &#x60;my-collection&#x60;.
@@ -467,6 +580,138 @@ export class SchemaApi {
           }
         });
       });
+    });
+  }
+  /**
+   * Update the details of a schema field.  Only `name` and `description` can be updated.
+   * @summary Update schema field
+   * @param collectionId The collection the schema field belongs to, e.g. &#x60;my-collection&#x60;.
+   * @param schemaFieldName The name of the schema field to update.
+   * @param schemaField The schema field details to update.
+   * @param updateMask The list of fields to update, separated by a comma, e.g. &#x60;name,description&#x60;.  Each field should be in snake case.  For each field that you want to update, provide a corresponding value in the schema field object containing the new value.
+   */
+  public async updateSchemaField(
+    collectionId: string,
+    schemaFieldName: string,
+    schemaField: SchemaField,
+    updateMask?: string,
+    options: { headers: { [name: string]: string } } = { headers: {} }
+  ): Promise<{ response: http.IncomingMessage; body: SchemaField }> {
+    const localVarPath =
+      this.basePath +
+      "/v4/collections/{collection_id}/schemaFields/{schema_field_name}"
+        .replace(
+          "{" + "collection_id" + "}",
+          encodeURIComponent(String(collectionId))
+        )
+        .replace(
+          "{" + "schema_field_name" + "}",
+          encodeURIComponent(String(schemaFieldName))
+        );
+    let localVarQueryParameters: any = {};
+    let localVarHeaderParams: any = (<any>Object).assign(
+      {},
+      this._defaultHeaders
+    );
+    const produces = ["application/json"];
+    // give precedence to 'application/json'
+    if (produces.indexOf("application/json") >= 0) {
+      localVarHeaderParams.Accept = "application/json";
+    } else {
+      localVarHeaderParams.Accept = produces.join(",");
+    }
+    let localVarFormParams: any = {};
+
+    // verify required parameter 'collectionId' is not null or undefined
+    if (collectionId === null || collectionId === undefined) {
+      throw new Error(
+        "Required parameter collectionId was null or undefined when calling updateSchemaField."
+      );
+    }
+
+    // verify required parameter 'schemaFieldName' is not null or undefined
+    if (schemaFieldName === null || schemaFieldName === undefined) {
+      throw new Error(
+        "Required parameter schemaFieldName was null or undefined when calling updateSchemaField."
+      );
+    }
+
+    // verify required parameter 'schemaField' is not null or undefined
+    if (schemaField === null || schemaField === undefined) {
+      throw new Error(
+        "Required parameter schemaField was null or undefined when calling updateSchemaField."
+      );
+    }
+
+    if (updateMask !== undefined) {
+      localVarQueryParameters["update_mask"] = ObjectSerializer.serialize(
+        updateMask,
+        "string"
+      );
+    }
+
+    (<any>Object).assign(localVarHeaderParams, options.headers);
+
+    let localVarUseFormData = false;
+
+    let localVarRequestOptions: localVarRequest.Options = {
+      method: "PATCH",
+      qs: localVarQueryParameters,
+      headers: localVarHeaderParams,
+      uri: localVarPath,
+      useQuerystring: this._useQuerystring,
+      json: true,
+      body: ObjectSerializer.serialize(schemaField, "SchemaField"),
+    };
+
+    let authenticationPromise = Promise.resolve();
+    if (
+      this.authentications.BasicAuth.username &&
+      this.authentications.BasicAuth.password
+    ) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.BasicAuth.applyToRequest(localVarRequestOptions)
+      );
+    }
+    authenticationPromise = authenticationPromise.then(() =>
+      this.authentications.default.applyToRequest(localVarRequestOptions)
+    );
+
+    let interceptorPromise = authenticationPromise;
+    for (const interceptor of this.interceptors) {
+      interceptorPromise = interceptorPromise.then(() =>
+        interceptor(localVarRequestOptions)
+      );
+    }
+
+    return interceptorPromise.then(() => {
+      if (Object.keys(localVarFormParams).length) {
+        if (localVarUseFormData) {
+          (<any>localVarRequestOptions).formData = localVarFormParams;
+        } else {
+          localVarRequestOptions.form = localVarFormParams;
+        }
+      }
+      return new Promise<{ response: http.IncomingMessage; body: SchemaField }>(
+        (resolve, reject) => {
+          localVarRequest(localVarRequestOptions, (error, response, body) => {
+            if (error) {
+              reject(error);
+            } else {
+              if (
+                response.statusCode &&
+                response.statusCode >= 200 &&
+                response.statusCode <= 299
+              ) {
+                body = ObjectSerializer.deserialize(body, "SchemaField");
+                resolve({ response: response, body: body });
+              } else {
+                reject(new HttpError(response, body, response.statusCode));
+              }
+            }
+          });
+        }
+      );
     });
   }
 }

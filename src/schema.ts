@@ -67,4 +67,36 @@ export class SchemaClient extends Client {
       throw handleError(e);
     }
   }
+
+  async updateField(
+    fieldName: string,
+    field: SchemaField,
+    ...options: Array<
+      (updateMask?: Record<string, boolean>) => void
+    >
+  ) {
+    const updateMask: Record<string, boolean> = {};
+
+    for (const opt of options) {
+      opt(updateMask);
+    }
+
+    const um = Object.keys(updateMask).map((field) => field);
+
+    try {
+      const res = await this.client.updateSchemaField(this.collectionId, fieldName, field, um.join(","));
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
+  }
+
+  async deleteField(fieldName: string) {
+    try {
+      const res = await this.client.deleteSchemaField(this.collectionId, fieldName);
+      return res.body;
+    } catch (e) {
+      throw handleError(e);
+    }
+  }
 }

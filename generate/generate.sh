@@ -16,7 +16,7 @@ if [ -z "$TEMPLATES_PATH" ]; then
     die "TEMPLATES_PATH must be set, e.g. /path/to/sajari/sdk-node/generate/templates"
 fi
 
-VERSION=4.5.2
+VERSION=4.6.2
 
 docker-entrypoint.sh generate \
     -i /openapi.json \
