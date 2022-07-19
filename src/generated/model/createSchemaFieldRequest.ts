@@ -11,13 +11,18 @@
  */
 
 import { RequestFile } from "./models";
-import { QueryAggregateResultBucketsBucket } from "./queryAggregateResultBucketsBucket";
+import { SchemaField } from "./schemaField";
 
-/**
- * Buckets is a full set of buckets computed in an aggregation.
- */
-export class QueryAggregateResultBuckets {
-  "buckets"?: { [key: string]: QueryAggregateResultBucketsBucket };
+export class CreateSchemaFieldRequest {
+  /**
+   * The account that owns the collection, e.g. `1618535966441231024`.
+   */
+  "accountId"?: string;
+  /**
+   * The collection to create a schema field in, e.g. `my-collection`.
+   */
+  "collectionId"?: string;
+  "schemaField"?: SchemaField;
 
   static discriminator: string | undefined = undefined;
 
@@ -27,13 +32,23 @@ export class QueryAggregateResultBuckets {
     type: string;
   }> = [
     {
-      name: "buckets",
-      baseName: "buckets",
-      type: "{ [key: string]: QueryAggregateResultBucketsBucket; }",
+      name: "accountId",
+      baseName: "account_id",
+      type: "string",
+    },
+    {
+      name: "collectionId",
+      baseName: "collection_id",
+      type: "string",
+    },
+    {
+      name: "schemaField",
+      baseName: "schema_field",
+      type: "SchemaField",
     },
   ];
 
   static getAttributeTypeMap() {
-    return QueryAggregateResultBuckets.attributeTypeMap;
+    return CreateSchemaFieldRequest.attributeTypeMap;
   }
 }

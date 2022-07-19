@@ -24,6 +24,8 @@ model/batchUpsertRecordsResponseError.ts
 model/batchUpsertRecordsResponseKey.ts
 model/batchUpsertRecordsResponseVariables.ts
 model/collection.ts
+model/collectionType.ts
+model/createSchemaFieldRequest.ts
 model/deleteRecordRequest.ts
 model/event.ts
 model/experimentRequest.ts
@@ -31,10 +33,12 @@ model/experimentRequestPipeline.ts
 model/experimentResponse.ts
 model/generatePipelinesRequest.ts
 model/generatePipelinesResponse.ts
+model/getCollectionRequestView.ts
 model/getDefaultPipelineResponse.ts
 model/getDefaultVersionRequestView.ts
 model/getPipelineRequestView.ts
 model/getRecordRequest.ts
+model/listCollectionsRequestView.ts
 model/listCollectionsResponse.ts
 model/listPipelinesRequestView.ts
 model/listPipelinesResponse.ts

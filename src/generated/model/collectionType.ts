@@ -11,29 +11,13 @@
  */
 
 import { RequestFile } from "./models";
-import { QueryAggregateResultBucketsBucket } from "./queryAggregateResultBucketsBucket";
 
 /**
- * Buckets is a full set of buckets computed in an aggregation.
+ *  - WEBSITE: The type for website collections.  - SHOPIFY: The type for the collection backing a Shopify account.  - CUSTOM: The legacy custom type.
  */
-export class QueryAggregateResultBuckets {
-  "buckets"?: { [key: string]: QueryAggregateResultBucketsBucket };
-
-  static discriminator: string | undefined = undefined;
-
-  static attributeTypeMap: Array<{
-    name: string;
-    baseName: string;
-    type: string;
-  }> = [
-    {
-      name: "buckets",
-      baseName: "buckets",
-      type: "{ [key: string]: QueryAggregateResultBucketsBucket; }",
-    },
-  ];
-
-  static getAttributeTypeMap() {
-    return QueryAggregateResultBuckets.attributeTypeMap;
-  }
+export enum CollectionType {
+  TypeUnspecified = <any>"TYPE_UNSPECIFIED",
+  Website = <any>"WEBSITE",
+  Shopify = <any>"SHOPIFY",
+  Custom = <any>"CUSTOM",
 }

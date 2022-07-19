@@ -16,6 +16,8 @@ export * from "./batchUpsertRecordsResponseError";
 export * from "./batchUpsertRecordsResponseKey";
 export * from "./batchUpsertRecordsResponseVariables";
 export * from "./collection";
+export * from "./collectionType";
+export * from "./createSchemaFieldRequest";
 export * from "./deleteRecordRequest";
 export * from "./event";
 export * from "./experimentRequest";
@@ -23,10 +25,12 @@ export * from "./experimentRequestPipeline";
 export * from "./experimentResponse";
 export * from "./generatePipelinesRequest";
 export * from "./generatePipelinesResponse";
+export * from "./getCollectionRequestView";
 export * from "./getDefaultPipelineResponse";
 export * from "./getDefaultVersionRequestView";
 export * from "./getPipelineRequestView";
 export * from "./getRecordRequest";
+export * from "./listCollectionsRequestView";
 export * from "./listCollectionsResponse";
 export * from "./listPipelinesRequestView";
 export * from "./listPipelinesResponse";
@@ -113,6 +117,8 @@ import { BatchUpsertRecordsResponseError } from "./batchUpsertRecordsResponseErr
 import { BatchUpsertRecordsResponseKey } from "./batchUpsertRecordsResponseKey";
 import { BatchUpsertRecordsResponseVariables } from "./batchUpsertRecordsResponseVariables";
 import { Collection } from "./collection";
+import { CollectionType } from "./collectionType";
+import { CreateSchemaFieldRequest } from "./createSchemaFieldRequest";
 import { DeleteRecordRequest } from "./deleteRecordRequest";
 import { Event } from "./event";
 import { ExperimentRequest } from "./experimentRequest";
@@ -120,10 +126,12 @@ import { ExperimentRequestPipeline } from "./experimentRequestPipeline";
 import { ExperimentResponse } from "./experimentResponse";
 import { GeneratePipelinesRequest } from "./generatePipelinesRequest";
 import { GeneratePipelinesResponse } from "./generatePipelinesResponse";
+import { GetCollectionRequestView } from "./getCollectionRequestView";
 import { GetDefaultPipelineResponse } from "./getDefaultPipelineResponse";
 import { GetDefaultVersionRequestView } from "./getDefaultVersionRequestView";
 import { GetPipelineRequestView } from "./getPipelineRequestView";
 import { GetRecordRequest } from "./getRecordRequest";
+import { ListCollectionsRequestView } from "./listCollectionsRequestView";
 import { ListCollectionsResponse } from "./listCollectionsResponse";
 import { ListPipelinesRequestView } from "./listPipelinesRequestView";
 import { ListPipelinesResponse } from "./listPipelinesResponse";
@@ -195,8 +203,11 @@ let primitives = [
 ];
 
 let enumsMap: { [index: string]: any } = {
+  CollectionType: CollectionType,
+  GetCollectionRequestView: GetCollectionRequestView,
   GetDefaultVersionRequestView: GetDefaultVersionRequestView,
   GetPipelineRequestView: GetPipelineRequestView,
+  ListCollectionsRequestView: ListCollectionsRequestView,
   ListPipelinesRequestView: ListPipelinesRequestView,
   ListPromotionsRequestPromotionView: ListPromotionsRequestPromotionView,
   PipelineType: PipelineType,
@@ -225,6 +236,7 @@ let typeMap: { [index: string]: any } = {
   BatchUpsertRecordsResponseKey: BatchUpsertRecordsResponseKey,
   BatchUpsertRecordsResponseVariables: BatchUpsertRecordsResponseVariables,
   Collection: Collection,
+  CreateSchemaFieldRequest: CreateSchemaFieldRequest,
   DeleteRecordRequest: DeleteRecordRequest,
   Event: Event,
   ExperimentRequest: ExperimentRequest,
