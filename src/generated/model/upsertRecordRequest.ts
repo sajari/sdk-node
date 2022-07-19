@@ -10,42 +10,46 @@
  * Do not edit the class manually.
  */
 
-import { RequestFile } from './models';
-import { Null | boolean | number | string } from './null | boolean | number | string';
-import { UpsertRecordRequestPipeline } from './upsertRecordRequestPipeline';
+import { RequestFile } from "./models";
+import { BatchUpsertRecordsRequestVariablesValue } from "./batchUpsertRecordsRequestVariablesValue";
+import { UpsertRecordRequestPipeline } from "./upsertRecordRequestPipeline";
 
 export class UpsertRecordRequest {
-    'pipeline'?: UpsertRecordRequestPipeline;
-    /**
-    * An object made up of field-value pairs that contains the record data.
-    */
-    'record': object;
-    /**
-    * The initial values for the variables the pipeline operates on and transforms throughout its steps.
-    */
-    'variables'?: { [key: string]: Null | boolean | number | string; };
+  "pipeline"?: UpsertRecordRequestPipeline;
+  /**
+   * An object made up of field-value pairs that contains the record data.
+   */
+  "record": object;
+  /**
+   * The initial values for the variables the pipeline operates on and transforms throughout its steps.
+   */
+  "variables"?: { [key: string]: BatchUpsertRecordsRequestVariablesValue };
 
-    static discriminator: string | undefined = undefined;
+  static discriminator: string | undefined = undefined;
 
-    static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
-        {
-            "name": "pipeline",
-            "baseName": "pipeline",
-            "type": "UpsertRecordRequestPipeline"
-        },
-        {
-            "name": "record",
-            "baseName": "record",
-            "type": "object"
-        },
-        {
-            "name": "variables",
-            "baseName": "variables",
-            "type": "{ [key: string]: Null | boolean | number | string; }"
-        }    ];
+  static attributeTypeMap: Array<{
+    name: string;
+    baseName: string;
+    type: string;
+  }> = [
+    {
+      name: "pipeline",
+      baseName: "pipeline",
+      type: "UpsertRecordRequestPipeline",
+    },
+    {
+      name: "record",
+      baseName: "record",
+      type: "object",
+    },
+    {
+      name: "variables",
+      baseName: "variables",
+      type: "{ [key: string]: BatchUpsertRecordsRequestVariablesValue; }",
+    },
+  ];
 
-    static getAttributeTypeMap() {
-        return UpsertRecordRequest.attributeTypeMap;
-    }
+  static getAttributeTypeMap() {
+    return UpsertRecordRequest.attributeTypeMap;
+  }
 }
-

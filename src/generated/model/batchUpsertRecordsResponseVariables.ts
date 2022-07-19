@@ -10,35 +10,39 @@
  * Do not edit the class manually.
  */
 
-import { RequestFile } from './models';
-import { Null | boolean | number | string } from './null | boolean | number | string';
+import { RequestFile } from "./models";
+import { BatchUpsertRecordsRequestVariablesValue } from "./batchUpsertRecordsRequestVariablesValue";
 
 export class BatchUpsertRecordsResponseVariables {
-    /**
-    * Index of the record in `records` that these variables correspond to.
-    */
-    'index'?: number;
-    /**
-    * The variables.
-    */
-    'variables'?: { [key: string]: Null | boolean | number | string; };
+  /**
+   * Index of the record in `records` that these variables correspond to.
+   */
+  "index"?: number;
+  /**
+   * The variables.
+   */
+  "variables"?: { [key: string]: BatchUpsertRecordsRequestVariablesValue };
 
-    static discriminator: string | undefined = undefined;
+  static discriminator: string | undefined = undefined;
 
-    static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
-        {
-            "name": "index",
-            "baseName": "index",
-            "type": "number"
-        },
-        {
-            "name": "variables",
-            "baseName": "variables",
-            "type": "{ [key: string]: Null | boolean | number | string; }"
-        }    ];
+  static attributeTypeMap: Array<{
+    name: string;
+    baseName: string;
+    type: string;
+  }> = [
+    {
+      name: "index",
+      baseName: "index",
+      type: "number",
+    },
+    {
+      name: "variables",
+      baseName: "variables",
+      type: "{ [key: string]: BatchUpsertRecordsRequestVariablesValue; }",
+    },
+  ];
 
-    static getAttributeTypeMap() {
-        return BatchUpsertRecordsResponseVariables.attributeTypeMap;
-    }
+  static getAttributeTypeMap() {
+    return BatchUpsertRecordsResponseVariables.attributeTypeMap;
+  }
 }
-

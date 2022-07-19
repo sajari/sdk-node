@@ -10,43 +10,47 @@
  * Do not edit the class manually.
  */
 
-import { RequestFile } from './models';
-import { Null | boolean | number | string } from './null | boolean | number | string';
-import { QueryCollectionRequestPipeline } from './queryCollectionRequestPipeline';
-import { QueryCollectionRequestTracking } from './queryCollectionRequestTracking';
+import { RequestFile } from "./models";
+import { BatchUpsertRecordsRequestVariablesValue } from "./batchUpsertRecordsRequestVariablesValue";
+import { QueryCollectionRequestPipeline } from "./queryCollectionRequestPipeline";
+import { QueryCollectionRequestTracking } from "./queryCollectionRequestTracking";
 
 /**
-* A request to perform a search using a pipeline.
-*/
+ * A request to perform a search using a pipeline.
+ */
 export class QueryCollectionRequest {
-    'pipeline'?: QueryCollectionRequestPipeline;
-    'tracking'?: QueryCollectionRequestTracking;
-    /**
-    * The initial values for the variables the pipeline operates on and transforms throughout its steps.  The most important variable is `q` which is the query the user entered, for example:  ```json { \"q\": \"search terms\" } ```  To paginate through results, set the variables `page` and `resultsPerPage`, for example:  ```json { \"q\": \"search terms\", \"page\": 5, \"resultsPerPage\": 20 } ```  To sort results, set the variable `sort` to the name of one of your collection\'s schema fields, for example:  ```json { \"q\": \"search terms\", \"sort\": \"name\" } ```  To sort in reverse, prefix the schema field with a minus sign `-`, for example:  ```json { \"q\": \"search terms\", \"sort\": \"-name\" } ```
-    */
-    'variables': { [key: string]: Null | boolean | number | string; };
+  "pipeline"?: QueryCollectionRequestPipeline;
+  "tracking"?: QueryCollectionRequestTracking;
+  /**
+   * The initial values for the variables the pipeline operates on and transforms throughout its steps.  The most important variable is `q` which is the query the user entered, for example:  ```json { \"q\": \"search terms\" } ```  To paginate through results, set the variables `page` and `resultsPerPage`, for example:  ```json { \"q\": \"search terms\", \"page\": 5, \"resultsPerPage\": 20 } ```  To sort results, set the variable `sort` to the name of one of your collection\'s schema fields, for example:  ```json { \"q\": \"search terms\", \"sort\": \"name\" } ```  To sort in reverse, prefix the schema field with a minus sign `-`, for example:  ```json { \"q\": \"search terms\", \"sort\": \"-name\" } ```
+   */
+  "variables": { [key: string]: BatchUpsertRecordsRequestVariablesValue };
 
-    static discriminator: string | undefined = undefined;
+  static discriminator: string | undefined = undefined;
 
-    static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
-        {
-            "name": "pipeline",
-            "baseName": "pipeline",
-            "type": "QueryCollectionRequestPipeline"
-        },
-        {
-            "name": "tracking",
-            "baseName": "tracking",
-            "type": "QueryCollectionRequestTracking"
-        },
-        {
-            "name": "variables",
-            "baseName": "variables",
-            "type": "{ [key: string]: Null | boolean | number | string; }"
-        }    ];
+  static attributeTypeMap: Array<{
+    name: string;
+    baseName: string;
+    type: string;
+  }> = [
+    {
+      name: "pipeline",
+      baseName: "pipeline",
+      type: "QueryCollectionRequestPipeline",
+    },
+    {
+      name: "tracking",
+      baseName: "tracking",
+      type: "QueryCollectionRequestTracking",
+    },
+    {
+      name: "variables",
+      baseName: "variables",
+      type: "{ [key: string]: BatchUpsertRecordsRequestVariablesValue; }",
+    },
+  ];
 
-    static getAttributeTypeMap() {
-        return QueryCollectionRequest.attributeTypeMap;
-    }
+  static getAttributeTypeMap() {
+    return QueryCollectionRequest.attributeTypeMap;
+  }
 }
-

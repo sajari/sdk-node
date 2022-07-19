@@ -11,6 +11,7 @@ export * from "./batchUpdateRecordsResponseError";
 export * from "./batchUpdateRecordsResponseRecord";
 export * from "./batchUpsertRecordsRequest";
 export * from "./batchUpsertRecordsRequestPipeline";
+export * from "./batchUpsertRecordsRequestVariablesValue";
 export * from "./batchUpsertRecordsResponse";
 export * from "./batchUpsertRecordsResponseError";
 export * from "./batchUpsertRecordsResponseKey";
@@ -112,6 +113,7 @@ import { BatchUpdateRecordsResponseError } from "./batchUpdateRecordsResponseErr
 import { BatchUpdateRecordsResponseRecord } from "./batchUpdateRecordsResponseRecord";
 import { BatchUpsertRecordsRequest } from "./batchUpsertRecordsRequest";
 import { BatchUpsertRecordsRequestPipeline } from "./batchUpsertRecordsRequestPipeline";
+import { BatchUpsertRecordsRequestVariablesValue } from "./batchUpsertRecordsRequestVariablesValue";
 import { BatchUpsertRecordsResponse } from "./batchUpsertRecordsResponse";
 import { BatchUpsertRecordsResponseError } from "./batchUpsertRecordsResponseError";
 import { BatchUpsertRecordsResponseKey } from "./batchUpsertRecordsResponseKey";
@@ -231,6 +233,8 @@ let typeMap: { [index: string]: any } = {
   BatchUpdateRecordsResponseRecord: BatchUpdateRecordsResponseRecord,
   BatchUpsertRecordsRequest: BatchUpsertRecordsRequest,
   BatchUpsertRecordsRequestPipeline: BatchUpsertRecordsRequestPipeline,
+  BatchUpsertRecordsRequestVariablesValue:
+    BatchUpsertRecordsRequestVariablesValue,
   BatchUpsertRecordsResponse: BatchUpsertRecordsResponse,
   BatchUpsertRecordsResponseError: BatchUpsertRecordsResponseError,
   BatchUpsertRecordsResponseKey: BatchUpsertRecordsResponseKey,

@@ -10,42 +10,46 @@
  * Do not edit the class manually.
  */
 
-import { RequestFile } from './models';
-import { BatchUpsertRecordsRequestPipeline } from './batchUpsertRecordsRequestPipeline';
-import { Null | boolean | number | string } from './null | boolean | number | string';
+import { RequestFile } from "./models";
+import { BatchUpsertRecordsRequestPipeline } from "./batchUpsertRecordsRequestPipeline";
+import { BatchUpsertRecordsRequestVariablesValue } from "./batchUpsertRecordsRequestVariablesValue";
 
 export class BatchUpsertRecordsRequest {
-    'pipeline'?: BatchUpsertRecordsRequestPipeline;
-    /**
-    * A list of records to upsert.  A maximum of 200 records can be upserted in a batch.
-    */
-    'records': Array<object>;
-    /**
-    * The initial values for the variables the pipeline operates on and transforms throughout its steps.
-    */
-    'variables'?: { [key: string]: Null | boolean | number | string; };
+  "pipeline"?: BatchUpsertRecordsRequestPipeline;
+  /**
+   * A list of records to upsert.  A maximum of 200 records can be upserted in a batch.
+   */
+  "records": Array<object>;
+  /**
+   * The initial values for the variables the pipeline operates on and transforms throughout its steps.
+   */
+  "variables"?: { [key: string]: BatchUpsertRecordsRequestVariablesValue };
 
-    static discriminator: string | undefined = undefined;
+  static discriminator: string | undefined = undefined;
 
-    static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
-        {
-            "name": "pipeline",
-            "baseName": "pipeline",
-            "type": "BatchUpsertRecordsRequestPipeline"
-        },
-        {
-            "name": "records",
-            "baseName": "records",
-            "type": "Array<object>"
-        },
-        {
-            "name": "variables",
-            "baseName": "variables",
-            "type": "{ [key: string]: Null | boolean | number | string; }"
-        }    ];
+  static attributeTypeMap: Array<{
+    name: string;
+    baseName: string;
+    type: string;
+  }> = [
+    {
+      name: "pipeline",
+      baseName: "pipeline",
+      type: "BatchUpsertRecordsRequestPipeline",
+    },
+    {
+      name: "records",
+      baseName: "records",
+      type: "Array<object>",
+    },
+    {
+      name: "variables",
+      baseName: "variables",
+      type: "{ [key: string]: BatchUpsertRecordsRequestVariablesValue; }",
+    },
+  ];
 
-    static getAttributeTypeMap() {
-        return BatchUpsertRecordsRequest.attributeTypeMap;
-    }
+  static getAttributeTypeMap() {
+    return BatchUpsertRecordsRequest.attributeTypeMap;
+  }
 }
-

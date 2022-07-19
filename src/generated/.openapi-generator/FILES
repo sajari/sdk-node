@@ -19,6 +19,7 @@ model/batchUpdateRecordsResponseError.ts
 model/batchUpdateRecordsResponseRecord.ts
 model/batchUpsertRecordsRequest.ts
 model/batchUpsertRecordsRequestPipeline.ts
+model/batchUpsertRecordsRequestVariablesValue.ts
 model/batchUpsertRecordsResponse.ts
 model/batchUpsertRecordsResponseError.ts
 model/batchUpsertRecordsResponseKey.ts
