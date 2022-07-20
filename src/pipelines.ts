@@ -95,10 +95,12 @@ export class PipelinesClient extends Client {
   }
 
   async listPipelines({
+    accountId,
     pageSize,
     pageToken,
     view,
   }: {
+    accountId?: string;
     pageSize?: number;
     pageToken?: string;
     view?: "basic" | "full";
@@ -106,6 +108,7 @@ export class PipelinesClient extends Client {
     try {
       const res = await this.client.listPipelines(
         this.collectionId,
+        accountId,
         pageSize,
         pageToken,
         viewToEnum(view)

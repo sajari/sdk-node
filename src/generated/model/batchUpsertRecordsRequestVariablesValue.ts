@@ -11,29 +11,17 @@
  */
 
 import { RequestFile } from "./models";
-import { QueryAggregateResultBucketsBucket } from "./queryAggregateResultBucketsBucket";
 
-/**
- * Buckets is a full set of buckets computed in an aggregation.
- */
-export class QueryAggregateResultBuckets {
-  "buckets"?: { [key: string]: QueryAggregateResultBucketsBucket };
-
+export class BatchUpsertRecordsRequestVariablesValue {
   static discriminator: string | undefined = undefined;
 
   static attributeTypeMap: Array<{
     name: string;
     baseName: string;
     type: string;
-  }> = [
-    {
-      name: "buckets",
-      baseName: "buckets",
-      type: "{ [key: string]: QueryAggregateResultBucketsBucket; }",
-    },
-  ];
+  }> = [];
 
   static getAttributeTypeMap() {
-    return QueryAggregateResultBuckets.attributeTypeMap;
+    return BatchUpsertRecordsRequestVariablesValue.attributeTypeMap;
   }
 }

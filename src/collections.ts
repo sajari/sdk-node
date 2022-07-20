@@ -39,14 +39,16 @@ export class CollectionsClient extends Client {
   }
 
   async listCollections({
+    accountId,
     pageSize,
     pageToken,
   }: {
+    accountId?: string;
     pageSize?: number;
     pageToken?: string;
   }) {
     try {
-      const res = await this.client.listCollections(pageSize, pageToken);
+      const res = await this.client.listCollections(accountId, pageSize, pageToken);
       return res.body;
     } catch (e) {
       throw handleError(e);
@@ -72,7 +74,8 @@ export class CollectionsClient extends Client {
   }
 
   async updateCollection(
-    id: string,
+    collectionId: string,
+    accountId?: string,
     ...options: Array<
       (c: Collection, updateMask: Record<string, boolean>) => void
     >
@@ -89,7 +92,7 @@ export class CollectionsClient extends Client {
     const um = Object.keys(updateMask).map((field) => field);
 
     try {
-      const res = await this.client.updateCollection(id, um.join(","), c);
+      const res = await this.client.updateCollection(collectionId, c, accountId, um.join(","));
       // OpenAPI readonly fields become optional TS fields, but we know the API
       // will return it, so use ! to fix the types. This is done so upstream
       // users don't have to do this.

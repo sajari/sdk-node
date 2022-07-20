@@ -30,15 +30,21 @@ export class SchemaClient extends Client {
   }
 
   async listFields({
+    accountId,
+    parent,
     pageSize,
     pageToken,
   }: {
+    accountId?: string;
+    parent?: string;
     pageSize?: number;
     pageToken?: string;
   }) {
     try {
       const res = await this.client.listSchemaFields(
         this.collectionId,
+        parent,
+        accountId,
         pageSize,
         pageToken
       );

@@ -11,29 +11,12 @@
  */
 
 import { RequestFile } from "./models";
-import { QueryAggregateResultBucketsBucket } from "./queryAggregateResultBucketsBucket";
 
 /**
- * Buckets is a full set of buckets computed in an aggregation.
+ *  - BASIC: Include basic information including display name and domains. This is the default value (for both [ListCollections](/docs/api#operation/ListCollections) and [GetCollection](/docs/api#operation/GetCollection)).  - FULL: Include the information from `BASIC`, plus full collection details like disk usage.
  */
-export class QueryAggregateResultBuckets {
-  "buckets"?: { [key: string]: QueryAggregateResultBucketsBucket };
-
-  static discriminator: string | undefined = undefined;
-
-  static attributeTypeMap: Array<{
-    name: string;
-    baseName: string;
-    type: string;
-  }> = [
-    {
-      name: "buckets",
-      baseName: "buckets",
-      type: "{ [key: string]: QueryAggregateResultBucketsBucket; }",
-    },
-  ];
-
-  static getAttributeTypeMap() {
-    return QueryAggregateResultBuckets.attributeTypeMap;
-  }
+export enum GetCollectionRequestView {
+  ViewUnspecified = <any>"VIEW_UNSPECIFIED",
+  Basic = <any>"BASIC",
+  Full = <any>"FULL",
 }

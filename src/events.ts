@@ -24,7 +24,7 @@ export class EventsClient extends Client {
 
   async sendEvent(accountId: string, args: SendEventRequest) {
     try {
-      const res = await this.client.sendEvent(args, {
+      const res = await this.client.sendEvent(accountId, args, {
         headers: {
           "Account-Id": accountId,
         },
